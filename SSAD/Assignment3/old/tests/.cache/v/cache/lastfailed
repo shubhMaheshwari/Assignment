@@ -1,0 +1,6 @@
+{
+  "test_Person.py::test_Person": true, 
+  "test_Person.py::test_creation": true, 
+  "test_Person.py::test_enemy_array_creation": true, 
+  "test_Person.py::test_move": true
+}

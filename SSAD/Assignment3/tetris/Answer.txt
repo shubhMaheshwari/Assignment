@@ -1,0 +1,24 @@
+FAILED TESTS ARE:
+
+1.  Function: checkIfRowIsFull 
+    Module: gamePlay.py 
+    Test Function: test_checkIfRowIsFull()()
+    Test Module: test_gameplay, 
+    Description: In case of more than one fully filled rows checkIfRowIsFull func returns only one row which is having smallest value of row.
+
+2.  Function: run 
+    Module: gamePlay.py 
+    Test Function: test_movePeice()()
+    Test Module: test_gameplay, 
+    Description:     At the entry of a new block in the game if any of the control key('a', 'd', 'w', 'enter') is pressed then game suddenly stops.
+
+
+3.  Function: rotateBlock 
+    Module: gamePlay.py 
+    Test Function: test_valid_rotate_block()
+    Test Module: test_block, 
+    Description: If a block is rotated when it is at the bottom of the board, then the block may get out of the board depending on its dimensions.
+
+4. Error in printing rotated block in gamePlay.py
+    If a block is rotated very quickly then it became invisible until any other key is pressed or no key 
+    is pressed.

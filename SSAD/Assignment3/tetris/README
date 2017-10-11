@@ -1,0 +1,11 @@
+*All the general rules for Tetris are followed.
+*Apart from that the controls to be followed are:
+
+	a   ->   move left
+	d   ->   move right
+	s   ->   make the block fall
+	w   ->   rotate block
+	q   ->   quit
+
+**You need to press ENTER after each keypress
+

@@ -1,0 +1,151 @@
+STAT(1)                          User Commands                         STAT(1)
+
+NNAAMMEE
+       stat - display file or file system status
+
+SSYYNNOOPPSSIISS
+       ssttaatt [_O_P_T_I_O_N]... _F_I_L_E...
+
+DDEESSCCRRIIPPTTIIOONN
+       Display file or file system status.
+
+       Mandatory  arguments  to  long  options are mandatory for short options
+       too.
+
+       --LL, ----ddeerreeffeerreennccee
+              follow links
+
+       --ff, ----ffiillee--ssyysstteemm
+              display file system status instead of file status
+
+       --cc  ----ffoorrmmaatt=_F_O_R_M_A_T
+              use the specified FORMAT instead of the default; output  a  new‐
+              line after each use of FORMAT
+
+       ----pprriinnttff=_F_O_R_M_A_T
+              like  ----ffoorrmmaatt, but interpret backslash escapes, and do not out‐
+              put a mandatory trailing newline; if you want a newline, include
+              \n in FORMAT
+
+       --tt, ----tteerrssee
+              print the information in terse form
+
+       ----hheellpp display this help and exit
+
+       ----vveerrssiioonn
+              output version information and exit
+
+       The valid format sequences for files (without ----ffiillee--ssyysstteemm):
+
+       %a     access rights in octal (note '#' and '0' printf flags)
+
+       %A     access rights in human readable form
+
+       %b     number of blocks allocated (see %B)
+
+       %B     the size in bytes of each block reported by %b
+
+       %C     SELinux security context string
+
+       %d     device number in decimal
+
+       %D     device number in hex
+
+       %f     raw mode in hex
+
+       %F     file type
+
+       %g     group ID of owner
+
+       %G     group name of owner
+
+       %h     number of hard links
+
+       %i     inode number
+
+       %m     mount point
+
+       %n     file name
+
+       %N     quoted file name with dereference if symbolic link
+
+       %o     optimal I/O transfer size hint
+
+       %s     total size, in bytes
+
+       %t     major  device  type  in  hex, for character/block device special
+              files
+
+       %T     minor device type in hex,  for  character/block  device  special
+              files
+
+       %u     user ID of owner
+
+       %U     user name of owner
+
+       %w     time of file birth, human-readable; - if unknown
+
+       %W     time of file birth, seconds since Epoch; 0 if unknown
+
+       %x     time of last access, human-readable
+
+       %X     time of last access, seconds since Epoch
+
+       %y     time of last data modification, human-readable
+
+       %Y     time of last data modification, seconds since Epoch
+
+       %z     time of last status change, human-readable
+
+       %Z     time of last status change, seconds since Epoch
+
+       Valid format sequences for file systems:
+
+       %a     free blocks available to non-superuser
+
+       %b     total data blocks in file system
+
+       %c     total file nodes in file system
+
+       %d     free file nodes in file system
+
+       %f     free blocks in file system
+
+       %i     file system ID in hex
+
+       %l     maximum length of filenames
+
+       %n     file name
+
+       %s     block size (for faster transfers)
+
+       %S     fundamental block size (for block counts)
+
+       %t     file system type in hex
+
+       %T     file system type in human readable form
+
+       NOTE: your shell may have its own version of stat, which usually super‐
+       sedes the version described here.  Please refer to your  shell's  docu‐
+       mentation for details about the options it supports.
+
+AAUUTTHHOORR
+       Written by Michael Meskes.
+
+RREEPPOORRTTIINNGG BBUUGGSS
+       GNU coreutils online help: <http://www.gnu.org/software/coreutils/>
+       Report stat translation bugs to <http://translationproject.org/team/>
+
+CCOOPPYYRRIIGGHHTT
+       Copyright  ©  2016  Free Software Foundation, Inc.  License GPLv3+: GNU
+       GPL version 3 or later <http://gnu.org/licenses/gpl.html>.
+       This is free software: you are free  to  change  and  redistribute  it.
+       There is NO WARRANTY, to the extent permitted by law.
+
+SSEEEE AALLSSOO
+       stat(2)
+
+       Full documentation at: <http://www.gnu.org/software/coreutils/stat>
+       or available locally via: info '(coreutils) stat invocation'
+
+GNU coreutils 8.26                March 2017                           STAT(1)
