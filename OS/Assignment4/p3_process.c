@@ -61,10 +61,10 @@ void merge_sort(int low, int high){
 
 	else{
 
-		printf("Before sort\n");
-		for (int i = low; i <=high ; ++i)
-			printf("%d ",arr[i]);	
-		printf("\n");
+		// printf("Before sort\n");
+		// for (int i = low; i <=high ; ++i)
+		// 	printf("%d ",arr[i]);	
+		// printf("\n");
 
 		int mid = low + (high-low)/2;
 
@@ -89,10 +89,10 @@ void merge_sort(int low, int high){
 
 		merge(low,mid,high);
 
-		printf("After sort\n");
-		for (int i = low; i <=high ; ++i)
-			printf("%d ",arr[i]);	
-		printf("\n");
+		// printf("After sort\n");
+		// for (int i = low; i <=high ; ++i)
+		// 	printf("%d ",arr[i]);	
+		// printf("\n");
 
 	}
 

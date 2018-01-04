@@ -1,4 +1,5 @@
-struct stat_new;
+struct stat;
+struct rtcdate;
 
 // system calls
 int fork(void);
@@ -13,17 +14,21 @@ int exec(char*, char**);
 int open(char*, int);
 int mknod(char*, short, short);
 int unlink(char*);
-int fstat(int fd, struct stat_new*);
+int fstat(int fd, struct stat*);
 int link(char*, char*);
 int mkdir(char*);
 int chdir(char*);
 int dup(int);
-int getpid();
+int getpid(void);
 char* sbrk(int);
 int sleep(int);
+int uptime(void);
+int waitx(int *wtime, int *rtime);
+int cps(void);
+int set_priority(int pid, int priority);
 
 // ulib.c
-int stat(char*, struct stat_new*);
+int stat(char*, struct stat*);
 char* strcpy(char*, char*);
 void *memmove(void*, void*, int);
 char* strchr(const char*, char c);
