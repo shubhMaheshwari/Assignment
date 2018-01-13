@@ -1,0 +1,35 @@
+SchemaLessMode
+### Download the new release of apache solr
+
+	Extract it and cd solrFolderName
+	bin/solr stop -all
+	bin/solr start
+	bin/solr create -c films  (core with films is created)
+	bin/post -c films m2016/
+	
+
+
+
+####### Connecting with python and retrieving Data
+	sudo easy_install simplejson
+	
+	####Sample Python code
+	
+	from urllib2 import *
+	import simplejson
+	connection = urlopen('http://localhost:8983/solr/films/select?indent=on&q=*:*&rows=1100&start=0&wt=json')
+	response = simplejson.load(connection)
+	print response['response']['numFound'], "documents found."									
+
+	# Print the name of each document.
+
+	for document in response['response']['docs']:
+		print "  Name =", document['name']
+		print "  Name =", document['directed_by']
+		print "  Name =", document['genre']
+
+Reference Links:
+1) http://javaskeleton.blogspot.in/2011/07/adding-solr-to-existing-web-application.html
+1) http://svn.apache.org/repos/asf/lucene/dev/tags/lucene_solr_5_3_1/solr/example/films/README.txt
+
+

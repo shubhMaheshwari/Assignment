@@ -1,0 +1,8 @@
+Getting in Hands with Apache solr Lucene:
+
+Apache solr Lucene supports (File endings considered are xml,json,csv,pdf,doc,docx,ppt,pptx,xls,xlsx,odt,odp,ods,ott,otp,ots,rtf,htm,html,txt,log)
+
+### Install Java version >=6
+
+For JDK -- sudo apt-get install openjdk-8-jdk
+For JRE -- sudo apt-get install openjdk-8-jre
