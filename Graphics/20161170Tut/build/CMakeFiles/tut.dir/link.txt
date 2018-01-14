@@ -1,0 +1,1 @@
+/usr/bin/c++      CMakeFiles/tut.dir/src/shader.cpp.o CMakeFiles/tut.dir/src/trans.cpp.o  -o tut -rdynamic -lglfw -lGLEW -lGLU -lGL -lGL 
