@@ -1,0 +1,22 @@
+ASSIGNMENT1 Submission by Shubh Maheshwari 20161170
+
+Problem 1:
+	usage: python3 Problem1.py
+		   replace N = for no of steps
+		   replace M = for no of iterations 	
+
+	procedure: 
+		We do M experiments of N steps
+		Where we check if the 2 walkers randomly meet at a step 
+		If they do then we add the count of meeting at that step
+
+		For analytical we calculate the probablity of meeting at that step and multiply it by M to scale the analytical with the computational result.
+
+		The image is stored by the name p1_2drunkProblem.png
+
+Problem 2:
+	usage: python3 Problem2.py
+	
+	procedure:
+		Calculate the position after N steps 
+		increase the count of that step
