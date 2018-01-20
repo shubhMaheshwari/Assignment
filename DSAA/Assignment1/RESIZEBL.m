@@ -1,0 +1,31 @@
+function [outImg] = RESIZEBL(img, X)
+    inpRows = size(img, 1);
+    inpCols = size(img, 2);
+    scale = [X*inpRows X*inpCols];
+    outRows = scale(1);
+    outCols = scale(2);
+    S_R = inpRows / outRows;
+    S_C = inpCols / outCols;
+    [cf, rf] = meshgrid(1 : outCols, 1 : outRows);
+    rf = rf * S_R;
+    cf = cf * S_C;
+    r = floor(rf);
+    c = floor(cf);
+    r(r < 1) = 1;
+    c(c < 1) = 1;
+    r(r > inpRows-1) = inpRows - 1;
+    c(c > inpCols-1) = inpCols - 1;
+    delta_R = rf - r;
+    delta_C = cf - c;
+    in1_ind = sub2ind([inpRows, inpCols], r, c);
+    in2_ind = sub2ind([inpRows, inpCols], r+1, c);
+    in3_ind = sub2ind([inpRows, inpCols], r, c+1);
+    in4_ind = sub2ind([inpRows, inpCols], r+1, c+1);
+    outImg = zeros(outRows, outCols, size(img, 3));
+    outImg = cast(outImg, class(img));
+    for index = 1 : size(img, 3)
+        chan = double(img(:,:,index));
+        tmp = chan(in1_ind).*(1 - delta_R).*(1 - delta_C) + chan(in2_ind).*(delta_R).*(1 - delta_C) + chan(in3_ind).*(1 - delta_R).*(delta_C) + chan(in4_ind).*(delta_R).*(delta_C);
+        outImg(:,:,index) = cast(tmp, class(img));
+    end
+end
