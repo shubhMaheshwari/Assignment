@@ -6,6 +6,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/shubh/Assignment/Graphics/20161170Tut/src/shader.cpp" "/home/shubh/Assignment/Graphics/20161170Tut/build/CMakeFiles/tut.dir/src/shader.cpp.o"
   "/home/shubh/Assignment/Graphics/20161170Tut/src/trans.cpp" "/home/shubh/Assignment/Graphics/20161170Tut/build/CMakeFiles/tut.dir/src/trans.cpp.o"
+  "/home/shubh/Assignment/Graphics/20161170Tut/src/tutorial03.cpp" "/home/shubh/Assignment/Graphics/20161170Tut/build/CMakeFiles/tut.dir/src/tutorial03.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

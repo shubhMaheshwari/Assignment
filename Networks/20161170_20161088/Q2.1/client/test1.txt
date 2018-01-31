@@ -1,0 +1,9 @@
+../
+├── folder1
+│   ├── s.py
+│   └── test1.txt
+└── folder2
+    ├── r.py
+    └── test1.txt
+
+2 directories, 4 files

@@ -7,3 +7,6 @@ CMakeFiles/tut.dir/src/shader.cpp.o: ../src/shader.hpp
 CMakeFiles/tut.dir/src/trans.cpp.o: ../src/shader.hpp
 CMakeFiles/tut.dir/src/trans.cpp.o: ../src/trans.cpp
 
+CMakeFiles/tut.dir/src/tutorial03.cpp.o: ../src/shader.hpp
+CMakeFiles/tut.dir/src/tutorial03.cpp.o: ../src/tutorial03.cpp
+

@@ -177,6 +177,33 @@ src/trans.cpp.s:
 	$(MAKE) -f CMakeFiles/tut.dir/build.make CMakeFiles/tut.dir/src/trans.cpp.s
 .PHONY : src/trans.cpp.s
 
+src/tutorial03.o: src/tutorial03.cpp.o
+
+.PHONY : src/tutorial03.o
+
+# target to build an object file
+src/tutorial03.cpp.o:
+	$(MAKE) -f CMakeFiles/tut.dir/build.make CMakeFiles/tut.dir/src/tutorial03.cpp.o
+.PHONY : src/tutorial03.cpp.o
+
+src/tutorial03.i: src/tutorial03.cpp.i
+
+.PHONY : src/tutorial03.i
+
+# target to preprocess a source file
+src/tutorial03.cpp.i:
+	$(MAKE) -f CMakeFiles/tut.dir/build.make CMakeFiles/tut.dir/src/tutorial03.cpp.i
+.PHONY : src/tutorial03.cpp.i
+
+src/tutorial03.s: src/tutorial03.cpp.s
+
+.PHONY : src/tutorial03.s
+
+# target to generate assembly for a file
+src/tutorial03.cpp.s:
+	$(MAKE) -f CMakeFiles/tut.dir/build.make CMakeFiles/tut.dir/src/tutorial03.cpp.s
+.PHONY : src/tutorial03.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -192,6 +219,9 @@ help:
 	@echo "... src/trans.o"
 	@echo "... src/trans.i"
 	@echo "... src/trans.s"
+	@echo "... src/tutorial03.o"
+	@echo "... src/tutorial03.i"
+	@echo "... src/tutorial03.s"
 .PHONY : help
 
 
