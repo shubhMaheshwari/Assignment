@@ -1,3 +1,0 @@
-/home/shubh/Assignment/Graphics/Assignmet1/tut_19_01/build/CMakeFiles/rebuild_cache.dir
-/home/shubh/Assignment/Graphics/Assignmet1/tut_19_01/build/CMakeFiles/edit_cache.dir
-/home/shubh/Assignment/Graphics/Assignmet1/tut_19_01/build/CMakeFiles/graphics_asgn1.dir

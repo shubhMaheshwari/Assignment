@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/tut.dir/src/shader.cpp.o"
-  "CMakeFiles/tut.dir/src/trans.cpp.o"
   "CMakeFiles/tut.dir/src/tutorial03.cpp.o"
+  "CMakeFiles/tut.dir/src/trans.cpp.o"
   "tut.pdb"
   "tut"
 )
