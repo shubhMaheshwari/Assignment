@@ -1,0 +1,11 @@
+Computer networks assignment 2
+
+Shubh Maheshwari 20161170
+Pranay Gupta 20161088
+
+1) cd to the server directory
+2) run server.py
+3) now open another terminal and run proxy.py this creates the .cache folder
+4) now open another terminal and send in your curl request. by giving the proxy address first and the server port second
+5) if the file is present in the .cache folder it will return a 304 response otherwise a 200 response. 404 if the file is not in the server directory
+
