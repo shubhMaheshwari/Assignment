@@ -1,5 +1,5 @@
 clear;clc;
-x = audioread('./message2.wav');
+x = audioread('./message3.wav');
 
 figure;
 subplot(3,1,1);
