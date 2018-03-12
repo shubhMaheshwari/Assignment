@@ -10,7 +10,8 @@ function [out_sig] = NEWFFT(in_sig,k,N)
     
         FOk = NEWFFT(Ok,k,N/2);
         FEk = NEWFFT(Ek,k,N/2);
-        
+
         out_sig = FEk + exp(-1i*2*pi*k/N).*FOk;
+        
     end
 end

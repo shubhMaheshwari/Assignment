@@ -1,8 +1,8 @@
 % We will first implement a simple Fourier transform.
 % Sampling Frequency 
-fs = 50;
+fs = 64;
 % Frequency
-N = 50;
+N = 64;
 n = 0:N*fs -1/fs;
 
 t = 2*pi*[0:1/fs:N-1/fs];
