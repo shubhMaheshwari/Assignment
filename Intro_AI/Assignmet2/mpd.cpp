@@ -13,7 +13,7 @@ float step_reward;
 
 float p_right = 0.8,p_wrong=0.1;
 float team_val = 25.0;
-float dicount_factor = 0.9;
+float dicount_factor = 1;
 float tolerance = 0.001;
 
 // Utility 
@@ -298,15 +298,6 @@ int main()
 		}
 
 	}
-
-
-
-	// for (int i = 0; i < n; ++i){
-	// 	for (int j = 0; j < m; ++j)
-	// 		printf("%.5f ",uti[i][j] );
-	// 	printf("\n");
-	// }
-
 
 	return 0;
 }
