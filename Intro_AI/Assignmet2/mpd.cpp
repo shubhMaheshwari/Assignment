@@ -13,18 +13,18 @@ float step_reward;
 
 float p_right = 0.8,p_wrong=0.1;
 float team_val = 25.0;
-float dicount_factor = 0.99;
-float tolerance = 0.01;
+float dicount_factor = 0.9;
+float tolerance = 0.001;
 
 // Utility 
-float uti[N][N];
+float uti[N][N],prev_uti[N][N];
 
 // Transaction table => no need for transition table we already know the mapping 
 // With 0.8 p take the best action else with 0.2 take the wrong action
 
 bool check_possible(int i,int j){
 	// Check if inside the boundary
-	if(i<0||j<0||i>=n||j>=n){
+	if(i<0||j<0||i>=n||j>=m){
 		return false;
 	}
 
@@ -38,28 +38,95 @@ bool check_possible(int i,int j){
 
 }
 
+void print_new_policy(){
+	// 1 = up
+	// 2 = right
+	// 3 = left
+	// 4 = down
 
+
+	for (int i = 0; i < n; ++i)
+		{
+			for (int j = 0; j < m; ++j)
+			if(check_possible(i,j)){
+				// printf("\ni:%d,j:%d\n",i,j);
+
+				float max_val = -100.0,arg=-1;	
+				if(check_possible(i+1,j) && uti[i+1][j] > max_val) {
+					max_val = uti[i+1][j];
+					// printf("1.Perfect max:%f\n",max_val);
+					arg = 1;
+				}
+
+				if(check_possible(i,j+1) && uti[i][j+1] > max_val) {
+					max_val = uti[i][j+1];
+					// printf("2.Perfect max:%f\n",max_val);
+
+					arg = 2;
+				}
+
+
+				if(check_possible(i-1,j) && uti[i-1][j] > max_val) {
+					max_val = uti[i-1][j];
+					// printf("3.Perfect max:%f\n",max_val);
+
+					arg = 3;
+				}
+
+				if(check_possible(i,j-1) && uti[i][j-1] > max_val) {
+					max_val = uti[i][j-1];
+					// printf("4.Perfect max:%f\n",max_val);
+					
+					arg = 4;
+				}
+
+
+				// Check the arg max
+				if(arg ==1)
+					printf("V ");
+
+				else if(arg ==2)
+					printf("> ");
+
+				else if(arg ==3)
+					printf("^ ");
+
+				else if(arg ==4)
+					printf("< ");
+
+				else
+					printf("E ");
+
+			}
+
+			else
+				printf("- ");
+	
+		
+			printf("\n");
+		}
+
+
+}
 
 
 float max_next_state(int i,int j)
 {
 	float max_val = -100.0,val;	
 	if(check_possible(i+1,j)){
-		if(j==0)
-			// printf("%f\n", uti[i][j-1]);
 		
-		val = 0.8*uti[i+1][j];
+		val = 0.8*prev_uti[i+1][j];
 		
 		if(check_possible(i,j-1))
-			val+= 0.1*uti[i][j-1];
+			val+= 0.1*prev_uti[i][j-1];
 			
 		else
-			val+= 0.1*uti[i][j];
+			val+= 0.1*prev_uti[i][j];
 
 		if(check_possible(i,j+1))
-			val+=0.1*uti[i][j+1];
+			val+=0.1*prev_uti[i][j+1];
 		else
-			val+=0.1*uti[i][j];
+			val+=0.1*prev_uti[i][j];
 
 		val += step_reward;		
 
@@ -69,18 +136,18 @@ float max_next_state(int i,int j)
 	if(check_possible(i,j+1)){
 
 
-		val = 0.8*uti[i][j+1];
+		val = 0.8*prev_uti[i][j+1];
 		
 		if(check_possible(i+1,j))
-			val+= 0.1*uti[i+1][j];
+			val+= 0.1*prev_uti[i+1][j];
 			
 		else
-			val+= 0.1*uti[i][j];
+			val+= 0.1*prev_uti[i][j];
 
 		if(check_possible(i-1,j))
-			val+=0.1*uti[i-1][j];
+			val+=0.1*prev_uti[i-1][j];
 		else
-			val+=0.1*uti[i][j];
+			val+=0.1*prev_uti[i][j];
 
 		val += step_reward;
 
@@ -89,18 +156,18 @@ float max_next_state(int i,int j)
 
 	if(check_possible(i-1,j)){
 
-		val = 0.8*uti[i-1][j];
+		val = 0.8*prev_uti[i-1][j];
 		
 		if(check_possible(i,j+1))
-			val+= 0.1*uti[i][j+1];
+			val+= 0.1*prev_uti[i][j+1];
 			
 		else
-			val+= 0.1*uti[i][j];
+			val+= 0.1*prev_uti[i][j];
 
 		if(check_possible(i,j-1))
-			val+=0.1*uti[i][j-1];
+			val+=0.1*prev_uti[i][j-1];
 		else
-			val+=0.1*uti[i][j];
+			val+=0.1*prev_uti[i][j];
 
 		val += step_reward;		
 
@@ -109,18 +176,18 @@ float max_next_state(int i,int j)
 
 	if(check_possible(i,j-1)){
 
-		val = 0.8*uti[i][j-1];
+		val = 0.8*prev_uti[i][j-1];
 		
 		if(check_possible(i+1,j))
-			val+= 0.1*uti[i+1][j];
+			val+= 0.1*prev_uti[i+1][j];
 			
 		else
-			val+= 0.1*uti[i][j];
+			val+= 0.1*prev_uti[i][j];
 
 		if(check_possible(i-1,j))
-			val+=0.1*uti[i-1][j];
+			val+=0.1*prev_uti[i-1][j];
 		else
-			val+=0.1*uti[i][j];
+			val+=0.1*prev_uti[i][j];
 
 		val += step_reward;
 
@@ -167,9 +234,16 @@ int main()
 
 	// Bellman update
 	// d = delta value
+
 	float d=1,updated_val;
 	for(int epoch=0;d > tolerance*(1-dicount_factor)/dicount_factor;epoch++)
 	{
+
+		// Copy uti to prev_uti
+		for (int i = 0; i < n; ++i)
+			for (int j = 0; j < m; ++j)
+				prev_uti[i][j] = uti[i][j];
+
 		// Error in this section 
 		d = -100;
 		// Update each grid value
@@ -204,26 +278,34 @@ int main()
 				continue;
 
 			float nst = max_next_state(i,j);
-			updated_val = reward[i][j] + dicount_factor*nst;
-			// printf("Updating:%d %d %f %f %f\n",i,j,reward[i][j],dicount_factor*nst,updated_val);
+			uti[i][j] = reward[i][j] + dicount_factor*nst;
+			printf("Updating:%d %d %f\n",i,j,uti[i][j]);
 
-			d  = max(d,fabs(updated_val - uti[i][j]));
+			d  = max(d,fabs(uti[i][j] - prev_uti[i][j]));
 			
-			uti[i][j] = updated_val;
 
 
 
 		}
 		printf("Epoch:%d Error:%f\n",epoch,d);
 
+		print_new_policy();
+
+		for (int i = 0; i < n; ++i){
+			for (int j = 0; j < m; ++j)
+				printf("%.3f ",uti[i][j] );
+			printf("\n");
+		}
 
 	}
 
-	for (int i = 0; i < n; ++i){
-		for (int j = 0; j < m; ++j)
-			printf("%.3f ",uti[i][j] );
-		printf("\n");
-	}
+
+
+	// for (int i = 0; i < n; ++i){
+	// 	for (int j = 0; j < m; ++j)
+	// 		printf("%.5f ",uti[i][j] );
+	// 	printf("\n");
+	// }
 
 
 	return 0;
