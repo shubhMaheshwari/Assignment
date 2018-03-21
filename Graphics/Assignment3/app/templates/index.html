@@ -10,6 +10,8 @@
     <canvas id="glcanvas" width="640" height="480"></canvas>
   </body>
 
-  <script src="./gl-matrix.js"></script>
-  <script src="webgl-demo.js"></script>
+  
+  <script src="{{ url_for('static', filename='gl-matrix.js') }}"></script>
+
+  <script src="{{ url_for('static', filename='webgl-demo.js') }}"></script>
 </html>
