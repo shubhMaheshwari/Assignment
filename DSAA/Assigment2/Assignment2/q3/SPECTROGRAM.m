@@ -15,6 +15,7 @@ function [result] = SPECTROGRAM(y,W,s)
         fin_img(i,1:size(f_y)) = abs(f_y);
     end
     fin_img = log(fin_img +1);
+%     fin_img = 255*fin_img/max(max(fin_img))
     fin_img = mat2gray(fin_img);
     result = fin_img(1:min(size(result,1),int16(W/2)) ,int16(end/2) + 1:end);
     imshow(result);
