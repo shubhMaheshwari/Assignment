@@ -7,9 +7,9 @@ from mpl_toolkits.mplot3d import Axes3D
 X = np.random.uniform(-1,1,(10,2))
 
 # OUTPUT
-W_final = np.random.random((2,1))
+W_final = np.random.random((2,))
+# W_final = np.array([1,1])
 Y = X.dot(W_final)
-Y = Y[:,0]
 
 # INITIAL VALUES
 W = np.array([-1,1],dtype='float64')
@@ -106,9 +106,9 @@ W_hist = np.array(W_hist)
 W_hessian_hist = np.array(W_hessian_hist)
 
 W1,W2 = np.meshgrid(np.linspace(-1,1,20),np.linspace(-1,1,20))
-y = X[:,0]*W1.reshape((20,20,1)) + X[:,1]*W2.reshape((20,20,1)) 
-y_pred = X.dot(W)
-error = np.sum((y - y_pred)**2,axis=2)
+y_pred = X[:,0]*W1.reshape((20,20,1)) + X[:,1]*W2.reshape((20,20,1)) 
+y = Y
+error = np.sum((y_pred - y)**2,axis=2)
 # For different cases of W1 and W2 get the error values
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
