@@ -4,33 +4,24 @@ THIS SEM
     1. Linear Algebra
 #### Eng(1) 
     1. Game design and eng
-#### Science 
+#### Science(2) 
     1. ABA
 
 #### Foundation(3) 
     1. SMAI(CV and Anoop)
 
-
-#### Elective 
+#### CS Elective 
     1. DIP
 
 ## Courses to take 
 ### HSME 
 
-#### Science(2)
-    1. ABA
-#### Maths(1) 
-    1. Linear Algebra
 #### Humanities(3) 
     1. Phylosphy (Zulu)
     2. Shakespheare
-#### Eng(1) 
-    1. Game design and eng
-
 
 ### Bouquet 
 #### Foundation(3) 
-    1. SMAI(CV and Anoop)
     2. POPL(Choppella)
     3. Optimiation methods( Gujjar )
 
@@ -39,14 +30,10 @@ THIS SEM
     2. Database Systems
 
 #### Elective 
-    1. DIP
     2. IRE
     3. Speech Signal Processing
     4. Speech Technology
     5. Mobile Robotics 
-
-
-## Courses this sem
 
 
 ## TAs
