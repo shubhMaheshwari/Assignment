@@ -1,21 +1,10 @@
 import numpy as np 
 import matplotlib.pyplot as plt
 
-# Generate Data with 2 classes classfied as 0 and 1
-X = np.random.random((1000,2))
-
-# Mean, Covaraince Matrix, Feature Probablity
-num_features = 2
-feat_mean = np.array([[-3,0], [2,2]])
-cov_mat = np.array([ 
-	[[2,0],[0,2]],
-	[[2,0],[0,2]]
-	])
-feat_prob = np.array([0.5,0.5])
-print(feat_mean[0].shape,cov_mat[0].shape)
-
-X[0:500] = np.random.multivariate_normal(feat_mean[0,:],cov_mat[0],(500,)) 
-X[500:1000] = np.random.multivariate_normal(feat_mean[1,:],cov_mat[1],(500,)) 
+feat_prob = np.array([0.6,0.4])
+X = np.zeros((1000,1))
+X[0:500] = np.random.normal(-1,2,(500,1)) 
+X[500:1000] = np.random.normal(2,3,(500,1)) 
 Y = np.zeros((1000,))
 Y[0:500] = 0
 Y[500:1000] = 1
