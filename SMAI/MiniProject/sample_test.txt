@@ -1,0 +1,5 @@
+./dataset/005_011.jpg
+./dataset/005_012.jpg
+./dataset/000_000.jpg
+./dataset/002_003.jpg
+./dataset/002_012.jpg
