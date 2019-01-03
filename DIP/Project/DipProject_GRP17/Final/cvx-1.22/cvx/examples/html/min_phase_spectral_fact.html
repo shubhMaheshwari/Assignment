@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Minimal phase spectral factorization</title>
+<link rel="canonical" href="http://cvxr.com/cvx/examples/html/min_phase_spectral_fact.html">
+<link rel="stylesheet" href="../examples.css" type="text/css">
+</head>
+<body>
+<div id="header">
+<h1>Minimal phase spectral factorization</h1>
+Jump to:&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#source">Source code</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#output">Text output</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+Plots
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="../index.html">Library index</a>
+</div>
+<div id="content">
+<a id="source"></a>
+<pre class="codeinput">
+<span class="comment">% A PSD matrix is found which minimizes a weighted trace while obtaining</span>
+<span class="comment">% fixed sums along the diagonals. Notice the use of a FOR loop to access</span>
+<span class="comment">% the diagonals of X. A later version of CVX will eliminate the need for</span>
+<span class="comment">% this by allowing the use of the SPDIAGS function in side models.</span>
+<span class="comment">% Nevertheless, this example provides an illustration of the use of</span>
+<span class="comment">% standard Matlab control statements to build models.</span>
+<span class="comment">%</span>
+<span class="comment">% Adapted from an example provided in the SeDuMi documentation.</span>
+
+<span class="comment">% Generate data</span>
+b = [2; 0.2; -0.3];
+n = length( b );
+
+<span class="comment">% Create and solve model</span>
+cvx_begin <span class="string">sdp</span>
+    variable <span class="string">X( n, n )</span> <span class="string">symmetric</span>
+    dual <span class="string">variable</span> <span class="string">y{n}</span>
+    minimize( ( n - 1 : -1 : 0 ) * diag( X ) );
+    <span class="keyword">for</span> k = 1 : n,
+        sum( diag( X, k - 1 ) ) == b( k ) : y{k};
+    <span class="keyword">end</span>
+    X &gt;= 0;
+cvx_end
+y = [ y{:} ]';
+
+<span class="comment">% Display resuls</span>
+disp( <span class="string">'The optimal point, X:'</span> );
+disp( X )
+disp( <span class="string">'The diagonal sums:'</span> );
+disp( sum( spdiags( X, 0:n-1 ), 1 ) );
+disp( <span class="string">'min( eig( X ) ) (should be nonnegative):'</span> );
+disp( min( eig( X ) ) )
+disp( <span class="string">'The optimal weighted trace:'</span> );
+disp( ( n - 1 : -1 : 0 ) * diag( X ) );
+</pre>
+<a id="output"></a>
+<pre class="codeoutput">
+ 
+Calling sedumi: 6 variables, 3 equality constraints
+------------------------------------------------------------
+SeDuMi 1.21 by AdvOL, 2005-2008 and Jos F. Sturm, 1998-2003.
+Alg = 2: xz-corrector, Adaptive Step-Differentiation, theta = 0.250, beta = 0.500
+eqs m = 3, order n = 4, dim = 10, blocks = 2
+nnz(A) = 6 + 0, nnz(ADA) = 9, nnz(L) = 6
+ it :     b*y       gap    delta  rate   t/tP*  t/tD*   feas cg cg  prec
+  0 :            1.78E+00 0.000
+  1 :  -3.54E+00 4.11E-01 0.000 0.2312 0.9000 0.9000   1.39  1  1  1.4E+00
+  2 :  -3.76E+00 3.39E-02 0.000 0.0824 0.9900 0.9900   1.31  1  1  1.0E-01
+  3 :  -3.88E+00 1.18E-05 0.000 0.0003 0.9999 0.9999   0.99  1  1  3.6E-05
+  4 :  -3.88E+00 5.45E-07 0.000 0.0463 0.9900 0.9900   1.00  1  1  1.7E-06
+  5 :  -3.88E+00 2.48E-08 0.000 0.0455 0.9900 0.9900   1.00  1  1  7.6E-08
+  6 :  -3.88E+00 2.01E-09 0.329 0.0812 0.9900 0.9900   0.99  2  2  6.2E-09
+
+iter seconds digits       c*x               b*y
+  6      0.0   Inf -3.8772674402e+00 -3.8772674352e+00
+|Ax-b| =   5.4e-09, [Ay-c]_+ =   2.9E-09, |x|=  2.0e+00, |y|=  2.2e+00
+
+Detailed timing (sec)
+   Pre          IPM          Post
+0.000E+00    3.000E-02    0.000E+00    
+Max-norms: ||b||=2, ||c|| = 2,
+Cholesky |add|=0, |skip| = 0, ||L.L|| = 1.
+------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): +0.122733
+The optimal point, X:
+    0.0468   -0.0369   -0.3000
+   -0.0369    0.0292    0.2369
+   -0.3000    0.2369    1.9240
+
+The diagonal sums:
+    2.0000    0.2000   -0.3000
+
+min( eig( X ) ) (should be nonnegative):
+  -4.7117e-09
+
+The optimal weighted trace:
+    0.1227
+
+</pre>
+</div>
+</body>
+</html>

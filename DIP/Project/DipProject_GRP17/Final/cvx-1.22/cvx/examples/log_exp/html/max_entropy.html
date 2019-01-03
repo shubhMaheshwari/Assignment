@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Entropy maximization</title>
+<link rel="canonical" href="http://cvxr.com/cvx/examples/log_exp/html/max_entropy.html">
+<link rel="stylesheet" href="../../examples.css" type="text/css">
+</head>
+<body>
+<div id="header">
+<h1>Entropy maximization</h1>
+Jump to:&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#source">Source code</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#output">Text output</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+Plots
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="../../index.html">Library index</a>
+</div>
+<div id="content">
+<a id="source"></a>
+<pre class="codeinput">
+<span class="comment">% Jo&Atilde;&laquo;lle Skaf - 04/24/08</span>
+<span class="comment">%</span>
+<span class="comment">% Consider the linear inequality constrained entroy maximization problem</span>
+<span class="comment">%           maximize    -sum_{i=1}^n x_i*log(x_i)</span>
+<span class="comment">%           subject to  sum(x) = 1</span>
+<span class="comment">%                       Fx &lt;= g</span>
+<span class="comment">% where the variable is x \in \reals^{n}</span>
+
+<span class="comment">% Input data</span>
+randn(<span class="string">'state'</span>, 0);
+rand(<span class="string">'state'</span>, 0);
+n = 20;
+m = 10;
+p = 5;
+
+tmp = rand(n,1);
+A = randn(m,n);
+b = A*tmp;
+F = randn(p,n);
+g = F*tmp + rand(p,1);
+
+<span class="comment">% Entropy maximization</span>
+cvx_begin
+    variable <span class="string">x(n)</span>
+    maximize <span class="string">sum(entr(x))</span>
+    A*x == b
+    F*x &lt;= g
+cvx_end
+
+<span class="comment">% Results</span>
+display(<span class="string">'The optimal solution is:'</span> );
+disp(x);
+</pre>
+<a id="output"></a>
+<pre class="codeoutput">
+ 
+Successive approximation method to be employed.
+   sedumi will be called several times to refine the solution.
+   Original size: 65 variables, 35 equality constraints
+   20 exponentials add 160 variables, 100 equality constraints
+-----------------------------------------------------------------
+ Cones  |             Errors              |
+Mov/Act | Centering  Exp cone   Poly cone | Status
+--------+---------------------------------+---------
+ 20/ 20 | 1.695e+00  1.965e-01  3.726e-07 | Solved
+ 20/ 20 | 7.851e-02  4.407e-04  1.906e-07 | Solved
+ 16/ 20 | 2.624e-03  6.801e-07  1.779e-07 | Solved
+  0/ 20 | 3.861e-04  1.997e-07  1.811e-07 | Solved
+-----------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): +5.70335
+The optimal solution is:
+    0.3445
+    0.3181
+    0.7540
+    0.8020
+    0.6418
+    0.3517
+    0.1982
+    0.2577
+    0.6372
+    0.3356
+    0.7109
+    0.8998
+    0.6086
+    0.6444
+    0.3060
+    0.4521
+    0.8885
+    0.7801
+    0.3106
+    0.6131
+
+</pre>
+</div>
+</body>
+</html>

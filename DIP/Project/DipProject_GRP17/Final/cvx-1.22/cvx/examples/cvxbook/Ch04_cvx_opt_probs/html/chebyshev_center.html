@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Section 4.3.1: Compute the Chebyshev center of a polyhedron</title>
+<link rel="canonical" href="http://cvxr.com/cvx/examples/cvxbook/Ch04_cvx_opt_probs/html/chebyshev_center.html">
+<link rel="stylesheet" href="../../../examples.css" type="text/css">
+</head>
+<body>
+<div id="header">
+<h1>Section 4.3.1: Compute the Chebyshev center of a polyhedron</h1>
+Jump to:&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#source">Source code</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#output">Text output</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+Plots
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="../../../index.html">Library index</a>
+</div>
+<div id="content">
+<a id="source"></a>
+<pre class="codeinput">
+<span class="comment">% Boyd &amp; Vandenberghe "Convex Optimization"</span>
+<span class="comment">% Jo&euml;lle Skaf - 08/16/05</span>
+<span class="comment">%</span>
+<span class="comment">% The goal is to find the largest Euclidean ball (i.e. its center and</span>
+<span class="comment">% radius) that lies in a polyhedron described by linear inequalites in this</span>
+<span class="comment">% fashion: P = {x : a_i'*x &lt;= b_i, i=1,...,m}</span>
+
+<span class="comment">% Generate the data</span>
+randn(<span class="string">'state'</span>,0);
+n = 10; m = 2*n;
+A = randn(m,n);
+b = A*rand(n,1) + 2*rand(m,1);
+norm_ai = sum(A.^2,2).^(.5);
+
+<span class="comment">% Build and execute model</span>
+fprintf(1,<span class="string">'Computing Chebyshev center...'</span>);
+cvx_begin
+    variable <span class="string">r(1)</span>
+    variable <span class="string">x_c(n)</span>
+    dual <span class="string">variable</span> <span class="string">y</span>
+    maximize ( r )
+    y: A*x_c + r*norm_ai &lt;= b;
+cvx_end
+fprintf(1,<span class="string">'Done! \n'</span>);
+
+<span class="comment">% Display results</span>
+fprintf(1,<span class="string">'The Chebyshev center coordinates are: \n'</span>);
+disp(x_c);
+fprintf(1,<span class="string">'The radius of the largest Euclidean ball is: \n'</span>);
+disp(r);
+</pre>
+<a id="output"></a>
+<pre class="codeoutput">
+Computing Chebyshev center... 
+Calling sedumi: 20 variables, 11 equality constraints
+   For improved efficiency, sedumi is solving the dual problem.
+------------------------------------------------------------
+SeDuMi 1.21 by AdvOL, 2005-2008 and Jos F. Sturm, 1998-2003.
+Alg = 2: xz-corrector, Adaptive Step-Differentiation, theta = 0.250, beta = 0.500
+eqs m = 11, order n = 21, dim = 21, blocks = 1
+nnz(A) = 220 + 0, nnz(ADA) = 121, nnz(L) = 66
+ it :     b*y       gap    delta  rate   t/tP*  t/tD*   feas cg cg  prec
+  0 :            1.53E+02 0.000
+  1 :  -6.06E-01 3.12E+01 0.000 0.2043 0.9000 0.9000   1.15  1  1  2.1E+01
+  2 :  -9.46E-03 9.65E+00 0.000 0.3093 0.9000 0.9000   2.65  1  1  3.1E+00
+  3 :   2.00E-01 3.30E+00 0.000 0.3422 0.9000 0.9000   1.53  1  1  1.1E+00
+  4 :   2.68E-01 8.55E-01 0.000 0.2588 0.9000 0.9000   1.11  1  1  2.9E-01
+  5 :   2.87E-01 2.97E-01 0.000 0.3480 0.9000 0.9000   0.85  1  1  1.3E-01
+  6 :   3.02E-01 1.42E-01 0.000 0.4782 0.9000 0.9000  -0.03  1  1  1.2E-01
+  7 :   3.24E-01 4.47E-02 0.000 0.3140 0.9000 0.9000   0.54  1  1  4.3E-02
+  8 :   3.33E-01 1.11E-02 0.000 0.2478 0.9000 0.9000   0.98  1  1  1.1E-02
+  9 :   3.36E-01 1.62E-03 0.000 0.1468 0.9167 0.9000   1.00  1  1  2.3E-03
+ 10 :   3.37E-01 3.67E-05 0.000 0.0226 0.9901 0.9900   1.00  1  1  
+iter seconds digits       c*x               b*y
+ 10      0.0  15.8  3.3705939820e-01  3.3705939820e-01
+|Ax-b| =   1.8e-16, [Ay-c]_+ =   1.3E-15, |x|=  1.5e-01, |y|=  7.7e+00
+
+Detailed timing (sec)
+   Pre          IPM          Post
+1.000E-02    4.000E-02    0.000E+00    
+Max-norms: ||b||=1, ||c|| = 2.835687e+00,
+Cholesky |add|=0, |skip| = 0, ||L.L|| = 13.8708.
+------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): +0.337059
+Done! 
+The Chebyshev center coordinates are: 
+   -0.1116
+   -1.5760
+    0.1079
+   -2.1751
+    3.2264
+    3.5820
+    4.3394
+    3.0680
+    0.4449
+    0.3164
+
+The radius of the largest Euclidean ball is: 
+    0.3371
+
+</pre>
+</div>
+</body>
+</html>

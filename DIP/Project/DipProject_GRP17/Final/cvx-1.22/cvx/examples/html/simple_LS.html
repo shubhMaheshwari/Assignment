@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Builds and solves a simple least-squares problem using cvx</title>
+<link rel="canonical" href="http://cvxr.com/cvx/examples/html/simple_LS.html">
+<link rel="stylesheet" href="../examples.css" type="text/css">
+</head>
+<body>
+<div id="header">
+<h1>Builds and solves a simple least-squares problem using cvx</h1>
+Jump to:&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#source">Source code</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#output">Text output</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+Plots
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="../index.html">Library index</a>
+</div>
+<div id="content">
+<a id="source"></a>
+<pre class="codeinput">
+echo <span class="string">on</span>
+
+n = 100;
+A = randn(2*n,n);
+b = randn(2*n,1);
+cvx_begin
+   variable <span class="string">x(n)</span>
+   minimize( norm( A*x-b ) )
+cvx_end
+
+echo <span class="string">off</span>
+</pre>
+<a id="output"></a>
+<pre class="codeoutput">
+n = 100;
+A = randn(2*n,n);
+b = randn(2*n,1);
+cvx_begin
+   variable x(n)
+   minimize( norm( A*x-b ) )
+cvx_end
+ 
+Calling sedumi: 201 variables, 101 equality constraints
+   For improved efficiency, sedumi is solving the dual problem.
+------------------------------------------------------------
+SeDuMi 1.21 by AdvOL, 2005-2008 and Jos F. Sturm, 1998-2003.
+Alg = 2: xz-corrector, Adaptive Step-Differentiation, theta = 0.250, beta = 0.500
+eqs m = 101, order n = 3, dim = 202, blocks = 2
+nnz(A) = 20001 + 0, nnz(ADA) = 10201, nnz(L) = 5151
+ it :     b*y       gap    delta  rate   t/tP*  t/tD*   feas cg cg  prec
+  0 :            6.88E+00 0.000
+  1 :  -8.51E+00 1.66E+00 0.000 0.2408 0.9000 0.9000  -0.52  1  1  2.1E+00
+  2 :  -1.10E+01 1.62E-01 0.000 0.0977 0.9900 0.9900   0.97  1  1  2.4E-01
+  3 :  -1.08E+01 9.64E-05 0.387 0.0006 0.9999 0.9999   1.04  1  1  1.4E-04
+  4 :  -1.08E+01 5.79E-07 0.000 0.0060 0.9990 0.9990   1.62  1  1  6.7E-07
+  5 :  -1.08E+01 7.28E-14 0.000 0.0000 1.0000 1.0000   1.00  1  1  8.9E-14
+
+iter seconds digits       c*x               b*y
+  5      0.0   Inf -1.0766202444e+01 -1.0766202444e+01
+|Ax-b| =   4.3e-14, [Ay-c]_+ =   1.7E-13, |x|=  1.4e+00, |y|=  1.1e+01
+
+Detailed timing (sec)
+   Pre          IPM          Post
+1.000E-02    4.000E-02    0.000E+00    
+Max-norms: ||b||=1, ||c|| = 3.449504e+00,
+Cholesky |add|=0, |skip| = 0, ||L.L|| = 1.
+------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): +10.7662
+
+echo off
+</pre>
+</div>
+</body>
+</html>

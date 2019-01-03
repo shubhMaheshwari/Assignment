@@ -1,0 +1,180 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>FDLA and FMMC solutions for an 8-node, 13-edge graph</title>
+<link rel="canonical" href="http://cvxr.com/cvx/examples/graph_laplacian/html/small_example.html">
+<link rel="stylesheet" href="../../examples.css" type="text/css">
+</head>
+<body>
+<div id="header">
+<h1>FDLA and FMMC solutions for an 8-node, 13-edge graph</h1>
+Jump to:&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#source">Source code</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#output">Text output</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#plots">Plots</a>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="../../index.html">Library index</a>
+</div>
+<div id="content">
+<a id="source"></a>
+<pre class="codeinput">
+<span class="comment">% S. Boyd, et. al., "Convex Optimization of Graph Laplacian Eigenvalues"</span>
+<span class="comment">% ICM'06 talk examples (www.stanford.edu/~boyd/cvx_opt_graph_lapl_eigs.html)</span>
+<span class="comment">% Written for CVX by Almir Mutapcic 08/29/06</span>
+<span class="comment">% (figures are generated)</span>
+<span class="comment">%</span>
+<span class="comment">% In this example we consider a graph described by the incidence matrix A.</span>
+<span class="comment">% Each edge has a weight W_i, and we optimize various functions of the</span>
+<span class="comment">% edge weights as described in the referenced paper; in particular,</span>
+<span class="comment">%</span>
+<span class="comment">% - the fastest distributed linear averaging (FDLA) problem (fdla.m)</span>
+<span class="comment">% - the fastest mixing Markov chain (FMMC) problem (fmmc.m)</span>
+<span class="comment">%</span>
+<span class="comment">% Then we compare these solutions to the heuristics listed below:</span>
+<span class="comment">%</span>
+<span class="comment">% - maximum-degree heuristic (max_deg.m)</span>
+<span class="comment">% - constant weights that yield fastest averaging (best_const.m)</span>
+<span class="comment">% - Metropolis-Hastings heuristic (mh.m)</span>
+
+<span class="comment">% small example (incidence matrix A)</span>
+A = [ 1  0  0  1  0  0  0  0  0  0  0  0  0;
+     -1  1  0  0  1  1  0  0  0  0  0  0  1;
+      0 -1  1  0  0  0  0  0 -1  0  0  0  0;
+      0  0 -1  0  0 -1  0  0  0 -1  0  0  0;
+      0  0  0 -1  0  0 -1  1  0  0  0  0  0;
+      0  0  0  0  0  0  1  0  0  0  1  0  0;
+      0  0  0  0  0  0  0 -1  1  0 -1  1 -1;
+      0  0  0  0 -1  0  0  0  0  1  0 -1  0];
+
+<span class="comment">% x and y locations of the graph nodes</span>
+xy = [ 1 2   3 3 1 1 2   3 ; <span class="keyword">...</span>
+       3 2.5 3 2 2 1 1.5 1 ]';
+
+<span class="comment">% Compute edge weights: some optimal, some based on heuristics</span>
+[n,m] = size(A);
+
+[ w_fdla, rho_fdla ] = fdla(A);
+[ w_fmmc, rho_fmmc ] = fmmc(A);
+[ w_md,   rho_md   ] = max_deg(A);
+[ w_bc,   rho_bc   ] = best_const(A);
+[ w_mh,   rho_mh   ] = mh(A);
+
+tau_fdla = 1/log(1/rho_fdla);
+tau_fmmc = 1/log(1/rho_fmmc);
+tau_md   = 1/log(1/rho_md);
+tau_bc   = 1/log(1/rho_bc);
+tau_mh   = 1/log(1/rho_mh);
+
+fprintf(1,<span class="string">'\nResults:\n'</span>);
+fprintf(1,<span class="string">'FDLA weights:\t\t rho = %5.4f \t tau = %5.4f\n'</span>,rho_fdla,tau_fdla);
+fprintf(1,<span class="string">'FMMC weights:\t\t rho = %5.4f \t tau = %5.4f\n'</span>,rho_fmmc,tau_fmmc);
+fprintf(1,<span class="string">'M-H weights:\t\t rho = %5.4f \t tau = %5.4f\n'</span>,rho_mh,tau_mh);
+fprintf(1,<span class="string">'MAX_DEG weights:\t rho = %5.4f \t tau = %5.4f\n'</span>,rho_md,tau_md);
+fprintf(1,<span class="string">'BEST_CONST weights:\t rho = %5.4f \t tau = %5.4f\n'</span>,rho_bc,tau_bc);
+
+<span class="comment">% Plot results</span>
+figure(1), clf
+plotgraph(A,xy,w_fdla);
+text(0.55,1.05,<span class="string">'FDLA optimal weights'</span>)
+
+figure(2), clf
+plotgraph(A,xy,w_fmmc);
+text(0.55,1.05,<span class="string">'FMMC optimal weights'</span>)
+
+figure(3), clf
+plotgraph(A,xy,w_md);
+text(0.5,1.05,<span class="string">'Max degree optimal weights'</span>)
+
+figure(4), clf
+plotgraph(A,xy,w_bc);
+text(0.5,1.05,<span class="string">'Best constant optimal weights'</span>)
+
+figure(5), clf
+plotgraph(A,xy,w_mh);
+text(0.46,1.05,<span class="string">'Metropolis-Hastings optimal weights'</span>)
+</pre>
+<a id="output"></a>
+<pre class="codeoutput">
+ 
+Calling sedumi: 73 variables, 59 equality constraints
+------------------------------------------------------------
+SeDuMi 1.21 by AdvOL, 2005-2008 and Jos F. Sturm, 1998-2003.
+Alg = 2: xz-corrector, Adaptive Step-Differentiation, theta = 0.250, beta = 0.500
+Split 1 free variables
+eqs m = 59, order n = 19, dim = 131, blocks = 3
+nnz(A) = 145 + 0, nnz(ADA) = 2791, nnz(L) = 1425
+ it :     b*y       gap    delta  rate   t/tP*  t/tD*   feas cg cg  prec
+  0 :            1.70E+00 0.000
+  1 :   6.61E-01 4.22E-01 0.000 0.2482 0.9000 0.9000   0.59  1  1  2.1E+00
+  2 :   6.11E-01 1.41E-01 0.000 0.3331 0.9000 0.9000   2.38  1  1  3.7E-01
+  3 :   6.60E-01 2.95E-02 0.000 0.2094 0.9000 0.9000   1.20  1  1  7.1E-02
+  4 :   6.46E-01 5.39E-03 0.000 0.1829 0.9000 0.9000   1.10  1  1  1.3E-02
+  5 :   6.44E-01 2.24E-04 0.000 0.0416 0.9900 0.9900   1.02  1  1  5.2E-04
+  6 :   6.43E-01 3.51E-06 0.000 0.0157 0.9900 0.9317   1.00  1  1  2.0E-05
+  7 :   6.43E-01 2.99E-07 0.201 0.0853 0.9458 0.9450   1.00  1  1  1.8E-06
+  8 :   6.43E-01 5.40E-08 0.248 0.1805 0.9156 0.9000   1.00  1  1  3.7E-07
+  9 :   6.43E-01 9.46E-09 0.000 0.1754 0.9099 0.9000   1.00  1  1  6.5E-08
+ 10 :   6.43E-01 2.88E-10 0.156 0.0304 0.9900 0.9901   1.00  2  2  2.0E-09
+
+iter seconds digits       c*x               b*y
+ 10      0.1   Inf  6.4333140650e-01  6.4333140760e-01
+|Ax-b| =   3.5e-10, [Ay-c]_+ =   1.2E-09, |x|=  3.5e+00, |y|=  9.5e-01
+
+Detailed timing (sec)
+   Pre          IPM          Post
+1.000E-02    7.000E-02    1.000E-02    
+Max-norms: ||b||=6.250000e-01, ||c|| = 1,
+Cholesky |add|=0, |skip| = 0, ||L.L|| = 99.2911.
+------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): +0.643331
+ 
+Calling sedumi: 94 variables, 80 equality constraints
+------------------------------------------------------------
+SeDuMi 1.21 by AdvOL, 2005-2008 and Jos F. Sturm, 1998-2003.
+Alg = 2: xz-corrector, Adaptive Step-Differentiation, theta = 0.250, beta = 0.500
+Split 1 free variables
+eqs m = 80, order n = 40, dim = 152, blocks = 3
+nnz(A) = 180 + 0, nnz(ADA) = 4438, nnz(L) = 2296
+ it :     b*y       gap    delta  rate   t/tP*  t/tD*   feas cg cg  prec
+  0 :            7.51E-01 0.000
+  1 :   2.31E-01 2.60E-01 0.000 0.3466 0.9000 0.9000   3.03  1  1  1.2E+00
+  2 :   6.39E-01 8.43E-02 0.000 0.3238 0.9000 0.9000   1.54  1  1  2.9E-01
+  3 :   6.99E-01 2.04E-02 0.000 0.2420 0.9000 0.9000   1.32  1  1  6.0E-02
+  4 :   6.82E-01 4.67E-03 0.000 0.2291 0.9000 0.9000   1.14  1  1  1.3E-02
+  5 :   6.81E-01 1.18E-03 0.000 0.2530 0.9000 0.9000   1.02  1  1  3.3E-03
+  6 :   6.81E-01 2.49E-04 0.000 0.2102 0.9000 0.8437   1.00  1  1  7.6E-04
+  7 :   6.81E-01 7.95E-06 0.000 0.0320 0.9900 0.9900   1.00  1  1  2.4E-05
+  8 :   6.81E-01 8.85E-07 0.193 0.1114 0.9450 0.9118   1.00  1  1  2.9E-06
+  9 :   6.81E-01 1.35E-07 0.041 0.1520 0.9021 0.9000   1.00  1  1  4.6E-07
+ 10 :   6.81E-01 1.75E-08 0.052 0.1304 0.9070 0.9000   1.00  1  1  7.1E-08
+ 11 :   6.81E-01 1.34E-09 0.472 0.0762 0.9900 0.9900   1.00  1  1  5.4E-09
+
+iter seconds digits       c*x               b*y
+ 11      0.1   8.9  6.8096067815e-01  6.8096067720e-01
+|Ax-b| =   6.2e-09, [Ay-c]_+ =   2.1E-09, |x|=  3.7e+00, |y|=  1.2e+00
+
+Detailed timing (sec)
+   Pre          IPM          Post
+0.000E+00    8.000E-02    1.000E-02    
+Max-norms: ||b||=8.750000e-01, ||c|| = 1,
+Cholesky |add|=0, |skip| = 0, ||L.L|| = 40.1861.
+------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): +0.680961
+
+Results:
+FDLA weights:		 rho = 0.6433 	 tau = 2.2671
+FMMC weights:		 rho = 0.6810 	 tau = 2.6025
+M-H weights:		 rho = 0.7743 	 tau = 3.9094
+MAX_DEG weights:	 rho = 0.7793 	 tau = 4.0093
+BEST_CONST weights:	 rho = 0.7119 	 tau = 2.9422
+</pre>
+<a id="plots"></a>
+<div id="plotoutput">
+<img src="small_example__01.png" alt=""> <img src="small_example__02.png" alt=""> <img src="small_example__03.png" alt=""> <img src="small_example__04.png" alt=""> <img src="small_example__05.png" alt=""> 
+</div>
+</div>
+</body>
+</html>

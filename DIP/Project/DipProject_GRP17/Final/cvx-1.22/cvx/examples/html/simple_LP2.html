@@ -1,0 +1,84 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Builds and solves a simple inequality-constrained linear program</title>
+<link rel="canonical" href="http://cvxr.com/cvx/examples/html/simple_LP2.html">
+<link rel="stylesheet" href="../examples.css" type="text/css">
+</head>
+<body>
+<div id="header">
+<h1>Builds and solves a simple inequality-constrained linear program</h1>
+Jump to:&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#source">Source code</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#output">Text output</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+Plots
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="../index.html">Library index</a>
+</div>
+<div id="content">
+<a id="source"></a>
+<pre class="codeinput">
+echo <span class="string">on</span>
+
+n = 10;
+A = randn(2*n,n);
+b = randn(2*n,1);
+c = randn(n,1);
+d = randn;
+cvx_begin
+   variable <span class="string">x(n)</span>
+   dual <span class="string">variables</span> <span class="string">y</span> <span class="string">z</span>
+   minimize( c' * x + d )
+   subject <span class="string">to</span>
+      y : A * x &lt;= b;
+cvx_end
+
+echo <span class="string">off</span>
+</pre>
+<a id="output"></a>
+<pre class="codeoutput">
+n = 10;
+A = randn(2*n,n);
+b = randn(2*n,1);
+c = randn(n,1);
+d = randn;
+cvx_begin
+   variable x(n)
+   dual variables y z
+   minimize( c' * x + d )
+   subject to
+      y : A * x &lt;= b;
+cvx_end
+ 
+Calling sedumi: 20 variables, 10 equality constraints
+   For improved efficiency, sedumi is solving the dual problem.
+------------------------------------------------------------
+SeDuMi 1.21 by AdvOL, 2005-2008 and Jos F. Sturm, 1998-2003.
+Alg = 2: xz-corrector, Adaptive Step-Differentiation, theta = 0.250, beta = 0.500
+eqs m = 10, order n = 21, dim = 21, blocks = 1
+nnz(A) = 200 + 0, nnz(ADA) = 100, nnz(L) = 55
+ it :     b*y       gap    delta  rate   t/tP*  t/tD*   feas cg cg  prec
+  0 :            4.71E+00 0.000
+  1 :   1.34E+01 1.22E+00 0.000 0.2587 0.9000 0.9000  -1.79  1  1  3.1E+01
+  2 :   6.72E+01 3.27E-01 0.000 0.2688 0.9000 0.9000  -0.78  1  1  2.0E+01
+  3 :   1.36E+03 1.14E-02 0.000 0.0347 0.9900 0.9900  -0.79  1  1  1.2E+01
+  4 :   2.96E+07 5.42E-07 0.077 0.0000 1.0000 1.0000  -1.00  1  1  
+Primal infeasible, dual improving direction found.
+iter seconds  |Ax|    [Ay]_+     |x|       |y|
+  4      0.0   0.0e+00   0.0e+00   0.0e+00   7.0e-01
+
+Detailed timing (sec)
+   Pre          IPM          Post
+1.000E-02    1.000E-02    0.000E+00    
+Max-norms: ||b||=1.576658e+00, ||c|| = 2.453744e+00,
+Cholesky |add|=0, |skip| = 0, ||L.L|| = 1.
+------------------------------------------------------------
+Status: Unbounded
+Optimal value (cvx_optval): -Inf
+
+echo off
+</pre>
+</div>
+</body>
+</html>

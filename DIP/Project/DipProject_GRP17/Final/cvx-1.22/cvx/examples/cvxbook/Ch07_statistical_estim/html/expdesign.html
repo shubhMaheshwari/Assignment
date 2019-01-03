@@ -1,0 +1,347 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Section 7.5.2: Experiment design</title>
+<link rel="canonical" href="http://cvxr.com/cvx/examples/cvxbook/Ch07_statistical_estim/html/expdesign.html">
+<link rel="stylesheet" href="../../../examples.css" type="text/css">
+</head>
+<body>
+<div id="header">
+<h1>Section 7.5.2: Experiment design</h1>
+Jump to:&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#source">Source code</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#output">Text output</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#plots">Plots</a>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="../../../index.html">Library index</a>
+</div>
+<div id="content">
+<a id="source"></a>
+<pre class="codeinput">
+<span class="comment">% Boyd &amp; Vandenberghe, "Convex Optimization"</span>
+<span class="comment">% Original version by Lieven Vandenberghe</span>
+<span class="comment">% Updated for CVX by Almir Mutapcic - Jan 2006</span>
+<span class="comment">% (a figure is generated)</span>
+<span class="comment">%</span>
+<span class="comment">% This is an example of D-optimal, A-optimal, and E-optimal</span>
+<span class="comment">% experiment designs.</span>
+
+<span class="comment">% problem data</span>
+m = 10;
+angles1 = linspace(3*pi/4,pi,m);
+angles2 = linspace(0,-pi/2,m);
+
+<span class="comment">% sensor positions</span>
+V = [3.0*[cos(angles1); sin(angles1)], <span class="keyword">...</span>
+     1.5*[cos(angles2); sin(angles2)]];
+p = size(V,2);
+n = 2;
+noangles = 5000;
+
+<span class="comment">% D-optimal design</span>
+<span class="comment">%</span>
+<span class="comment">%      maximize    log det V*diag(lambda)*V'</span>
+<span class="comment">%      subject to  sum(lambda)=1,  lambda &gt;=0</span>
+<span class="comment">%</span>
+
+<span class="comment">% setup the problem and solve it</span>
+cvx_begin
+  variable <span class="string">lambda(p)</span>
+  maximize ( det_rootn( V*diag(lambda)*V' ) )
+  subject <span class="string">to</span>
+    sum(lambda) == 1;
+    lambda &gt;= 0;
+cvx_end
+lambdaD = lambda; <span class="comment">% save the solution for confidence ellipsoids</span>
+
+<span class="comment">% plot results</span>
+figure(1)
+<span class="comment">% draw ellipsoid v'*W*v &lt;= 2</span>
+W = inv(V*diag(lambda)*V');
+angles = linspace(0,2*pi,noangles);
+R = chol(W);  <span class="comment">% W = R'*R</span>
+ellipsoid = sqrt(2)*(R\[cos(angles); sin(angles)]);
+d = plot(ellipsoid(1,:), ellipsoid(2,:), <span class="string">'--'</span>, 0,0,<span class="string">'+'</span>);
+set(d, <span class="string">'Color'</span>, [0 0.5 0]); set(d(2),<span class="string">'MarkerFaceColor'</span>,[0 0.5 0]);
+hold <span class="string">on</span>;
+
+dot=plot(V(1,:),V(2,:),<span class="string">'o'</span>);
+ind = find(lambda &gt; 0.001);
+dots = plot(V(1,ind),V(2,ind),<span class="string">'o'</span>);
+set(dots,<span class="string">'MarkerFaceColor'</span>,<span class="string">'blue'</span>);
+
+<span class="comment">% print out nonzero lambda</span>
+disp(<span class="string">'Nonzero lambda values for D design:'</span>);
+<span class="keyword">for</span> i=1:length(ind)
+   text(V(1,ind(i)),V(2,ind(i)), [<span class="string">'l'</span>,int2str(ind(i))]);
+   disp([<span class="string">'lambda('</span>,int2str(ind(i)),<span class="string">') = '</span>, num2str(lambda(ind(i)))]);
+<span class="keyword">end</span>;
+
+<span class="comment">%axis([-4.5 4.5 -4.5 4.5])</span>
+axis([-5 5 -5 5])
+set(gca,<span class="string">'Xtick'</span>,[]);
+set(gca,<span class="string">'Ytick'</span>,[]);
+hold <span class="string">off</span>, axis <span class="string">off</span>
+<span class="comment">% print -deps Ddesign.eps</span>
+
+<span class="comment">% A-optimal design</span>
+<span class="comment">%</span>
+<span class="comment">%      minimize    Trace (sum_i lambdai*vi*vi')^{-1}</span>
+<span class="comment">%      subject to  lambda &gt;= 0, 1'*lambda = 1</span>
+<span class="comment">%</span>
+
+<span class="comment">% SDP formulation</span>
+e = eye(2,2);
+cvx_begin <span class="string">sdp</span>
+  variables <span class="string">lambda(p)</span> <span class="string">u(n)</span>
+  minimize ( sum(u) )
+  subject <span class="string">to</span>
+    <span class="keyword">for</span> k = 1:n
+      [ V*diag(lambda)*V'  e(:,k);
+        e(k,:)             u(k)   ] &gt;= 0;
+    <span class="keyword">end</span>
+    sum(lambda) == 1;
+    lambda &gt;= 0;
+cvx_end
+lambdaA = lambda; <span class="comment">% save the solution for confidence ellipsoids</span>
+
+<span class="comment">% plot results</span>
+figure(2)
+<span class="comment">% draw ellipsoid v'*W*v &lt;= mu</span>
+W = inv(V*diag(lambda)*V')^2;
+mu = diag(V'*W*V);
+mu = mean(mu(ind));
+angles = linspace(0,2*pi,noangles);
+R = chol(W);  <span class="comment">% W = R'*R</span>
+ellipsoid = sqrt(mu)*(R\[cos(angles); sin(angles)]);
+d = plot(ellipsoid(1,:), ellipsoid(2,:), <span class="string">'--'</span>,0,0,<span class="string">'+'</span>);
+set(d, <span class="string">'Color'</span>, [0 0.5 0]);
+set(d(2), <span class="string">'MarkerFaceColor'</span>, [0 0.5 0]);
+hold <span class="string">on</span>
+
+dot = plot(V(1,:),V(2,:),<span class="string">'o'</span>);
+ind = find(lambda &gt; 0.001);
+dots = plot(V(1,ind),V(2,ind),<span class="string">'o'</span>);
+set(dots,<span class="string">'MarkerFaceColor'</span>,<span class="string">'blue'</span>);
+
+disp(<span class="string">'Nonzero lambda values for A design:'</span>);
+<span class="keyword">for</span> i=1:length(ind)
+   text(V(1,ind(i)),V(2,ind(i)), [<span class="string">'l'</span>,int2str(ind(i))]);
+   disp([<span class="string">'lambda('</span>,int2str(ind(i)),<span class="string">') = '</span>, num2str(lambda(ind(i)))]);
+<span class="keyword">end</span>;
+<span class="comment">%axis([-4.5 4.5 -4.5 4.5])</span>
+axis([-5 5 -5 5])
+set(gca,<span class="string">'Xtick'</span>,[]);
+set(gca,<span class="string">'Ytick'</span>,[]);
+axis <span class="string">off</span>, hold <span class="string">off</span>
+<span class="comment">% print -deps Adesign.eps</span>
+
+<span class="comment">% E-optimal design</span>
+<span class="comment">%</span>
+<span class="comment">%      minimize    w</span>
+<span class="comment">%      subject to  sum_i lambda_i*vi*vi' &gt;= w*I</span>
+<span class="comment">%                  lambda &gt;= 0,  1'*lambda = 1;</span>
+<span class="comment">%</span>
+
+cvx_begin <span class="string">sdp</span>
+  variables <span class="string">t</span> <span class="string">lambda(p)</span>
+  maximize ( t )
+  subject <span class="string">to</span>
+    V*diag(lambda)*V' &gt;= t*eye(n,n);
+    sum(lambda) == 1;
+    lambda &gt;= 0;
+cvx_end
+
+lambdaE = lambda; <span class="comment">% save the solution for confidence ellipsoids</span>
+
+figure(3)
+<span class="comment">% draw ellipsoid v'*W*v &lt;= mu</span>
+mu = diag(V'*W*V);
+mu = mean(mu(ind));
+angles = linspace(0,2*pi,noangles);
+R = chol(W);  <span class="comment">% W = R'*R</span>
+ellipsoid = sqrt(mu)*(R\[cos(angles); sin(angles)]);
+d = plot(ellipsoid(1,:), ellipsoid(2,:), <span class="string">'--'</span>, 0, 0, <span class="string">'+'</span>);
+set(d, <span class="string">'Color'</span>, [0 0.5 0]);
+set(d(2), <span class="string">'MarkerFaceColor'</span>, [0 0.5 0]);
+hold <span class="string">on</span>
+
+dot = plot(V(1,:),V(2,:),<span class="string">'o'</span>);
+lambda = lambda(1:p);
+ind = find(lambda &gt; 0.001);
+dots = plot(V(1,ind),V(2,ind),<span class="string">'o'</span>);
+set(dots,<span class="string">'MarkerFaceColor'</span>,<span class="string">'blue'</span>);
+
+disp(<span class="string">'Nonzero lambda values for E design:'</span>);
+<span class="keyword">for</span> i=1:length(ind)
+   text(V(1,ind(i)),V(2,ind(i)), [<span class="string">'l'</span>,int2str(ind(i))]);
+   disp([<span class="string">'lambda('</span>,int2str(ind(i)),<span class="string">') = '</span>, num2str(lambda(ind(i)))]);
+<span class="keyword">end</span>;
+<span class="comment">%axis([-4.5 4.5 -4.5 4.5])</span>
+axis([-5 5 -5 5])
+set(gca,<span class="string">'Xtick'</span>,[]);
+set(gca,<span class="string">'Ytick'</span>,[]);
+axis <span class="string">off</span>, hold <span class="string">off</span>
+<span class="comment">% print -deps Edesign.eps</span>
+
+
+<span class="comment">% confidence ellipsoids</span>
+eta = 6.2514; <span class="comment">% chi2inv(.9,3) value (command available in stat toolbox)</span>
+<span class="comment">% draw 90 percent confidence ellipsoid  for D design</span>
+W = V*diag(lambdaD)*V';
+angles = linspace(0,2*pi,noangles);
+R = chol(W);  <span class="comment">% W = R'*R</span>
+ellipsoid = sqrt(eta)*(R\[cos(angles); sin(angles)]);
+
+figure(4)
+plot(0,0,<span class="string">'ok'</span>,ellipsoid(1,:), ellipsoid(2,:), <span class="string">'-'</span>);
+text(ellipsoid(1,1100),ellipsoid(2,1100),<span class="string">'D'</span>);
+hold <span class="string">on</span>
+
+<span class="comment">% draw 90 percent confidence ellipsoid  for A design</span>
+W = V*diag(lambdaA)*V';
+angles = linspace(0,2*pi,noangles);
+R = chol(W);  <span class="comment">% W = R'*R</span>
+ellipsoid = sqrt(eta)*(R\[cos(angles); sin(angles)]);
+plot(0,0,<span class="string">'ok'</span>,ellipsoid(1,:), ellipsoid(2,:), <span class="string">'-'</span>);
+text(ellipsoid(1,1),ellipsoid(2,1),<span class="string">'A'</span>);
+
+<span class="comment">% draw 90 percent confidence ellipsoid  for E design</span>
+W = V*diag(lambdaE)*V';
+angles = linspace(0,2*pi,noangles);
+R = chol(W);  <span class="comment">% W = R'*R</span>
+ellipsoid = sqrt(eta)*(R\[cos(angles); sin(angles)]);
+d=plot(0,0,<span class="string">'ok'</span>,ellipsoid(1,:), ellipsoid(2,:), <span class="string">'-'</span>);
+set(d,<span class="string">'Color'</span>,[0 0.5 0]);
+text(ellipsoid(1,4000),ellipsoid(2,4000),<span class="string">'E'</span>);
+
+<span class="comment">% draw 90 percent confidence ellipsoid  for uniform design</span>
+W_u = inv(V*V'/p);
+R = chol(W_u);  <span class="comment">% W = R'*R</span>
+ellipsoid_u = sqrt(eta)*(R\[cos(angles); sin(angles)]);
+plot(ellipsoid_u(1,:), ellipsoid_u(2,:), <span class="string">'--'</span>);
+text(ellipsoid_u(1),ellipsoid_u(2),<span class="string">'U'</span>);
+set(gca,<span class="string">'Xtick'</span>,[]);
+set(gca,<span class="string">'Ytick'</span>,[]);
+axis <span class="string">off</span>
+<span class="comment">% print -deps confidence.eps</span>
+hold <span class="string">off</span>
+</pre>
+<a id="output"></a>
+<pre class="codeoutput">
+ 
+Calling sedumi: 33 variables, 10 equality constraints
+------------------------------------------------------------
+SeDuMi 1.21 by AdvOL, 2005-2008 and Jos F. Sturm, 1998-2003.
+Alg = 2: xz-corrector, Adaptive Step-Differentiation, theta = 0.250, beta = 0.500
+eqs m = 10, order n = 27, dim = 41, blocks = 3
+nnz(A) = 91 + 0, nnz(ADA) = 88, nnz(L) = 49
+ it :     b*y       gap    delta  rate   t/tP*  t/tD*   feas cg cg  prec
+  0 :            2.75E+02 0.000
+  1 :  -8.93E-01 7.75E+01 0.000 0.2814 0.9000 0.9000   1.64  1  1  3.2E+01
+  2 :  -1.58E+00 2.57E+01 0.000 0.3321 0.9000 0.9000   1.17  1  1  1.4E+01
+  3 :  -2.52E+00 9.03E+00 0.000 0.3509 0.9000 0.9000   0.61  1  1  5.8E+00
+  4 :  -2.81E+00 3.10E+00 0.000 0.3436 0.9000 0.9000   1.01  1  1  2.0E+00
+  5 :  -3.09E+00 7.85E-01 0.000 0.2531 0.9000 0.9000   0.84  1  1  5.4E-01
+  6 :  -3.18E+00 3.50E-02 0.000 0.0446 0.9900 0.9900   0.98  1  1  2.4E-02
+  7 :  -3.18E+00 8.11E-04 0.000 0.0232 0.9900 0.9900   1.00  1  1  5.6E-04
+  8 :  -3.18E+00 2.94E-05 0.000 0.0362 0.9900 0.9900   1.00  1  1  2.0E-05
+  9 :  -3.18E+00 2.99E-06 0.000 0.1019 0.9064 0.9000   1.00  1  1  2.4E-06
+ 10 :  -3.18E+00 3.37E-07 0.045 0.1128 0.9129 0.9000   1.00  1  1  3.4E-07
+ 11 :  -3.18E+00 4.48E-08 0.000 0.1329 0.9071 0.9000   1.00  2  2  5.3E-08
+ 12 :  -3.18E+00 4.46E-09 0.000 0.0994 0.9000 0.0000   1.00  2  2  1.2E-08
+
+iter seconds digits       c*x               b*y
+ 12      0.1   Inf -3.1819805111e+00 -3.1819804667e+00
+|Ax-b| =   1.1e-08, [Ay-c]_+ =   2.7E-09, |x|=  1.7e+01, |y|=  4.3e+00
+
+Detailed timing (sec)
+   Pre          IPM          Post
+1.000E-02    5.000E-02    0.000E+00    
+Max-norms: ||b||=1, ||c|| = 1,
+Cholesky |add|=0, |skip| = 0, ||L.L|| = 4319.78.
+------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): +3.18198
+Nonzero lambda values for D design:
+lambda(1) = 0.50001
+lambda(10) = 0.49999
+ 
+Calling sedumi: 32 variables, 11 equality constraints
+------------------------------------------------------------
+SeDuMi 1.21 by AdvOL, 2005-2008 and Jos F. Sturm, 1998-2003.
+Alg = 2: xz-corrector, Adaptive Step-Differentiation, theta = 0.250, beta = 0.500
+eqs m = 11, order n = 27, dim = 39, blocks = 3
+nnz(A) = 146 + 0, nnz(ADA) = 81, nnz(L) = 46
+ it :     b*y       gap    delta  rate   t/tP*  t/tD*   feas cg cg  prec
+  0 :            2.88E+02 0.000
+  1 :   5.52E-01 7.08E+01 0.000 0.2457 0.9000 0.9000   1.01  1  1  3.7E+01
+  2 :   8.89E-01 2.21E+01 0.000 0.3121 0.9000 0.9000   1.44  1  1  9.3E+00
+  3 :   9.34E-01 7.50E+00 0.000 0.3392 0.9000 0.9000   1.47  1  1  2.5E+00
+  4 :   9.08E-01 2.75E+00 0.000 0.3662 0.9000 0.9000   1.33  1  1  8.2E-01
+  5 :   8.68E-01 7.45E-01 0.000 0.2715 0.9000 0.9000   1.04  1  1  2.2E-01
+  6 :   8.68E-01 1.50E-02 0.319 0.0201 0.9900 0.0000   0.97  1  1  2.0E-02
+  7 :   8.51E-01 7.40E-04 0.000 0.0493 0.9900 0.9900   0.99  1  1  9.8E-04
+  8 :   8.50E-01 6.87E-05 0.066 0.0928 0.9069 0.9000   0.99  1  1  1.3E-04
+  9 :   8.50E-01 3.63E-06 0.173 0.0529 0.9278 0.9000   0.99  1  1  1.6E-05
+ 10 :   8.50E-01 6.37E-07 0.099 0.1754 0.9194 0.9000   1.00  1  1  3.4E-06
+ 11 :   8.50E-01 1.32E-07 0.000 0.2081 0.9057 0.9000   1.00  1  1  7.3E-07
+ 12 :   8.50E-01 2.56E-08 0.000 0.1931 0.7982 0.9000   1.00  1  1  1.4E-07
+ 13 :   8.50E-01 2.02E-09 0.030 0.0791 0.9217 0.9900   1.00  1  1  1.3E-08
+
+iter seconds digits       c*x               b*y
+ 13      0.2   Inf  8.4952798035e-01  8.4952803828e-01
+|Ax-b| =   6.2e-09, [Ay-c]_+ =   8.9E-09, |x|=  8.1e+00, |y|=  1.7e+00
+
+Detailed timing (sec)
+   Pre          IPM          Post
+1.000E-02    2.200E-01    0.000E+00    
+Max-norms: ||b||=1, ||c|| = 1,
+Cholesky |add|=0, |skip| = 0, ||L.L|| = 19.0554.
+------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): +0.849528
+Nonzero lambda values for A design:
+lambda(1) = 0.29654
+lambda(10) = 0.37799
+lambda(20) = 0.32548
+ 
+Calling sedumi: 23 variables, 3 equality constraints
+------------------------------------------------------------
+SeDuMi 1.21 by AdvOL, 2005-2008 and Jos F. Sturm, 1998-2003.
+Alg = 2: xz-corrector, Adaptive Step-Differentiation, theta = 0.250, beta = 0.500
+eqs m = 3, order n = 23, dim = 25, blocks = 2
+nnz(A) = 62 + 0, nnz(ADA) = 9, nnz(L) = 6
+ it :     b*y       gap    delta  rate   t/tP*  t/tD*   feas cg cg  prec
+  0 :            2.91E+01 0.000
+  1 :  -3.67E+00 1.07E+01 0.000 0.3665 0.9000 0.9000   1.92  1  1  2.5E+01
+  2 :  -1.62E+00 4.94E+00 0.000 0.4633 0.9000 0.9000   3.76  1  1  5.2E+00
+  3 :  -1.78E+00 1.06E+00 0.000 0.2153 0.9000 0.9000   1.49  1  1  8.6E-01
+  4 :  -1.80E+00 6.76E-02 0.000 0.0636 0.9900 0.9900   1.39  1  1  4.5E-02
+  5 :  -1.80E+00 3.91E-05 0.000 0.0006 0.9999 0.9999   1.04  1  1  2.6E-05
+  6 :  -1.80E+00 1.54E-12 0.487 0.0000 1.0000 1.0000   1.00  1  1  3.4E-12
+
+iter seconds digits       c*x               b*y
+  6      0.1   Inf -1.8000000000e+00 -1.8000000000e+00
+|Ax-b| =   3.0e-12, [Ay-c]_+ =   0.0E+00, |x|=  8.2e-01, |y|=  2.1e+00
+
+Detailed timing (sec)
+   Pre          IPM          Post
+2.000E-02    1.000E-01    1.000E-02    
+Max-norms: ||b||=1, ||c|| = 9,
+Cholesky |add|=0, |skip| = 0, ||L.L|| = 1.09601.
+------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): +1.8
+Nonzero lambda values for E design:
+lambda(10) = 0.2
+lambda(20) = 0.8
+</pre>
+<a id="plots"></a>
+<div id="plotoutput">
+<img src="expdesign__01.png" alt=""> <img src="expdesign__02.png" alt=""> <img src="expdesign__03.png" alt=""> <img src="expdesign__04.png" alt=""> 
+</div>
+</div>
+</body>
+</html>

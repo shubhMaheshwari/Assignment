@@ -1,0 +1,269 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Figure 6.2: Penalty function approximation</title>
+<link rel="canonical" href="http://cvxr.com/cvx/examples/cvxbook/Ch06_approx_fitting/html/penalty_comp_cvx.html">
+<link rel="stylesheet" href="../../../examples.css" type="text/css">
+</head>
+<body>
+<div id="header">
+<h1>Figure 6.2: Penalty function approximation</h1>
+Jump to:&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#source">Source code</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#output">Text output</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#plots">Plots</a>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="../../../index.html">Library index</a>
+</div>
+<div id="content">
+<a id="source"></a>
+<pre class="codeinput">
+<span class="comment">% Section 6.1.2</span>
+<span class="comment">% Boyd &amp; Vandenberghe "Convex Optimization"</span>
+<span class="comment">% Original by Lieven Vandenberghe</span>
+<span class="comment">% Adapted for CVX Argyris Zymnis - 10/2005</span>
+<span class="comment">%</span>
+<span class="comment">% Comparison of the ell1, ell2, deadzone-linear and log-barrier</span>
+<span class="comment">% penalty functions for the approximation problem:</span>
+<span class="comment">%       minimize phi(A*x-b),</span>
+<span class="comment">%</span>
+<span class="comment">% where phi(x) is the penalty function</span>
+<span class="comment">% Log-barrier will be implemented in the future version of CVX</span>
+
+<span class="comment">% Generate input data</span>
+randn(<span class="string">'state'</span>,0);
+m=100; n=30;
+A = randn(m,n);
+b = randn(m,1);
+
+<span class="comment">% ell_1 approximation</span>
+<span class="comment">% minimize   ||Ax+b||_1</span>
+disp(<span class="string">'ell-one approximation'</span>);
+cvx_begin
+    variable <span class="string">x1(n)</span>
+    minimize(norm(A*x1+b,1))
+cvx_end
+
+<span class="comment">% ell_2 approximation</span>
+<span class="comment">% minimize ||Ax+b||_2</span>
+disp(<span class="string">'ell-2'</span>);
+x2=-A\b;
+
+<span class="comment">% deadzone penalty approximation</span>
+<span class="comment">% minimize sum(deadzone(Ax+b,0.5))</span>
+<span class="comment">% deadzone(y,z) = max(abs(y)-z,0)</span>
+dz = 0.5;
+disp(<span class="string">'deadzone penalty'</span>);
+cvx_begin
+    variable <span class="string">xdz(n)</span>
+    minimize(sum(max(abs(A*xdz+b)-dz,0)))
+cvx_end
+
+
+<span class="comment">% log-barrier penalty approximation</span>
+<span class="comment">%</span>
+<span class="comment">% minimize -sum log(1-(ai'*x+bi)^2)</span>
+
+disp(<span class="string">'log-barrier'</span>)
+
+<span class="comment">% parameters for Newton Method &amp; line search</span>
+alpha=.01; beta=.5;
+
+<span class="comment">% minimize linfty norm to get starting point</span>
+cvx_begin
+    variable <span class="string">xlb(n)</span>
+    minimize <span class="string">norm(A*xlb+b,Inf)</span>
+cvx_end
+linf = cvx_optval;
+A = A/(1.1*linf);
+b = b/(1.1*linf);
+
+<span class="keyword">for</span> iters = 1:50
+
+   yp = 1 - (A*xlb+b);  ym = (A*xlb+b) + 1;
+   f = -sum(log(yp)) - sum(log(ym));
+   g = A'*(1./yp) - A'*(1./ym);
+   H = A'*diag(1./(yp.^2) + 1./(ym.^2))*A;
+   v = -H\g;
+   fprime = g'*v;
+   ntdecr = sqrt(-fprime);
+   <span class="keyword">if</span> (ntdecr &lt; 1e-5), <span class="keyword">break</span>; <span class="keyword">end</span>;
+
+   t = 1;
+   newx = xlb + t*v;
+   <span class="keyword">while</span> ((min(1-(A*newx +b)) &lt; 0) | (min((A*newx +b)+1) &lt; 0))
+       t = beta*t;
+       newx = xlb + t*v;
+   <span class="keyword">end</span>;
+   newf = -sum(log(1 - (A*newx+b))) - sum(log(1+(A*newx+b)));
+   <span class="keyword">while</span> (newf &gt; f + alpha*t*fprime)
+       t = beta*t;
+       newx = xlb + t*v;
+       newf = -sum(log(1-(A*newx+b))) - sum(log(1+(A*newx+b)));
+   <span class="keyword">end</span>;
+   xlb = xlb+t*v;
+<span class="keyword">end</span>
+
+
+<span class="comment">% Plot histogram of residuals</span>
+
+ss = max(abs([A*x1+b; A*x2+b; A*xdz+b;  A*xlb+b]));
+tt = -ceil(ss):0.05:ceil(ss);  <span class="comment">% sets center for each bin</span>
+[N1,hist1] = hist(A*x1+b,tt);
+[N2,hist2] = hist(A*x2+b,tt);
+[N3,hist3] = hist(A*xdz+b,tt);
+[N4,hist4] = hist(A*xlb+b,tt);
+
+
+range_max=2.0;  rr=-range_max:1e-2:range_max;
+
+figure(1), clf, hold <span class="string">off</span>
+subplot(4,1,1),
+bar(hist1,N1);
+hold <span class="string">on</span>
+plot(rr, abs(rr)*40/3, <span class="string">'-'</span>);
+ylabel(<span class="string">'p=1'</span>)
+axis([-range_max range_max 0 40]);
+hold <span class="string">off</span>
+
+subplot(4,1,2),
+bar(hist2,N2);
+hold <span class="string">on</span>;
+plot(rr,2*rr.^2),
+ylabel(<span class="string">'p=2'</span>)
+axis([-range_max range_max 0 11]);
+hold <span class="string">off</span>
+
+subplot(4,1,3),
+bar(hist3,N3);
+hold <span class="string">on</span>
+plot(rr,30/3*max(0,abs(rr)-dz))
+ylabel(<span class="string">'Deadzone'</span>)
+axis([-range_max range_max 0 25]);
+hold <span class="string">off</span>
+
+subplot(4,1,4),
+bar(hist4,N4);
+rr_lb=linspace(-1+(1e-6),1-(1e-6),600);
+hold <span class="string">on</span>
+plot(rr_lb, -3*log(1-rr_lb.^2),rr,2*rr.^2,<span class="string">'--'</span>)
+axis([-range_max range_max 0 11]);
+ylabel(<span class="string">'Log barrier'</span>),
+xlabel(<span class="string">'r'</span>)
+hold <span class="string">off</span>
+</pre>
+<a id="output"></a>
+<pre class="codeoutput">
+ell-one approximation
+ 
+Calling sedumi: 230 variables, 100 equality constraints
+------------------------------------------------------------
+SeDuMi 1.21 by AdvOL, 2005-2008 and Jos F. Sturm, 1998-2003.
+Alg = 2: xz-corrector, Adaptive Step-Differentiation, theta = 0.250, beta = 0.500
+Split 30 free variables
+eqs m = 100, order n = 261, dim = 261, blocks = 1
+nnz(A) = 6200 + 0, nnz(ADA) = 10000, nnz(L) = 5050
+ it :     b*y       gap    delta  rate   t/tP*  t/tD*   feas cg cg  prec
+  0 :            2.34E+02 0.000
+  1 :   3.05E+01 5.69E+01 0.000 0.2433 0.9000 0.9000   2.72  1  1  9.7E-01
+  2 :   4.57E+01 2.12E+01 0.000 0.3727 0.9000 0.9000   1.14  1  1  4.3E-01
+  3 :   5.16E+01 7.84E+00 0.000 0.3699 0.9000 0.9000   1.04  1  1  1.8E-01
+  4 :   5.40E+01 2.49E+00 0.000 0.3174 0.9000 0.9000   1.01  1  1  5.9E-02
+  5 :   5.48E+01 6.63E-01 0.000 0.2665 0.9000 0.9000   1.00  1  1  1.6E-02
+  6 :   5.50E+01 1.94E-01 0.000 0.2918 0.9031 0.9000   1.00  1  1  4.8E-03
+  7 :   5.51E+01 4.71E-02 0.000 0.2433 0.9149 0.9000   1.00  1  1  1.3E-03
+  8 :   5.51E+01 7.72E-03 0.000 0.1639 0.9000 0.9089   1.00  1  1  1.8E-04
+  9 :   5.51E+01 5.53E-05 0.000 0.0072 0.9990 0.9990   1.00  1  1  
+iter seconds digits       c*x               b*y
+  9      0.0  14.1  5.5128921594e+01  5.5128921594e+01
+|Ax-b| =   5.2e-13, [Ay-c]_+ =   9.7E-15, |x|=  1.6e+01, |y|=  8.8e+00
+
+Detailed timing (sec)
+   Pre          IPM          Post
+1.000E-02    4.000E-02    0.000E+00    
+Max-norms: ||b||=1.957607e+00, ||c|| = 1,
+Cholesky |add|=0, |skip| = 0, ||L.L|| = 2.90116.
+------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): +55.1289
+ell-2
+deadzone penalty
+ 
+Calling sedumi: 430 variables, 200 equality constraints
+------------------------------------------------------------
+SeDuMi 1.21 by AdvOL, 2005-2008 and Jos F. Sturm, 1998-2003.
+Alg = 2: xz-corrector, Adaptive Step-Differentiation, theta = 0.250, beta = 0.500
+Split 30 free variables
+eqs m = 200, order n = 461, dim = 461, blocks = 1
+nnz(A) = 600 + 6000, nnz(ADA) = 400, nnz(L) = 300
+Handling 60 + 0 dense columns.
+ it :     b*y       gap    delta  rate   t/tP*  t/tD*   feas cg cg  prec
+  0 :            3.46E+01 0.000
+  1 :   5.46E+00 1.32E+01 0.000 0.3811 0.9000 0.9000   6.12  1  1  1.2E+00
+  2 :   1.30E+01 7.01E+00 0.000 0.5309 0.9000 0.9000   1.33  1  1  6.5E-01
+  3 :   1.70E+01 3.25E+00 0.000 0.4643 0.9000 0.9000   1.20  1  1  3.1E-01
+  4 :   1.96E+01 1.30E+00 0.000 0.3994 0.9000 0.9000   1.10  1  1  1.2E-01
+  5 :   2.07E+01 4.75E-01 0.000 0.3656 0.9000 0.9000   1.04  1  1  4.5E-02
+  6 :   2.12E+01 1.56E-01 0.000 0.3290 0.9054 0.9000   1.02  1  1  1.4E-02
+  7 :   2.14E+01 3.94E-02 0.000 0.2520 0.9000 0.9047   1.01  1  1  3.8E-03
+  8 :   2.15E+01 6.65E-03 0.000 0.1687 0.9000 0.9095   1.01  1  1  7.5E-04
+  9 :   2.15E+01 2.58E-04 0.000 0.0389 0.9900 0.9906   1.00  1  1  4.5E-05
+ 10 :   2.15E+01 8.56E-06 0.000 0.0331 0.9904 0.9900   1.00  1  1  
+iter seconds digits       c*x               b*y
+ 10      0.1  15.0  2.1468211792e+01  2.1468211792e+01
+|Ax-b| =   3.9e-13, [Ay-c]_+ =   5.2E-15, |x|=  1.2e+01, |y|=  9.5e+00
+
+Detailed timing (sec)
+   Pre          IPM          Post
+4.000E-02    9.000E-02    0.000E+00    
+Max-norms: ||b||=1.957607e+00, ||c|| = 1,
+Cholesky |add|=0, |skip| = 0, ||L.L|| = 1.
+------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): +21.4682
+log-barrier
+ 
+Calling sedumi: 300 variables, 131 equality constraints
+   For improved efficiency, sedumi is solving the dual problem.
+------------------------------------------------------------
+SeDuMi 1.21 by AdvOL, 2005-2008 and Jos F. Sturm, 1998-2003.
+Alg = 2: xz-corrector, Adaptive Step-Differentiation, theta = 0.250, beta = 0.500
+eqs m = 131, order n = 301, dim = 301, blocks = 1
+nnz(A) = 6500 + 0, nnz(ADA) = 7261, nnz(L) = 3696
+ it :     b*y       gap    delta  rate   t/tP*  t/tD*   feas cg cg  prec
+  0 :            9.36E+01 0.000
+  1 :  -1.67E+01 7.44E+00 0.000 0.0795 0.9900 0.9900  -0.71  1  1  9.8E+01
+  2 :  -7.32E+00 4.02E+00 0.000 0.5402 0.9000 0.9000   3.04  1  1  2.3E+01
+  3 :  -2.19E+00 2.13E+00 0.000 0.5291 0.9000 0.9000   5.25  1  1  3.8E+00
+  4 :  -1.52E+00 9.49E-01 0.000 0.4467 0.9000 0.9000   2.08  1  1  1.2E+00
+  5 :  -1.33E+00 4.23E-01 0.000 0.4460 0.9000 0.9000   1.37  1  1  4.9E-01
+  6 :  -1.25E+00 1.65E-01 0.000 0.3888 0.9000 0.9000   1.15  1  1  1.8E-01
+  7 :  -1.22E+00 7.05E-02 0.000 0.4281 0.9000 0.9000   1.05  1  1  7.7E-02
+  8 :  -1.21E+00 1.71E-02 0.000 0.2433 0.9327 0.9000   1.01  1  1  1.3E-02
+  9 :  -1.20E+00 4.77E-03 0.000 0.2781 0.9000 0.9152   1.01  1  1  4.1E-03
+ 10 :  -1.20E+00 9.64E-04 0.000 0.2022 0.9244 0.9000   1.00  1  1  5.7E-04
+ 11 :  -1.20E+00 2.98E-05 0.000 0.0309 0.9903 0.9900   1.00  1  1  1.1E-05
+ 12 :  -1.20E+00 6.10E-06 0.000 0.2046 0.9156 0.9000   1.00  1  2  1.8E-06
+ 13 :  -1.20E+00 1.01E-06 0.000 0.1661 0.9000 0.9034   1.00  1  4  3.1E-07
+ 14 :  -1.20E+00 3.26E-09 0.000 0.0032 0.9990 0.9990   1.00  1  4  
+iter seconds digits       c*x               b*y
+ 14      0.1  15.7 -1.2012704646e+00 -1.2012704646e+00
+|Ax-b| =   2.4e-16, [Ay-c]_+ =   5.6E-16, |x|=  3.1e-01, |y|=  3.1e+00
+
+Detailed timing (sec)
+   Pre          IPM          Post
+1.000E-02    7.000E-02    0.000E+00    
+Max-norms: ||b||=1, ||c|| = 1.957607e+00,
+Cholesky |add|=3, |skip| = 0, ||L.L|| = 1.86494.
+------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): +1.20127
+</pre>
+<a id="plots"></a>
+<div id="plotoutput">
+<img src="penalty_comp_cvx__01.png" alt=""> 
+</div>
+</div>
+</body>
+</html>

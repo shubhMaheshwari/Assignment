@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Exercise 5.39: SDP relaxations of the two-way partitioning problem</title>
+<link rel="canonical" href="http://cvxr.com/cvx/examples/cvxbook/Ch05_duality/html/ex_5_39.html">
+<link rel="stylesheet" href="../../../examples.css" type="text/css">
+</head>
+<body>
+<div id="header">
+<h1>Exercise 5.39: SDP relaxations of the two-way partitioning problem</h1>
+Jump to:&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#source">Source code</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#output">Text output</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+Plots
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="../../../index.html">Library index</a>
+</div>
+<div id="content">
+<a id="source"></a>
+<pre class="codeinput">
+<span class="comment">% Boyd &amp; Vandenberghe. "Convex Optimization"</span>
+<span class="comment">% Jo&euml;lle Skaf - 09/07/05</span>
+<span class="comment">% (a figure is generated)</span>
+<span class="comment">%</span>
+<span class="comment">% Compares the optimal values of:</span>
+<span class="comment">% 1) the Lagrange dual of the two-way partitioning problem</span>
+<span class="comment">%               maximize    -sum(nu)</span>
+<span class="comment">%                   s.t.    W + diag(nu) &gt;= 0</span>
+<span class="comment">% 2) the SDP relaxation of the two-way partitioning problem</span>
+<span class="comment">%               minimize    trace(WX)</span>
+<span class="comment">%                   s.t.    X &gt;= 0</span>
+<span class="comment">%                           X_ii = 1</span>
+
+<span class="comment">% Input data</span>
+randn(<span class="string">'state'</span>,0);
+n = 10;
+W = randn(n); W = 0.5*(W + W');
+
+<span class="comment">% Lagrange dual</span>
+fprintf(1,<span class="string">'Solving the dual of the two-way partitioning problem...'</span>);
+
+cvx_begin <span class="string">sdp</span>
+    variable <span class="string">nu(n)</span>
+    maximize ( -sum(nu) )
+    W + diag(nu) &gt;= 0;
+cvx_end
+
+fprintf(1,<span class="string">'Done! \n'</span>);
+opt1 = cvx_optval;
+
+<span class="comment">% SDP relaxation</span>
+fprintf(1,<span class="string">'Solving the SDP relaxation of the two-way partitioning problem...'</span>);
+
+cvx_begin <span class="string">sdp</span>
+    variable <span class="string">X(n,n)</span> <span class="string">symmetric</span>
+    minimize ( trace(W*X) )
+    diag(X) == 1;
+    X &gt;= 0;
+cvx_end
+
+fprintf(1,<span class="string">'Done! \n'</span>);
+opt2 = cvx_optval;
+
+<span class="comment">% Displaying results</span>
+disp(<span class="string">'------------------------------------------------------------------------'</span>);
+disp(<span class="string">'The optimal value of the Lagrange dual and the SDP relaxation fo the    '</span>);
+disp(<span class="string">'two-way partitioning problem are, respectively, '</span>);
+disp([opt1 opt2])
+disp(<span class="string">'They are equal as expected!'</span>);
+</pre>
+<a id="output"></a>
+<pre class="codeoutput">
+Solving the dual of the two-way partitioning problem... 
+Calling sedumi: 55 variables, 10 equality constraints
+   For improved efficiency, sedumi is solving the dual problem.
+------------------------------------------------------------
+SeDuMi 1.21 by AdvOL, 2005-2008 and Jos F. Sturm, 1998-2003.
+Alg = 2: xz-corrector, Adaptive Step-Differentiation, theta = 0.250, beta = 0.500
+eqs m = 10, order n = 11, dim = 101, blocks = 2
+nnz(A) = 10 + 0, nnz(ADA) = 100, nnz(L) = 55
+ it :     b*y       gap    delta  rate   t/tP*  t/tD*   feas cg cg  prec
+  0 :            1.36E+00 0.000
+  1 :  -1.28E+01 4.80E-01 0.000 0.3538 0.9000 0.9000   0.88  1  1  1.1E+00
+  2 :  -2.51E+01 1.08E-01 0.000 0.2254 0.9000 0.9000   0.68  1  1  2.8E-01
+  3 :  -2.80E+01 2.00E-02 0.000 0.1851 0.9000 0.9000   0.95  1  1  5.4E-02
+  4 :  -2.88E+01 1.25E-03 0.000 0.0624 0.9900 0.9900   0.98  1  1  3.4E-03
+  5 :  -2.88E+01 2.71E-04 0.000 0.2167 0.9000 0.9000   1.00  1  1  7.3E-04
+  6 :  -2.88E+01 1.25E-06 0.212 0.0046 0.9900 0.9784   1.00  1  1  4.0E-05
+  7 :  -2.88E+01 1.14E-07 0.000 0.0914 0.9900 0.9900   1.00  1  1  3.7E-06
+  8 :  -2.88E+01 1.02E-08 0.457 0.0887 0.9900 0.9900   1.00  1  1  3.3E-07
+  9 :  -2.88E+01 9.45E-10 0.311 0.0930 0.9900 0.9900   1.00  1  1  3.1E-08
+ 10 :  -2.88E+01 2.84E-10 0.059 0.3002 0.9000 0.9000   1.00  2  2  9.2E-09
+
+iter seconds digits       c*x               b*y
+ 10      0.1   Inf -2.8825674846e+01 -2.8825674817e+01
+|Ax-b| =   8.6e-09, [Ay-c]_+ =   2.1E-08, |x|=  8.6e+00, |y|=  1.0e+01
+
+Detailed timing (sec)
+   Pre          IPM          Post
+0.000E+00    5.000E-02    0.000E+00    
+Max-norms: ||b||=1, ||c|| = 2.873183e+00,
+Cholesky |add|=0, |skip| = 0, ||L.L|| = 604.228.
+------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): -26.6924
+Done! 
+Solving the SDP relaxation of the two-way partitioning problem... 
+Calling sedumi: 55 variables, 10 equality constraints
+------------------------------------------------------------
+SeDuMi 1.21 by AdvOL, 2005-2008 and Jos F. Sturm, 1998-2003.
+Alg = 2: xz-corrector, Adaptive Step-Differentiation, theta = 0.250, beta = 0.500
+eqs m = 10, order n = 11, dim = 101, blocks = 2
+nnz(A) = 10 + 0, nnz(ADA) = 100, nnz(L) = 55
+ it :     b*y       gap    delta  rate   t/tP*  t/tD*   feas cg cg  prec
+  0 :            1.36E+00 0.000
+  1 :  -1.28E+01 4.80E-01 0.000 0.3538 0.9000 0.9000   0.88  1  1  1.1E+00
+  2 :  -2.51E+01 1.08E-01 0.000 0.2254 0.9000 0.9000   0.68  1  1  2.8E-01
+  3 :  -2.80E+01 2.00E-02 0.000 0.1851 0.9000 0.9000   0.95  1  1  5.4E-02
+  4 :  -2.88E+01 1.25E-03 0.000 0.0624 0.9900 0.9900   0.98  1  1  3.4E-03
+  5 :  -2.88E+01 2.71E-04 0.000 0.2167 0.9000 0.9000   1.00  1  1  7.3E-04
+  6 :  -2.88E+01 1.25E-06 0.212 0.0046 0.9900 0.9784   1.00  1  1  4.0E-05
+  7 :  -2.88E+01 1.14E-07 0.000 0.0914 0.9900 0.9900   1.00  1  1  3.7E-06
+  8 :  -2.88E+01 1.02E-08 0.457 0.0887 0.9900 0.9900   1.00  1  1  3.3E-07
+  9 :  -2.88E+01 9.45E-10 0.311 0.0930 0.9900 0.9900   1.00  1  1  3.1E-08
+ 10 :  -2.88E+01 2.84E-10 0.059 0.3002 0.9000 0.9000   1.00  2  2  9.2E-09
+
+iter seconds digits       c*x               b*y
+ 10      0.0   Inf -2.8825674846e+01 -2.8825674817e+01
+|Ax-b| =   8.6e-09, [Ay-c]_+ =   2.1E-08, |x|=  8.6e+00, |y|=  1.0e+01
+
+Detailed timing (sec)
+   Pre          IPM          Post
+1.000E-02    5.000E-02    0.000E+00    
+Max-norms: ||b||=1, ||c|| = 2.873183e+00,
+Cholesky |add|=0, |skip| = 0, ||L.L|| = 604.228.
+------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): -26.6924
+Done! 
+------------------------------------------------------------------------
+The optimal value of the Lagrange dual and the SDP relaxation fo the    
+two-way partitioning problem are, respectively, 
+  -26.6924  -26.6924
+
+They are equal as expected!
+</pre>
+</div>
+</body>
+</html>
