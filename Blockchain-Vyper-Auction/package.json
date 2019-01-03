@@ -1,0 +1,41 @@
+{
+  "name": "Blockchain-Vyper-Auction",
+  "version": "0.0.1",
+  "description": "Vyper implementation of the Single Minded Combinitorial Auction .",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "build:sol": "truffle compile",
+    "build:vyper": "truper",
+    "build": "npm run build:sol && npm run build:vyper",
+    "console": "truffle console",
+    "lint": "eslint './**/*.js?(x)'",
+    "migrate": "truffle migrate",
+    "networks": "truffle networks",
+    "test": "truffle test"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    ""
+  ],
+  "author": "nemaniarjun",
+  "license": "MIT",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "dependencies": {
+    "chai": "^4.1.2",
+    "ethjs-util": "^0.1.6",
+    "truffle-assertions": "^0.4.0"
+  },
+  "devDependencies": {
+    "eslint": "4.19.1",
+    "truffle": "4.1.11",
+    "truper": "github:nemaniarjun/truper#master"
+  }
+}
