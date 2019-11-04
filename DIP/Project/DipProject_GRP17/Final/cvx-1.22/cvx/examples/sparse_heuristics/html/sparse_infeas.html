@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Finding a point that satisfies many linear inequalities</title>
+<link rel="canonical" href="http://cvxr.com/cvx/examples/sparse_heuristics/html/sparse_infeas.html">
+<link rel="stylesheet" href="../../examples.css" type="text/css">
+</head>
+<body>
+<div id="header">
+<h1>Finding a point that satisfies many linear inequalities</h1>
+Jump to:&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#source">Source code</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#output">Text output</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+Plots
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="../../index.html">Library index</a>
+</div>
+<div id="content">
+<a id="source"></a>
+<pre class="codeinput">
+<span class="comment">% Section 11.4.1, Boyd &amp; Vandenberghe "Convex Optimization"</span>
+<span class="comment">% Written for CVX by Almir Mutapcic - 02/18/06</span>
+<span class="comment">%</span>
+<span class="comment">% We consider a set of linear inequalities A*x &lt;= b which are</span>
+<span class="comment">% infeasible. Here A is a matrix in R^(m-by-n) and b belongs</span>
+<span class="comment">% to R^m. We apply a heuristic to find a point x that violates</span>
+<span class="comment">% only a small number of inequalities.</span>
+<span class="comment">%</span>
+<span class="comment">% We use the sum of infeasibilities heuristic:</span>
+<span class="comment">%</span>
+<span class="comment">%   minimize   sum( max( Ax - b ) )</span>
+<span class="comment">%</span>
+<span class="comment">% which is equivalent to the following LP (book pg. 580):</span>
+<span class="comment">%</span>
+<span class="comment">%   minimize   sum( s )</span>
+<span class="comment">%       s.t.   Ax &lt;= b + s</span>
+<span class="comment">%              s &gt;= 0</span>
+<span class="comment">%</span>
+<span class="comment">% with variables x in R^n and s in R^m.</span>
+
+<span class="comment">% problem dimensions (m inequalities in n-dimensional space)</span>
+m = 150;
+n = 10;
+
+<span class="comment">% fix random number generator so we can repeat the experiment</span>
+seed = 0;
+randn(<span class="string">'state'</span>,seed);
+
+<span class="comment">% construct infeasible inequalities</span>
+A = randn(m,n);
+b = randn(m,1);
+
+fprintf(1, [<span class="string">'Starting with an infeasible set of %d inequalities '</span> <span class="keyword">...</span>
+            <span class="string">'in %d variables.\n'</span>],m,n);
+
+<span class="comment">% sum of infeasibilities heuristic</span>
+cvx_begin
+   variable <span class="string">x(n)</span>
+   minimize( sum( max( A*x - b, 0 ) ) )
+cvx_end
+
+<span class="comment">% full LP version of the sum of infeasibilities heuristic</span>
+<span class="comment">% cvx_begin</span>
+<span class="comment">%   variables x(n) s(m)</span>
+<span class="comment">%   minimize( sum( s ) )</span>
+<span class="comment">%   subject to</span>
+<span class="comment">%     A*x &lt;= b + s;</span>
+<span class="comment">%     s &gt;= 0;</span>
+<span class="comment">% cvx_end</span>
+
+<span class="comment">% number of satisfied inequalities</span>
+nv = length( find( A*x &gt; b ) );
+fprintf(1,<span class="string">'\nFound an x that violates %d out of %d inequalities.\n'</span>,nv,m);
+</pre>
+<a id="output"></a>
+<pre class="codeoutput">
+Starting with an infeasible set of 150 inequalities in 10 variables.
+ 
+Calling sedumi: 310 variables, 150 equality constraints
+------------------------------------------------------------
+SeDuMi 1.21 by AdvOL, 2005-2008 and Jos F. Sturm, 1998-2003.
+Alg = 2: xz-corrector, Adaptive Step-Differentiation, theta = 0.250, beta = 0.500
+Split 10 free variables
+eqs m = 150, order n = 321, dim = 321, blocks = 1
+nnz(A) = 300 + 3000, nnz(ADA) = 150, nnz(L) = 150
+Handling 20 + 0 dense columns.
+ it :     b*y       gap    delta  rate   t/tP*  t/tD*   feas cg cg  prec
+  0 :            1.48E+02 0.000
+  1 :   2.77E+01 7.99E+01 0.000 0.5388 0.9000 0.9000   4.79  1  1  1.5E+00
+  2 :   3.28E+01 2.04E+01 0.000 0.2553 0.9000 0.9000   2.03  1  1  3.7E-01
+  3 :   3.69E+01 5.54E+00 0.000 0.2714 0.9000 0.9000   1.16  1  1  1.1E-01
+  4 :   3.82E+01 2.04E+00 0.000 0.3685 0.9000 0.9000   1.03  1  1  4.2E-02
+  5 :   3.87E+01 6.37E-01 0.000 0.3123 0.9000 0.9000   1.01  1  1  1.4E-02
+  6 :   3.89E+01 1.85E-01 0.000 0.2900 0.9000 0.9057   1.00  1  1  3.8E-03
+  7 :   3.89E+01 3.67E-02 0.000 0.1985 0.9061 0.9000   1.00  1  1  8.1E-04
+  8 :   3.89E+01 5.34E-03 0.000 0.1457 0.9253 0.9000   1.00  1  1  1.6E-04
+  9 :   3.89E+01 1.60E-03 0.000 0.2990 0.9000 0.9306   1.00  1  1  3.6E-05
+ 10 :   3.89E+01 8.74E-05 0.000 0.0547 0.9902 0.9900   1.00  1  1  2.3E-06
+ 11 :   3.89E+01 1.91E-08 0.000 0.0002 0.9999 0.9999   1.00  4  4  
+iter seconds digits       c*x               b*y
+ 11      0.1  15.1  3.8916762959e+01  3.8916762959e+01
+|Ax-b| =   1.3e-14, [Ay-c]_+ =   5.1E-15, |x|=  1.5e+01, |y|=  7.4e+00
+
+Detailed timing (sec)
+   Pre          IPM          Post
+1.000E-02    6.000E-02    0.000E+00    
+Max-norms: ||b||=3.073745e+00, ||c|| = 1,
+Cholesky |add|=6, |skip| = 0, ||L.L|| = 1.
+------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): +38.9168
+
+Found an x that violates 54 out of 150 inequalities.
+</pre>
+</div>
+</body>
+</html>

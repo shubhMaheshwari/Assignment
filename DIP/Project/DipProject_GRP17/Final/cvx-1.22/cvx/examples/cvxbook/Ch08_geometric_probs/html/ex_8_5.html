@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>One free point localization</title>
+<link rel="canonical" href="http://cvxr.com/cvx/examples/cvxbook/Ch08_geometric_probs/html/ex_8_5.html">
+<link rel="stylesheet" href="../../../examples.css" type="text/css">
+</head>
+<body>
+<div id="header">
+<h1>One free point localization</h1>
+Jump to:&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#source">Source code</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#output">Text output</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+Plots
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="../../../index.html">Library index</a>
+</div>
+<div id="content">
+<a id="source"></a>
+<pre class="codeinput">
+<span class="comment">% Section 8.7.3, Boyd &amp; Vandenberghe "Convex Optimization"</span>
+<span class="comment">% Joelle Skaf - 10/24/05</span>
+<span class="comment">%</span>
+<span class="comment">% K fixed points x_1,...,x_K in R^2 are given and the goal is to place</span>
+<span class="comment">% one additional point x such that the sum of the squares of the</span>
+<span class="comment">% Euclidean distances to fixed points is minimized:</span>
+<span class="comment">%           minimize    sum_{i=1}^K  ||x - x_i||^2</span>
+<span class="comment">% The optimal point is the average of the given fixed points</span>
+
+<span class="comment">% Data generation</span>
+n = 2;
+K = 11;
+randn(<span class="string">'state'</span>,0);
+P = randn(n,K);
+
+<span class="comment">% minimizing the sum of Euclidean distance</span>
+fprintf(1,<span class="string">'Minimizing the sum of the squares the distances to fixed points...'</span>);
+
+cvx_begin
+    variable <span class="string">x(2)</span>
+    minimize ( sum( square_pos( norms(x*ones(1,K) - P,2) ) ) )
+cvx_end
+
+fprintf(1,<span class="string">'Done! \n'</span>);
+
+<span class="comment">% Displaying results</span>
+disp(<span class="string">'------------------------------------------------------------------'</span>);
+disp(<span class="string">'The optimal point location is: '</span>);
+disp(x);
+disp(<span class="string">'The average location of the fixed points is'</span>);
+disp(sum(P,2)/K);
+disp(<span class="string">'They are the same as expected!'</span>);
+</pre>
+<a id="output"></a>
+<pre class="codeoutput">
+Minimizing the sum of the squares the distances to fixed points... 
+Calling sedumi: 88 variables, 42 equality constraints
+------------------------------------------------------------
+SeDuMi 1.21 by AdvOL, 2005-2008 and Jos F. Sturm, 1998-2003.
+Alg = 2: xz-corrector, Adaptive Step-Differentiation, theta = 0.250, beta = 0.500
+eqs m = 42, order n = 67, dim = 100, blocks = 23
+nnz(A) = 95 + 0, nnz(ADA) = 524, nnz(L) = 283
+ it :     b*y       gap    delta  rate   t/tP*  t/tD*   feas cg cg  prec
+  0 :            8.13E+00 0.000
+  1 :   2.58E+00 2.64E+00 0.000 0.3241 0.9000 0.9000   2.56  1  1  2.2E+00
+  2 :   8.38E+00 8.62E-01 0.000 0.3269 0.9000 0.9000   0.76  1  1  9.5E-01
+  3 :   1.28E+01 2.95E-01 0.000 0.3429 0.9000 0.9000   0.64  1  1  3.8E-01
+  4 :   1.53E+01 9.65E-02 0.000 0.3267 0.9000 0.9000   0.81  1  1  1.4E-01
+  5 :   1.64E+01 1.78E-02 0.000 0.1841 0.9000 0.9000   0.95  1  1  2.5E-02
+  6 :   1.66E+01 2.57E-04 0.000 0.0145 0.0000 0.9000   1.00  1  1  1.5E-02
+  7 :   1.67E+01 1.54E-05 0.000 0.0597 0.9900 0.9582   1.00  1  1  9.2E-04
+  8 :   1.67E+01 5.24E-07 0.000 0.0341 0.9900 0.9438   1.00  1  1  3.7E-05
+  9 :   1.67E+01 1.29E-08 0.000 0.0246 0.9900 0.9828   1.00  1  1  9.1E-07
+ 10 :   1.67E+01 5.64E-10 0.053 0.0439 0.9900 0.9900   1.00  1  1  4.0E-08
+ 11 :   1.67E+01 2.82E-11 0.000 0.0499 0.9900 0.9900   1.00  2  2  2.0E-09
+
+iter seconds digits       c*x               b*y
+ 11      0.2   Inf  1.6683118800e+01  1.6683118802e+01
+|Ax-b| =   1.7e-08, [Ay-c]_+ =   0.0E+00, |x|=  1.1e+01, |y|=  1.3e+01
+
+Detailed timing (sec)
+   Pre          IPM          Post
+1.000E-02    1.500E-01    1.000E-02    
+Max-norms: ||b||=3.848770e+00, ||c|| = 1,
+Cholesky |add|=0, |skip| = 0, ||L.L|| = 3.83951.
+------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): +16.6831
+Done! 
+------------------------------------------------------------------
+The optimal point location is: 
+    0.0379
+    0.0785
+
+The average location of the fixed points is
+    0.0379
+    0.0785
+
+They are the same as expected!
+</pre>
+</div>
+</body>
+</html>

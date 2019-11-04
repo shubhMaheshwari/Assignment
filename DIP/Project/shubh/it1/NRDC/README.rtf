@@ -1,0 +1,178 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1187\cocoasubrtf370
+\cocoascreenfonts1{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 LucidaGrande;}
+{\colortbl;\red255\green255\blue255;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{square\}}{\leveltext\leveltemplateid1\'01\uc0\u9642 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{square\}}{\leveltext\leveltemplateid101\'01\uc0\u9642 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid2}
+{\list\listtemplateid3\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{square\}}{\leveltext\leveltemplateid201\'01\uc0\u9642 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid3}
+{\list\listtemplateid4\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{square\}}{\leveltext\leveltemplateid301\'01\uc0\u9642 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid4}
+{\list\listtemplateid5\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{square\}}{\leveltext\leveltemplateid401\'01\uc0\u9642 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid5}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}{\listoverride\listid3\listoverridecount0\ls3}{\listoverride\listid4\listoverridecount0\ls4}{\listoverride\listid5\listoverridecount0\ls5}}
+\paperw11900\paperh16840\margl1440\margr1440\vieww19900\viewh18260\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\b\fs34 \cf0 Non-Rigid Dense Correspondence (Beta version)
+\b0\fs24 \
+\pard\pardeftab720
+\cf0 \
+http://www.cs.huji.ac.il/labs/cglab/projects/nrdc/\
+Main contact: yoav.hacohen@mail.huji.ac.il (Yoav)\
+Version: 0.32, 01-August-2013\
+\
+\pard\pardeftab720
+
+\b \cf0 Changes list:\
+\pard\tx566\pardeftab720
+
+\b0 \cf0 \
+Changes since version 0.31:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720
+\ls1\ilvl0\cf0 {\listtext	
+\f1 \uc0\u9642 
+\f0 	}No expiration\
+{\listtext	
+\f1 \uc0\u9642 
+\f0 	}Improve mac version\
+\pard\tx566\pardeftab720
+\cf0 \
+Changes since version 0.3:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720
+\ls2\ilvl0\cf0 {\listtext	
+\f1 \uc0\u9642 
+\f0 	}Add dispDCFwithLines.m see below\
+{\listtext	
+\f1 \uc0\u9642 
+\f0 	}Fix nrdc_example.m to not include constraints per pixel by default.\
+\pard\tx566\pardeftab720
+\cf0 \
+Changes since version 0.2:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720
+\ls3\ilvl0\cf0 {\listtext	
+\f1 \uc0\u9642 
+\f0 	}Linux support has been dropped\
+{\listtext	
+\f1 \uc0\u9642 
+\f0 	}This code support setting a constraint per pixel\
+{\listtext	
+\f1 \uc0\u9642 
+\f0 	}Some implementation details has been changed, so you may expect so slightly different results from previous versions.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+This program implements the Non-Rigid Dense Correspondence algorithm \
+described in the SIGGRAPH 2011 paper "Non-Rigid Dense Correspondence algorithm with \
+Applications for Image Enhancement". \
+This implementation does NOT include the local color transfer, the deblurring and \
+the mask transfer applications described in the paper. These applications may be \
+included in future releases.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\b \cf0 Requirements:\
+\pard\tx220\tx720\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li720\fi-720\pardirnatural
+\ls4\ilvl0
+\b0 \cf0 {\listtext	
+\f1 \uc0\u9642 
+\f0 	}Mac (with OS 10.7 or later), or Windows 7 64bit (Linux support has been dropped)\
+{\listtext	
+\f1 \uc0\u9642 
+\f0 	}Matlab 2012a (64 bit only)\
+\pard\tx220\tx720\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li720\fi-720\pardirnatural
+\ls4\ilvl0\cf0 \strike \strikec0 {\listtext	
+\f1 \uc0\u9642 
+\f0 	}Intel Threading Building Blocks (Linux Only)\strike0\striked0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\b \cf0 Content:\
+\pard\tx220\tx720\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\li720\fi-720\pardirnatural
+\ls5\ilvl0
+\b0 \cf0 {\listtext	
+\f1 \uc0\u9642 
+\f0 	}nrdc.mex* (implements the correspondence algorithm itself)\
+{\listtext	
+\f1 \uc0\u9642 
+\f0 	}evalColorTransform.mex* (applies a global color transformation on an image).\
+{\listtext	
+\f1 \uc0\u9642 
+\f0 	}nrdc.m (help file for nrdc.mex*)\
+{\listtext	
+\f1 \uc0\u9642 
+\f0 	}nrdc_example.m (example of usage)\
+{\listtext	
+\f1 \uc0\u9642 
+\f0 	}PlotColorTransform.m (plot RGB curves)\
+{\listtext	
+\f1 \uc0\u9642 
+\f0 	}dispDCF.m (displays correspondence result)\
+{\listtext	
+\f1 \uc0\u9642 
+\f0 	}dispDCFwithLines.m (displays correspondence result as random subset of matching points connected by lines)\
+{\listtext	
+\f1 \uc0\u9642 
+\f0 	}src.png (an input image)\
+{\listtext	
+\f1 \uc0\u9642 
+\f0 	}ref.png (a reference image)\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\b \cf0 Installation:
+\b0 \
+Copy this folder content to your computer and add the path of this folder to Matlab \
+path (Matlab->File->Set path\'85).\
+\
+Windows only: you may also need to install this Windows SDK for Windows 7.\
+It can be downloaded from here: \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+{\field{\*\fldinst{HYPERLINK "http://www.microsoft.com/download/en/details.aspx?displaylang=en&id=8279"}}{\fldrslt \cf0 http://www.microsoft.com/download/en/details.aspx?displaylang=en&id=8279}}\
+\
+If you are updating from an old version make sure to put old version out of your MATLAB path and run "clear mex" before using the new version for the first time.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\b \cf0 Usage:\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\b0 \cf0 Please see nrdc.m for usage instruction and nrdc_example.m for usage example.\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\b \cf0 Copyright:\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\b0 \cf0 This software is distributed for free for non-commercial use only.\
+\
+\pard\pardeftab720
+\cf0 Copyright \'a9 2011-2013 Yoav HaCohen.\
+\
+This software is provided by the copyright holders and the contributors \
+``as is'' and any express or implied warranties, including, but not limited \
+to, the implied warranties of merchantability and fitness for a particular \
+purpose are disclaimed. In no event shall the copyright holders or \
+contributors be liable for any direct, indirect, incidental, special, \
+exemplary, or consequential damages (including, but not limited to, \
+procurement of substitute goods or services; loss of use, data, or profits;\
+or business interruption) however caused and on any theory of liability, \
+whether in contract, strict liability, or tort (including negligence or \
+otherwise) arising in any way out of the use of this software, even if \
+advised of the possibility of such damage.\
+\
+The views and conclusions contained in the software and documentation are \
+those of the authors and should not be interpreted as representing official \
+policies, either expressed or implied, of Yoav HaCohen.\
+\
+\pard\pardeftab720
+
+\b \cf0 Citation:
+\b0 \
+   @article\{NRDC2011,\
+    author  = \{Yoav HaCohen and Eli Shechtman and Dan B Goldman and Dani Lischinski\},\
+    title   = \{Non-Rigid Dense Correspondence with Applications for Image Enhancement\},\
+    journal = \{ACM Transactions on Graphics (Proceedings of ACM SIGGRAPH 2011)\},\
+    year    = \{2011\},\
+    volume  = \{30\},\
+    number  = \{4\},\
+    pages   = \{70:1--70:9\}\
+   \}\
+}

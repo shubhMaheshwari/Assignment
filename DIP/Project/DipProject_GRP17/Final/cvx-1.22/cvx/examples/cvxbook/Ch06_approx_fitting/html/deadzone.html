@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Section 6.1.2: Residual minimization with deadzone penalty</title>
+<link rel="canonical" href="http://cvxr.com/cvx/examples/cvxbook/Ch06_approx_fitting/html/deadzone.html">
+<link rel="stylesheet" href="../../../examples.css" type="text/css">
+</head>
+<body>
+<div id="header">
+<h1>Section 6.1.2: Residual minimization with deadzone penalty</h1>
+Jump to:&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#source">Source code</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#output">Text output</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+Plots
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="../../../index.html">Library index</a>
+</div>
+<div id="content">
+<a id="source"></a>
+<pre class="codeinput">
+<span class="comment">% Boyd &amp; Vandenberghe "Convex Optimization"</span>
+<span class="comment">% Joelle Skaf - 08/17/05</span>
+<span class="comment">%</span>
+<span class="comment">% The penalty function approximation problem has the form:</span>
+<span class="comment">%               minimize    sum(deadzone(Ax - b))</span>
+<span class="comment">% where 'deadzone' is the deadzone penalty function</span>
+<span class="comment">%               deadzone(y) = max(abs(y)-1,0)</span>
+
+<span class="comment">% Input data</span>
+randn(<span class="string">'state'</span>,0);
+m = 16; n = 8;
+A = randn(m,n);
+b = randn(m,1);
+
+<span class="comment">% deadzone penalty</span>
+<span class="comment">% original formulation</span>
+fprintf(1,<span class="string">'Computing the optimal solution of the deadzone approximation problem: \n'</span>);
+
+cvx_begin
+    variable <span class="string">x(n)</span>
+    minimize( sum(max(abs(A*x-b)-1,0)) )
+cvx_end
+
+fprintf(1,<span class="string">'Done! \n'</span>);
+
+<span class="comment">% Compare</span>
+disp( sprintf( <span class="string">'\nResults:\n--------\nsum(max(abs(A*x-b)-1,0)): %6.4f\ncvx_optval: %6.4f\ncvx_status: %s\n'</span>, sum(max(abs(A*x-b)-1,0)), cvx_optval, cvx_status ) );
+disp( <span class="string">'Optimal vector:'</span> );
+disp( [ <span class="string">'   x     = [ '</span>, sprintf( <span class="string">'%7.4f '</span>, x ), <span class="string">']'</span> ] );
+disp( <span class="string">'Residual vector:'</span> );
+disp( [ <span class="string">'   A*x-b = [ '</span>, sprintf( <span class="string">'%7.4f '</span>, A*x-b ), <span class="string">']'</span> ] );
+disp( <span class="string">' '</span> );
+</pre>
+<a id="output"></a>
+<pre class="codeoutput">
+Computing the optimal solution of the deadzone approximation problem: 
+ 
+Calling sedumi: 72 variables, 32 equality constraints
+------------------------------------------------------------
+SeDuMi 1.21 by AdvOL, 2005-2008 and Jos F. Sturm, 1998-2003.
+Alg = 2: xz-corrector, Adaptive Step-Differentiation, theta = 0.250, beta = 0.500
+Split 8 free variables
+eqs m = 32, order n = 81, dim = 81, blocks = 1
+nnz(A) = 352 + 0, nnz(ADA) = 304, nnz(L) = 168
+ it :     b*y       gap    delta  rate   t/tP*  t/tD*   feas cg cg  prec
+  0 :            6.20E+00 0.000
+  1 :  -1.42E+00 2.69E+00 0.000 0.4337 0.9000 0.9000   5.36  1  1  1.5E+00
+  2 :  -4.54E-01 6.48E-01 0.000 0.2410 0.9000 0.9000   1.62  1  1  5.4E-01
+  3 :  -2.62E-02 2.88E-02 0.000 0.0445 0.9900 0.9900   1.24  1  1  3.9E-01
+  4 :  -7.82E-07 2.34E-06 0.000 0.0001 1.0000 1.0000   1.02  1  1  
+iter seconds digits       c*x               b*y
+  4      0.0   Inf  0.0000000000e+00  3.3683775920e-21
+|Ax-b| =   1.3e-15, [Ay-c]_+ =   1.7E-20, |x|=  4.0e+00, |y|=  2.5e-20
+
+Detailed timing (sec)
+   Pre          IPM          Post
+1.000E-02    2.000E-02    0.000E+00    
+Max-norms: ||b||=1.488490e+00, ||c|| = 1,
+Cholesky |add|=0, |skip| = 0, ||L.L|| = 1.2986.
+------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): +0
+Done! 
+
+Results:
+--------
+sum(max(abs(A*x-b)-1,0)): 0.0000
+cvx_optval: 0.0000
+cvx_status: Solved
+
+Optimal vector:
+   x     = [  0.3009  0.1246 -0.3517  0.0609  0.6159  0.3661 -0.6500  0.7015 ]
+Residual vector:
+   A*x-b = [  0.5895  0.4108 -0.8204 -0.3101  0.3765  0.3674 -0.6425 -0.6953 -0.4972  0.7696  0.1634 -0.1903  0.5290  0.7479  0.2976 -0.3825 ]
+ 
+</pre>
+</div>
+</body>
+</html>

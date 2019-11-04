@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Section 5.2.4: Solves a simple QCQP</title>
+<link rel="canonical" href="http://cvxr.com/cvx/examples/cvxbook/Ch05_duality/html/qcqp.html">
+<link rel="stylesheet" href="../../../examples.css" type="text/css">
+</head>
+<body>
+<div id="header">
+<h1>Section 5.2.4: Solves a simple QCQP</h1>
+Jump to:&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#source">Source code</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#output">Text output</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+Plots
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="../../../index.html">Library index</a>
+</div>
+<div id="content">
+<a id="source"></a>
+<pre class="codeinput">
+<span class="comment">% Boyd &amp; Vandenberghe, "Convex Optimization"</span>
+<span class="comment">% Jo&euml;lle Skaf - 08/23/05</span>
+<span class="comment">%</span>
+<span class="comment">% Solved a QCQP with 3 inequalities:</span>
+<span class="comment">%           minimize    1/2 x'*P0*x + q0'*r + r0</span>
+<span class="comment">%               s.t.    1/2 x'*Pi*x + qi'*r + ri &lt;= 0   for i=1,2,3</span>
+<span class="comment">% and verifies that strong duality holds.</span>
+
+<span class="comment">% Input data</span>
+randn(<span class="string">'state'</span>,13);
+n = 6;
+P0 = randn(n); P0 = P0'*P0 + eps*eye(n);
+P1 = randn(n); P1 = P1'*P1;
+P2 = randn(n); P2 = P2'*P2;
+P3 = randn(n); P3 = P3'*P3;
+q0 = randn(n,1); q1 = randn(n,1); q2 = randn(n,1); q3 = randn(n,1);
+r0 = randn(1); r1 = randn(1); r2 = randn(1); r3 = randn(1);
+
+fprintf(1,<span class="string">'Computing the optimal value of the QCQP and its dual... '</span>);
+
+cvx_begin
+    variable <span class="string">x(n)</span>
+    dual <span class="string">variables</span> <span class="string">lam1</span> <span class="string">lam2</span> <span class="string">lam3</span>
+    minimize( 0.5*quad_form(x,P0) + q0'*x + r0 )
+    lam1: 0.5*quad_form(x,P1) + q1'*x + r1 &lt;= 0;
+    lam2: 0.5*quad_form(x,P2) + q2'*x + r2 &lt;= 0;
+    lam3: 0.5*quad_form(x,P3) + q3'*x + r3 &lt;= 0;
+cvx_end
+
+obj1 = cvx_optval;
+P_lam = P0 + lam1*P1 + lam2*P2 + lam3*P3;
+q_lam = q0 + lam1*q1 + lam2*q2 + lam3*q3;
+r_lam = r0 + lam1*r1 + lam2*r2 + lam3*r3;
+obj2 = -0.5*q_lam'*inv(P_lam)*q_lam + r_lam;
+
+fprintf(1,<span class="string">'Done! \n'</span>);
+
+<span class="comment">% Displaying results</span>
+disp(<span class="string">'------------------------------------------------------------------------'</span>);
+disp(<span class="string">'The duality gap is equal to '</span>);
+disp(obj1-obj2)
+</pre>
+<a id="output"></a>
+<pre class="codeoutput">
+Computing the optimal value of the QCQP and its dual...  
+Calling sedumi: 35 variables, 10 equality constraints
+   For improved efficiency, sedumi is solving the dual problem.
+------------------------------------------------------------
+SeDuMi 1.21 by AdvOL, 2005-2008 and Jos F. Sturm, 1998-2003.
+Alg = 2: xz-corrector, Adaptive Step-Differentiation, theta = 0.250, beta = 0.500
+eqs m = 10, order n = 12, dim = 36, blocks = 5
+nnz(A) = 113 + 0, nnz(ADA) = 88, nnz(L) = 49
+ it :     b*y       gap    delta  rate   t/tP*  t/tD*   feas cg cg  prec
+  0 :            3.06E+01 0.000
+  1 :  -5.35E-01 8.38E+00 0.000 0.2740 0.9000 0.9000   1.67  1  1  3.4E+00
+  2 :  -2.66E+00 1.59E+00 0.000 0.1893 0.9000 0.9000   2.27  1  1  5.3E-01
+  3 :  -3.12E+00 1.26E-01 0.000 0.0792 0.9900 0.9900   1.12  1  1  3.6E-02
+  4 :  -3.20E+00 3.24E-02 0.000 0.2574 0.9000 0.9000   1.05  1  1  9.1E-03
+  5 :  -3.22E+00 1.96E-03 0.000 0.0605 0.9900 0.9900   0.99  1  1  5.8E-04
+  6 :  -3.23E+00 6.86E-06 0.374 0.0035 0.9990 0.9990   1.00  1  1  2.0E-06
+  7 :  -3.23E+00 2.26E-07 0.000 0.0329 0.9148 0.9000   1.00  1  1  2.0E-07
+  8 :  -3.23E+00 6.53E-10 0.485 0.0029 0.9815 0.9900   1.00  1  1  1.1E-08
+
+iter seconds digits       c*x               b*y
+  8      0.0   Inf -3.2259383635e+00 -3.2259383320e+00
+|Ax-b| =   4.3e-08, [Ay-c]_+ =   1.2E-08, |x|=  1.0e+01, |y|=  1.5e+00
+
+Detailed timing (sec)
+   Pre          IPM          Post
+0.000E+00    5.000E-02    0.000E+00    
+Max-norms: ||b||=6.611392e+00, ||c|| = 4.981209e+00,
+Cholesky |add|=0, |skip| = 0, ||L.L|| = 6.7188.
+------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): -0.895296
+Done! 
+------------------------------------------------------------------------
+The duality gap is equal to 
+  -1.0524e-07
+
+</pre>
+</div>
+</body>
+</html>

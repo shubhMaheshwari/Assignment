@@ -1,0 +1,5 @@
+openmpi (1.10.7) unstable; urgency=low
+
+  * Initial release.
+
+ -- Aleksey Senin <alekseys@mellanox.com>  Thu, 02 May 2013 10:55:55 +0300

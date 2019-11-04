@@ -1,0 +1,61 @@
+# parking.mod
+
+param n > 0;
+param m > 0;
+set N := 1..n;
+set M := 1..m;
+
+param lambda{N} >= 0;
+param mu := sum{i in N} lambda[i];
+param L >= 0;
+
+var x{N,M} binary;
+var t{N} >= 0;
+var y{M} binary;
+var T >= 0;
+
+minimize minmaxobj: T;
+subject to minmax {j in M} : T >= t[j];
+subject to carlinedef {j in M} :
+t[j] = sum{i in N} lambda[i] * x[i,j];
+subject to assignment {i in N} : sum{j in M} x[i,j] = 1;
+subject to disjunction {j in M} : t[j] - L <= mu * (1 - y[j]);
+subject to onelineonly : sum{j in M} y[j] = 1;
+
+# parking.dat
+
+param n := 15;
+param m := 2;
+param L := 15;
+param : lambda :=
+1 4.0
+2 4.5
+3 5.0
+4 4.1
+5 2.4
+6 5.2
+7 3.7
+8 3.5
+9 3.2
+10 4.5
+11 2.3
+12 3.3
+13 3.8
+14 4.6
+15 3.0 ;
+
+# parking.run
+model parking.mod;
+data parking.dat;
+option solver cplexstudent;
+
+solve;
+
+display minmaxobj;
+for {j in M} {
+printf "line %d (length = %f) : ", j, sum{i in N : x[i,j] = 1} lambda[i];
+for {i in N : x[i,j] = 1} {
+printf "%d ", i;
+}
+printf "\n";
+}

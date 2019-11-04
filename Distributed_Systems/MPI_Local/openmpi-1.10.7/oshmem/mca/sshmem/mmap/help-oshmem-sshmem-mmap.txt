@@ -1,0 +1,48 @@
+# -*- text -*- 
+#
+# Copyright (c) 2014      Mellanox Technologies, Inc.
+#                         All rights reserved.
+# $COPYRIGHT$
+# 
+# Additional copyrights may follow
+# 
+# $HEADER$
+#
+#
+
+[mmap:create segment failure]
+
+You can try the following:
+
+1. Decrease the symmetric heap area with
+   "-x SHMEM_SYMMETRIC_HEAP_SIZE=<value>".
+2. Set "--mca sshmem_base_start_address 0" for
+   automatic selection by OS of virtual start address for sshmem.
+
+This issue could also be related to CONFIG_STRICT_DEVMEM
+kernel option which if enabled prevents access to physical
+memory via "mmap". In this case you could try using other
+sshmem components instead.
+
+[mmap:file open failure]
+
+You can try the following:
+
+1. Switch to anonymous mapping using "-mca sshmem_mmap_anonymous 0".
+   The anonymous mapping is not backed by any file.
+2. Set path to backing files explicitly using "-mca sshmem_base_backing_file_dir <path>"
+
+   File: %s
+   Error: %s
+
+[mmap:file truncate failure]
+
+File can not be truncated to specified length. 
+
+You can try to switch to anonymous mapping using "-mca sshmem_mmap_anonymous 0".
+The anonymous mapping is not backed by any file.
+
+   File: %s
+   Size: %llu
+   Error: %s
+

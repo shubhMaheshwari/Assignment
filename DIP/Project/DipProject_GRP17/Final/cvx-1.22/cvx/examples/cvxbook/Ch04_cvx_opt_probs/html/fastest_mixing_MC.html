@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Section 4.6.3: Find the fastest mixing Markov chain on a graph</title>
+<link rel="canonical" href="http://cvxr.com/cvx/examples/cvxbook/Ch04_cvx_opt_probs/html/fastest_mixing_MC.html">
+<link rel="stylesheet" href="../../../examples.css" type="text/css">
+</head>
+<body>
+<div id="header">
+<h1>Section 4.6.3: Find the fastest mixing Markov chain on a graph</h1>
+Jump to:&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#source">Source code</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#output">Text output</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+Plots
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="../../../index.html">Library index</a>
+</div>
+<div id="content">
+<a id="source"></a>
+<pre class="codeinput">
+<span class="comment">% Boyd &amp; Vandenberghe "Convex Optimization"</span>
+<span class="comment">% Jo&euml;lle Skaf - 09/26/05</span>
+<span class="comment">%</span>
+<span class="comment">% The 'fastest mixing Markov chain problem' is to find a transition</span>
+<span class="comment">% probability matrix P on a graph E that minimizes the mixing rate r, where</span>
+<span class="comment">% r = max{ lambda_2, -lambda_n } with lambda_1&gt;=...&gt;=lambda_n being the</span>
+<span class="comment">% eigenvalues of P.</span>
+
+<span class="comment">% Generate input data</span>
+n = 5;
+E = [0 1 0 1 1; <span class="keyword">...</span>
+     1 0 1 0 1; <span class="keyword">...</span>
+     0 1 0 1 1; <span class="keyword">...</span>
+     1 0 1 0 1; <span class="keyword">...</span>
+     1 1 1 1 0];
+
+<span class="comment">% Create and solve model</span>
+cvx_begin
+    variable <span class="string">P(n,n)</span> <span class="string">symmetric</span>
+    minimize(norm(P - (1/n)*ones(n)))
+    P*ones(n,1) == ones(n,1);
+    P &gt;= 0;
+    P(E==0) == 0;
+cvx_end
+e = flipud(eig(P));
+r = max(e(2), -e(n));
+
+<span class="comment">% Display results</span>
+disp(<span class="string">'------------------------------------------------------------------------'</span>);
+disp(<span class="string">'The transition probability matrix of the optimal Markov chain is: '</span>);
+disp(P);
+disp(<span class="string">'The optimal mixing rate is: '</span>);
+disp(r);
+</pre>
+<a id="output"></a>
+<pre class="codeoutput">
+ 
+Calling sedumi: 70 variables, 66 equality constraints
+------------------------------------------------------------
+SeDuMi 1.21 by AdvOL, 2005-2008 and Jos F. Sturm, 1998-2003.
+Alg = 2: xz-corrector, Adaptive Step-Differentiation, theta = 0.250, beta = 0.500
+eqs m = 66, order n = 26, dim = 116, blocks = 2
+nnz(A) = 120 + 0, nnz(ADA) = 4356, nnz(L) = 2211
+ it :     b*y       gap    delta  rate   t/tP*  t/tD*   feas cg cg  prec
+  0 :            8.46E-01 0.000
+  1 :   1.74E-01 2.73E-01 0.000 0.3229 0.9000 0.9000   1.92  1  1  1.2E+00
+  2 :   7.18E-01 2.38E-02 0.000 0.0870 0.9900 0.9900   1.18  1  1  8.8E-02
+  3 :   7.50E-01 7.94E-05 0.000 0.0033 0.9990 0.9990   1.08  1  1  2.8E-04
+  4 :   7.50E-01 1.18E-11 0.000 0.0000 1.0000 1.0000   1.00  1  1  4.1E-11
+
+iter seconds digits       c*x               b*y
+  4      0.0  10.6  7.5000000003e-01  7.5000000001e-01
+|Ax-b| =   2.8e-11, [Ay-c]_+ =   5.8E-12, |x|=  2.8e+00, |y|=  5.2e+00
+
+Detailed timing (sec)
+   Pre          IPM          Post
+1.000E-02    2.000E-02    0.000E+00    
+Max-norms: ||b||=2.000000e-01, ||c|| = 1,
+Cholesky |add|=0, |skip| = 0, ||L.L|| = 1.78423.
+------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): +0.75
+------------------------------------------------------------------------
+The transition probability matrix of the optimal Markov chain is: 
+    0.0000    0.3750    0.0000    0.3750    0.2500
+    0.3750    0.0000    0.3750    0.0000    0.2500
+    0.0000    0.3750    0.0000    0.3750    0.2500
+    0.3750    0.0000    0.3750    0.0000    0.2500
+    0.2500    0.2500    0.2500    0.2500    0.0000
+
+The optimal mixing rate is: 
+    0.7500
+
+</pre>
+</div>
+</body>
+</html>

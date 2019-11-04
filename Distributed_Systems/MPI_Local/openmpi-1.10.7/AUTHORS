@@ -1,0 +1,152 @@
+Open MPI Authors
+================
+
+The following cumulative list contains the names and email addresses of
+all individuals who have committed code to the Open MPI repository.
+
+Email                           Name                        Affiliation(s)
+------------------------------- --------------------------- -------------------
+Nadia.Derbey@bull.net           Nadia Derby                 Bull
+adi@minet.uni-jena.de           Adrian Knoth                UJ
+adkulkar@cs.indiana.edu         Abhishek Kulkarni           IU
+adrian@lisas.de                 Adrian Reber                HE
+afriedle@osl.iu.edu             Andrew Friedley             IU, SNL
+alekseys@mellanox.com           Aleksey Senin               Mellanox
+alex.margolin@mail.huji.ac.il   Alex Margolin               Mellanox
+alexm@mellanox.com              Alex Mikheev                Mellanox
+alinas@mellanox.com             Alina Sklarevich            Mellanox
+andreas.knuepfer@tu-dresden.de  Andreas Knuepfer            ZIH
+angskun@cs.utk.edu              Thara Angskun               UTK
+anya.tatashina@sun.com          Anya Tatashina              Sun
+artpol84@gmail.com              Artem Polyakov              Individual
+avneesh.pant@qlogic.com         Avneesh Pant                QLogic
+bdamico@cisco.com               Bill D'Amico                Cisco
+bert.wesarg@tu-dresden.de       Bert Wesarg                 ZIH
+bosilca@icl.utk.edu             George Bosilca              UTK
+bouteill@icl.utk.edu            Aurelien Bouteiller         UTK
+brad.benton@us.ibm.com          Brad Benton                 IBM, AMD
+brbarret@open-mpi.org           Brian Barrett               IU, LANL, SNL
+ccoti@icl.utk.edu               Camille Coti                UTK, INRIA
+christian.bell@qlogic.com       Christian Bell              QLogic
+cyeoh@au1.ibm.com               Chris Yeoh                  IBM
+dan.lacher@sun.com              Dan Lacher                  Sun
+ddd@lanl.gov                    David Daniel                LANL
+devendar@mellanox.com           Devendar Bureddy            Mellanox
+dgdimick@lnal.gov               Denis Dimick                LANL
+dgoodell@cisco.com              Dave Goodell                Cisco
+donald.kerr@oracle.com          Donald Kerr                 Sun, Oracle
+dorons@mellanox.com             Doron Shoham                Mellanox
+ethan.mallove@oracle.com        Ethan Mallove               Sun, Oracle
+eugene.loh@oracle.com           Eugene Loh                  Sun, Oracle
+gabriel@cs.uh.edu               Edgar Gabriel               HLRS, UH, UTK
+gef@icl.utk.edu                 Graham Fagg                 UTK
+gilles@rist.or.jp               Gilles Gouaillardet         RIST
+gingery@lanl.gov                Ginger Young                LANL
+gleb@voltaire.com               Gleb Natapov                Voltaire
+gshipman@lanl.gov               Galen Shipman               LANL
+gwatson@lanl.gov                Greg Watson                 LANL
+herault@icl.utk.edu             Thomas Herault              INRIA
+hjelmn@lanl.gov                 Nathan Hjelm                LANL
+hmontakhabi@uh.edu              Hadi Montakhabi             UH
+howardp@lanl.gov                Howard Pritchard            LANL
+hppritcha@gmail.com             Howard Pritchard            LANL
+htor@osl.iu.edu                 Torsten Hoefler             IU, TUC
+iain.bason@oracle.com           Iain Bason                  Sun, Oracle
+igoru@mellanox.com              Igor Usarov                 Mellanox
+jdmason@opengridcomputing.com   Jon Mason                   Chelsio
+jjhursey@open-mpi.org           Josh Hursey                 IU, ORNL, LANL, LBNL, UWL
+jnysal@in.ibm.com               Nysal Jan                   IBM
+joshual@mellanox.com            Joshua Ladd                 Mellanox
+jroman@dsic.upv.es              Jose E. Roman               UPV
+jsquyres@cisco.com              Jeff Squyres                Cisco, IU
+karen.norteman@sun.com          Karen Norteman              Sun
+kliteyn@mellanox.co.il          Yevgeny Kliteynik           Mellanox
+koenig@acm.org                  Greg Koenig                 ORNL
+lcasswell@lanl.gov              Laura Casswell              LANL
+lemarini@icl.utk.edu            Pierre Lemarinier           UTK
+lennyb@voltaire.com             Lenny Verkhovsky            Mellanox
+lums@cs.indiana.edu             Andrew Lumsdaine            IU
+manjugv@ornl.gov                Manjunath Gorentla Venkata  ORNL
+matneykdsr@ornl.gov             Ken Matney                  ORNL
+matthias.jurenz@tu-dresden.de   Matthias Jurenz             ZIH
+miked@mellanox.com              Mike Dubman                 Mellanox
+mjbhaskar@uh.edu                Mangala Jyothi Bhaskar      UH
+mkontsek@cisco.com              Martin Kontsek              Cisco
+mroz.karol@gmail.com            Karol Mroz                  UBC
+mschaara@cs.uh.edu              Mohamad Chaarawi            UH
+mt@lanl.gov                     Mark Taylor                 LANL
+mwsukal@ca.sandia.gov           Mitch Sukalski              SNL
+naughtont@ornl.gov              Tom Naughton                ORNL
+niethammer@hlrs.de              Christoph Niethammer        HLRS
+ollie@lanl.gov                  Li-Ta Lo                    LANL
+ovega@dsic.upv.es               Oscar Vega-Gisbert          UPV
+pak.lui@sun.com                 Pak Lui                     Sun
+patrick@myri.com                Patrick Geoffray            Myricom
+penoff@cs.ubc.ca                Brad Penoff                 UBC
+pjesa@icl.iu.edu                Jelena Pjesivac-Grbovic     UTK
+pkambadu@osl.iu.edu             Prabhanjan Kambadur         IU
+rainer.keller@hlrs.de           Rainer Keller               HLRS, ORNL
+rasmus@cas.uoregon.edu          Craig Rasmussen             LANL, UO
+rbbrigh@sandia.gov              Ron Brightwell              SNL
+regrant@sandia.gov              Ryan Grant                  SNL
+rfaucett@cisco.com              Reese Faucette              Cisco
+rhc@open-mpi.org                Ralph Castain               LANL, Cisco, Intel
+richardg@mellanox.com           Rich Graham                 ORNL, LANL, Mellanox
+rta@lanl.gov                    Rob Awles                   LANL
+rvandevaart@nvidia.com          Rolf Vandevaart             Sun, Oracle, NVIDIA
+sami@lanl.gov                   Sami Ayyorgun               LANL
+samuel@lanl.gov                 Samuel K. Gutierrez         LANL
+santhana@osu.edu                Gopal Santhanaraman         OSU
+sboehm@ornl.gov                 Swen Boehm                  ORNL
+shamisp@ornl.gov                Pavel Shamis                Mellanox, ORNL
+sharonm@voltaire.com            Sharon Melamed              Voltaire
+shiqing@hlrs.de                 Shiqing Fan                 HLRS
+stork@hlrs.de                   Sven Stork                  HLRS
+surs@osu.edu                    Sayantan Sur                OSU
+sushant@lanl.gov                Sushant Sharma              LANL
+swise@opengridcomputing.com     Steve Wise                  Chelsio
+sylvain.jeaugey@bull.net        Sylvain Jeaugey             Bull
+terry.dontje@oracle.com         Terry Dontje                Sun, Oracle
+thkorde@sandia.gov              Todd Kordenbrock            SNL
+tmattox@gmail.com               Tim Mattox                  IU, Cisco
+tprins@lanl.gov                 Tim Prins                   IU, LANL
+twoodall@lanl.gov               Tim Woodall                 LANL
+vasily@mellanox.com             Vasily Filipov              Mellanox
+vsahay@osl.iu.edu               Vishal Sahay                IU
+vvenkates@gmail.com             Vishwanath Venkatesan       UH, Intel
+wbland@icl.utk.edu              Wesley Bland                UTK
+yaeld@mellanox.com              Yael Dalen                  Mellanox
+yosefe@mellanox.com             Yossi Etigin                Mellanox
+yuw@lanl.gov                    Weikuan Yu                  LANL, OSU
+wangzm@cn.ibm.com               Zhiming Wang                IBM
+------------------------------- --------------------------- -------------------
+
+Affiliation abbreviations:
+--------------------------
+
+Chelsio = Chelsio Communications, Inc.
+Cisco = Cisco Systems, Inc.
+HE = Hochschule Esslingen
+HLRS = High Performance Computing Center, Stuttgart
+IU = Indiana University
+LANL = Los Alamos National Laboratory
+LBNL = Lawrence Berkeley National Laboratory
+Voltaire = Voltaire
+Myricom = Myricom, Inc.
+NU = Northeastern University
+Oracle = Oracle
+ORNL = Oak Ridge National Laboratory
+OSU = The Ohio State University
+QLogic = QLogic
+SNL = Sandia National Laboratories
+Sun = Sun Microsystems, Inc.
+TUC = Technische Universtaet Chemnitz
+UBC = University of British Columbia
+UJ = Friedrich-Schiller-Universitat Jena
+UH = University of Houston
+OU = University of Oregon
+UPV = Universitat Politecnica de Valencia
+UTK = University of Tennessee, Knoxville
+UWL = University of Wisconsin-La Crosse
+Mellanox = Mellanox
+ZIH = Technische Universitaet Dresden

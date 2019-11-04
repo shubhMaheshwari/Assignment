@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Quadratic discrimination (separating ellipsoid)</title>
+<link rel="canonical" href="http://cvxr.com/cvx/examples/cvxbook/Ch08_geometric_probs/html/quad_discr.html">
+<link rel="stylesheet" href="../../../examples.css" type="text/css">
+</head>
+<body>
+<div id="header">
+<h1>Quadratic discrimination (separating ellipsoid)</h1>
+Jump to:&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#source">Source code</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#output">Text output</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#plots">Plots</a>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="../../../index.html">Library index</a>
+</div>
+<div id="content">
+<a id="source"></a>
+<pre class="codeinput">
+<span class="comment">% Section 8.6.2, Boyd &amp; Vandenberghe "Convex Optimization"</span>
+<span class="comment">% Original by Lieven Vandenberghe</span>
+<span class="comment">% Adapted for CVX by Joelle Skaf - 10/16/05</span>
+<span class="comment">% (a figure is generated)</span>
+<span class="comment">%</span>
+<span class="comment">% The goal is to find an ellipsoid that contains all the points</span>
+<span class="comment">% x_1,...,x_N but none of the points y_1,...,y_M. The equation of the</span>
+<span class="comment">% ellipsoidal surface is: z'*P*z + q'*z + r =0</span>
+<span class="comment">% P, q and r can be obtained by solving the SDP feasibility problem:</span>
+<span class="comment">%           minimize    0</span>
+<span class="comment">%               s.t.    x_i'*P*x_i + q'*x_i + r &gt;=  1   for i = 1,...,N</span>
+<span class="comment">%                       y_i'*P*y_i + q'*y_i + r &lt;= -1   for i = 1,...,M</span>
+<span class="comment">%                       P &lt;= -I</span>
+
+<span class="comment">% data generation</span>
+n = 2;
+rand(<span class="string">'state'</span>,0);  randn(<span class="string">'state'</span>,0);
+N=50;
+X = randn(2,N);  X = X*diag(0.99*rand(1,N)./sqrt(sum(X.^2)));
+Y = randn(2,N);  Y = Y*diag((1.02+rand(1,N))./sqrt(sum(Y.^2)));
+T = [1 -1; 2 1];  X = T*X;  Y = T*Y;
+
+<span class="comment">% Solution via CVX</span>
+fprintf(1,<span class="string">'Find the optimal ellipsoid that seperates the 2 classes...'</span>);
+
+cvx_begin <span class="string">sdp</span>
+    variable <span class="string">P(n,n)</span> <span class="string">symmetric</span>
+    variables <span class="string">q(n)</span> <span class="string">r(1)</span>
+    P &lt;= -eye(n);
+    sum((X'*P).*X',2) + X'*q + r &gt;= +1;
+    sum((Y'*P).*Y',2) + Y'*q + r &lt;= -1;
+cvx_end
+
+fprintf(1,<span class="string">'Done! \n'</span>);
+
+<span class="comment">% Displaying results</span>
+r = -r; P = -P; q = -q;
+c = 0.25*q'*inv(P)*q - r;
+xc = -0.5*inv(P)*q;
+nopts = 1000;
+angles = linspace(0,2*pi,nopts);
+ell = inv(sqrtm(P/c))*[cos(angles); sin(angles)] + repmat(xc,1,nopts);
+graph=plot(X(1,:),X(2,:),<span class="string">'o'</span>, Y(1,:), Y(2,:),<span class="string">'o'</span>, ell(1,:), ell(2,:),<span class="string">'-'</span>);
+set(graph(2),<span class="string">'MarkerFaceColor'</span>,[0 0.5 0]);
+set(gca,<span class="string">'XTick'</span>,[]); set(gca,<span class="string">'YTick'</span>,[]);
+title(<span class="string">'Quadratic discrimination'</span>);
+<span class="comment">% print -deps ellips.eps</span>
+</pre>
+<a id="output"></a>
+<pre class="codeoutput">
+Find the optimal ellipsoid that seperates the 2 classes... 
+Calling sedumi: 103 variables, 6 equality constraints
+   For improved efficiency, sedumi is solving the dual problem.
+------------------------------------------------------------
+SeDuMi 1.21 by AdvOL, 2005-2008 and Jos F. Sturm, 1998-2003.
+Alg = 2: xz-corrector, Adaptive Step-Differentiation, theta = 0.250, beta = 0.500
+eqs m = 6, order n = 103, dim = 105, blocks = 2
+nnz(A) = 603 + 0, nnz(ADA) = 36, nnz(L) = 21
+ it :     b*y       gap    delta  rate   t/tP*  t/tD*   feas cg cg  prec
+  0 :            3.28E+02 0.000
+  1 :   0.00E+00 1.15E+02 0.000 0.3515 0.9000 0.9000  -1.39  1  1  2.9E+02
+  2 :   0.00E+00 2.31E+01 0.000 0.2005 0.9000 0.9000  -0.10  1  1  9.8E+01
+  3 :   0.00E+00 6.60E-01 0.000 0.0286 0.9900 0.9900   0.59  1  1  6.5E+00
+  4 :   0.00E+00 5.06E-05 0.000 0.0001 1.0000 1.0000   0.99  1  1  1.3E-02
+  5 :   0.00E+00 5.25E-12 0.000 0.0000 1.0000 1.0000   1.00  1  1  2.9E-09
+
+iter seconds digits       c*x               b*y
+  5      0.0   2.6  3.2204638088e-13  0.0000000000e+00
+|Ax-b| =   1.5e-11, [Ay-c]_+ =   0.0E+00, |x|=  6.1e-12, |y|=  7.7e+01
+
+Detailed timing (sec)
+   Pre          IPM          Post
+1.000E-02    2.000E-02    0.000E+00    
+Max-norms: ||b||=0, ||c|| = 1.845499e+01,
+Cholesky |add|=0, |skip| = 0, ||L.L|| = 3.37316.
+------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): -3.22046e-13
+Done! 
+</pre>
+<a id="plots"></a>
+<div id="plotoutput">
+<img src="quad_discr__01.png" alt=""> 
+</div>
+</div>
+</body>
+</html>

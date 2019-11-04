@@ -1,0 +1,244 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Minimize sidelobe level of an FIR broadband far-field antenna array</title>
+<link rel="canonical" href="http://cvxr.com/cvx/examples/antenna_array_design/html/broadband_array_min_sidelobe.html">
+<link rel="stylesheet" href="../../examples.css" type="text/css">
+</head>
+<body>
+<div id="header">
+<h1>Minimize sidelobe level of an FIR broadband far-field antenna array</h1>
+Jump to:&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#source">Source code</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#output">Text output</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="#plots">Plots</a>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="../../index.html">Library index</a>
+</div>
+<div id="content">
+<a id="source"></a>
+<pre class="codeinput">
+<span class="comment">% "Antenna array pattern synthesis via convex optimization"</span>
+<span class="comment">% by H. Lebret and S. Boyd</span>
+<span class="comment">% (figures are generated)</span>
+<span class="comment">%</span>
+<span class="comment">% Designs a broadband antenna array with the far-field wave model such that:</span>
+<span class="comment">% - it minimizes sidelobe level outside the beamwidth of the pattern</span>
+<span class="comment">% - it has a unit sensitivity at some target direction and for some frequencies</span>
+<span class="comment">%</span>
+<span class="comment">% This is a convex problem (after sampling it can be formulated as an SOCP).</span>
+<span class="comment">%</span>
+<span class="comment">%   minimize   max |y(theta,f)|        for theta,f outside the desired region</span>
+<span class="comment">%       s.t.   y(theta_tar,f_tar) = 1</span>
+<span class="comment">%</span>
+<span class="comment">% where y is the antenna array gain pattern (complex function) and</span>
+<span class="comment">% variables are w (antenna array weights or shading coefficients).</span>
+<span class="comment">% Gain pattern is a linear function of w: y(theta,f) = w'*a(theta,f)</span>
+<span class="comment">% for some a(theta,f) describing antenna array configuration and specs.</span>
+<span class="comment">%</span>
+<span class="comment">% Written for CVX by Almir Mutapcic 02/02/06</span>
+
+<span class="comment">% select array geometry</span>
+ARRAY_GEOMETRY = <span class="string">'2D_UNIFORM_LATTICE'</span>;
+<span class="comment">% ARRAY_GEOMETRY = '2D_RANDOM';</span>
+
+<span class="comment">%********************************************************************</span>
+<span class="comment">% problem specs</span>
+<span class="comment">%********************************************************************</span>
+P = 2;                <span class="comment">% number of filter taps at each antenna element</span>
+fs = 8000;            <span class="comment">% sampling rate = 8000 Hz</span>
+T = 1/fs;             <span class="comment">% sampling spacing</span>
+c = 2000;             <span class="comment">% wave speed</span>
+
+theta_tar = 70;       <span class="comment">% target direction</span>
+half_beamwidth = 10;  <span class="comment">% half beamwidth around the target direction</span>
+f_low  = 1500;        <span class="comment">% low frequency bound for the desired band</span>
+f_high = 2000;        <span class="comment">% high frequency bound for the desired band</span>
+
+<span class="comment">%********************************************************************</span>
+<span class="comment">% random array of n antenna elements</span>
+<span class="comment">%********************************************************************</span>
+<span class="keyword">if</span> strcmp( ARRAY_GEOMETRY, <span class="string">'2D_RANDOM'</span> )
+  <span class="comment">% set random seed to repeat experiments</span>
+  rand(<span class="string">'state'</span>,0);
+
+  <span class="comment">% uniformly distributed on [0,L]-by-[0,L] square</span>
+  n = 20;
+  L = 0.45*(c/f_high)*sqrt(n);
+  <span class="comment">% loc is a column vector of x and y coordinates</span>
+  loc = L*rand(n,2);
+
+<span class="comment">%********************************************************************</span>
+<span class="comment">% uniform 2D array with m-by-m element with d spacing</span>
+<span class="comment">%********************************************************************</span>
+<span class="keyword">elseif</span> strcmp( ARRAY_GEOMETRY, <span class="string">'2D_UNIFORM_LATTICE'</span> )
+  m = 6; n = m^2;
+  d = 0.45*(c/f_high);
+
+  loc = zeros(n,2);
+  <span class="keyword">for</span> x = 0:m-1
+    <span class="keyword">for</span> y = 0:m-1
+      loc(m*y+x+1,:) = [x y];
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+  loc = loc*d;
+
+<span class="keyword">else</span>
+  error(<span class="string">'Undefined array geometry'</span>)
+<span class="keyword">end</span>
+
+<span class="comment">%********************************************************************</span>
+<span class="comment">% construct optimization data</span>
+<span class="comment">%********************************************************************</span>
+<span class="comment">% discretized grid sampling parameters</span>
+numtheta = 180;
+numfreqs = 6;
+
+theta = linspace(1,360,numtheta)';
+freqs = linspace(500,3000,numfreqs)';
+
+clear <span class="string">Atotal</span>;
+<span class="keyword">for</span> k = 1:numfreqs
+  <span class="comment">% FIR portion of the main matrix</span>
+  Afir = kron( ones(numtheta,n), -[0:P-1]/fs );
+
+  <span class="comment">% cos/sine part of the main matrix</span>
+  Alocx = kron( loc(:,1)', ones(1,P) );
+  Alocy = kron( loc(:,2)', ones(1,P) );
+  Aloc = kron( cos(pi*theta/180)/c, Alocx ) + kron( sin(pi*theta/180)/c, Alocy );
+
+  <span class="comment">% create the main matrix for each frequency sample</span>
+  Atotal(:,:,k) = exp(2*pi*i*freqs(k)*(Afir+Aloc));
+<span class="keyword">end</span>
+
+<span class="comment">% single out indices so we can make equalities and inequalities</span>
+inbandInd    = find( freqs &gt;= f_low &amp; freqs &lt;= f_high );
+outbandInd   = find( freqs &lt; f_low | freqs &gt; f_high );
+thetaStopInd = find( theta &gt; (theta_tar+half_beamwidth) | <span class="keyword">...</span>
+                     theta &lt; (theta_tar-half_beamwidth) );
+[diffClosest, thetaTarInd] = min( abs(theta - theta_tar) );
+
+<span class="comment">% create target and stopband constraint matrices</span>
+Atar = []; As = [];
+<span class="comment">% inband frequencies constraints</span>
+<span class="keyword">for</span> k = [inbandInd]'
+  Atar = [Atar; Atotal(thetaTarInd,:,k)];
+  As = [As; Atotal(thetaStopInd,:,k)];
+<span class="keyword">end</span>
+<span class="comment">% outband frequencies constraints</span>
+<span class="keyword">for</span> k = [outbandInd]'
+  As = [As; Atotal(:,:,k)];
+<span class="keyword">end</span>
+
+<span class="comment">%********************************************************************</span>
+<span class="comment">% optimization problem</span>
+<span class="comment">%********************************************************************</span>
+cvx_begin
+  variable <span class="string">w(n*P)</span> <span class="string">complex</span>
+  minimize( max( abs( As*w ) ) )
+  subject <span class="string">to</span>
+    <span class="comment">% target direction equality constraint</span>
+    Atar*w == 1;
+cvx_end
+
+<span class="comment">% check if problem was successfully solved</span>
+disp([<span class="string">'Problem is '</span> cvx_status])
+<span class="keyword">if</span> ~strfind(cvx_status,<span class="string">'Solved'</span>)
+  <span class="keyword">return</span>
+<span class="keyword">end</span>
+
+fprintf(1,<span class="string">'The minimum sidelobe level is %3.2f dB.\n\n'</span>,<span class="keyword">...</span>
+          20*log10(cvx_optval) );
+
+<span class="comment">%********************************************************************</span>
+<span class="comment">% plots</span>
+<span class="comment">%********************************************************************</span>
+figure(1); clf;
+plot(loc(:,1),loc(:,2),<span class="string">'o'</span>)
+title(<span class="string">'Antenna locations'</span>)
+axis(<span class="string">'square'</span>)
+
+<span class="comment">% plots of array patterns (cross sections for different frequencies)</span>
+figure(2); clf;
+clr = { <span class="string">'r'</span> <span class="string">'r'</span> <span class="string">'b'</span> <span class="string">'b'</span> <span class="string">'r'</span> <span class="string">'r'</span> };
+linetype = {<span class="string">'--'</span> <span class="string">'--'</span> <span class="string">'-'</span> <span class="string">'-'</span> <span class="string">'--'</span> <span class="string">'--'</span>};
+<span class="keyword">for</span> k = 1:numfreqs
+  plot(theta, 20*log10(abs(Atotal(:,:,k)*w)), [clr{k} linetype{k}]);
+  hold <span class="string">on</span>;
+<span class="keyword">end</span>
+axis([1 360 -15 0])
+title(<span class="string">'Passband (blue solid curves) and stopband (red dashed curves)'</span>)
+xlabel(<span class="string">'look angle'</span>), ylabel(<span class="string">'abs(y) in dB'</span>);
+hold <span class="string">off</span>;
+
+<span class="comment">% cross section polar plots</span>
+figure(3); clf;
+bw = 2*half_beamwidth;
+subplot(2,2,1); polar_plot_ant(abs( Atotal(:,:,2)*w ),theta_tar,bw,<span class="string">'f = 1000 (stop)'</span>);
+subplot(2,2,2); polar_plot_ant(abs( Atotal(:,:,3)*w ),theta_tar,bw,<span class="string">'f = 1500 (pass)'</span>);
+subplot(2,2,3); polar_plot_ant(abs( Atotal(:,:,4)*w ),theta_tar,bw,<span class="string">'f = 2000 (pass)'</span>);
+subplot(2,2,4); polar_plot_ant(abs( Atotal(:,:,5)*w ),theta_tar,bw,<span class="string">'f = 2500 (stop)'</span>);
+</pre>
+<a id="output"></a>
+<pre class="codeoutput">
+ 
+Calling sedumi: 4244 variables, 1205 equality constraints
+   For improved efficiency, sedumi is solving the dual problem.
+------------------------------------------------------------
+SeDuMi 1.21 by AdvOL, 2005-2008 and Jos F. Sturm, 1998-2003.
+Alg = 2: xz-corrector, Adaptive Step-Differentiation, theta = 0.250, beta = 0.500
+Put 4 free variables in a quadratic cone
+eqs m = 1205, order n = 3183, dim = 4246, blocks = 1062
+nnz(A) = 306442 + 0, nnz(ADA) = 329485, nnz(L) = 165345
+ it :     b*y       gap    delta  rate   t/tP*  t/tD*   feas cg cg  prec
+  0 :            7.09E+02 0.000
+  1 :  -1.89E+00 3.15E+02 0.000 0.4447 0.9000 0.9000   2.07  1  1  9.4E+02
+  2 :  -3.26E+00 6.85E+01 0.000 0.2175 0.9000 0.9000   0.51  1  1  2.2E+02
+  3 :  -9.70E-01 2.46E+01 0.000 0.3591 0.9000 0.9000   4.65  1  1  2.2E+01
+  4 :  -7.69E-01 1.66E+01 0.000 0.6743 0.9000 0.9000   2.62  1  1  1.2E+01
+  5 :  -7.23E-01 1.05E+01 0.000 0.6338 0.9000 0.9000   1.48  1  1  6.9E+00
+  6 :  -6.27E-01 4.82E+00 0.000 0.4585 0.9000 0.9000   1.43  1  1  2.7E+00
+  7 :  -5.68E-01 2.53E+00 0.000 0.5251 0.9000 0.9000   1.30  1  1  1.3E+00
+  8 :  -5.40E-01 1.41E+00 0.000 0.5555 0.9000 0.9000   1.18  1  1  6.9E-01
+  9 :  -5.19E-01 7.73E-01 0.000 0.5497 0.9000 0.9000   1.12  1  1  3.7E-01
+ 10 :  -5.06E-01 3.86E-01 0.000 0.4997 0.9000 0.9000   1.06  1  1  1.8E-01
+ 11 :  -4.98E-01 1.66E-01 0.000 0.4305 0.9000 0.9000   1.02  1  1  7.8E-02
+ 12 :  -4.95E-01 7.49E-02 0.000 0.4506 0.9019 0.9000   1.00  1  1  3.5E-02
+ 13 :  -4.93E-01 2.69E-02 0.000 0.3588 0.9123 0.9000   0.99  1  1  1.3E-02
+ 14 :  -4.92E-01 1.21E-02 0.000 0.4512 0.9000 0.7400   0.99  1  1  5.8E-03
+ 15 :  -4.92E-01 5.03E-03 0.000 0.4148 0.9015 0.9000   0.99  1  1  2.4E-03
+ 16 :  -4.92E-01 2.17E-03 0.000 0.4310 0.9014 0.9000   1.00  1  1  1.0E-03
+ 17 :  -4.92E-01 9.67E-04 0.000 0.4457 0.9000 0.6760   0.98  2  1  4.7E-04
+ 18 :  -4.92E-01 3.29E-04 0.000 0.3399 0.9187 0.9000   1.00  2  2  1.6E-04
+ 19 :  -4.92E-01 1.40E-04 0.000 0.4273 0.9000 0.9026   0.99  3  1  6.9E-05
+ 20 :  -4.92E-01 5.18E-05 0.000 0.3692 0.9000 0.8820   1.02  6  9  2.5E-05
+ 21 :  -4.92E-01 1.45E-05 0.000 0.2793 0.9032 0.9000   0.99 17 24  7.1E-06
+ 22 :  -4.92E-01 3.86E-06 0.000 0.2665 0.9054 0.9000   0.99 34 42  1.9E-06
+ 23 :  -4.92E-01 7.66E-07 0.000 0.1984 0.9045 0.9000   0.98 41 52  3.9E-07
+ 24 :  -4.92E-01 4.33E-08 0.000 0.0565 0.9900 0.9900   1.01 37 80  2.1E-08
+ 25 :  -4.92E-01 2.98E-08 0.000 0.6893 0.9000 0.0000   0.99 99 99  1.0E-08
+
+iter seconds digits       c*x               b*y
+ 25     21.7   8.4 -4.9187930424e-01 -4.9187930617e-01
+|Ax-b| =   1.3e-08, [Ay-c]_+ =   7.0E-11, |x|=  9.2e-01, |y|=  7.4e+00
+
+Detailed timing (sec)
+   Pre          IPM          Post
+8.500E-01    2.168E+01    4.000E-02    
+Max-norms: ||b||=1, ||c|| = 1,
+Cholesky |add|=71, |skip| = 2, ||L.L|| = 5026.63.
+------------------------------------------------------------
+Status: Solved
+Optimal value (cvx_optval): +0.491879
+Problem is Solved
+The minimum sidelobe level is -6.16 dB.
+
+</pre>
+<a id="plots"></a>
+<div id="plotoutput">
+<img src="broadband_array_min_sidelobe__01.png" alt=""> <img src="broadband_array_min_sidelobe__02.png" alt=""> <img src="broadband_array_min_sidelobe__03.png" alt=""> 
+</div>
+</div>
+</body>
+</html>

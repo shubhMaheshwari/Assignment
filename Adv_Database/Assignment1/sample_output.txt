@@ -1,0 +1,36 @@
+1. Select * from table2;
+
+Output: 
+table1.B,table2.D
+158,11191
+773,14421
+85,5117
+811,13393
+311,16116
+646,5403
+335,6309
+803,12262
+718,10226
+731,13021
+
+
+2.Select A from table1;
+
+Output:
+table1.A
+922
+640
+775
+-551
+-952
+-354
+-497
+411
+-900
+858
+
+3. Select max(A) from table1;
+
+Output:
+max(table1.A)
+922

@@ -1,0 +1,88 @@
+.\" -*- nroff -*-
+.\" Copyright 2013 Los Alamos National Security, LLC. All rights reserved.
+.\" Copyright 2010 Cisco Systems, Inc.  All rights reserved.
+.\" Copyright 2006-2008 Sun Microsystems, Inc.
+.\" Copyright (c) 1996 Thinking Machines Corporation
+.\" $COPYRIGHT$
+.TH MPI_Comm_split_type 3 "#OMPI_DATE#" "#PACKAGE_VERSION#" "#PACKAGE_NAME#"
+.SH NAME
+\fBMPI_Comm_split_type \fP \- Creates new communicators based on colors and keys.
+
+.SH SYNTAX
+.ft R
+.SH C Syntax
+.nf
+#include <mpi.h>
+int MPI_Comm_split_type(MPI_Comm \fIcomm\fP, int\fI split_type\fP, int\fI key\fP,
+	MPI_Info info, MPI_Comm *\fInewcomm\fP)
+
+.fi
+.SH Fortran Syntax
+.nf
+INCLUDE 'mpif.h'
+MPI_COMM_SPLIT_TYPE(\fICOMM, SPLIT_TYPE, KEY, INFO, NEWCOMM, IERROR\fP)
+	INTEGER	\fICOMM, SPLIT_TYPE, KEY, INFO, NEWCOMM, IERROR\fP
+
+.fi
+.SH INPUT PARAMETERS
+.ft R
+.TP 1i
+comm
+Communicator (handle).
+.TP 1i
+split_type
+Type of processes to be grouped together (integer).
+.TP 1i
+key
+Control of rank assignment (integer).
+.TP 1i
+info
+Info argument (handle).
+
+.SH OUTPUT PARAMETERS
+.ft R
+.TP 1i
+newcomm
+New communicator (handle).
+.ft R
+.TP 1i
+IERROR
+Fortran only: Error status (integer).
+
+.SH DESCRIPTION
+.ft R
+This function partitions the group associated with \fIcomm\fP into disjoint subgroups, based on
+the type specied by \fIsplit_type\fP. Each subgroup contains all processes of the same type.
+Within each subgroup, the processes are ranked in the order defined by the value of the
+argument \fIkey\fP, with ties broken according to their rank in the old group. A new communicator
+is created for each subgroup and returned in newcomm. This is a collective call;
+all processes must provide the same \fIsplit_type\fP, but each process is permitted to provide
+different values for key. An exception to this rule is that a process may supply the type
+value MPI_UNDEFINED, in which case newcomm returns MPI_COMM_NULL.
+
+.SH SPLIT TYPES
+.ft R
+
+.TP 1i
+MPI_COMM_TYPE_SHARED
+This type splits the communicator into subcommunicators, each of which can create a shared memory region.
+
+.SH ERRORS
+Almost all MPI routines return an error value; C routines as the value of the function and Fortran routines in the last argument.
+.sp
+Before the error value is returned, the current MPI error handler is
+called. By default, this error handler aborts the MPI job, except for I/O function errors. The error handler may be changed with MPI_Comm_set_errhandler; the predefined error handler MPI_ERRORS_RETURN may be used to cause error values to be returned. Note that MPI does not guarantee that an MPI program can continue past an error.
+
+.SH SEE ALSO
+.ft R
+.sp
+MPI_Comm_create
+.br
+MPI_Intercomm_create
+.br
+MPI_Comm_dup
+.br
+MPI_Comm_free
+.br
+MPI_Comm_split
+
