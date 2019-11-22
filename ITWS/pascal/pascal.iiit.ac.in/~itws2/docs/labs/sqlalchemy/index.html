@@ -1,0 +1,772 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-04-27 Thu 03:32 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tutorial on SQLAlchemy</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="VLEAD" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="../../style/css/worg-style.css" />
+<link rel="stylesheet" type="text/css" href="../../style/css/override.css" />
+<link rel="icon" type="image/png" href="../../style/img/favicon/popl.png" />
+<script type="text/javascript" src="../../style/js/org-info.js">
+/**
+ *
+ * @source: ../../style/js/org-info.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in ../../style/js/org-info.js.
+ *
+ * Copyright (C) 2012-2013 Free Software Foundation, Inc.
+ *
+ *
+ * The JavaScript code in this tag is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in ../../style/js/org-info.js.
+ *
+ */
+</script>
+
+<script type="text/javascript">
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "1");
+org_html_manager.set("LINK_HOME", "../../index.html");
+org_html_manager.set("LINK_UP", "../index.html");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="../../index.html"> HOME </a>
+</div><div id="content">
+<h1 class="title">Tutorial on SQLAlchemy</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org8d8f6d2">1. Objective of Lab</a>
+<ul>
+<li><a href="#org9564a01">1.1. Introduction to Relational Database Management System (RDBMS)</a></li>
+<li><a href="#orgefc962c">1.2. Introduction to SQL</a></li>
+<li><a href="#orgf855771">1.3. SQLAlchemy</a></li>
+</ul>
+</li>
+<li><a href="#orgabf9412">2. Building Large Applications with Flask</a></li>
+<li><a href="#orge91dae1">3. Server Side Routes</a></li>
+<li><a href="#org2650d2b">4. Student Module</a></li>
+<li><a href="#org8d382fb">5. Courses Module</a></li>
+<li><a href="#org79cdbb0">6. Report Module</a>
+<ul>
+<li><a href="#org495d1b7">6.1. Create a GradeEntry Model which contains the following fields.</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8d8f6d2" class="outline-2">
+<h2 id="org8d8f6d2"><span class="section-number-2">1</span> Objective of Lab</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+The objective of this lab is to teach the API for Flask-SQLAlchemy.
+It aims to simplify using SQLAlchemy with Flask by providing useful
+defaults and extra helpers that make it easier to accomplish common tasks.
+</p>
+</div>
+
+<div id="outline-container-org9564a01" class="outline-3">
+<h3 id="org9564a01"><span class="section-number-3">1.1</span> Introduction to Relational Database Management System (RDBMS)</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+RDBMS stands for Relational Database Management System.
+RDBMS is the basis for SQL, and for all modern database
+systems like MS SQL Server, IBM DB2, Oracle, MySQL, and Microsoft Access.
+</p>
+
+<p>
+SQL is a standard language for storing, manipulating and retrieving data in databases.
+</p>
+
+<p>
+RDBMS consists of databases. Every database consists of
+tables (or relations). A table is a collection of related
+data entries and it consists of columns and rows.
+</p>
+
+<p>
+For example -
+</p>
+
+<pre class="example">
++----+----------+-----+-----------+----------+
+| ID | NAME     | AGE | ADDRESS   | SALARY   |
++----+----------+-----+-----------+----------+
+|  1 | Ramesh   |  32 | Ahmedabad |  2000.00 |
+|  2 | Khilan   |  25 | Delhi     |  1500.00 |
+|  3 | kaushik  |  23 | Kota      |  2000.00 |
+|  4 | Chaitali |  25 | Mumbai    |  6500.00 |
+|  5 | Hardik   |  27 | Bhopal    |  8500.00 |
+|  6 | Komal    |  22 | MP        |  4500.00 |
+|  7 | Muffy    |  24 | Indore    | 10000.00 |
++----+----------+-----+-----------+----------+
+</pre>
+
+<p>
+Each table is defined by fields. The fields in the CUSTOMERS table consist of ID, NAME, AGE, ADDRESS and SALARY.
+Each field has a data type which is specified while defining the database. This phase is also
+called defining the Database Schema for the application.
+</p>
+
+<p>
+Each field comes with various SQL constraints like NOT NULL, UNIQUE, DEFAULT, PRIMARY KEY, etc.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgefc962c" class="outline-3">
+<h3 id="orgefc962c"><span class="section-number-3">1.2</span> Introduction to SQL</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+SQL (Structured Query Language) is a language that interacts directly with the database.
+For your projects, you do not need to write direct SQL queries for our project because we have a wrapper
+of SQLAlchemy on top of SQL which internally translates our code to SQL statements.
+</p>
+
+<p>
+We will have a basic overview on some of the basic queries.
+Let us consider a table <code>Customers</code>
+</p>
+
+<pre class="example">
+  +----+----------+-----+-----------+----------+
+  | ID | NAME     | AGE | ADDRESS   | SALARY   |
+  +----+----------+-----+-----------+----------+
+  |  1 | Ramesh   |  32 | Ahmedabad |  2000.00 |
+  |  2 | Khilan   |  25 | Delhi     |  1500.00 |
+  |  3 | kaushik  |  23 | Kota      |  2000.00 |
+  |  4 | Chaitali |  25 | Mumbai    |  6500.00 |
+  |  5 | Hardik   |  27 | Bhopal    |  8500.00 |
+  |  6 | Komal    |  22 | MP        |  4500.00 |
+  |  7 | Muffy    |  24 | Indore    | 10000.00 |
+  +----+----------+-----+-----------+----------+
+</pre>
+
+<p>
+To create this table, we need to write a <code>CREATE</code> query -
+</p>
+<pre class="example">
+  CREATE TABLE CUSTOMERS(
+     ID   INT              NOT NULL,
+     NAME VARCHAR (20)     NOT NULL,
+     AGE  INT              NOT NULL,
+     ADDRESS  CHAR (25) ,
+     SALARY   DECIMAL (18, 2),
+     PRIMARY KEY (ID)
+  );
+</pre>
+
+<p>
+To retrieve all the records from the table, we can write a <code>SELECT</code> query -
+</p>
+<pre class="example">
+  SELECT * FROM CUSTOMERS;
+</pre>
+<p>
+Note: <code>*</code> specifies all the columns.
+Output -
+</p>
+<pre class="example">
+  +----+----------+-----+-----------+----------+
+  | ID | NAME     | AGE | ADDRESS   | SALARY   |
+  +----+----------+-----+-----------+----------+
+  |  1 | Ramesh   |  32 | Ahmedabad |  2000.00 |
+  |  2 | Khilan   |  25 | Delhi     |  1500.00 |
+  |  3 | kaushik  |  23 | Kota      |  2000.00 |
+  |  4 | Chaitali |  25 | Mumbai    |  6500.00 |
+  |  5 | Hardik   |  27 | Bhopal    |  8500.00 |
+  |  6 | Komal    |  22 | MP        |  4500.00 |
+  |  7 | Muffy    |  24 | Indore    | 10000.00 |
+  +----+----------+-----+-----------+----------+
+</pre>
+
+<p>
+To retrieve specific columns from the table, we can specify the exact columns instead of <code>*</code>.
+Also specific records can be retrieved from the table by specifying a where clause
+in the <code>SELECT</code> query.
+</p>
+
+<pre class="example">
+  SELECT ID, NAME, SALARY FROM CUSTOMERS WHERE SALARY &gt; 5000;
+</pre>
+
+<p>
+Output -
+</p>
+<pre class="example">
++----+----------+----------+
+| ID | NAME     | SALARY   |
++----+----------+----------+
+|  4 | Chaitali |  6500.00 |
+|  5 | Hardik   |  8500.00 |
+|  7 | Muffy    | 10000.00 |
++----+----------+----------+
+</pre>
+
+<p>
+SQL queries are as simple as writing plain English text. Similar to <code>SELECT</code> query
+there is a basic syntax for writing <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code> queries.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf855771" class="outline-3">
+<h3 id="orgf855771"><span class="section-number-3">1.3</span> SQLAlchemy</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>SQLAlchemy provides a wrapper on top of SQL engine to internally
+translate the code into SQL queries such that it provides a generalized
+and compact syntax instead of writing longer and tedious SQL queries.</li>
+
+<li>To define a table, we need to define a <code>class</code> which inherits from <code>db.Model</code></li>
+</ul>
+
+<pre class="example">
+class Customer(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(20))
+    age = db.Column(db.Integer)
+    address = db.Column(db.String(25))
+    salary = db.Column(db.Float)
+
+    def __init__(self, name, age, address, salary):
+        self.name = name
+        self.age = age
+        self.address = address
+        self.salary = salary
+
+    def __repr__(self):
+        """
+            Used for debugging purpose. Printing Customer objects will
+            print &lt;Customer 'name'&gt;
+        """
+        return '&lt;Customer %r&gt;' % self.name
+</pre>
+
+<ul class="org-ul">
+<li>To insert a Customer we need to create an instance of this class and insert into the database using <code>db.session.add</code></li>
+</ul>
+<pre class="example">
+customer = Customer('raj', 'raj454raj@gmail.com', 21, 'IIIT Hyderabad', 3000)
+db.session.add(customer)
+db.session.commit()
+</pre>
+
+<ul class="org-ul">
+<li>Select all the records</li>
+</ul>
+<pre class="example">
+  customers = Customer.query.all()  # Translates to SELECT * FROM Customers;
+</pre>
+
+<ul class="org-ul">
+<li>Select all the records with name = 'Raj'</li>
+</ul>
+<pre class="example">
+  records = Customer.query.filter(Customer.name == 'Raj').all()
+</pre>
+
+<ul class="org-ul">
+<li>Select all records whose name in a list ('Raj', 'Harshit', 'Ishaan', 'Aayush')</li>
+</ul>
+<pre class="example">
+  records = Customer.query.filter(Customer.name.in_(['Raj', 'Harshit', 'Ishaan', 'Aayush'])).all()
+</pre>
+
+<ul class="org-ul">
+<li>Select all records whose name is anything except these ('Raj', 'Harshit', 'Ishaan', 'Aayush')</li>
+</ul>
+<pre class="example">
+  records = Customer.query.filter(~Customer.name.in_(['Raj', 'Harshit', 'Ishaan', 'Aayush'])).all()
+</pre>
+
+<ul class="org-ul">
+<li>AND and OR can be used to combine various combinations of conditions</li>
+</ul>
+<pre class="example">
+  records = Customer.query.filter(and_(or_(Customer.name == 'Raj', Customer.name == 'Harshit'), Customer.salary &lt; 10000)).all()
+</pre>
+
+<p>
+This gets translated to plain SQL as -
+</p>
+
+<pre class="example">
+  SELECT *
+  FROM Customers
+  WHERE name = ("Raj" OR name = "Harshit") AND (salary &lt; 10000);
+</pre>
+
+<ul class="org-ul">
+<li>Select records whose string is has some substring. Such queries are used for searching purposes.</li>
+</ul>
+<p>
+For example: You receive an input "as" from user and you need to query the database to select all
+the records which contain this user input "as" in their names.
+</p>
+
+<pre class="example">
+  records = Customer.query.filter(Customer.name.like("%as%")).all()
+</pre>
+<p>
+Note: <code>%</code> is a wildcard for matching 0 or more characters. More details about <code>LIKE</code> - <a href="https://www.w3schools.com/sql/sql_like.asp">https://www.w3schools.com/sql/sql_like.asp</a>
+</p>
+
+<ul class="org-ul">
+<li>SQL Joins</li>
+</ul>
+<p>
+Read about joins - <a href="https://www.w3schools.com/sql/sql_join.asp">https://www.w3schools.com/sql/sql_join.asp</a>
+SQL Query mentioned in the above URL -
+</p>
+
+<pre class="example">
+SELECT Orders.OrderID, Customers.CustomerName, Orders.OrderDate
+FROM Orders
+INNER JOIN Customers
+ON Orders.CustomerID=Customers.CustomerID;
+</pre>
+
+<p>
+SQLAlchemy can be as -
+</p>
+<pre class="example">
+records = Orders.query.join(Customers).filter(Orders.customer_id == Customers.customer_id).all()
+</pre>
+
+<p>
+For more detailed API, have a look at <a href="http://docs.sqlalchemy.org/en/latest/orm/tutorial.html">http://docs.sqlalchemy.org/en/latest/orm/tutorial.html</a>
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgabf9412" class="outline-2">
+<h2 id="orgabf9412"><span class="section-number-2">2</span> Building Large Applications with Flask</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+You're going to build three modules as part of this lab:
+</p>
+
+<ol class="org-ol">
+<li>students - module holding student profile.</li>
+<li>courses - module holding course information.</li>
+<li>report - module holding grade reports connecting students and</li>
+</ol>
+<p>
+courses.
+</p>
+
+<p>
+We're going to use <code>Blueprint</code> to connect the modules together. Part of
+the <a href="https://github.com/aayn/it2-flask-advanced-boilerplate">boilerplate</a> will be supplied to you, of which you're supposed to
+complete functionalities. Please stick to the following
+directory structure:
+</p>
+
+<pre class="example">
+├── app
+│   ├── courses
+│   │   ├── controllers.py
+│   │   ├── __init__.py
+│   │   ├── models.py
+│   ├── __init__.py
+│   ├── report
+│   │   ├── controllers.py
+│   │   ├── __init__.py
+│   │   ├── models.py
+│   ├── static
+│   ├── students
+│   │   ├── controllers.py
+│   │   ├── __init__.py
+│   │   ├── models.py
+│   └── templates
+│       ├── courses
+│       │   └── index.html
+│       ├── report
+│       │   ├── courses_for_student.html
+│       │   └── students_for_course.html
+│       └── students
+│           └── index.html
+├── app.db
+├── config.py
+├── requirements.txt
+├── run.py
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orge91dae1" class="outline-2">
+<h2 id="orge91dae1"><span class="section-number-2">3</span> Server Side Routes</h2>
+<div class="outline-text-2" id="text-3">
+<pre class="example">
+/students/ - GET(read)
+/students/&lt;rollno&gt; - GET(read), POST(update)
+/students/create - GET(form), POST(create)
+/students/&lt;rollno&gt;/delete - POST(delete)
+
+/courses/ - GET(read)
+/courses/&lt;code&gt; - GET(read), POST(update)
+/courses/create - GET(form), POST(create)
+/courses/&lt;code&gt;/delete - POST(delete)
+
+-- Search. 
+/students/search - GET
+/courses/search - GET
+
+/report/student/&lt;rollno&gt; - GET(read)
+/report/course/&lt;code&gt; - GET(read)
+/report/entry/&lt;rollno&gt;/&lt;code&gt; - GET(read)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org2650d2b" class="outline-2">
+<h2 id="org2650d2b"><span class="section-number-2">4</span> Student Module</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Define in <code>app/students/models.py</code> a model for the student, which holds
+roll number and name of the student. 
+</p>
+
+<p>
+In <code>app/students/controllers.py</code>, write controllers for create, read,
+update and delete as specified in the route skeleton above.
+</p>
+
+<p>
+Implement a search feature. 
+</p>
+
+<pre class="example">
+/students/search?q=&lt;key&gt;
+</pre>
+
+<p>
+A <code>GET</code> request with the above format should display the student details
+with <code>&lt;key&gt;</code> in his/her name.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8d382fb" class="outline-2">
+<h2 id="org8d382fb"><span class="section-number-2">5</span> Courses Module</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Almost as same as the above problem, create <code>models.py</code> and
+<code>controllers.py</code> under <code>app/courses</code> for CRUD operations on courses.
+</p>
+
+<p>
+Also implement a search feature for the <code>courses</code> module.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org79cdbb0" class="outline-2">
+<h2 id="org79cdbb0"><span class="section-number-2">6</span> Report Module</h2>
+<div class="outline-text-2" id="text-6">
+</div><div id="outline-container-org495d1b7" class="outline-3">
+<h3 id="org495d1b7"><span class="section-number-3">6.1</span> Create a GradeEntry Model which contains the following fields.</h3>
+<div class="outline-text-3" id="text-6-1">
+<pre class="example">
+GradeEntry
+    assignments: Float
+    labs: Float
+    mids: Float
+    end_sem: Float
+    student_rollno: Foreign Key, Student.rollno
+    course_code: Foreign Key, Course.code
+</pre>
+
+<p>
+Using the above structure and help of other models, implement the
+functionalities specified in the route skeleton above.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: VLEAD</p>
+<p class="date">Created: 2017-04-27 Thu 03:32</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

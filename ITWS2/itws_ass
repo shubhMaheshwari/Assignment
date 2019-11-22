@@ -1,0 +1,269 @@
+#lang racket
+(require rackunit)
+;;;reduce : []
+(define reduce
+  (λ (f init ls)
+    (if (null? ls) init (reduce f (f init (first ls)) (rest ls)))
+      )
+)
+
+(define binary-and 
+  (lambda (x y)
+    (and x y)))
+
+(define (all-satisfy predicate ls) 
+  (reduce binary-and #t (map predicate ls)))
+
+(check-equal?  (all-satisfy even? '(2 3 4)) #f "All-even-test #f")
+(check-equal?  (all-satisfy even? '(2 4 6)) #t "All-even-test #t")
+(check-equal?  (all-satisfy boolean? '(#t #f 6)) #f "All-boolean-test #f")
+(check-equal?  (all-satisfy boolean? '(#t #f #t)) #t "All-boolean-test #t")
+
+;;;reduce
+(define reverse
+  (λ (LIST)
+    (reduce last-element '() LIST)
+    )
+  )
+
+(define last-element
+  (λ (rev-list val)
+(cons val rev-list)
+    )
+  )
+
+;;;tests
+(check-equal? (reverse '(a b c)) '(c b a) "Reverse (a b c)")
+(check-equal? (reverse '(1 2 3 4)) '(4 3 2 1) "Reverse (1 2 3 4)")
+
+
+(define list-length
+  (λ (LIST)
+    (reduce listLength 0 LIST)
+  )
+  )
+
+(define listLength
+(λ (len val)
+  (add1 len)
+  )
+  )
+
+;;;tests
+(check-equal? (list-length '(a b c)) 3 "List Length (a b c)")
+(check-equal? (list-length '(1 2 3 4)) 4 "List Length (1 2 3 4)")
+
+;;;compose
+(define compose
+  (λ (f g)
+    (λ (x)
+      (f (g x))
+      )
+)
+  )
+
+;tests
+(define next-even? (compose even? add1))
+(check-equal? (next-even? 4) #f "compose-t1")
+(check-equal? (next-even? 5) #t "compose-t2")
+
+
+;compose*
+;(define compose*
+ ; (λ (ls) (compose))
+  ;)
+
+;list-map
+(define list-map
+  (λ (func ls)
+    (let [(oper (λ (ls val)
+(cons (func val) ls)
+    )
+                )]
+     (reverse (reduce oper '() ls))
+    )
+    )
+  )
+
+;tests
+(check-equal? (list-map add1 '(1 2 3 4)) '(2 3 4 5) "test 1")
+(check-equal? (list-map boolean? '(1 #t #f 4)) '(#f #t #t #f) "test 2")
+
+;;problem 8
+(define triangle
+  (λ (val)
+    (if(number? val) (cons val '(triangle)) #f)
+    )
+  )
+
+(define square
+  (λ (val)
+    (if(number? val) (cons val '(square)) #f)
+    )
+  )
+
+(define circle
+  (λ (val)
+    (if(number? val) (cons val '(circle)) #f)
+    )
+  )
+
+(define triangle?
+(λ (list)
+(and (equal? (list-length list) 2)
+     (equal? (rest list) '(triangle)))
+)
+  )
+
+(define square?
+(λ (list)
+(and (equal? (list-length list) 2)
+     (equal? (rest list) '(square)))
+)
+  )
+
+(define circle?
+(λ (list)
+(and (equal? (list-length list) 2)
+     (equal? (rest list) '(circle)))
+)
+  )
+
+;shape
+(define shape?
+(λ (data)
+(or (triangle? data)
+    (circle? data)
+    (square? data)
+    )
+  )
+  )
+
+
+(define area
+(λ (shape)
+(
+ if(triangle? shape)
+   (equilateral-triangle-area (first shape))
+   (if(square? shape)
+      (square-area (first shape))
+      (if(circle? shape)
+         (circle-area (first shape))
+         "Not a shape"
+         )
+      )
+   )
+  )
+  )
+
+
+(define perimeter
+(λ (shape)
+(
+ if(triangle? shape)
+   (equilateral-triangle-perimeter (first shape))
+   (if(square? shape)
+      (square-perimeter (first shape))
+      (if(circle? shape)
+         (circle-perimeter (first shape))
+         "Not a shape"
+         )
+      )
+   )
+  )
+  )
+
+
+
+(define equilateral-triangle-area
+  (lambda (side)
+    (* (/ (sqrt 3) 4) side side)))
+
+(define square-area
+  (lambda (side)
+    (* side side)))
+
+(define circle-area
+  (lambda (radius)
+    (* pi radius radius)))
+
+
+(define square-perimeter
+    (lambda (side)
+        (* 4 side)))
+
+(define equilateral-triangle-perimeter
+    (lambda (side)
+        (* 3 side)))
+
+(define circle-perimeter
+    (lambda (radius)
+        (* 2 pi radius)))
+
+;tests
+(check-equal? (area (triangle 3)) (equilateral-triangle-area 3) "Triangle
+area test")
+
+(check-equal? (area (square 4)) (square-area 4) "Square area test")
+(check-equal? (area (circle 4)) (circle-area 4) "Circle atrea test")
+
+(check-equal? (perimeter (triangle 3)) (equilateral-triangle-perimeter 3) "Triangle
+perimeter test")
+
+(check-equal? (perimeter (square 4)) (square-perimeter 4) "Square perimeter test")
+(check-equal? (perimeter (circle 4)) (circle-perimeter 4) "Circle perimeter test")
+
+;polar
+(define polar
+  (λ (val1 val2)
+    (if(and (number? val1) (number? val2)) '(polar val1 val2) #f)
+    )
+  )
+
+(define rectangular
+  (λ (val1 val2)
+    (if(and (number? val1) (number? val2)) '(rectangular val1 val2) #f)
+    )
+  )
+
+
+
+;;; polar: [real? real?] -> polar?
+(define polar?
+  (λ (ls)
+    (and (equal? (list-length ls) 3) (equal? (first ls) 'polar))
+    )
+)
+  
+;;; rectangular: [real? real?] -> rectangular?
+(define rectangular?
+  (λ (ls)
+    (and (equal? (list-length ls) 3) (equal? (first ls) 'rectangular))
+    )
+)
+
+;;; point?: any/c -> boolean?
+(define point
+  (λ (val1 val2)
+    (if(and (number? val1) (number? val2)) #t #f)
+    )
+  )
+
+
+;;; polar-to-rectangular: polar? -> rectangular?
+(define polar-to-rectangular
+(λ (pol)
+  (if(polar? pol) (list rectangular (* (second pol) (cos (third pol))) (* (second pol) (sin (third pol)))) #f)
+  )
+)
+
+
+;;; rectangular-to-polar: rectangular? -> polar?
+;;; point-equal? : [point? point?] -> boolean? ; within 0.001 of each
+;;; coordinate.
+
+;;; get-x: point? -> real?
+;;; get-y: point? -> real?
+;;; get-r: point? -> real?
+;;; get-t: point? -> real?
+

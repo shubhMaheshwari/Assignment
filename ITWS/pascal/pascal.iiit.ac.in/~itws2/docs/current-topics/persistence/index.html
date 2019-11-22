@@ -1,0 +1,1694 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-04-27 Thu 03:32 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Persistence:  Mapping Objects to Data Base Tables</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="VLEAD" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="../../style/css/worg-style.css" />
+<link rel="stylesheet" type="text/css" href="../../style/css/override.css" />
+<link rel="icon" type="image/png" href="../../style/img/favicon/popl.png" />
+<script type="text/javascript" src="../../style/js/org-info.js">
+/**
+ *
+ * @source: ../../style/js/org-info.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in ../../style/js/org-info.js.
+ *
+ * Copyright (C) 2012-2013 Free Software Foundation, Inc.
+ *
+ *
+ * The JavaScript code in this tag is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in ../../style/js/org-info.js.
+ *
+ */
+</script>
+
+<script type="text/javascript">
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "1");
+org_html_manager.set("LINK_HOME", "../../index.html");
+org_html_manager.set("LINK_UP", "../index.html");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="../../index.html"> HOME </a>
+</div><div id="content">
+<h1 class="title">Persistence:  Mapping Objects to Data Base Tables</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org6738e85">1. Objective</a></li>
+<li><a href="#org79bfa36">2. Tables</a>
+<ul>
+<li><a href="#orgdb5c33c">2.1. Table <code>tbl</code></a></li>
+</ul>
+</li>
+<li><a href="#orga5b3117">3. Mapping Email, Name and Table to Database tables</a>
+<ul>
+<li><a href="#orgbe7f32e">3.1. Email</a>
+<ul>
+<li><a href="#org4138362">3.1.1. Email table</a></li>
+<li><a href="#orged34baf">3.1.2. Id</a></li>
+<li><a href="#orgc78118e">3.1.3. Val</a></li>
+<li><a href="#orgd678f39">3.1.4. Summary with example</a></li>
+<li><a href="#orgfede17c">3.1.5. MySQL description of <code>email</code> table</a></li>
+</ul>
+</li>
+<li><a href="#orge77d25c">3.2. Name</a>
+<ul>
+<li><a href="#org320b33c">3.2.1. Summary with example</a></li>
+<li><a href="#org3fdb085">3.2.2. MySQL</a></li>
+</ul>
+</li>
+<li><a href="#org83fb4da">3.3. User</a>
+<ul>
+<li><a href="#org0d37649">3.3.1. Schema and Foreign Keys</a></li>
+<li><a href="#orgc381c28">3.3.2. Summary with example</a></li>
+<li><a href="#orgcc4c3b1">3.3.3. MySQL</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgc4d1524">4. ORM</a>
+<ul>
+<li><a href="#orgc1528e4">4.1. Email</a>
+<ul>
+<li><a href="#orgc9cd006">4.1.1. <code>tablename</code></a></li>
+<li><a href="#org130eb23">4.1.2. <code>id</code></a></li>
+<li><a href="#orgb04f9a6">4.1.3. <code>val</code></a></li>
+<li><a href="#org2a27d08">4.1.4. Persisting a class with <code>mk_persistent</code></a></li>
+</ul>
+</li>
+<li><a href="#org0ceec42">4.2. Name</a>
+<ul>
+<li><a href="#orga20126b">4.2.1. <code>tablename</code></a></li>
+<li><a href="#orge04be82">4.2.2. <code>id</code></a></li>
+<li><a href="#org34f4815">4.2.3. <code>val</code></a></li>
+<li><a href="#org761841b">4.2.4. <code>users</code></a></li>
+<li><a href="#org0dcb591">4.2.5. Creating persistent class</a></li>
+</ul>
+</li>
+<li><a href="#orgecc3564">4.3. User</a>
+<ul>
+<li><a href="#orgc431b0c">4.3.1. User roles</a></li>
+<li><a href="#orgb9b8315">4.3.2. User</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org6738e85" class="outline-2">
+<h2 id="org6738e85"><span class="section-number-2">1</span> Objective</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+We look at how to map a data model to a schema for tables,
+both manually, and with the use of the SQL Alchemy Object
+Relational Mapping library in Python.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org79bfa36" class="outline-2">
+<h2 id="org79bfa36"><span class="section-number-2">2</span> Tables</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+A table is a structure with rows and columns.  In each row,
+an entry in a column may be empty.
+</p>
+</div>
+
+<div id="outline-container-orgdb5c33c" class="outline-3">
+<h3 id="orgdb5c33c"><span class="section-number-3">2.1</span> Table <code>tbl</code></h3>
+<div class="outline-text-3" id="text-2-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">name</th>
+<th scope="col" class="org-right">val</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Alpha</td>
+<td class="org-right">Nat</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">a</td>
+<td class="org-right">2</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">b</td>
+<td class="org-right">1</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">c</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">a</td>
+<td class="org-right">4</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">3</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">a</td>
+<td class="org-right">3</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Now we may think of the table as a set of rows.  And the
+columns as defining relations.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">row</th>
+<th scope="col" class="org-left">name</th>
+<th scope="col" class="org-right">val</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">Row</td>
+<td class="org-left">Alpha</td>
+<td class="org-right">Nat</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">a</td>
+<td class="org-right">2</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">b</td>
+<td class="org-right">1</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">c</td>
+<td class="org-right">NULL</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">a</td>
+<td class="org-right">4</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">5</td>
+<td class="org-left">NULL</td>
+<td class="org-right">3</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">6</td>
+<td class="org-left">a</td>
+<td class="org-right">3</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+
+<pre class="example">
+Row     = Nat
+Rows    = {1, 2, 3, 4, 5, 6} 
+Names   = {a, b, c}  the set of values in the name column
+Vals    = {1, 2, 3, 4} the set of  values in the val column
+Names^  = Names union {NULL} 
+Vals^   = Vals union {NULL}
+</pre>
+
+<p>
+<code>name</code> and <code>val</code> are functions from <code>Rows</code> to <code>Names^</code> and
+<code>Vals^</code>.
+</p>
+
+<pre class="example">
+name = def =   {(1, a), (2, b), (3, c), (4, a), (5, NULL),(6, a)}
+val  = def =   {(1, 2), (2, 1), (3, NULL), (4, 4), (5, 3),(6, 3)}
+
+name: Rows+    &gt;  Names^!
+name: Rows+    &gt;  Names?
+val:  Rows+    &gt;  Vals^!
+val:  Rows+    &gt;  Vals?
+</pre>
+
+
+
+<p>
+We may want to introduce constraints on the table.  Here are
+some examples:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">True/False</th>
+<th scope="col" class="org-left">Evidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">name col is</td>
+<td class="org-left">name: Rows &gt; Names!</td>
+<td class="org-left">name relates every element</td>
+<td class="org-left">False</td>
+<td class="org-left">(5, NULL)</td>
+</tr>
+
+<tr>
+<td class="org-left">not nullable</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">in Rows to exactly one</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">element in Names</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">val col could</td>
+<td class="org-left">val: Rows &gt; Vals?</td>
+<td class="org-left">val relates each element of</td>
+<td class="org-left">True</td>
+<td class="org-left">(3, NULL)</td>
+</tr>
+
+<tr>
+<td class="org-left">be null</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Rows to at most one element</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">of Vals</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">name col is</td>
+<td class="org-left">name: Rows! &gt; Names!</td>
+<td class="org-left">name relates each element of</td>
+<td class="org-left">False</td>
+<td class="org-left">(1,a)</td>
+</tr>
+
+<tr>
+<td class="org-left">a key</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Rows to exactly one element</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">(6,a)</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">of Names.</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">The relation is injective:  Two</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">rows can't have the same name.</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">The relation is onto: Each name</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">in Names occurs in some row.</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orga5b3117" class="outline-2">
+<h2 id="orga5b3117"><span class="section-number-2">3</span> Mapping Email, Name and Table to Database tables</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-orgbe7f32e" class="outline-3">
+<h3 id="orgbe7f32e"><span class="section-number-3">3.1</span> Email</h3>
+<div class="outline-text-3" id="text-3-1">
+</div><div id="outline-container-org4138362" class="outline-4">
+<h4 id="org4138362"><span class="section-number-4">3.1.1</span> Email table</h4>
+<div class="outline-text-4" id="text-3-1-1">
+<p>
+An element of the Email-set is identified by a row in the
+Email table <code>Email-tbl</code>.
+</p>
+
+<pre class="example">
+|-----+----+-----+
+| row | id | val | 
+|-----+----+-----+
+
+
+
+|------------------+---------+----------------------------------------------|
+| Set              | Abbrev. | Description                                  |
+|------------------+---------+----------------------------------------------|
+| =Email-tbl.row=  | =Rows=  | set of row numbers in the table              |
+| =Email-tbl.id=   | =Ids=   | set of non-null Ids occurring in the table   |
+| =Email-tbl.val=  | =Vals=  | set of non-null Vals occurring in the table  |
+| =Email-tbl.user= | =Users= | set of non-null users occurring in the table |
+|------------------+---------+----------------------------------------------|
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orged34baf" class="outline-4">
+<h4 id="orged34baf"><span class="section-number-4">3.1.2</span> Id</h4>
+<div class="outline-text-4" id="text-3-1-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">No.</th>
+<th scope="col" class="org-left">description</th>
+<th scope="col" class="org-left">notation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">In the Email table,</td>
+<td class="org-left">id: Rows &gt; Ids?</td>
+</tr>
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">id is a column</td>
+<td class="org-left">Ids &lt;: Int</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">of type Int</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">Every row as one id,</td>
+<td class="org-left">id: Rows &gt; Ids!</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">which is not nullable</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">Ref. integrity:</td>
+<td class="org-left">id: Rows+ &gt; Ids!</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">Each Id occurs</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">in some row.</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">No two rows have the</td>
+<td class="org-left">id: Rows? &gt; Ids!</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">same id</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">5</td>
+<td class="org-left">Combine 3 &amp; 4</td>
+<td class="org-left">id: Rows! &gt; Ids!</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">6</td>
+<td class="org-left">Id is Primary Key</td>
+<td class="org-left">id: Rows! &gt; Ids!</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgc78118e" class="outline-4">
+<h4 id="orgc78118e"><span class="section-number-4">3.1.3</span> Val</h4>
+<div class="outline-text-4" id="text-3-1-3">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">No.</th>
+<th scope="col" class="org-left">description</th>
+<th scope="col" class="org-left">notation</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">In the Email table,</td>
+<td class="org-left">val: Rows &gt; Vals?</td>
+<td class="org-left">val is a partial function</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">val is a column</td>
+<td class="org-left">Vals &lt;: Str</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">of type Str</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">Every row has one val,</td>
+<td class="org-left">val: Rows &gt; Vals!</td>
+<td class="org-left">val is a total function</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">which is not nullable</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">Ref. integrity:</td>
+<td class="org-left">val: Rows+ &gt; Vals!</td>
+<td class="org-left">val is onto</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">Each Val occurs</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">in some row.</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">Val is unique: No two</td>
+<td class="org-left">val: Rows? &gt; Vals!</td>
+<td class="org-left">val is injective</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">rows have the same Val</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">5</td>
+<td class="org-left">Combine 3 &amp; 4</td>
+<td class="org-left">val: Rows! &gt; Vals!</td>
+<td class="org-left">val is an isomorphism</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">6</td>
+<td class="org-left">Val is a Key</td>
+<td class="org-left">val: Rows! &gt; Vals!</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">(but not the primary</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">key)</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgd678f39" class="outline-4">
+<h4 id="orgd678f39"><span class="section-number-4">3.1.4</span> Summary with example</h4>
+<div class="outline-text-4" id="text-3-1-4">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">row</th>
+<th scope="col" class="org-left">id</th>
+<th scope="col" class="org-left">val</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Int</td>
+<td class="org-left">Str</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Primary</td>
+<td class="org-left">unique</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">(implies</td>
+<td class="org-left">not nullable</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">unique and</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">non-nullable)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">1</td>
+<td class="org-left">394</td>
+<td class="org-left">"joe@gmail.com"</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">2</td>
+<td class="org-left">207</td>
+<td class="org-left">"jill@gmail.com"</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgfede17c" class="outline-4">
+<h4 id="orgfede17c"><span class="section-number-4">3.1.5</span> MySQL description of <code>email</code> table</h4>
+<div class="outline-text-4" id="text-3-1-5">
+<pre class="example">
+mysql&gt; desc email_tbl;
++-------+--------------+------+-----+---------+----------------+
+| Field | Type         | Null | Key | Default | Extra          |
++-------+--------------+------+-----+---------+----------------+
+| id    | int(11)      | NO   | PRI | NULL    | auto_increment |
+| val   | varchar(128) | NO   | UNI | NULL    |                |
++-------+--------------+------+-----+---------+----------------+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge77d25c" class="outline-3">
+<h3 id="orge77d25c"><span class="section-number-3">3.2</span> Name</h3>
+<div class="outline-text-3" id="text-3-2">
+</div><div id="outline-container-org320b33c" class="outline-4">
+<h4 id="org320b33c"><span class="section-number-4">3.2.1</span> Summary with example</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">row</th>
+<th scope="col" class="org-left">id</th>
+<th scope="col" class="org-left">val</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Int</td>
+<td class="org-left">Str</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Primary</td>
+<td class="org-left">not nullable</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">unique</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">1</td>
+<td class="org-left">702</td>
+<td class="org-left">"Joe"</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">2</td>
+<td class="org-left">495</td>
+<td class="org-left">"Jill"</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org3fdb085" class="outline-4">
+<h4 id="org3fdb085"><span class="section-number-4">3.2.2</span> MySQL</h4>
+<div class="outline-text-4" id="text-3-2-2">
+<pre class="example">
+mysql&gt; desc name_tbl;
+
++-------+--------------+------+-----+---------+----------------+
+| Field | Type         | Null | Key | Default | Extra          |
++-------+--------------+------+-----+---------+----------------+
+| id    | int(11)      | NO   | PRI | NULL    | auto_increment |
+| val   | varchar(128) | NO   | UNI | NULL    |                |
++-------+--------------+------+-----+---------+----------------+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org83fb4da" class="outline-3">
+<h3 id="org83fb4da"><span class="section-number-3">3.3</span> User</h3>
+<div class="outline-text-3" id="text-3-3">
+</div><div id="outline-container-org0d37649" class="outline-4">
+<h4 id="org0d37649"><span class="section-number-4">3.3.1</span> Schema and Foreign Keys</h4>
+<div class="outline-text-4" id="text-3-3-1">
+<pre class="example">
+|-----+----+---------+----------|
+| row | id | name_id | email_id |
+|-----+----+---------+----------|
+
+
+|-------------+-------------+-------------|
+| id          | name_id     | email_id    |
+|-------------+-------------+-------------|
+| Int         | Int         | Int         |
+|-------------+-------------+-------------|
+| Primary Key | Foreign Key | Foreign Key |
+|-------------+-------------+-------------|
+</pre>
+
+
+<ul class="org-ul">
+<li>A column labelled as a foreign key means that the value
+in that column is a primary key of another table.</li>
+
+<li>Since databases are flat (entities can't nest other
+entities), some entries are pointers to other entities.</li>
+
+<li>This is done by employing keys of those other entities.
+Such keys play the role of a foreign key.</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgc381c28" class="outline-4">
+<h4 id="orgc381c28"><span class="section-number-4">3.3.2</span> Summary with example</h4>
+<div class="outline-text-4" id="text-3-3-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">row</th>
+<th scope="col" class="org-left">id</th>
+<th scope="col" class="org-left">name_id</th>
+<th scope="col" class="org-left">email_id</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Int</td>
+<td class="org-left">Int</td>
+<td class="org-left">Int</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Primary</td>
+<td class="org-left">not nullable</td>
+<td class="org-left">not nullable</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">unique</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">1</td>
+<td class="org-left">295</td>
+<td class="org-left">702</td>
+<td class="org-left">394</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">2</td>
+<td class="org-left">631</td>
+<td class="org-left">495</td>
+<td class="org-left">207</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgcc4c3b1" class="outline-4">
+<h4 id="orgcc4c3b1"><span class="section-number-4">3.3.3</span> MySQL</h4>
+<div class="outline-text-4" id="text-3-3-3">
+<pre class="example">
+mysql&gt; desc user;
++----------+---------+------+-----+---------+----------------+
+| Field    | Type    | Null | Key | Default | Extra          |
++----------+---------+------+-----+---------+----------------+
+| id       | int(11) | NO   | PRI | NULL    | auto_increment |
+| name_id  | int(11) | NO   | MUL | NULL    |                |
+| email_id | int(11) | NO   | UNI | NULL    |                |
++----------+---------+------+-----+---------+----------------+
+</pre>
+
+<p>
+The <code>MUL</code> attribute refers to the fact that the <code>name_id</code>
+relation is not injective:  it is possible for more than one
+user row to have the same name, i.e., <code>name_id: Rows+ &gt; Name_Id!</code>
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc4d1524" class="outline-2">
+<h2 id="orgc4d1524"><span class="section-number-2">4</span> ORM</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>So far, we started with data model and mapped the data
+model to the tables.</li>
+
+<li>An ORM is a library that lets us <i>programmatically</i>
+specify <i>how to construct</i> the tables.</li>
+
+<li>It does this by defining a class and its fields,
+and how each field maps to the databases's columns or
+relations.</li>
+</ul>
+
+
+<p>
+Let's look the mapping between the tables and the objects.
+</p>
+</div>
+
+<div id="outline-container-orgc1528e4" class="outline-3">
+<h3 id="orgc1528e4"><span class="section-number-3">4.1</span> Email</h3>
+<div class="outline-text-3" id="text-4-1">
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold; font-style: italic;">args</span> = {<span style="font-style: italic;">"__tablename__"</span>: <span style="font-style: italic;">"email_tbl"</span>,
+        <span style="font-style: italic;">"id"</span>: db.Column(db.Integer, primary_key=<span style="font-weight: bold; text-decoration: underline;">True</span>),
+        <span style="font-style: italic;">"val"</span>: db.Column(db.String(128), unique=<span style="font-weight: bold; text-decoration: underline;">True</span>, nullable=<span style="font-weight: bold; text-decoration: underline;">False</span>),
+        }
+
+<span style="font-weight: bold; font-style: italic;">Email</span> = ClassPersistenceTemplate.mk_persistent(Email, [<span style="font-style: italic;">'val'</span>], **args)
+</pre>
+</div>
+
+<p>
+Let us look at each line in the above:
+</p>
+</div>
+
+<div id="outline-container-orgc9cd006" class="outline-4">
+<h4 id="orgc9cd006"><span class="section-number-4">4.1.1</span> <code>tablename</code></h4>
+<div class="outline-text-4" id="text-4-1-1">
+<pre class="example">
+"__tablename__": "email_tbl",
+</pre>
+<p>
+This specifies <code>email_tbl</code> as the name of the table in the
+database that corresponds to the class <code>Email</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org130eb23" class="outline-4">
+<h4 id="org130eb23"><span class="section-number-4">4.1.2</span> <code>id</code></h4>
+<div class="outline-text-4" id="text-4-1-2">
+<pre class="example">
+    "id": db.Column(db.Integer, primary_key=True),
+</pre>
+
+<p>
+This specifies the field <code>id</code> as the table's <code>id</code> column.
+The attributes (here, <code>primary_key</code>) are also specified.
+Note how this corresponds to the mathematical specification
+<code>id: Rows! &gt; Ids!</code>, which in turn means an isomorphism
+between <code>Rows</code> and <code>Ids</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb04f9a6" class="outline-4">
+<h4 id="orgb04f9a6"><span class="section-number-4">4.1.3</span> <code>val</code></h4>
+<div class="outline-text-4" id="text-4-1-3">
+<pre class="example">
+    "val": db.Column(db.String(128), unique=True, nullable=False),
+</pre>
+
+<p>
+This specifies the field <code>val</code> to be the table's <code>val</code>
+column.  The attributes (here, <code>unique</code> and <code>nullable</code>) are
+also specified.  Note how this corresponds to <code>val: Rows! &gt;
+Vals!</code>.  
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2a27d08" class="outline-4">
+<h4 id="org2a27d08"><span class="section-number-4">4.1.4</span> Persisting a class with <code>mk_persistent</code></h4>
+<div class="outline-text-4" id="text-4-1-4">
+<pre class="example">
+Email = ClassPersistenceTemplate.mk_persistent(Email, ['val'], **args)
+</pre>
+
+<ul class="org-ul">
+<li>This line specifies that <code>Email</code> is now redefined to be a
+class with <i>persistence</i>.</li>
+</ul>
+
+
+<ul class="org-ul">
+<li><code>['val']</code> specifies the (possibly compound) key.  This
+information is used to locate the objects in the
+corresponding table.</li>
+
+<li><code>**args</code> are the specification to create the class
+<code>Email</code></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0ceec42" class="outline-3">
+<h3 id="org0ceec42"><span class="section-number-3">4.2</span> Name</h3>
+<div class="outline-text-3" id="text-4-2">
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold; font-style: italic;">args</span> = {<span style="font-style: italic;">"__tablename__"</span>: <span style="font-style: italic;">"name_tbl"</span>,
+        <span style="font-style: italic;">"id"</span>: db.Column(db.Integer, primary_key=<span style="font-weight: bold; text-decoration: underline;">True</span>),
+        <span style="font-style: italic;">"val"</span>: db.Column(db.String(128), unique=<span style="font-weight: bold; text-decoration: underline;">True</span>, nullable=<span style="font-weight: bold; text-decoration: underline;">False</span>),
+        <span style="font-style: italic;">"users"</span>: db.relationship(<span style="font-style: italic;">'User'</span>, backref=<span style="font-style: italic;">'name'</span>)
+        }
+<span style="font-weight: bold; font-style: italic;">Name</span> = ClassPersistenceTemplate.mk_persistent(Name, [<span style="font-style: italic;">'val'</span>], **args)
+</pre>
+</div>
+
+<p>
+Let us look at each line in the above:
+</p>
+</div>
+
+<div id="outline-container-orga20126b" class="outline-4">
+<h4 id="orga20126b"><span class="section-number-4">4.2.1</span> <code>tablename</code></h4>
+<div class="outline-text-4" id="text-4-2-1">
+<pre class="example">
+"__tablename__": "name_tbl",
+</pre>
+<p>
+This specifies <code>name_tbl</code> as the name of the table in the
+database that corresponds to the class <code>Name</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge04be82" class="outline-4">
+<h4 id="orge04be82"><span class="section-number-4">4.2.2</span> <code>id</code></h4>
+<div class="outline-text-4" id="text-4-2-2">
+<pre class="example">
+    "id": db.Column(db.Integer, primary_key=True),
+</pre>
+
+<p>
+This specifies the field <code>id</code> as the table's <code>id</code> column.
+The attributes (here, <code>primary_key</code>) are also specified. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org34f4815" class="outline-4">
+<h4 id="org34f4815"><span class="section-number-4">4.2.3</span> <code>val</code></h4>
+<div class="outline-text-4" id="text-4-2-3">
+<pre class="example">
+    "val": db.Column(db.String(128), unique=True, nullable=False),
+</pre>
+
+<p>
+This specifies the field <code>val</code> to be the table's <code>val</code>
+column.  The attributes (here, <code>unique</code> and <code>nullable</code>) are
+also specified.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org761841b" class="outline-4">
+<h4 id="org761841b"><span class="section-number-4">4.2.4</span> <code>users</code></h4>
+<div class="outline-text-4" id="text-4-2-4">
+<p>
+The line
+</p>
+<pre class="example">
+        "users": db.relationship('User', backref='name')
+</pre>
+
+<p>
+creates two relations, each inverse of the other:
+</p>
+
+<pre class="example">
+users: name_tbl &gt; user-tbl 
+name: user_tbl &gt;  name_tbl
+</pre>
+
+<p>
+Operationally, the python statement above does the following:
+</p>
+
+<ol class="org-ol">
+<li><p>
+It defines a field called <code>users</code> in a <code>Name</code> object
+</p>
+
+<ol class="org-ol">
+<li>which specifies the relationship <code>users: name_tbl &gt; user_tbl</code>.</li>
+
+<li>This relationship <code>users</code> takes a name, say</li>
+</ol>
+<p>
+<code>n:name_tbl</code> and computes all users with that name
+as follows:
+</p>
+
+<ol class="org-ol">
+<li><p>
+Go to the table specified in <code>User</code> class (i.e.,
+<code>user_tbl</code>). 
+</p>
+
+<ol class="org-ol">
+<li>In the table (<code>user_tbl</code>) find the foreign key</li>
+</ol>
+<p>
+column that refers to the the table of this
+class. (See definition of <code>User</code>)
+</p>
+
+<ol class="org-ol">
+<li>The class is <code>Name</code>.  Its table is <code>name_tbl</code>.
+The foreign key is <code>name_tbl.id</code></li>
+
+<li>Find all users whose foreign key is equal to the
+<code>id</code> field of <code>n</code>.</li>
+</ol></li>
+</ol></li>
+
+<li>It creates an object field <code>name</code> in the <code>User</code> class.
+This field computes the inverse of <code>users</code>: given a
+user, it computes the name of the user.</li>
+</ol>
+
+
+<p>
+See <a href="http://docs.sqlalchemy.org/en/latest/orm/backref.html">http://docs.sqlalchemy.org/en/latest/orm/backref.html</a> for a detailed explanation of <code>backref</code>. 
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org0dcb591" class="outline-4">
+<h4 id="org0dcb591"><span class="section-number-4">4.2.5</span> Creating persistent class</h4>
+<div class="outline-text-4" id="text-4-2-5">
+<pre class="example">
+Name = ClassPersistenceTemplate.mk_persistent(Name, ['val'], **args)
+</pre>
+
+<ul class="org-ul">
+<li>This line specifies that <code>Name</code> is now redefined to be a
+class with <i>persistence</i>.</li>
+</ul>
+
+
+<ul class="org-ul">
+<li><code>['val']</code> specifies the (possibly compound) key.  This
+information is locate the objects in the corresponding
+table.</li>
+
+<li><code>**args</code> are the specification to create the class <code>Name</code></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgecc3564" class="outline-3">
+<h3 id="orgecc3564"><span class="section-number-3">4.3</span> User</h3>
+<div class="outline-text-3" id="text-4-3">
+</div><div id="outline-container-orgc431b0c" class="outline-4">
+<h4 id="orgc431b0c"><span class="section-number-4">4.3.1</span> User roles</h4>
+<div class="outline-text-4" id="text-4-3-1">
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold; font-style: italic;">users_roles</span> = db.Table(<span style="font-style: italic;">'users_roles'</span>,
+                      db.Column(<span style="font-style: italic;">'user_id'</span>,db.Integer, db.ForeignKey(<span style="font-style: italic;">'user_tbl.id'</span>)),
+                      db.Column(<span style="font-style: italic;">'role_id'</span>,db.Integer,db.ForeignKey(<span style="font-style: italic;">'role_tbl.id'</span>)))
+</pre>
+</div>
+
+<p>
+Creates a table <code>users_roles</code> that stores the relation
+<code>users_roles:user_tbl &gt; role_tbl</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgb9b8315" class="outline-4">
+<h4 id="orgb9b8315"><span class="section-number-4">4.3.2</span> User</h4>
+<div class="outline-text-4" id="text-4-3-2">
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold; font-style: italic;">args</span> = {<span style="font-style: italic;">"__tablename__"</span>: <span style="font-style: italic;">"user_tbl"</span>,
+        <span style="font-style: italic;">"id"</span>: db.Column(db.Integer, primary_key=<span style="font-weight: bold; text-decoration: underline;">True</span>),
+        <span style="font-style: italic;">"name_id"</span>: db.Column(db.Integer, db.ForeignKey(<span style="font-style: italic;">'name_tbl.id'</span>), 
+                                 nullable=<span style="font-weight: bold; text-decoration: underline;">False</span>, unique=<span style="font-weight: bold; text-decoration: underline;">False</span>),
+        <span style="font-style: italic;">"email_id"</span>: db.Column(db.Integer, db.ForeignKey(<span style="font-style: italic;">'email_tbl.id'</span>),
+                                 nullable=<span style="font-weight: bold; text-decoration: underline;">False</span>, unique=<span style="font-weight: bold; text-decoration: underline;">True</span>),
+        <span style="font-style: italic;">"roles"</span>: db.relationship(<span style="font-style: italic;">'Role'</span>,
+                                     secondary=users_roles, backref=<span style="font-style: italic;">'users'</span>),
+        <span style="font-style: italic;">"email"</span>: db.relationship(<span style="font-style: italic;">'Email'</span>,
+                                    backref=db.backref(<span style="font-style: italic;">'user'</span>, uselist=<span style="font-weight: bold; text-decoration: underline;">False</span>))
+        }
+
+<span style="font-weight: bold; font-style: italic;">User</span> = ClassPersistenceTemplate.mk_persistent(User, [<span style="font-style: italic;">'email'</span>], **args)
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>Again, note the columns <code>name_id</code>, <code>email_id</code>, whose
+values are foreign keys, i.e., ids from other ('foreign')
+tables.</li>
+
+<li><code>roles</code> and <code>users</code> define a pair of inverse relations
+between <code>usr_tbl</code> and <code>roles_tbl</code> (not shown).  They are
+computed and available as fields in their respective
+objects.</li>
+
+<li><code>email</code> and <code>user</code> define a pair of inverse relations
+between <code>user_tbl</code> and <code>email_tbl</code>.  They are computed
+and made available as fields in their respective objects.</li>
+
+<li>Finally, the field <code>email</code> acts as a key.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: VLEAD</p>
+<p class="date">Created: 2017-04-27 Thu 03:32</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

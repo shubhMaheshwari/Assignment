@@ -1,0 +1,32 @@
+A 8 B 8 C 5
+
+T1 8
+READ(A,t)
+t := t*2
+WRITE(A,t)
+READ(B,t)
+t := t*2
+WRITE(B,t)
+OUTPUT(A)
+OUTPUT(B)
+
+T2 9
+READ(C,t1)
+READ(A,t2)
+t1 := t1+2
+WRITE(C,t1)
+t1 := t1-2
+t1 := t1+2
+WRITE(A,t1)
+OUTPUT(C)
+OUTPUT(A)
+
+T3 8
+READ(B,t)
+t := t+1
+WRITE(C,t)
+READ(C,t)
+t := t+1
+WRITE(B,t)
+OUTPUT(C)
+OUTPUT(B)

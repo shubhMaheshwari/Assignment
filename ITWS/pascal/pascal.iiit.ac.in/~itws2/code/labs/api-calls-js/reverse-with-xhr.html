@@ -1,0 +1,20 @@
+  <form id="myform" onsubmit="return false">
+    <input name="str">
+    <input type="button" onclick="reverse()" value="Reverse">
+    <p id="reversed-str"></p>
+  </form>
+  <script>
+  function reverse() {
+	  var xhr = new XMLHttpRequest();
+	  xhr.open(
+		  'POST', 
+		  'https://web.iiit.ac.in/~harshit.harchani/itws2/reverse/'
+	  );
+	  xhr.onreadystatechange = function () {
+	    if (xhr.readyState == 4 && xhr.status == 200) {
+	  	  document.getElementById('reversed-str').innerHTML = xhr.responseText;
+	    }
+	  }
+	  xhr.send(new FormData(document.getElementById('myform')));
+  }
+  </script>

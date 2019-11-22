@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="edit-Type" edit="text/html; charset=utf-8">
+
+    
+      <meta name="robots" content="index, follow">
+      <meta name="googlebot" content="index, follow">
+
+      <script async="" src="analytics.js"></script><script type="text/javascript" src="a_data/highlight.js"></script>
+
+      <script type="text/javascript" src="a_data/embed.js"></script>
+
+
+      
+        <link rel="stylesheet" type="text/css" href="a_data/embed-light.css">
+
+      
+
+      <script type="text/javascript">
+        var height;
+        var force_height = null;
+        var slug = "g3j8tLtt";
+        var show_src = "//fiddle.jshell.net/g3j8tLtt/show/light/";
+        var resize_element_counter = 0;
+        var shell_edit_url = '/g3j8tLtt/light/';
+
+        
+      </script>
+    
+
+    <link href="css.css" rel="stylesheet" type="text/css">
+    <!-- <link href="//fonts.googleapis.com/css?family=Lato:400|Inconsolata" rel="stylesheet" type="text/css"> -->
+
+    <style type="text/css" media="screen">
+      
+      
+      
+      
+    </style>
+
+  </head>
+  <body>
+    <div id="wrapper">
+      
+        <header>
+          <h1><a href="http://jsfiddle.net/g3j8tLtt/?utm_source=website&amp;utm_medium=embed&amp;utm_campaign=g3j8tLtt" target="_blank">Edit in JSFiddle</a></h1>
+          <!-- <h1><a href="/g3j8tLtt/light/" target="_blank">Edit in JSFiddle</a></h1> -->
+          <div id="actions">
+            <ul class="normalRes">
+              
+                <li class="active">
+                  <a data-trigger-type="js" href="#JavaScript">JavaScript</a>
+                </li>
+              
+                <li>
+                  <a data-trigger-type="html" href="#HTML">HTML</a>
+                </li>
+              
+                <li>
+                  <a data-trigger-type="css" href="#CSS">CSS</a>
+                </li>
+              
+                <li>
+                  <a data-trigger-type="result" href="#Result">Result</a>
+                </li>
+              
+            </ul>
+            <div class="hl" style="left: 0px; width: 0px;"></div>
+          </div>
+        </header>
+
+        <div id="tabs">
+          
+            
+              
+                <pre class="tCont  active hljs typescript">Highcharts.chart(<span class="hljs-string">'container'</span>, {
+
+    chart: {
+        <span class="hljs-keyword">type</span>: <span class="hljs-string">'heatmap'</span>,
+        marginTop: <span class="hljs-number">40</span>,
+        marginBottom: <span class="hljs-number">80</span>,
+        plotBorderWidth: <span class="hljs-number">1</span>
+    },
+
+
+    title: {
+        text: <span class="hljs-string">'Sales per employee per weekday'</span>
+    },
+
+    xAxis: {
+        categories: [<span class="hljs-string">'Alexander'</span>, <span class="hljs-string">'Marie'</span>, <span class="hljs-string">'Maximilian'</span>, <span class="hljs-string">'Sophia'</span>, <span class="hljs-string">'Lukas'</span>, <span class="hljs-string">'Maria'</span>, <span class="hljs-string">'Leon'</span>, <span class="hljs-string">'Anna'</span>, <span class="hljs-string">'Tim'</span>, <span class="hljs-string">'Laura'</span>]
+    },
+
+    yAxis: {
+        categories: [<span class="hljs-string">'Monday'</span>, <span class="hljs-string">'Tuesday'</span>, <span class="hljs-string">'Wednesday'</span>, <span class="hljs-string">'Thursday'</span>, <span class="hljs-string">'Friday'</span>],
+        title: <span class="hljs-literal">null</span>
+    },
+
+    colorAxis: {
+        min: <span class="hljs-number">0</span>,
+        minColor: <span class="hljs-string">'#FFFFFF'</span>,
+        maxColor: Highcharts.getOptions().colors[<span class="hljs-number">0</span>]
+    },
+
+    legend: {
+        align: <span class="hljs-string">'right'</span>,
+        layout: <span class="hljs-string">'vertical'</span>,
+        margin: <span class="hljs-number">0</span>,
+        verticalAlign: <span class="hljs-string">'top'</span>,
+        y: <span class="hljs-number">25</span>,
+        symbolHeight: <span class="hljs-number">280</span>
+    },
+
+    tooltip: {
+        formatter: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+            <span class="hljs-keyword">return</span> <span class="hljs-string">'&lt;b&gt;'</span> + <span class="hljs-keyword">this</span>.series.xAxis.categories[<span class="hljs-keyword">this</span>.point.x] + <span class="hljs-string">'&lt;/b&gt; sold &lt;br&gt;&lt;b&gt;'</span> +
+                <span class="hljs-keyword">this</span>.point.value + <span class="hljs-string">'&lt;/b&gt; items on &lt;br&gt;&lt;b&gt;'</span> + <span class="hljs-keyword">this</span>.series.yAxis.categories[<span class="hljs-keyword">this</span>.point.y] + <span class="hljs-string">'&lt;/b&gt;'</span>;
+        }
+    },
+
+    series: [{
+        name: <span class="hljs-string">'Sales per employee'</span>,
+        borderWidth: <span class="hljs-number">1</span>,
+        data: [[<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">10</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">19</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">8</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">3</span>, <span class="hljs-number">24</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">4</span>, <span class="hljs-number">67</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">92</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">58</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">78</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">117</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">4</span>, <span class="hljs-number">48</span>], [<span class="hljs-number">2</span>, <span class="hljs-number">0</span>, <span class="hljs-number">35</span>], [<span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">15</span>], [<span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">123</span>], [<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">64</span>], [<span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">52</span>], [<span class="hljs-number">3</span>, <span class="hljs-number">0</span>, <span class="hljs-number">72</span>], [<span class="hljs-number">3</span>, <span class="hljs-number">1</span>, <span class="hljs-number">132</span>], [<span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-number">114</span>], [<span class="hljs-number">3</span>, <span class="hljs-number">3</span>, <span class="hljs-number">19</span>], [<span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">16</span>], [<span class="hljs-number">4</span>, <span class="hljs-number">0</span>, <span class="hljs-number">38</span>], [<span class="hljs-number">4</span>, <span class="hljs-number">1</span>, <span class="hljs-number">5</span>], [<span class="hljs-number">4</span>, <span class="hljs-number">2</span>, <span class="hljs-number">8</span>], [<span class="hljs-number">4</span>, <span class="hljs-number">3</span>, <span class="hljs-number">117</span>], [<span class="hljs-number">4</span>, <span class="hljs-number">4</span>, <span class="hljs-number">115</span>], [<span class="hljs-number">5</span>, <span class="hljs-number">0</span>, <span class="hljs-number">88</span>], [<span class="hljs-number">5</span>, <span class="hljs-number">1</span>, <span class="hljs-number">32</span>], [<span class="hljs-number">5</span>, <span class="hljs-number">2</span>, <span class="hljs-number">12</span>], [<span class="hljs-number">5</span>, <span class="hljs-number">3</span>, <span class="hljs-number">6</span>], [<span class="hljs-number">5</span>, <span class="hljs-number">4</span>, <span class="hljs-number">120</span>], [<span class="hljs-number">6</span>, <span class="hljs-number">0</span>, <span class="hljs-number">13</span>], [<span class="hljs-number">6</span>, <span class="hljs-number">1</span>, <span class="hljs-number">44</span>], [<span class="hljs-number">6</span>, <span class="hljs-number">2</span>, <span class="hljs-number">88</span>], [<span class="hljs-number">6</span>, <span class="hljs-number">3</span>, <span class="hljs-number">98</span>], [<span class="hljs-number">6</span>, <span class="hljs-number">4</span>, <span class="hljs-number">96</span>], [<span class="hljs-number">7</span>, <span class="hljs-number">0</span>, <span class="hljs-number">31</span>], [<span class="hljs-number">7</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>], [<span class="hljs-number">7</span>, <span class="hljs-number">2</span>, <span class="hljs-number">82</span>], [<span class="hljs-number">7</span>, <span class="hljs-number">3</span>, <span class="hljs-number">32</span>], [<span class="hljs-number">7</span>, <span class="hljs-number">4</span>, <span class="hljs-number">30</span>], [<span class="hljs-number">8</span>, <span class="hljs-number">0</span>, <span class="hljs-number">85</span>], [<span class="hljs-number">8</span>, <span class="hljs-number">1</span>, <span class="hljs-number">97</span>], [<span class="hljs-number">8</span>, <span class="hljs-number">2</span>, <span class="hljs-number">123</span>], [<span class="hljs-number">8</span>, <span class="hljs-number">3</span>, <span class="hljs-number">64</span>], [<span class="hljs-number">8</span>, <span class="hljs-number">4</span>, <span class="hljs-number">84</span>], [<span class="hljs-number">9</span>, <span class="hljs-number">0</span>, <span class="hljs-number">47</span>], [<span class="hljs-number">9</span>, <span class="hljs-number">1</span>, <span class="hljs-number">114</span>], [<span class="hljs-number">9</span>, <span class="hljs-number">2</span>, <span class="hljs-number">31</span>], [<span class="hljs-number">9</span>, <span class="hljs-number">3</span>, <span class="hljs-number">48</span>], [<span class="hljs-number">9</span>, <span class="hljs-number">4</span>, <span class="hljs-number">91</span>]],
+        dataLabels: {
+            enabled: <span class="hljs-literal">true</span>,
+            color: <span class="hljs-string">'#000000'</span>
+        }
+    }]
+
+});</pre>
+              
+            
+          
+            
+              
+                <pre class="tCont hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://code.highcharts.com/highcharts.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://code.highcharts.com/modules/heatmap.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://code.highcharts.com/modules/exporting.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+
+
+<span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"container"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"height: 400px; min-width: 310px; max-width: 800px; margin: 0 auto"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></pre>
+              
+            
+          
+            
+              
+                <pre class="tCont hljs"></pre>
+              
+            
+          
+            <div class="tCont result" id="result"></div>
+              
+            
+          
+        </div>
+      
+    </div>
+
+    
+      <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  var GA_LOCAL_STORAGE_KEY = 'ga:clientId';
+  if (window.localStorage) {
+    ga('create', 'UA-366077-19', {
+      'storage': 'none',
+      'clientId': localStorage.getItem(GA_LOCAL_STORAGE_KEY)
+    });
+    ga(function(tracker) {
+      localStorage.setItem(GA_LOCAL_STORAGE_KEY, tracker.get('clientId'));
+    });
+    ga('send', 'pageview', '/[fiddle]/embedded/'); // where `url_structure` is for example `/[user]/[fiddle]/[revision]/embedded/js,css/`
+  }
+</script>
+
+      
+    
+
+  
+
+</body></html>

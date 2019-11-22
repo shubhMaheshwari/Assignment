@@ -1,0 +1,1076 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-04-27 Thu 03:32 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>System Invariants and the Observer Pattern</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="VLEAD" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="../../style/css/worg-style.css" />
+<link rel="stylesheet" type="text/css" href="../../style/css/override.css" />
+<link rel="icon" type="image/png" href="../../style/img/favicon/popl.png" />
+<script type="text/javascript" src="../../style/js/org-info.js">
+/**
+ *
+ * @source: ../../style/js/org-info.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in ../../style/js/org-info.js.
+ *
+ * Copyright (C) 2012-2013 Free Software Foundation, Inc.
+ *
+ *
+ * The JavaScript code in this tag is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in ../../style/js/org-info.js.
+ *
+ */
+</script>
+
+<script type="text/javascript">
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "1");
+org_html_manager.set("LINK_HOME", "../../index.html");
+org_html_manager.set("LINK_UP", "../index.html");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="../../index.html"> HOME </a>
+</div><div id="content">
+<h1 class="title">System Invariants and the Observer Pattern</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org6eea35c">1. Objective</a></li>
+<li><a href="#orgdcf237e">2. Example</a>
+<ul>
+<li><a href="#org72f164f">2.1. Invariant</a></li>
+</ul>
+</li>
+<li><a href="#orgd6011c6">3. View</a>
+<ul>
+<li><a href="#orgf449274">3.1. Structure (HTML)</a>
+<ul>
+<li><a href="#orgd220313">3.1.1. Boilerplate and Head</a></li>
+<li><a href="#org9a1554d">3.1.2. Body</a></li>
+<li><a href="#org7fe6e35">3.1.3. Scripts</a></li>
+</ul>
+</li>
+<li><a href="#orgc8e958a">3.2. Style (CSS)</a></li>
+<li><a href="#org927a651">3.3. Graphical User Interface</a></li>
+<li><a href="#org0f7e51d">3.4. Behavioural Specification of the GUI</a></li>
+<li><a href="#org686161b">3.5. Implementing GUI behaviour</a>
+<ul>
+<li><a href="#orgd380717">3.5.1. Edit Listener</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgef6b4bb">4. Model</a>
+<ul>
+<li><a href="#orga582845">4.1. Object definition <code>m</code>.</a></li>
+<li><a href="#orge3f910d">4.2. Interaction Interface</a></li>
+</ul>
+</li>
+<li><a href="#org9abc234">5. System Invariant between Model and View</a>
+<ul>
+<li><a href="#org5022005">5.1. Implementing the system invariant</a>
+<ul>
+<li><a href="#org2b0ff04">5.1.1. <code>Done</code> pushes the value from the view to the model.</a></li>
+<li><a href="#org7237d4c">5.1.2. <code>setX</code>  pushes the value from model to view</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org0d6f57f">6. Observer Pattern</a>
+<ul>
+<li><a href="#orga17efbf">6.1. Problem</a></li>
+<li><a href="#org18df430">6.2. Solution Design</a>
+<ul>
+<li><a href="#org905fb54">6.2.1. define <code>onChangeX</code></a></li>
+<li><a href="#org0989978">6.2.2. redefine <code>m.setX</code></a></li>
+<li><a href="#orga8e2998">6.2.3. Registering an observer</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org17ea3f2">7. Wiring Another Observer</a>
+<ul>
+<li><a href="#org526ff14">7.1. HTML</a></li>
+<li><a href="#org1c1018b">7.2. CSS</a></li>
+<li><a href="#org246f91a">7.3. JS</a>
+<ul>
+<li><a href="#org29022b1">7.3.1. Define <code>tbox2</code>'s <code>onChangeX</code> handler</a></li>
+<li><a href="#org6676609">7.3.2. Register <code>tbox2</code> with <code>m</code>'s <code>setX</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org657087b">8. Reconciling implementation with requirements</a>
+<ul>
+<li><a href="#orgd6bc0b7">8.1. Weakening the invariant to hold in steady state</a></li>
+<li><a href="#orgba91bec">8.2. Exercise</a></li>
+</ul>
+</li>
+<li><a href="#org2497f40">9. Files</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org6eea35c" class="outline-2">
+<h2 id="org6eea35c"><span class="section-number-2">1</span> Objective</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+The goal of this lecture is 
+</p>
+
+<ul class="org-ul">
+<li>to understand the idea of system invariants.</li>
+
+<li>to use the Observer pattern to implement system
+invariants.</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgdcf237e" class="outline-2">
+<h2 id="orgdcf237e"><span class="section-number-2">2</span> Example</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+We consider two objects
+</p>
+
+<dl class="org-dl">
+<dt>View</dt><dd>a DOM element holding
+a value.</dd>
+
+<dt>Model</dt><dd>an object holding a
+state variable <code>x</code>.</dd>
+</dl>
+</div>
+
+<div id="outline-container-org72f164f" class="outline-3">
+<h3 id="org72f164f"><span class="section-number-3">2.1</span> Invariant</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+The requirement our
+implementation needs to satisfy
+is that the view should reflect
+the model's value.
+</p>
+
+<p>
+In other words, the view and
+model should hold the same value
+at all times:
+</p>
+<pre class="example">
+At all time, 
+View's value === Model's value
+</pre>
+</div>
+</div>
+</div>
+
+
+
+
+<div id="outline-container-orgd6011c6" class="outline-2">
+<h2 id="orgd6011c6"><span class="section-number-2">3</span> View</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+First we construct the view,
+which consists of three parts:
+</p>
+
+<ul class="org-ul">
+<li>Structure</li>
+<li>Style</li>
+<li>Behaviour</li>
+</ul>
+</div>
+
+<div id="outline-container-orgf449274" class="outline-3">
+<h3 id="orgf449274"><span class="section-number-3">3.1</span> Structure (HTML)</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+The structure consists of 
+</p>
+<ul class="org-ul">
+<li>A labeled text input box</li>
+
+<li>A buttton called 'Edit'</li>
+
+<li>A buttton called 'Done'</li>
+</ul>
+</div>
+
+<div id="outline-container-orgd220313" class="outline-4">
+<h4 id="orgd220313"><span class="section-number-4">3.1.1</span> Boilerplate and Head</h4>
+<div class="outline-text-4" id="text-3-1-1">
+<p>
+The boiler plate loads <code>ui.css</code>
+and <code>jquery.js</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="font-weight: bold;">html</span>&gt;
+&lt;<span style="font-weight: bold;">head</span>&gt;
+&lt;<span style="font-weight: bold;">link</span> <span style="font-weight: bold; font-style: italic;">rel</span>=<span style="font-style: italic;">"stylesheet"</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text/css"</span> <span style="font-weight: bold; font-style: italic;">href</span>=<span style="font-style: italic;">"ui.css"</span> /&gt;
+&lt;<span style="font-weight: bold;">script</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text/javascript"</span> <span style="font-weight: bold; font-style: italic;">src</span>=<span style="font-style: italic;">"https://code.jquery.com/jquery-3.1.1.min.js"</span>
+   <span style="font-weight: bold; font-style: italic;">integrity</span>=<span style="font-style: italic;">"sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="</span> 
+   <span style="font-weight: bold; font-style: italic;">crossorigin</span>=<span style="font-style: italic;">"anonymous"</span>&gt;&lt;/<span style="font-weight: bold;">script</span>&gt;
+&lt;/<span style="font-weight: bold;">head</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9a1554d" class="outline-4">
+<h4 id="org9a1554d"><span class="section-number-4">3.1.2</span> Body</h4>
+<div class="outline-text-4" id="text-3-1-2">
+<p>
+The body of the html file
+consists of a labeled input box
+(<code>tbox</code>) and two buttons (<code>edit</code>
+and <code>done</code>).
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="font-weight: bold;">body</span>&gt;
+&lt;<span style="font-weight: bold;">div</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"ui"</span>&gt; 
+   &lt;<span style="font-weight: bold;">div</span>&gt;
+     &lt;<span style="font-weight: bold;">label</span>&gt; Data:&lt;/<span style="font-weight: bold;">label</span>&gt;
+     &lt;<span style="font-weight: bold;">input</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"tbox"</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text"</span>&gt;&lt;/<span style="font-weight: bold;">input</span>&gt;
+   &lt;/<span style="font-weight: bold;">div</span>&gt;
+   &lt;<span style="font-weight: bold;">div</span>&gt;
+         &lt;<span style="font-weight: bold;">button</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"edit"</span>&gt;Edit&lt;/<span style="font-weight: bold;">button</span>&gt;
+         &lt;<span style="font-weight: bold;">button</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"done"</span>&gt;Done&lt;/<span style="font-weight: bold;">button</span>&gt;
+   &lt;/<span style="font-weight: bold;">div</span>&gt;
+&lt;/<span style="font-weight: bold;">div</span>&gt;
+&lt;/<span style="font-weight: bold;">body</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7fe6e35" class="outline-4">
+<h4 id="org7fe6e35"><span class="section-number-4">3.1.3</span> Scripts</h4>
+<div class="outline-text-4" id="text-3-1-3">
+<p>
+We need these for the full
+example.  (Ignore this for now.)
+</p>
+
+<ul class="org-ul">
+<li>Adds the model</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="font-weight: bold;">script</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text/javascript"</span> <span style="font-weight: bold; font-style: italic;">src</span>=<span style="font-style: italic;">"model.js"</span>&gt;&lt;/<span style="font-weight: bold;">script</span>&gt;
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>Adds behaviour</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="font-weight: bold;">script</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text/javascript"</span> <span style="font-weight: bold; font-style: italic;">src</span>=<span style="font-style: italic;">"gui.js"</span>&gt;&lt;/<span style="font-weight: bold;">script</span>&gt;
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>Wires model with view</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="font-weight: bold;">script</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text/javascript"</span> <span style="font-weight: bold; font-style: italic;">src</span>=<span style="font-style: italic;">"wiring.js"</span>&gt;&lt;/<span style="font-weight: bold;">script</span>&gt;
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>Close html</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-html">&lt;/<span style="font-weight: bold;">html</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc8e958a" class="outline-3">
+<h3 id="orgc8e958a"><span class="section-number-3">3.2</span> Style (CSS)</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+We associate style with the main
+<code>div</code> called <code>ui</code> and <code>tbox</code> and
+the buttons <code>edit</code> and <code>done</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-css"><span style="font-weight: bold;">#ui </span>{
+        <span style="font-weight: bold; font-style: italic;">margin-left</span>: 10em;
+        <span style="font-weight: bold; font-style: italic;">margin-top</span>: 6em;
+}
+<span style="font-weight: bold;">#tbox </span>{
+        <span style="font-weight: bold; font-style: italic;">width</span>: 10em;
+    <span style="font-weight: bold; font-style: italic;">height</span>: 4em;
+    <span style="font-weight: bold; font-style: italic;">border-width</span>: 2px;
+        <span style="font-weight: bold; font-style: italic;">border-color</span>: green;
+    <span style="font-weight: bold; font-style: italic;">border-style</span>: solid;
+}
+<span style="font-weight: bold;">#edit </span>{
+        <span style="font-weight: bold; font-style: italic;">width</span>: 4em;
+    <span style="font-weight: bold; font-style: italic;">margin</span>: 3em;
+        }
+<span style="font-weight: bold;">#done </span>{
+        <span style="font-weight: bold; font-style: italic;">width</span>: 4em;
+    <span style="font-weight: bold; font-style: italic;">margin</span>: 3em;
+        }
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org927a651" class="outline-3">
+<h3 id="org927a651"><span class="section-number-3">3.3</span> Graphical User Interface</h3>
+<div class="outline-text-3" id="text-3-3">
+<pre class="example">
+ 1. Input string into Text box labeled Data
+ 2. Click Edit button
+ 3. Click Done button
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org0f7e51d" class="outline-3">
+<h3 id="org0f7e51d"><span class="section-number-3">3.4</span> Behavioural Specification of the GUI</h3>
+<div class="outline-text-3" id="text-3-4">
+<pre class="example">
+1. Initially Text Box is non-editable.
+
+2. Upon clicking edit button, the text box becomes editable.
+
+3. Upon clicking Done button, the text box becomes non-editable.
+
+4. When the box is editable, it has borders.
+
+5. When the box is non-editable, it has no borders.
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org686161b" class="outline-3">
+<h3 id="org686161b"><span class="section-number-3">3.5</span> Implementing GUI behaviour</h3>
+<div class="outline-text-3" id="text-3-5">
+</div><div id="outline-container-orgd380717" class="outline-4">
+<h4 id="orgd380717"><span class="section-number-4">3.5.1</span> Edit Listener</h4>
+<div class="outline-text-4" id="text-3-5-1">
+<div class="org-src-container">
+<pre class="src src-js">        <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">tbox</span> = $(<span style="font-style: italic;">'#tbox'</span>)[0];
+    <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">$ is jquery syntax */</span>
+        <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">editButton</span> = $(<span style="font-style: italic;">'#edit'</span>)[0];
+        <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">doneButton</span> = $(<span style="font-style: italic;">'#done'</span>)[0];
+
+    <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">makes tbox editable</span>
+        <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">f</span> = <span style="font-weight: bold;">function</span>() {
+                tbox.readOnly = <span style="font-weight: bold; text-decoration: underline;">false</span>;
+                tbox.style.borderWidth = <span style="font-style: italic;">"2px"</span>;
+        };
+
+    <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">disables tbox editing</span>
+        <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">g</span> = <span style="font-weight: bold;">function</span>() {
+                tbox.readOnly = <span style="font-weight: bold; text-decoration: underline;">true</span>;
+                tbox.style.borderWidth = <span style="font-style: italic;">"0px"</span>;
+        };
+
+    <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">adds the handlers to the buttons</span>
+        <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">h</span> = <span style="font-weight: bold;">function</span>() {
+                editButton.addEventListener(<span style="font-style: italic;">'click'</span>, f);
+                doneButton.addEventListener(<span style="font-style: italic;">'click'</span>, g);
+        };
+
+<span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">warning: document.addEventListener doesn't work!</span>
+<span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">use window.addEventListener</span>
+window.addEventListener(<span style="font-style: italic;">'load'</span>, <span style="font-weight: bold;">function</span>() {
+        h(); <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">add handlers to the buttons</span>
+        g(); <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">initialize the text box</span>
+        console.log(<span style="font-style: italic;">"document.load event listener ran"</span>); 
+});
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgef6b4bb" class="outline-2">
+<h2 id="orgef6b4bb"><span class="section-number-2">4</span> Model</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>Now we build  a 'model' object <code>m</code>.</li>
+<li><code>m</code> encapsulates a state variable <code>x</code>.</li>
+</ul>
+</div>
+
+<div id="outline-container-orga582845" class="outline-3">
+<h3 id="orga582845"><span class="section-number-3">4.1</span> Object definition <code>m</code>.</h3>
+<div class="outline-text-3" id="text-4-1">
+<div class="org-src-container">
+<pre class="src src-js"><span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">modelMaker</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">init</span>) {
+        <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">x</span> = init;
+    <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">gets the value of x</span>
+        <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">getX</span> = <span style="font-weight: bold;">function</span>() {
+                <span style="font-weight: bold;">return</span> x;
+        }; 
+
+    <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">sets the value of x to v</span>
+    <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">setX</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">v</span>) {
+                x = v;
+        };
+
+        <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">a</span> = {};
+        a.getX = getX;
+        a.setX = setX;
+        <span style="font-weight: bold;">return</span> a;
+};
+
+<span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">m</span> = modelMaker(5);
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orge3f910d" class="outline-3">
+<h3 id="orge3f910d"><span class="section-number-3">4.2</span> Interaction Interface</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+<code>m</code>'s interface allows for reading and updating its internal
+state.
+</p>
+
+<pre class="example">
+  m.getX : () -&gt; Any
+  m.setX : Any  -&gt; Void
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9abc234" class="outline-2">
+<h2 id="org9abc234"><span class="section-number-2">5</span> System Invariant between Model and View</h2>
+<div class="outline-text-2" id="text-5">
+<pre class="example">
+tbox.value === m.getX();
+</pre>
+</div>
+
+<div id="outline-container-org5022005" class="outline-3">
+<h3 id="org5022005"><span class="section-number-3">5.1</span> Implementing the system invariant</h3>
+<div class="outline-text-3" id="text-5-1">
+</div><div id="outline-container-org2b0ff04" class="outline-4">
+<h4 id="org2b0ff04"><span class="section-number-4">5.1.1</span> <code>Done</code> pushes the value from the view to the model.</h4>
+<div class="outline-text-4" id="text-5-1-1">
+<div class="org-src-container">
+<pre class="src src-js"><span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">s</span> = <span style="font-weight: bold;">function</span>() {
+        m.setX(tbox.value); 
+        console.assert(tbox.value === m.getX());
+};
+
+window.addEventListener(<span style="font-style: italic;">'load'</span>, <span style="font-weight: bold;">function</span>() {
+        doneButton.addEventListener(<span style="font-style: italic;">'click'</span>, s);
+        console.log(<span style="font-style: italic;">"doneButton now has handler that pushes value to model"</span>); 
+});
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7237d4c" class="outline-4">
+<h4 id="org7237d4c"><span class="section-number-4">5.1.2</span> <code>setX</code>  pushes the value from model to view</h4>
+<div class="outline-text-4" id="text-5-1-2">
+<div class="org-src-container">
+<pre class="src src-js">m.oldSetX = m.setX;
+
+m.setX = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">v</span>) {
+        console.log(<span style="font-style: italic;">"invoking setX("</span> + v + <span style="font-style: italic;">")"</span>);
+
+        m.oldSetX(v);
+        tbox.value = m.getX();  <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">push m's value to tbox.</span>
+
+        console.log(<span style="font-style: italic;">"tbox.value changed to "</span> + tbox.value);
+
+        g();   <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">change tbox's edit status</span>
+
+};
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0d6f57f" class="outline-2">
+<h2 id="org0d6f57f"><span class="section-number-2">6</span> Observer Pattern</h2>
+<div class="outline-text-2" id="text-6">
+</div><div id="outline-container-orga17efbf" class="outline-3">
+<h3 id="orga17efbf"><span class="section-number-3">6.1</span> Problem</h3>
+<div class="outline-text-3" id="text-6-1">
+<p>
+The above implementation is not modular!
+</p>
+
+<ul class="org-ul">
+<li>What if many boxes need to be updated after a <code>setX</code>?</li>
+
+<li>What if the are not even boxes, but some other objects?</li>
+
+<li>How can <code>setX</code> know all the things that need to be done?</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org18df430" class="outline-3">
+<h3 id="org18df430"><span class="section-number-3">6.2</span> Solution Design</h3>
+<div class="outline-text-3" id="text-6-2">
+<ul class="org-ul">
+<li>have the input element define an <code>onChangeX</code> method.</li>
+
+<li>redefine <code>setX</code> so that it runs the <code>onChangeX</code> method of
+anyone that is registered with it.</li>
+
+<li>have the button element register as an <i>observer</i> of the
+<code>setX</code> 'event'.</li>
+
+<li>For each call to  <code>setX</code>, the <code>onChangeX</code> methods of each
+registered observer is run.</li>
+</ul>
+</div>
+
+<div id="outline-container-org905fb54" class="outline-4">
+<h4 id="org905fb54"><span class="section-number-4">6.2.1</span> define <code>onChangeX</code></h4>
+<div class="outline-text-4" id="text-6-2-1">
+<div class="org-src-container">
+<pre class="src src-js">tbox.onChangeX = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">v</span>) {
+        tbox.value = v;  <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">flow v into tbox's value</span>
+        g(); <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">change tbox's edit status</span>
+};
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0989978" class="outline-4">
+<h4 id="org0989978"><span class="section-number-4">6.2.2</span> redefine <code>m.setX</code></h4>
+<div class="outline-text-4" id="text-6-2-2">
+<div class="org-src-container">
+<pre class="src src-js">m.setX = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">v</span>) {
+        m.oldSetX(v);
+        <span style="font-weight: bold;">for</span> (ob of m.observers) {
+                ob.onChangeX(v);
+        };
+}
+
+m.init = <span style="font-weight: bold;">function</span>() {
+        m.observers = [];
+};
+
+m.register = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">ob</span>) {
+        m.observers.push(ob);
+};
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga8e2998" class="outline-4">
+<h4 id="orga8e2998"><span class="section-number-4">6.2.3</span> Registering an observer</h4>
+<div class="outline-text-4" id="text-6-2-3">
+<div class="org-src-container">
+<pre class="src src-js">window.addEventListener(<span style="font-style: italic;">'load'</span>, <span style="font-weight: bold;">function</span>() {
+        m.init();
+        m.register(tbox);
+});
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org17ea3f2" class="outline-2">
+<h2 id="org17ea3f2"><span class="section-number-2">7</span> Wiring Another Observer</h2>
+<div class="outline-text-2" id="text-7">
+</div><div id="outline-container-org526ff14" class="outline-3">
+<h3 id="org526ff14"><span class="section-number-3">7.1</span> HTML</h3>
+<div class="outline-text-3" id="text-7-1">
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="font-weight: bold;">html</span>&gt;
+&lt;<span style="font-weight: bold;">head</span>&gt;
+&lt;<span style="font-weight: bold;">link</span> <span style="font-weight: bold; font-style: italic;">rel</span>=<span style="font-style: italic;">"stylesheet"</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text/css"</span> <span style="font-weight: bold; font-style: italic;">href</span>=<span style="font-style: italic;">"ui.css"</span> /&gt;
+&lt;<span style="font-weight: bold;">link</span> <span style="font-weight: bold; font-style: italic;">rel</span>=<span style="font-style: italic;">"stylesheet"</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text/css"</span> <span style="font-weight: bold; font-style: italic;">href</span>=<span style="font-style: italic;">"ui2.css"</span> /&gt;
+&lt;<span style="font-weight: bold;">script</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text/javascript"</span> <span style="font-weight: bold; font-style: italic;">src</span>=<span style="font-style: italic;">"https://code.jquery.com/jquery-3.1.1.min.js"</span>
+   <span style="font-weight: bold; font-style: italic;">integrity</span>=<span style="font-style: italic;">"sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="</span> 
+   <span style="font-weight: bold; font-style: italic;">crossorigin</span>=<span style="font-style: italic;">"anonymous"</span>&gt;&lt;/<span style="font-weight: bold;">script</span>&gt;
+&lt;/<span style="font-weight: bold;">head</span>&gt;
+&lt;<span style="font-weight: bold;">body</span>&gt;
+
+&lt;<span style="font-weight: bold;">div</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"ui"</span>&gt; 
+   &lt;<span style="font-weight: bold;">div</span>&gt;
+     &lt;<span style="font-weight: bold;">label</span>&gt; Data:&lt;/<span style="font-weight: bold;">label</span>&gt;
+     &lt;<span style="font-weight: bold;">input</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"tbox"</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text"</span>&gt;&lt;/<span style="font-weight: bold;">input</span>&gt;
+   &lt;/<span style="font-weight: bold;">div</span>&gt;
+   &lt;<span style="font-weight: bold;">div</span>&gt;
+         &lt;<span style="font-weight: bold;">button</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"edit"</span>&gt;Edit&lt;/<span style="font-weight: bold;">button</span>&gt;
+         &lt;<span style="font-weight: bold;">button</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"done"</span>&gt;Done&lt;/<span style="font-weight: bold;">button</span>&gt;
+   &lt;/<span style="font-weight: bold;">div</span>&gt;
+   &lt;<span style="font-weight: bold;">div</span>&gt;
+     &lt;<span style="font-weight: bold;">label</span>&gt;Data2: &lt;/<span style="font-weight: bold;">label</span>&gt;
+     &lt;<span style="font-weight: bold;">input</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"tbox2"</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text"</span>&gt;&lt;/<span style="font-weight: bold;">input</span>&gt;
+   &lt;/<span style="font-weight: bold;">div</span>&gt;
+&lt;/<span style="font-weight: bold;">div</span>&gt;
+&lt;/<span style="font-weight: bold;">body</span>&gt;
+&lt;<span style="font-weight: bold;">script</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text/javascript"</span> <span style="font-weight: bold; font-style: italic;">src</span>=<span style="font-style: italic;">"model.js"</span>&gt;&lt;/<span style="font-weight: bold;">script</span>&gt;
+&lt;<span style="font-weight: bold;">script</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text/javascript"</span> <span style="font-weight: bold; font-style: italic;">src</span>=<span style="font-style: italic;">"gui.js"</span>&gt;&lt;/<span style="font-weight: bold;">script</span>&gt;
+&lt;<span style="font-weight: bold;">script</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text/javascript"</span> <span style="font-weight: bold; font-style: italic;">src</span>=<span style="font-style: italic;">"wiring.js"</span>&gt;&lt;/<span style="font-weight: bold;">script</span>&gt;
+&lt;<span style="font-weight: bold;">script</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text/javascript"</span> <span style="font-weight: bold; font-style: italic;">src</span>=<span style="font-style: italic;">"extra-wiring.js"</span>&gt;&lt;/<span style="font-weight: bold;">script</span>&gt;
+&lt;/<span style="font-weight: bold;">html</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1c1018b" class="outline-3">
+<h3 id="org1c1018b"><span class="section-number-3">7.2</span> CSS</h3>
+<div class="outline-text-3" id="text-7-2">
+<div class="org-src-container">
+<pre class="src src-css"><span style="font-weight: bold;">#tbox2 </span>{
+        <span style="font-weight: bold; font-style: italic;">width</span>: 10em;
+    <span style="font-weight: bold; font-style: italic;">height</span>: 4em;
+    <span style="font-weight: bold; font-style: italic;">border-width</span>: 0px;
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org246f91a" class="outline-3">
+<h3 id="org246f91a"><span class="section-number-3">7.3</span> JS</h3>
+<div class="outline-text-3" id="text-7-3">
+</div><div id="outline-container-org29022b1" class="outline-4">
+<h4 id="org29022b1"><span class="section-number-4">7.3.1</span> Define <code>tbox2</code>'s <code>onChangeX</code> handler</h4>
+<div class="outline-text-4" id="text-7-3-1">
+<div class="org-src-container">
+<pre class="src src-js"><span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">tbox2</span> = $(<span style="font-style: italic;">'#tbox2'</span>)[0];
+tbox2.onChangeX = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">v</span>) {
+        tbox2.value = v;
+};
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6676609" class="outline-4">
+<h4 id="org6676609"><span class="section-number-4">7.3.2</span> Register <code>tbox2</code> with <code>m</code>'s <code>setX</code></h4>
+<div class="outline-text-4" id="text-7-3-2">
+<div class="org-src-container">
+<pre class="src src-js">window.addEventListener(<span style="font-style: italic;">'load'</span>, <span style="font-weight: bold;">function</span>() {
+        m.register(tbox2);
+});
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org657087b" class="outline-2">
+<h2 id="org657087b"><span class="section-number-2">8</span> Reconciling implementation with requirements</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+Is the invariant indeed true at
+all times? 
+</p>
+
+<p>
+If you carefully observe:
+</p>
+
+<ul class="org-ul">
+<li><p>
+In our implementation, the
+invariant is not true
+initially.  The model <code>m</code>
+holds the value 5, but
+<code>tbox</code>'s value is empty.
+</p>
+
+<p>
+Exercise:  Fix the
+implementation to ensure the
+invariant holds at the
+initial time. 
+</p></li>
+
+<li><p>
+The other situation when the
+invariant is not true is when
+we are editing the view to
+enter a new text value.
+</p>
+
+<p>
+It is harder to ensure the
+invariant during this
+<i>transient</i> time.   The
+opposite of transient is
+<i>steady state</i>.
+</p></li>
+</ul>
+</div>
+
+<div id="outline-container-orgd6bc0b7" class="outline-3">
+<h3 id="orgd6bc0b7"><span class="section-number-3">8.1</span> Weakening the invariant to hold in steady state</h3>
+<div class="outline-text-3" id="text-8-1">
+<p>
+The lesson to learn from this is
+that our original assertion
+about the invariant is too
+strong.  We weaken it to obtain
+the following invariant:
+</p>
+
+<pre class="example">
+For all times, when the text input box is NOT in edit mode,  
+i.e., when the system is in steady state
+
+  tbox.value === m.getX();
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-orgba91bec" class="outline-3">
+<h3 id="orgba91bec"><span class="section-number-3">8.2</span> Exercise</h3>
+<div class="outline-text-3" id="text-8-2">
+<p>
+Modify the implementation so
+that <code>tbox2</code> also is editable.
+What is the system invariant in
+this case?
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2497f40" class="outline-2">
+<h2 id="org2497f40"><span class="section-number-2">9</span> Files</h2>
+<div class="outline-text-2" id="text-9">
+<ul class="org-ul">
+<li><a href="./ui.html">ui.html</a>: The view.</li>
+
+<li><a href="./ui.css">ui.css</a>: Style file for the
+view.</li>
+
+<li><a href="./model.js">model.js</a>: Model.</li>
+
+<li><a href="./gui.js">gui.js</a>: behaviour attached
+to view, and later, wiring of
+the view to the model.</li>
+</ul>
+
+
+<ul class="org-ul">
+<li><a href="./wiring.js">wiring.js</a>: Implementation
+of the observer pattern.</li>
+
+<li><a href="./2box.html">2box.html</a>: View with two
+boxes.</li>
+
+<li><a href="./ui2.css">ui2.css</a>: Additional style
+for the second box.</li>
+
+<li><a href="./extra-wiring.js">extra-wiring.js</a>: Wiring
+<code>tbox2</code> as an observer of
+<code>m</code>.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: VLEAD</p>
+<p class="date">Created: 2017-04-27 Thu 03:32</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,1016 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-04-27 Thu 03:32 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Intro to Python</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="VLEAD" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="../../style/css/worg-style.css" />
+<link rel="stylesheet" type="text/css" href="../../style/css/override.css" />
+<link rel="icon" type="image/png" href="../../style/img/favicon/popl.png" />
+<script type="text/javascript" src="../../style/js/org-info.js">
+/**
+ *
+ * @source: ../../style/js/org-info.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in ../../style/js/org-info.js.
+ *
+ * Copyright (C) 2012-2013 Free Software Foundation, Inc.
+ *
+ *
+ * The JavaScript code in this tag is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in ../../style/js/org-info.js.
+ *
+ */
+</script>
+
+<script type="text/javascript">
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "1");
+org_html_manager.set("LINK_HOME", "../../index.html");
+org_html_manager.set("LINK_UP", "../index.html");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="../../index.html"> HOME </a>
+</div><div id="content">
+<h1 class="title">Intro to Python</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgd2e9b60">1. Objective of Lab</a></li>
+<li><a href="#org6ef85c6">2. Instructions</a>
+<ul>
+<li><a href="#org7f17512">2.1. To install python3</a></li>
+<li><a href="#org7d625ae">2.2. Problem specific file names for your lab solutions</a></li>
+<li><a href="#orgf09b780">2.3. Directory Structure</a></li>
+</ul>
+</li>
+<li><a href="#org7911c8c">3. Problems</a>
+<ul>
+<li><a href="#orga540a3a">3.1. Leap Year</a></li>
+<li><a href="#org7c85ed5">3.2. Frequency of words</a></li>
+<li><a href="#org2bee4c0">3.3. Extract Info From Gibberish</a></li>
+<li><a href="#org805b55a">3.4. Functional Python</a>
+<ul>
+<li><a href="#org02d4abf">3.4.1. Flatten matrix</a></li>
+<li><a href="#orga90db9d">3.4.2. Partial Application</a></li>
+<li><a href="#org05083d4">3.4.3. Directory Search</a></li>
+</ul>
+</li>
+<li><a href="#orgf5d5534">3.5. Sid's love for food (bonus)</a>
+<ul>
+<li><a href="#org869b07c">3.5.1. Sample input</a></li>
+<li><a href="#orga08433a">3.5.2. Sample output</a></li>
+<li><a href="#org53a9529">3.5.3. Explanation</a></li>
+<li><a href="#orge2fa32b">3.5.4. Input Format</a></li>
+<li><a href="#org0ec7cfe">3.5.5. Output Format</a></li>
+<li><a href="#orgba7b51f">3.5.6. Sample Input</a></li>
+<li><a href="#org91d810f">3.5.7. Sample Output</a></li>
+<li><a href="#org37e7171">3.5.8. Concept</a></li>
+<li><a href="#org04366e1">3.5.9. Answer template</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgd2e9b60" class="outline-2">
+<h2 id="orgd2e9b60"><span class="section-number-2">1</span> Objective of Lab</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+The objective of this lab is to dive into the world of
+Python. We will cover the following topics:
+</p>
+
+<ul class="org-ul">
+<li>Basic Python Syntax</li>
+<li>Variables</li>
+<li>Data Types</li>
+<li>Conditions</li>
+<li>Lists and Dictionaries</li>
+<li>Functions</li>
+<li>Loops</li>
+<li>File I/O</li>
+<li>Functional Programming</li>
+<li>Exception Handling</li>
+<li>Classes and Objects</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org6ef85c6" class="outline-2">
+<h2 id="org6ef85c6"><span class="section-number-2">2</span> Instructions</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>Firstly, please set your proxy settings in the terminal.</li>
+</ul>
+</div>
+
+<div id="outline-container-org7f17512" class="outline-3">
+<h3 id="org7f17512"><span class="section-number-3">2.1</span> To install python3</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li>Run the following commands in your terminal for</li>
+</ul>
+<p>
+Ubuntu/Linux Mint/Elementary
+</p>
+<ul class="org-ul">
+<li><code>sudo apt-get install python3</code></li>
+<li><code>sudo apt-get install python3-pip</code></li>
+<li><code>sudo -EH pip3 install ipython[all]</code></li>
+</ul>
+<p>
+= Run the following commands in your terminal for Fedora
+</p>
+<ul class="org-ul">
+<li><code>sudo dnf install python3</code></li>
+<li><code>sudo dnf install python3-pip</code></li>
+<li><code>sudo -EH pip3 install ipython[all]</code></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org7d625ae" class="outline-3">
+<h3 id="org7d625ae"><span class="section-number-3">2.2</span> Problem specific file names for your lab solutions</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+There are six parts (and one bonus part) to the problem in
+this lab. Please write out the solutions in a literate way
+in an org file called <code>main.org</code>. Then make sure that the
+tangled solutions go to the following python files:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">Problem</th>
+<th scope="col" class="org-left">File Name</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">1.</td>
+<td class="org-left"><code>leap_year.py</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">2.</td>
+<td class="org-left"><code>frequency.py</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">3.</td>
+<td class="org-left"><code>gibberish.py</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">4.</td>
+<td class="org-left"><code>flatten.py</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">5.</td>
+<td class="org-left"><code>dir_search.py</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">6.</td>
+<td class="org-left"><code>love_food.py</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">7.</td>
+<td class="org-left"><code>complex_num.py</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgf09b780" class="outline-3">
+<h3 id="orgf09b780"><span class="section-number-3">2.3</span> Directory Structure</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+In your Gitlab directory, you <b>must</b> follow the directory structure as below:
+</p>
+
+<pre class="example">
+     -------------------------
+     &lt;roll-no&gt;
+     |
+     `----src
+          |
+          |
+          `--- labs
+               |
+               |
+               `--- lab-7
+                    |--- main.org
+     ------------------------
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org7911c8c" class="outline-2">
+<h2 id="org7911c8c"><span class="section-number-2">3</span> Problems</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-orga540a3a" class="outline-3">
+<h3 id="orga540a3a"><span class="section-number-3">3.1</span> Leap Year</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Write a function called <code>is_leapyear</code> that takes in a number
+(year) as input a returns <code>True</code> if that number is a leap
+year, and <code>False</code> otherwise.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org7c85ed5" class="outline-3">
+<h3 id="org7c85ed5"><span class="section-number-3">3.2</span> Frequency of words</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+Write a function, <code>get_word_frequency(line)</code>,  which computes the
+frequency of words from the input, <code>line</code> which is a string. <b>Note</b>: The program
+should print (output) the frequency of each word after
+sorting the dictionary keys alphanumerically to a file
+named as <code>output_2.txt</code>
+</p>
+
+<ul class="org-ul">
+<li>Suppose the following input is provided,</li>
+</ul>
+
+<pre class="example">
+New to Python or choosing between Python 2 and Python 3? Read Python 2 or Python 3.
+</pre>
+
+<ul class="org-ul">
+<li>Then the output should be,</li>
+</ul>
+<pre class="example">
+2:2
+3.:1
+3?:1
+New:1
+Python:5
+Read:1
+and:1
+between:1
+choosing:1
+or:2
+to:1
+</pre>
+
+<ul class="org-ul">
+<li><b>Hints</b>:
+<ul class="org-ul">
+<li>In case of input data being supplied to the question, it should be assumed to be a function argument input, i.e., line.</li>
+<li>Use each word as a key in a dictionary and the frequency as each dictionary key's value.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org2bee4c0" class="outline-3">
+<h3 id="org2bee4c0"><span class="section-number-3">3.3</span> Extract Info From Gibberish</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+You have been given a file <code>encrypted.txt</code> that contains
+seemingly nonsensical gibberish. But, there's more there
+than meets the eye. You'll need to write a function called
+<code>decrypt</code> . The function should read the corresponding file
+and write the decrypted output into a file called
+<code>decrypted.txt</code>. Do the following for decryption:
+</p>
+
+<ul class="org-ul">
+<li>Remove all the <b>spaces</b>, <b>newlines</b> and <b>#</b> s.
+<ul class="org-ul">
+<li><b>Hint</b> : You may use <code>strip</code>, <code>split</code> and <code>join</code>.</li>
+</ul></li>
+
+<li>The remaining text is encrytped using a
+<b>simplified Caesar Cipher</b>. Decrypt it. The
+<b>simplified Caesar Cipher</b> works as follows:
+<ul class="org-ul">
+<li>Every character with ASCII code <code>N</code> is "shifted" to an
+ASCII code <code>N + 20</code>. For example, 'a' with ASCII code
+97 is shifted to 'u' which has an ASCII code 117.</li>
+<li><b>Hint</b>: Look at in-built functions <code>ord</code> and <code>chr</code>.</li>
+</ul></li>
+
+<li>Write the decrypted output into a file called
+<code>decrypted.txt</code>.</li>
+</ul>
+
+<pre class="example">
+Original text:
+'u#vw#u#vw '
+Decrypted text:
+'abcabc'
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-org805b55a" class="outline-3">
+<h3 id="org805b55a"><span class="section-number-3">3.4</span> Functional Python</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+Python by default doesn't support functional programming, but there are
+certain language features which let you program in a functional style.
+</p>
+
+<p>
+Have a look at the documentation for <code>lambda</code> functions, higher order
+functions <code>map</code>, <code>filter</code>, <code>reduce</code>.
+</p>
+</div>
+
+<div id="outline-container-org02d4abf" class="outline-4">
+<h4 id="org02d4abf"><span class="section-number-4">3.4.1</span> Flatten matrix</h4>
+<div class="outline-text-4" id="text-3-4-1">
+<p>
+Often when you work with images, you have to convert the image matrix
+into a vector, which translates to reduce a 2-D list into 1-D by
+concantenation. Create a function <code>flatten</code>, which solves the problem.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold; font-style: italic;">#</span><span style="font-weight: bold; font-style: italic;">!/usr/bin/python3</span>
+<span style="font-weight: bold;">from</span> operator <span style="font-weight: bold;">import</span> add
+<span style="font-weight: bold;">from</span> functools <span style="font-weight: bold;">import</span> <span style="font-weight: bold;">reduce</span>
+
+<span style="font-weight: bold;">def</span> <span style="font-weight: bold;">flatten</span>(matrix):
+    <span style="font-weight: bold; font-style: italic;">vector</span> = <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">your code here</span>
+    <span style="font-weight: bold;">return</span> vector
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orga90db9d" class="outline-4">
+<h4 id="orga90db9d"><span class="section-number-4">3.4.2</span> Partial Application</h4>
+<div class="outline-text-4" id="text-3-4-2">
+<p>
+<code>functools.partial</code> can be handy to reuse existing functions with
+functional constructs. You can read more on partial application
+<a href="https://en.wikipedia.org/wiki/Partial_application">here</a>.
+</p>
+
+<p>
+Here's an example of partial:
+</p>
+<div class="org-src-container">
+<pre class="src src-python">    <span style="font-weight: bold;">from</span> functools <span style="font-weight: bold;">import</span> partial
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">power</span>(base, exponent):
+        <span style="font-weight: bold;">return</span> base ** exponent
+
+    <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Specializing functions</span>
+    <span style="font-weight: bold; font-style: italic;">square</span> = partial(power, exponent=2)
+    <span style="font-weight: bold; font-style: italic;">cube</span> = partial(power, exponent=3)
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org05083d4" class="outline-4">
+<h4 id="org05083d4"><span class="section-number-4">3.4.3</span> Directory Search</h4>
+<div class="outline-text-4" id="text-3-4-3">
+<p>
+You're asked to implement a feature which looks up a search key in list
+of users provided in <code>users.txt</code>. Unlike exact match, you
+want some tolerance for spelling mistakes. The function <code>edit_distance</code>
+in <code>itws.py</code> takes in two strings and returns a measure of similarity.
+Write a function which takes in a query, and returns names for which differ by less than 4.
+</p>
+</div>
+
+<ol class="org-ol"><li><a id="org2170c98"></a>Template<br  /><div class="outline-text-5" id="text-3-4-3-1">
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">from</span> itws <span style="font-weight: bold;">import</span> edit_distance
+<span style="font-weight: bold;">from</span> functools <span style="font-weight: bold;">import</span> partial
+
+<span style="font-weight: bold;">def</span> <span style="font-weight: bold;">closest</span>(query):
+    <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Load names from file.</span>
+
+    <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Create a partial function.</span>
+
+    <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">map partial function  on the list of names to get scores.</span>
+
+    <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Use zip to attach names with score.</span>
+
+    <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Use filter to select tuples with only accepted tolerance.</span>
+
+    <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Use map or zip to extract just names part of the tuple.</span>
+
+    <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">return result</span>
+</pre>
+</div>
+</div></li></ol>
+</div>
+</div>
+
+
+<div id="outline-container-orgf5d5534" class="outline-3">
+<h3 id="orgf5d5534"><span class="section-number-3">3.5</span> Sid's love for food (bonus)</h3>
+<div class="outline-text-3" id="text-3-5">
+<p>
+Sid loves food. Hence, he took up position of manager at the
+<a href="https://goo.gl/NgBnaE">Turkish House Restaurant</a>, a restaurant that serves people
+with <a href="https://goo.gl/o2p5ON">"LEGEN&#x2026;wait for it&#x2026;DARY"</a> food packages. It is a
+very famous place and people are always queuing up to have
+one of those packages. Each package has a cost associated
+with it. The packages are kept as a pile. The job of a
+manager is very difficult. He needs to handle two
+types of queries:
+</p>
+
+<ol class="org-ol">
+<li>Customer Query:</li>
+</ol>
+<p>
+When a customer demands a package, the food package on the
+top of the pile is given and the customer is charged
+according to the cost of the package. This reduces the
+height of the pile by 1.
+In case the pile is empty, the customer goes away empty-handed.
+</p>
+
+<ol class="org-ol">
+<li>Chef Query:</li>
+</ol>
+<p>
+The chef prepares a food package and adds it on top of the
+pile. And reports the cost of the package to the Manager.
+Help him manage the process.
+</p>
+
+<ul class="org-ul">
+<li>Input:</li>
+</ul>
+<p>
+First line contains an integer Q, the number of queries.
+Q lines follow.
+A Type-1 ( Customer) Query, is indicated by a single
+integer 1 in the line.
+A Type-2 ( Chef) Query, is indicated by two space separated
+integers 2 and C (cost of the package prepared) .
+</p>
+
+<ul class="org-ul">
+<li>Output:</li>
+</ul>
+<p>
+For each Type-1 Query, write a function <code>the_food_manager()</code>
+which prints the price that customer has
+to pay i.e. cost of the package given to the customer in
+a new line. If the pile is empty, print "No Food"
+(without the quotes). The output has to be printed to a
+file named, 'output<sub>bonus.txt</sub>'.
+</p>
+
+<ul class="org-ul">
+<li>Constraints:
+<ul class="org-ul">
+<li>1 &lt;= Q &lt;= 10<sup>5</sup></li>
+<li>1 &lt;= C &lt;= 10<sup>7</sup></li>
+</ul></li>
+</ul>
+</div>
+
+<div id="outline-container-org869b07c" class="outline-4">
+<h4 id="org869b07c"><span class="section-number-4">3.5.1</span> Sample input</h4>
+<div class="outline-text-4" id="text-3-5-1">
+<pre class="example">
+6
+1
+2 5
+2 7
+2 9
+1
+1
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orga08433a" class="outline-4">
+<h4 id="orga08433a"><span class="section-number-4">3.5.2</span> Sample output</h4>
+<div class="outline-text-4" id="text-3-5-2">
+<pre class="example">
+No Food
+9
+7
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org53a9529" class="outline-4">
+<h4 id="org53a9529"><span class="section-number-4">3.5.3</span> Explanation</h4>
+<div class="outline-text-4" id="text-3-5-3">
+<ul class="org-ul">
+<li>Initially, The pile is empty.</li>
+<li>Chef adds a package with cost=5.</li>
+<li>Chef adds a package with cost=7.</li>
+<li>Chef adds a package with cost=9.</li>
+<li>Customer takes the package on the top i.e. cost=9.</li>
+</ul>
+<p>
+Now package of cost=7 on top. Customer takes the package on
+the top i.e. cost=7.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge2fa32b" class="outline-4">
+<h4 id="orge2fa32b"><span class="section-number-4">3.5.4</span> Input Format</h4>
+<div class="outline-text-4" id="text-3-5-4">
+<ul class="org-ul">
+<li>One line of input: The real and imaginary part of a number</li>
+</ul>
+<p>
+separated by a space.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org0ec7cfe" class="outline-4">
+<h4 id="org0ec7cfe"><span class="section-number-4">3.5.5</span> Output Format</h4>
+<div class="outline-text-4" id="text-3-5-5">
+<p>
+For two complex numbers and , the output should be in the
+following sequence on separate lines:
+</p>
+
+<pre class="example">
+C+D
+C-D
+C*D
+C/D
+mod(C)
+mod(D)
+</pre>
+
+<ul class="org-ul">
+<li>For complex numbers with non-zero real (A) and complex</li>
+</ul>
+<p>
+part (B), the output should be in the following format:
+</p>
+<pre class="example">
+A+Bi
+</pre>
+<p>
+Replace the plus symbol (+)  with a minus symbol (-)
+when = B &lt; 0 = .
+</p>
+
+<ul class="org-ul">
+<li>For complex numbers with a zero complex part i.e. real</li>
+</ul>
+<p>
+numbers, the output should be:
+</p>
+<pre class="example">
+A+0.00i
+</pre>
+
+<ul class="org-ul">
+<li>For complex numbers where the real part is zero and the</li>
+</ul>
+<p>
+complex part (B) is non-zero, the output should be:
+</p>
+<pre class="example">
+0.00+Bi
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgba7b51f" class="outline-4">
+<h4 id="orgba7b51f"><span class="section-number-4">3.5.6</span> Sample Input</h4>
+<div class="outline-text-4" id="text-3-5-6">
+<pre class="example">
+2 1
+5 6
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org91d810f" class="outline-4">
+<h4 id="org91d810f"><span class="section-number-4">3.5.7</span> Sample Output</h4>
+<div class="outline-text-4" id="text-3-5-7">
+<pre class="example">
+7.00+7.00i
+-3.00-5.00i
+4.00+17.00i
+0.26-0.11i
+2.24+0.00i
+7.81+0.00i
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org37e7171" class="outline-4">
+<h4 id="org37e7171"><span class="section-number-4">3.5.8</span> Concept</h4>
+<div class="outline-text-4" id="text-3-5-8">
+<p>
+Python is a fully object-oriented language like C++, Java,
+etc. For reading about classes, refer <a href="https://docs.python.org/3/tutorial/classes.html">here</a>.
+</p>
+
+<p>
+Methods with a double underscore before and after their
+name are considered as built-in methods. They are used by
+interpreters and are generally used in the implementation
+of overloaded operators or other built-in functionality.
+</p>
+
+<pre class="example">
+__add__-&gt; Can be overloaded for + operation
+
+
+__sub__ -&gt; Can be overloaded for - operation
+
+
+__mul__ -&gt; Can be overloaded for * operation
+</pre>
+</div>
+</div>
+<div id="outline-container-org04366e1" class="outline-4">
+<h4 id="org04366e1"><span class="section-number-4">3.5.9</span> Answer template</h4>
+<div class="outline-text-4" id="text-3-5-9">
+<div class="org-src-container">
+<pre class="src src-python"> <span style="font-weight: bold; font-style: italic;">#</span><span style="font-weight: bold; font-style: italic;">!/usr/bin/python3</span>
+
+ <span style="font-weight: bold;">import</span> math
+
+ <span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">Complex</span>(<span style="font-weight: bold;">object</span>):
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__init__</span>(<span style="font-weight: bold;">self</span>, real, imaginary):
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__add__</span>(<span style="font-weight: bold;">self</span>, no):
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__sub__</span>(<span style="font-weight: bold;">self</span>, no):
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__mul__</span>(<span style="font-weight: bold;">self</span>, no):
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__truediv__</span>(<span style="font-weight: bold;">self</span>, no):
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">mod</span>(<span style="font-weight: bold;">self</span>):
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__str__</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">if</span> <span style="font-weight: bold;">self</span>.imaginary == 0:
+            <span style="font-weight: bold; font-style: italic;">result</span> = <span style="font-style: italic;">"%.2f+0.00i"</span> % (<span style="font-weight: bold;">self</span>.real)
+        <span style="font-weight: bold;">elif</span> <span style="font-weight: bold;">self</span>.real == 0:
+            <span style="font-weight: bold;">if</span> <span style="font-weight: bold;">self</span>.imaginary &gt;= 0:
+                <span style="font-weight: bold; font-style: italic;">result</span> = <span style="font-style: italic;">"0.00+%.2fi"</span> % (<span style="font-weight: bold;">self</span>.imaginary)
+            <span style="font-weight: bold;">else</span>:
+                <span style="font-weight: bold; font-style: italic;">result</span> = <span style="font-style: italic;">"0.00-%.2fi"</span> % (<span style="font-weight: bold;">abs</span>(<span style="font-weight: bold;">self</span>.imaginary))
+        <span style="font-weight: bold;">elif</span> <span style="font-weight: bold;">self</span>.imaginary &gt; 0:
+            <span style="font-weight: bold; font-style: italic;">result</span> = <span style="font-style: italic;">"%.2f+%.2fi"</span> % (<span style="font-weight: bold;">self</span>.real, <span style="font-weight: bold;">self</span>.imaginary)
+        <span style="font-weight: bold;">else</span>:
+            <span style="font-weight: bold; font-style: italic;">result</span> = <span style="font-style: italic;">"%.2f-%.2fi"</span> % (<span style="font-weight: bold;">self</span>.real, <span style="font-weight: bold;">abs</span>(<span style="font-weight: bold;">self</span>.imaginary))
+        <span style="font-weight: bold;">return</span> result
+
+ <span style="font-weight: bold;">if</span> <span style="font-weight: bold;">__name__</span> == <span style="font-style: italic;">'__main__'</span>:
+   <span style="font-weight: bold; font-style: italic;">c</span> = <span style="font-weight: bold;">map</span>(<span style="font-weight: bold;">float</span>, imput().split())
+   <span style="font-weight: bold; font-style: italic;">d</span> = <span style="font-weight: bold;">map</span>(<span style="font-weight: bold;">float</span>, <span style="font-weight: bold;">input</span>().split())
+   <span style="font-weight: bold; font-style: italic;">x</span> = Complex(*c)
+   <span style="font-weight: bold; font-style: italic;">y</span> = Complex(*d)
+   <span style="font-weight: bold;">print</span>(*<span style="font-weight: bold;">map</span>(<span style="font-weight: bold;">str</span>, [x+y, x-y, x*y, x/y, x.mod(), y.mod()]), sep=<span style="font-style: italic;">'\n'</span>)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: VLEAD</p>
+<p class="date">Created: 2017-04-27 Thu 03:32</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-04-27 Thu 03:32 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Elements of a data definition</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="VLEAD" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="../../style/css/worg-style.css" />
+<link rel="stylesheet" type="text/css" href="../../style/css/override.css" />
+<link rel="icon" type="image/png" href="../../style/img/favicon/popl.png" />
+<script type="text/javascript" src="../../style/js/org-info.js">
+/**
+ *
+ * @source: ../../style/js/org-info.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in ../../style/js/org-info.js.
+ *
+ * Copyright (C) 2012-2013 Free Software Foundation, Inc.
+ *
+ *
+ * The JavaScript code in this tag is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in ../../style/js/org-info.js.
+ *
+ */
+</script>
+
+<script type="text/javascript">
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "1");
+org_html_manager.set("LINK_HOME", "../../index.html");
+org_html_manager.set("LINK_UP", "../index.html");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="../../index.html"> HOME </a>
+</div><div id="content">
+<h1 class="title">Elements of a data definition</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org2ca8886">1. What is a data type?</a></li>
+<li><a href="#org281f652">2. Key obligations when designing data types</a>
+<ul>
+<li><a href="#org2511e68">2.1. Examples</a>
+<ul>
+<li><a href="#orgacf901e">2.1.1. Natural numbers  <code>nat?</code></a></li>
+<li><a href="#orge5e48fb">2.1.2. Lists <code>list?</code></a></li>
+<li><a href="#org1830bdb">2.1.3. Vectors <code>vector?</code></a></li>
+<li><a href="#orgafb7c08">2.1.4. Strings</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org7f47384">3. Reference vs. structural equality in Racket</a>
+<ul>
+<li><a href="#org7776b60">3.1. Examples</a>
+<ul>
+<li><a href="#org515403e">3.1.1. Lists</a></li>
+<li><a href="#orgc1b227a">3.1.2. Vectors</a></li>
+<li><a href="#org63523ae">3.1.3. Strings</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org2ca8886" class="outline-2">
+<h2 id="org2ca8886"><span class="section-number-2">1</span> What is a data type?</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+A data type specifies a category
+of data that share similar
+structural or interface
+properties.  As a programmer,
+you will either work with
+built-in data types like
+<code>number?</code>, <code>symbol?</code>, etc., or
+you may need to define your own
+data types.  Also the system may
+sometimes help you with some of
+the definitions needed when
+defining a new data type.  There
+could be more complex data types
+such as vectors, functions, etc.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org281f652" class="outline-2">
+<h2 id="org281f652"><span class="section-number-2">2</span> Key obligations when designing data types</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+When designing a data type it is
+necessary to address the following
+questions:
+</p>
+
+<dl class="org-dl">
+<dt>Construction</dt><dd>How is an
+instance of the data type
+constructed?  Constructing
+Some data may be available
+as literals, e.g.,
+strings, symbols etc.
+However, such data types
+could also have
+constructors.  Others may
+be constructed by
+functions called
+<i>constructors</i>.</dd>
+
+<dt>Type Identification</dt><dd>How is
+an instance of the data
+type identified? This is
+done using using functions
+called type predicates.
+These functions take a
+value and query the
+membership of that value
+in the data type.   A data
+type is identified with
+its type predicate.</dd>
+</dl>
+
+
+<dl class="org-dl">
+<dt>Extraction</dt><dd>How are its
+components extracted?
+This is done using
+extraction functions (or
+<i>getters</i>) if the data is
+<i>compound</i>, like a list.</dd>
+
+<dt>Modification (if any)</dt><dd>How
+are its components
+modified?  Modifying
+components of the data
+using <i>setter</i> functions
+if the data is <i>mutable</i>
+(like vectors).</dd>
+
+<dt>Equality</dt><dd>When are two data
+instances equal?
+Functions to comparing
+data for structural
+equality.</dd>
+</dl>
+</div>
+
+<div id="outline-container-org2511e68" class="outline-3">
+<h3 id="org2511e68"><span class="section-number-3">2.1</span> Examples</h3>
+<div class="outline-text-3" id="text-2-1">
+</div><div id="outline-container-orgacf901e" class="outline-4">
+<h4 id="orgacf901e"><span class="section-number-4">2.1.1</span> Natural numbers  <code>nat?</code></h4>
+<div class="outline-text-4" id="text-2-1-1">
+<dl class="org-dl">
+<dt>Constructor</dt><dd>Natural numbers are
+already defined.</dd>
+
+<dt>Type predicate <code>nat?</code></dt><dd>A natural is
+a number that is an integer
+greater than equal to 0.</dd>
+</dl>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> <span style="font-weight: bold;">nat?</span>  exact-nonnegative-integer?)
+</pre>
+</div>
+
+<dl class="org-dl">
+<dt>Equality</dt><dd>using =.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orge5e48fb" class="outline-4">
+<h4 id="orge5e48fb"><span class="section-number-4">2.1.2</span> Lists <code>list?</code></h4>
+<div class="outline-text-4" id="text-2-1-2">
+<dl class="org-dl">
+<dt>Constructors</dt><dd>'(), <code>cons</code>,  <code>list</code></dd>
+
+<dt>Type predicates</dt><dd><code>list?</code>.</dd>
+
+<dt>Getters</dt><dd><code>first</code>, <code>rest</code>, <code>list-ref</code></dd>
+
+<dt>Setters</dt><dd>none</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org1830bdb" class="outline-4">
+<h4 id="org1830bdb"><span class="section-number-4">2.1.3</span> Vectors <code>vector?</code></h4>
+<div class="outline-text-4" id="text-2-1-3">
+<dl class="org-dl">
+<dt>Constructors</dt><dd><ul class="org-ul">
+<li><code>vector</code> takes any number of
+arguments of and returns a vector
+of those argument.</li>
+
+<li><code>make-vector</code> takes two argument,
+a natural number <code>n</code> and a value
+<code>v</code> and returns a vector of size
+<code>n</code> each of whose element is <code>v</code>.</li>
+</ul></dd>
+
+<dt>Type predicate</dt><dd><code>vector?</code></dd>
+
+<dt>Getters</dt><dd><code>vector-ref</code></dd>
+
+<dt>Setters</dt><dd><code>vector-set!</code></dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgafb7c08" class="outline-4">
+<h4 id="orgafb7c08"><span class="section-number-4">2.1.4</span> Strings</h4>
+<div class="outline-text-4" id="text-2-1-4">
+<dl class="org-dl">
+<dt>Constructors</dt><dd>literal
+(constant) strings
+(immutable).  Also,
+<code>string</code>, a constructor
+analogous to <code>vector</code> in 
+that it creates mutable
+strings.</dd>
+</dl>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> <span style="font-weight: bold;">s</span> (string #\a #\b)) <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">=&gt; "ab"</span>
+</pre>
+</div>
+
+<dl class="org-dl">
+<dt>Type predicate</dt><dd><code>string</code>?</dd>
+
+<dt>Extractor/Getter</dt><dd><code>string-ref</code></dd>
+</dl>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(string-ref s 0) <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">=&gt; #\a</span>
+</pre>
+</div>
+
+<dl class="org-dl">
+<dt>Mutator/Setter</dt><dd><code>string-set!</code></dd>
+</dl>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(string-set! s 0 #\c)
+(string-ref s 0) <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">=#\c</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-org7f47384" class="outline-2">
+<h2 id="org7f47384"><span class="section-number-2">3</span> Reference vs. structural equality in Racket</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Two structures may be structural
+identical, yet referentially
+distinct as in they occupy
+different parts of the memory.
+Reference equality is checked
+with <code>eq?</code> in Racket.  <code>equal?</code>
+checks structural equality.  
+</p>
+</div>
+
+<div id="outline-container-org7776b60" class="outline-3">
+<h3 id="org7776b60"><span class="section-number-3">3.1</span> Examples</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Here are examples involving
+lists, vectors and strings.  
+</p>
+</div>
+
+<div id="outline-container-org515403e" class="outline-4">
+<h4 id="org515403e"><span class="section-number-4">3.1.1</span> Lists</h4>
+<div class="outline-text-4" id="text-3-1-1">
+<p>
+Lists are constructed each time
+so they are  referentially
+distinct. 
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(eq? '(a b c) '(a b c)) <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">=&gt; #f</span>
+(equal? '(a b c) '(a b c)) <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">=&gt; #t</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc1b227a" class="outline-4">
+<h4 id="orgc1b227a"><span class="section-number-4">3.1.2</span> Vectors</h4>
+<div class="outline-text-4" id="text-3-1-2">
+<p>
+Lists are constructed each time too.
+</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(eq? '#(a b c) '#(a b c)) <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">=&gt; #f</span>
+(equal? '#(a b c) '#(a b c)) <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">=&gt; #f</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org63523ae" class="outline-4">
+<h4 id="org63523ae"><span class="section-number-4">3.1.3</span> Strings</h4>
+<div class="outline-text-4" id="text-3-1-3">
+<p>
+Two instances of literal strings
+are allocated the same memory
+and are therefor referentially
+identical.  Two things that are
+referentially identical are of
+course structurally identical.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(eq? <span style="font-style: italic;">"abc"</span> <span style="font-style: italic;">"abc"</span>) <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">=&gt; #t </span>
+(equal? <span style="font-style: italic;">"abc"</span> <span style="font-style: italic;">"abc"</span>) <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">=&gt; #t</span>
+</pre>
+</div>
+
+<p>
+However, strings  built
+with explicit constructors are
+allocated fresh memory:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(eq? (string '#\a '#\b) <span style="font-style: italic;">"ab"</span>) <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">=&gt; #f</span>
+(equal? (string '#\a '#\b) <span style="font-style: italic;">"ab"</span>) <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">=&gt; #t</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: VLEAD</p>
+<p class="date">Created: 2017-04-27 Thu 03:32</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

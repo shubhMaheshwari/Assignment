@@ -1,0 +1,1766 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-04-27 Thu 03:32 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ITWS-2 Spring 2017 IIIT Hyderabad</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="VLEAD" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="./style/css/worg-style.css" />
+<link rel="stylesheet" type="text/css" href="./style/css/override.css" />
+<link rel="icon" type="image/png" href="./style/img/favicon/popl.png" />
+<link rel="stylesheet" type="text/css" href="./lec-plan.css" />
+<script type="text/javascript" src="./style/js/org-info.js">
+/**
+ *
+ * @source: ./style/js/org-info.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in ./style/js/org-info.js.
+ *
+ * Copyright (C) 2012-2013 Free Software Foundation, Inc.
+ *
+ *
+ * The JavaScript code in this tag is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in ./style/js/org-info.js.
+ *
+ */
+</script>
+
+<script type="text/javascript">
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "1");
+org_html_manager.set("LINK_HOME", "./index.html");
+org_html_manager.set("LINK_UP", "./index.html");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="./index.html"> UP </a>
+ |
+ <a accesskey="H" href="./index.html"> HOME </a>
+</div><div id="content">
+<h1 class="title">ITWS-2 Spring 2017 IIIT Hyderabad</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org5655375">1. Announcements</a>
+<ul>
+<li><a href="#org06f094a">1.1. January</a></li>
+<li><a href="#org2c38aef">1.2. February</a></li>
+<li><a href="#org4dc49b7">1.3. March</a></li>
+</ul>
+</li>
+<li><a href="#orgf49f2a9">2. Schedule and Instructors</a></li>
+<li><a href="#org8908ffa">3. Course infrastructure</a>
+<ul>
+<li><a href="#org9614db3">3.1. Course Calendar</a></li>
+</ul>
+</li>
+<li><a href="#org4c28a34">4. Objective</a></li>
+<li><a href="#orgbeeb6f3">5. Texts and References</a></li>
+<li><a href="#org05e29d6">6. Grading (tentative) and other policies</a>
+<ul>
+<li><a href="#org23d16e4">6.1. Grading</a></li>
+<li><a href="#orgba2fff7">6.2. Attendance</a></li>
+<li><a href="#orgd0c3b5d">6.3. Make up Exams</a></li>
+<li><a href="#org80ec646">6.4. Punctuality</a></li>
+<li><a href="#org8866cd9">6.5. Cheating policy</a></li>
+</ul>
+</li>
+<li><a href="#orgeebbb26">7. Lecture Plan (Tentative)</a>
+<ul>
+<li><a href="#org10c9304">7.1. Till Mid 1</a></li>
+<li><a href="#org6bdf9f6">7.2. Mid 1 &#x2013; Mid 2</a></li>
+<li><a href="#org3e10961">7.3. Mid 2 &#x2013; Final</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org5655375" class="outline-2">
+<h2 id="org5655375"><span class="section-number-2">1</span> Announcements</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-org06f094a" class="outline-3">
+<h3 id="org06f094a"><span class="section-number-3">1.1</span> January</h3>
+<div class="outline-text-3" id="text-1-1">
+<dl class="org-dl">
+<dt><span class="timestamp-wrapper"><span class="timestamp">[2017-01-29 Sun]</span></span></dt><dd>Lecture 8 notes posted.</dd>
+
+<dt><span class="timestamp-wrapper"><span class="timestamp">[2017-01-13 Fri]</span></span></dt><dd>Lecture 5 notes posted.</dd>
+
+<dt><span class="timestamp-wrapper"><span class="timestamp">[2017-01-12 Thu]</span></span></dt><dd>Classroom for <span class="timestamp-wrapper"><span class="timestamp">[2017-01-16 Mon]</span></span>
+lecture shifted to H205.  Please use same seating
+arrangement.</dd>
+
+<dt><span class="timestamp-wrapper"><span class="timestamp">[2017-01-12 Thu]</span></span></dt><dd>Lecture 4 notes posted</dd>
+<dt><span class="timestamp-wrapper"><span class="timestamp">[2017-01-09 Mon]</span></span></dt><dd>Assignment 2 posted.</dd>
+<dt><span class="timestamp-wrapper"><span class="timestamp">[2017-01-09 Mon]</span></span></dt><dd>Released notes for Lectures 2 and 3.</dd>
+<dt><span class="timestamp-wrapper"><span class="timestamp">[2017-01-05 Thu]</span></span></dt><dd>Assignment 1 posted.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org2c38aef" class="outline-3">
+<h3 id="org2c38aef"><span class="section-number-3">1.2</span> February</h3>
+</div>
+
+<div id="outline-container-org4dc49b7" class="outline-3">
+<h3 id="org4dc49b7"><span class="section-number-3">1.3</span> March</h3>
+<div class="outline-text-3" id="text-1-3">
+<dl class="org-dl">
+<dt><span class="timestamp-wrapper"><span class="timestamp">[2017-03-04 Sat]</span></span></dt><dd>Lab Exam and Demo dates announced</dd>
+
+<dt><span class="timestamp-wrapper"><span class="timestamp">[2017-03-05 Sun]</span></span></dt><dd>Class notes for Lectures 11 and 12
+uploaded.</dd>
+
+<dt><span class="timestamp-wrapper"><span class="timestamp">[2017-03-14 Tue]</span></span></dt><dd>Class notes for Lecture 10 (User
+Events and N/W interactions) uploaded.</dd>
+
+<dt><span class="timestamp-wrapper"><span class="timestamp">[2017-03-23 Thu]</span></span></dt><dd>Class notes for Lectures 17-20 posted.</dd>
+
+<dt><span class="timestamp-wrapper"><span class="timestamp">[2017-03-27 Mon]</span></span></dt><dd>Class notes for Lecture 21 posted.</dd>
+</dl>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgf49f2a9" class="outline-2">
+<h2 id="orgf49f2a9"><span class="section-number-2">2</span> Schedule and Instructors</h2>
+<div class="outline-text-2" id="text-2">
+<dl class="org-dl">
+<dt>Institute Listing and Credits</dt><dd><dl class="org-dl">
+<dt>Number</dt><dd>ICS105  IT Workshop 2</dd>
+<dt>Credits</dt><dd>3</dd>
+</dl></dd>
+
+<dt>Schedule</dt><dd><dl class="org-dl">
+<dt>Lectures</dt><dd><ul class="org-ul">
+<li>Mon, Thu:  9am-10am H105 (Group B)</li>
+
+<li>Mon, Thu:  10:30am-11:30am H205 (Group A)</li>
+</ul></dd>
+
+<dt>Lab Schedule</dt><dd>Teaching Lab-2, 2pm-5pm
+
+<ul class="org-ul">
+<li>Mon: T6, T8</li>
+<li>Wed: T3, T5</li>
+<li>Fri: T1, T2</li>
+</ul></dd>
+</dl></dd>
+
+<dt>Instructional team</dt><dd><ul class="org-ul">
+<li>Venkatesh Choppella, IIIT (instructor, Office Hours: Fri 4:30-5:30pm)</li>
+<li>Thirumal Ravula, Virtual Labs (content contributor, co-instructor)</li>
+<li>Siddhartha Bhat, IIIT  (content contributor)</li>
+</ul></dd>
+
+<dt>Teaching Assistants</dt><dd><ul class="org-ul">
+<li>Ishaan Arora, UG-4 (Head TA, Office Hours: Thu 5:00-6:00pm)</li>
+<li>MS Soumya, PG-2 (Head TA, Office Hours: Thu 3:30-4:30pm)</li>
+<li>Aayush Naik, UG-3 (TA, Office Hours: Fri 3:30-4:30pm)</li>
+<li>Aditya Baskar, UG-4 (TA, Office Hours: Wed 3:30-4:30pm)</li>
+<li>Ayush Mishra, UG-4 (TA, Office Hours: Wed 3:30-4:30pm)</li>
+<li>Eshita Jayaswal, UG-4 (TA, Office Hours: Wed 3:30-4:30pm)</li>
+<li>Harshit Harchani, UG-4 (TA, Office Hours: Fri 5:00-6:00pm)</li>
+<li>Jerin Philip, UG-3 (TA, Office Hours: Sat 3:30-4:30pm)</li>
+<li>Nazrul Haque, UG-5 (TA, Office Hours: Wed 5:00-6:00pm)</li>
+<li>Raj Patel, UG-4 (TA, Office Hours: Tue 3:30-4:30pm)</li>
+<li>Sahiti Chedalavada, UG-5 (TA, Office Hours: Thu 3:30-4:30pm)</li>
+<li>Sambuddha Basu, UG-4 (TA, Office Hours: Tue 3:30-4:30pm)</li>
+<li>Siddhant Shrivastava, UG-3 (TA, Office Hours: Tue 3:30-4:30pm)</li>
+<li>Vishal Kaja, UG-3 (TA, Office Hours: Mon 5:00-6:00pm)</li>
+</ul></dd>
+</dl>
+<p>
+Note: Any further changes, will be updated on the <a href="https://calendar.google.com/calendar/embed?src=rdglkmo7nh0fmva40e92mbffdg@group.calendar.google.com&amp;ctz=Asia/Calcutta">course calendar</a>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8908ffa" class="outline-2">
+<h2 id="org8908ffa"><span class="section-number-2">3</span> Course infrastructure</h2>
+<div class="outline-text-2" id="text-3">
+<dl class="org-dl">
+<dt>Web pages</dt><dd><a href="http://pascal.iiit.ac.in/~itws2/docs">http://pascal.iiit.ac.in/~itws2/docs</a></dd>
+
+<dt>Discussion forum/issues</dt><dd><p>
+        <a href="http://gitlab.com/itws2-2017-spring-iiith/course-forum/issues">http://gitlab.com/itws2-2017-spring-iiith/course-forum/issues</a>
+</p>
+
+<p>
+To post, you need a gitlab account and you need to
+be part of the students group.  Request permission
+by visiting    <a href="http://gitlab.com/itws2-2017-spring-iiith-students">http://gitlab.com/itws2-2017-spring-iiith-students</a>.
+</p></dd>
+</dl>
+</div>
+
+
+<div id="outline-container-org9614db3" class="outline-3">
+<h3 id="org9614db3"><span class="section-number-3">3.1</span> Course Calendar</h3>
+<div class="outline-text-3" id="text-3-1">
+<div class="HTML">
+<p>
+&lt;iframe src="<a href="https://calendar.google.com/calendar/embed?src=rdglkmo7nh0fmva40e92mbffdg@group.calendar.google.com&amp;ctz=Asia/Calcutta">https://calendar.google.com/calendar/embed?src=rdglkmo7nh0fmva40e92mbffdg@group.calendar.google.com&amp;ctz=Asia/Calcutta</a>" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"&gt;
+&lt;/iframe&gt;
+</p>
+
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4c28a34" class="outline-2">
+<h2 id="org4c28a34"><span class="section-number-2">4</span> Objective</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+ITWS-2 Spring 2017 is an introduction to building web
+applications.  This will require the student to learn
+concepts of functional and objected-oriented programming and
+the actor model of communication between programs.  The
+student will gain experience working with several powerful
+technologies, including editors (Emacs), programming
+languages (Elisp, Racket, Javascript, Python, SQL and Bash),
+and associated libraries (JQuery, Flask, etc.)  and modern,
+industrial practices (Version control, Literate Programming,
+building and deployment, unit testing, etc.).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbeeb6f3" class="outline-2">
+<h2 id="orgbeeb6f3"><span class="section-number-2">5</span> Texts and References</h2>
+<div class="outline-text-2" id="text-5">
+<dl class="org-dl">
+<dt>Racket</dt><dd><ul class="org-ul">
+<li><a href="https://docs.racket-lang.org/guide/index.html">Racket Guide</a>  (online)</li>
+<li><a href="http://www.ccs.neu.edu/home/matthias/HtDP2e/">How to Design Programs</a> (online)</li>
+</ul></dd>
+
+<dt>Javascript</dt><dd></dd>
+
+
+<dt>(no term)</dt><dd>Python</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org05e29d6" class="outline-2">
+<h2 id="org05e29d6"><span class="section-number-2">6</span> Grading (tentative) and other policies</h2>
+<div class="outline-text-2" id="text-6">
+</div><div id="outline-container-org23d16e4" class="outline-3">
+<h3 id="org23d16e4"><span class="section-number-3">6.1</span> Grading</h3>
+<div class="outline-text-3" id="text-6-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Exam</th>
+<th scope="col" class="org-right">Weight</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Mid1</td>
+<td class="org-right">12.5</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">Mid2</td>
+<td class="org-right">12.5</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">Final Lab Exam</td>
+<td class="org-right">25</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">Labs</td>
+<td class="org-right">10</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">Assignments</td>
+<td class="org-right">20</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">Project</td>
+<td class="org-right">20</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">Total</td>
+<td class="org-right">100</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgba2fff7" class="outline-3">
+<h3 id="orgba2fff7"><span class="section-number-3">6.2</span> Attendance</h3>
+<div class="outline-text-3" id="text-6-2">
+<p>
+You are expected to meet the institute requirements for
+attendance of lectures, labs and exams.  Attendance will be
+taken in the labs and the lectures each time.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd0c3b5d" class="outline-3">
+<h3 id="orgd0c3b5d"><span class="section-number-3">6.3</span> Make up Exams</h3>
+<div class="outline-text-3" id="text-6-3">
+<p>
+Unless there is a medical or family emergency, or other
+similar extenuating circumstances, you will not be given
+exemption from exams.  You can expect make up exams to be
+significantly more difficult than the regular exams.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org80ec646" class="outline-3">
+<h3 id="org80ec646"><span class="section-number-3">6.4</span> Punctuality</h3>
+<div class="outline-text-3" id="text-6-4">
+<p>
+You are expected to be seated in the class <i>before</i> the
+beginning of the class.  Your entry to the lecture or the
+lab may be denied if you are late.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org8866cd9" class="outline-3">
+<h3 id="org8866cd9"><span class="section-number-3">6.5</span> Cheating policy</h3>
+<div class="outline-text-3" id="text-6-5">
+<p>
+Copying answers during quizzes, homeworks, or exams is
+considered cheating.  If you cheat during an exam, you will
+get a zero for that exam.  If you cheat by copying someone
+else's lab/homework or letting someone copy your homework,
+you will receive a zero in <b>all</b> your homeworks.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgeebbb26" class="outline-2">
+<h2 id="orgeebbb26"><span class="section-number-2">7</span> Lecture Plan (Tentative)</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+Please consult the <a href="./docs/Revised-Almanac-Spring2017.pdf">Institute Almanac</a>  for the full
+semester calendar and holidays.
+</p>
+</div>
+
+
+
+
+<div id="outline-container-org10c9304" class="outline-3">
+<h3 id="org10c9304"><span class="section-number-3">7.1</span> Till Mid 1</h3>
+<div class="outline-text-3" id="text-7-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides" id="lec-plan-1" class="table lec-plan">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">Lec #</th>
+<th scope="col" class="org-left">Date</th>
+<th scope="col" class="org-left">Topic</th>
+<th scope="col" class="org-left">Readings</th>
+<th scope="col" class="org-right">Lab#</th>
+<th scope="col" class="org-left">Lab</th>
+<th scope="col" class="org-left">Assignment</th>
+</tr>
+
+<tr>
+<th scope="col" class="org-right">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-right">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">[Commit Deadline]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2016-12-29 Thu]</span></span></td>
+<td class="org-left">Intro to Racket</td>
+<td class="org-left"><a href="http://docs.racket-lang.org/guide/index.html">TRG</a> Ch 1-3</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">1st order functions</td>
+<td class="org-left"><a href="http://www.ccs.neu.edu/home/matthias/HtDP2e">HtDP2e</a> Parts 1-2</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><a href="./current-topics/racket/index.html">Notes on Racket</a></td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><a href="./current-topics/racket/functions.html">Notes on Functions</a></td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">2</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-01-02 Mon]</span></span></td>
+<td class="org-left">Data and Function Design,</td>
+<td class="org-left"><a href="http://docs.racket-lang.org/guide/index.html">TRG</a> Ch 4-7</td>
+<td class="org-right">1.</td>
+<td class="org-left"><a href="./labs/version-control/index.html">Version control</a></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">contracts in documentation</td>
+<td class="org-left"><a href="http://www.ccs.neu.edu/home/matthias/HtDP2e/">HtDP</a> Part 3</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left"><a href="./labs/racket-intro/index.html">Racket Intro</a></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Unit testing,</td>
+<td class="org-left">Notes on  <a href="./current-topics/data-design/index.html">data design</a></td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><a href="./assignments/first-order-functions/index.html">First order functions</a></td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Inductive Data and</td>
+<td class="org-left">Notes on <a href="./current-topics/program-design/index.html">program design</a></td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-01-09 Mon 13:55]</span></span></td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Structural recursion</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">3</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-01-05 Thu]</span></span></td>
+<td class="org-left">Tagged Data</td>
+<td class="org-left">HtDP Part 4,5,6</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Higher order functions: map,</td>
+<td class="org-left">Notes on <a href="./current-topics/tagged-data/index.html">tagged data</a></td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">compose, apply</td>
+<td class="org-left">and <a href="./current-topics/hof/index.html">higher order functions</a></td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">4</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-01-09 Mon]</span></span></td>
+<td class="org-left">Iteration and tail recursion</td>
+<td class="org-left"><a href="./current-topics/iteration/index.html">Notes on iteration</a></td>
+<td class="org-right">2.</td>
+<td class="org-left"><a href="./labs/emacs-orgmode/index.html">Emacs Org mode</a></td>
+<td class="org-left"><a href="./assignments/higher-order-functions/index.html">Higher Order Functions</a></td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">AST annotation  model for</td>
+<td class="org-left"><a href="./current-topics/lexical-structure/index.html">Notes on lexical structure</a></td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-01-16 Mon 13:55]</span></span></td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">execution of functional programs.</td>
+<td class="org-left"><a href="./current-topics/environment/index.html">Notes on Environments</a></td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><a href="./current-topics/ast-annotation/index.html">Notes on AST Annotation</a></td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">5</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-01-12 Thu]</span></span></td>
+<td class="org-left">Closures, Function calls</td>
+<td class="org-left"><a href="./current-topics/ast-annotation/index.html">Notes on AST Annotation</a></td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">6</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-01-16 Mon]</span></span></td>
+<td class="org-left">AST annotation models for</td>
+<td class="org-left"><a href="./current-topics/imperative-programs/index.html">Annotating imperative programs</a></td>
+<td class="org-right">3.</td>
+<td class="org-left"><a href="./labs/advanced-emacs/index.html">Advanced Emacs</a></td>
+<td class="org-left"><a href="./assignments/more-with-lists/index.html">More with lists</a></td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">imperative programs</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">(shell, dired,</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-01-23 Mon 13:55]</span></span></td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">macros, elisp)</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">7</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-01-19 Thu]</span></span></td>
+<td class="org-left">Objects in Racket: Fields, and Methods</td>
+<td class="org-left"><a href="./current-topics/object-impl/index.html">Notes on Objects</a></td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><a href="./assignments/student-contribution/index.html">Student contribution</a></td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">(BONUS)</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-01-25 Wed 17:00]</span></span></td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">8</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-01-23 Mon]</span></span></td>
+<td class="org-left">Objects, Functions and Methods</td>
+<td class="org-left"><a href="./current-topics/js-objects/index.html">Notes on JS objects</a></td>
+<td class="org-right">4.</td>
+<td class="org-left"><a href="./labs/intro-to-js/index.html">Intro to Javascript</a></td>
+<td class="org-left"><a href="./assignments/javascript-basic/index.html">Javascript basic</a></td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">in Javascript</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-02-13 Mon 13:55]</span></span></td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-01-26 Thu]</span></span></td>
+<td class="org-left">REPUBLIC DAY: Holiday</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-01-30 Mon]</span></span></td>
+<td class="org-left">FELICITY HANGOVER: No lecture</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><a href="./assignments/javascript-fp/index.html">Javascript FP</a></td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-02-20 Mon 13:55]</span></span></td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">9</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-02-02 Thu]</span></span></td>
+<td class="org-left">Systems, Actors  and the Browser Model</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-02-06 Mon]</span></span></td>
+<td class="org-left">MIDSEM 1 HALF WEEK</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org6bdf9f6" class="outline-3">
+<h3 id="org6bdf9f6"><span class="section-number-3">7.2</span> Mid 1 &#x2013; Mid 2</h3>
+<div class="outline-text-3" id="text-7-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides" id="lec-plan-2" class="table lec-plan">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">Lec #</th>
+<th scope="col" class="org-left">Date</th>
+<th scope="col" class="org-left">Topic</th>
+<th scope="col" class="org-left">Readings</th>
+<th scope="col" class="org-right">Lab#</th>
+<th scope="col" class="org-left">Lab</th>
+<th scope="col" class="org-left">Assignment/Project</th>
+</tr>
+
+<tr>
+<th scope="col" class="org-right">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-right">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">[Commit Deadline]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">10</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-02-09 Thu]</span></span></td>
+<td class="org-left">User Events and</td>
+<td class="org-left"><a href="./current-topics/js-events/index.html">class notes</a></td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">N/W interactions</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">11</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-02-13 Mon]</span></span></td>
+<td class="org-left">Object Invariants and</td>
+<td class="org-left"><a href="./current-topics/safe-objects/index.html">class notes</a></td>
+<td class="org-right">5.</td>
+<td class="org-left"><a href="./labs/oops-js/index.html">Javascript objects</a></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Safe Objects</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">12</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-02-16 Thu]</span></span></td>
+<td class="org-left">System Invariants</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Wiring Models and Views</td>
+<td class="org-left"><a href="./current-topics/system-invariants/index.html">class notes</a></td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Observer Pattern</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-02-20 Mon]</span></span></td>
+<td class="org-left">State Machines</td>
+<td class="org-left"><a href="./current-topics/user-dir-fe/client-side-routing-as-state-machine.html">class notes</a></td>
+<td class="org-right">6.</td>
+<td class="org-left"><a href="./labs/api-calls-js/index.html">JS API calls</a></td>
+<td class="org-left"><a href="./assignments/javascript-oops/index.html">Javascript OOP</a></td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">and client routing</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-03-01 Wed 13:55]</span></span></td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">(Minor Ph-1)</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-02-23 Thu]</span></span></td>
+<td class="org-left">State Machines</td>
+<td class="org-left"><a href="./current-topics/user-dir-fe/separating-model-from-view.html">class notes</a></td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">and client routing</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">with model</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">15</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-02-27 Mon]</span></span></td>
+<td class="org-left">State Machines</td>
+<td class="org-left"><a href="./current-topics/user-dir-fe/model-view-controller-pattern.html">class notes</a></td>
+<td class="org-right">7.</td>
+<td class="org-left"><a href="./labs/python-intro/index.html">Python Intro</a></td>
+<td class="org-left"><a href="./assignments/javascript-api/index.html">Javascript API</a></td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">and client routing</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-03-06 Mon 13:55]</span></span></td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">with model and</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">(Minor Ph-2)</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">controller</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">16</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-03-02 Thu]</span></span></td>
+<td class="org-left">State variables, Conditions</td>
+<td class="org-left"><a href="./current-topics/conditions/index.html">class notes</a></td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">and Handlers</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">17</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-03-06 Mon]</span></span></td>
+<td class="org-left">Relational Data,</td>
+<td class="org-left"><a href="./current-topics/data-model/index.html">class notes</a></td>
+<td class="org-right">8.</td>
+<td class="org-left"><a href="./labs/python-flask/index.html">Build Backend with  Flask</a></td>
+<td class="org-left"><a href="./assignments/python-intro/index.html">Intro Python</a></td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">E-R Models</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-03-13 Mon]</span></span></td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">18</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-03-09 Thu]</span></span></td>
+<td class="org-left">Data Constraints</td>
+<td class="org-left"><a href="./current-topics/data-model/index.html">class notes</a></td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-03-13 Mon]</span></span></td>
+<td class="org-left">HOLI:  No lecture</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-03-16 Thu]</span></span></td>
+<td class="org-left">2nd MID SEM:  No lecture</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org3e10961" class="outline-3">
+<h3 id="org3e10961"><span class="section-number-3">7.3</span> Mid 2 &#x2013; Final</h3>
+<div class="outline-text-3" id="text-7-3">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides" id="lec-plan-3" class="table lec-plan">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">Lec #</th>
+<th scope="col" class="org-left">Date</th>
+<th scope="col" class="org-left">Topic</th>
+<th scope="col" class="org-left">Readings</th>
+<th scope="col" class="org-right">Lab#</th>
+<th scope="col" class="org-left">Lab</th>
+<th scope="col" class="org-left">Assignment</th>
+</tr>
+
+<tr>
+<th scope="col" class="org-right">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-right">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">[Commit Deadline]</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">9.</td>
+<td class="org-left">Python Objects for</td>
+<td class="org-left"><a href="./assignments/flask-basic/index.html">Flask Basic</a></td>
+</tr>
+
+<tr>
+<td class="org-right">19</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-03-20 Mon]</span></span></td>
+<td class="org-left">Concurrency</td>
+<td class="org-left"><a href="./current-topics/concurrency/index.html">Notes</a></td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">User Directory</td>
+<td class="org-left">(Minor Ph-3)</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left"><a href="./labs/sqlalchemy/index.html">SQL Alchemy</a></td>
+<td class="org-left"><del><span class="timestamp-wrapper"><span class="timestamp">[2017-03-27 Mon]</span></span></del></td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><a href="./current-topics/concurrency/exp.html">Experiments</a></td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-03-29 Wed 13:55]</span></span></td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">20</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-03-23 Thu]</span></span></td>
+<td class="org-left">Object relational mapping</td>
+<td class="org-left"><a href="./current-topics/data-model/index.html">Notes on Data model</a></td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Backend State Machine</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><a href="./current-topics/backend-system/index.html">Backend System</a></td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-03-25 Sat]</span></span></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Project Proposal</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Submission</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">21</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-03-27 Mon]</span></span></td>
+<td class="org-left">Persistence</td>
+<td class="org-left"><a href="./current-topics/persistence/index.html">Notes on Persistence</a></td>
+<td class="org-right">10.</td>
+<td class="org-left"><a href="./labs/routing/index.html">Routing</a></td>
+<td class="org-left"><a href="./assignments/project/index.html">Major Project</a></td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">REST API implementation</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-04-17 Mon]</span></span></td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><a href="./current-topics/persistence/exp.html">Experiments</a></td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-03-30 Thu]</span></span></td>
+<td class="org-left">WED Schedule:  NO CLASS</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">22</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-04-03 Mon]</span></span></td>
+<td class="org-left">Web Application  Security</td>
+<td class="org-left"><a href="./current-topics/web-security/cryptography.pdf">Cryptography</a></td>
+<td class="org-right">11.</td>
+<td class="org-left"><a href="./labs/web-security/index.html">Web Application</a></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">(system, database, xss)</td>
+<td class="org-left"><a href="./current-topics/web-security/security.pdf">Security</a></td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left"><a href="./labs/web-security/index.html">Security</a></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><a href="./current-topics/web-security/networking.pdf">Networking</a></td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">23</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-04-06 Thu]</span></span></td>
+<td class="org-left">Application workflows</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><del>Config management (iptables</del>,</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><del>web servers, dbase</del>,</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><del>nagios logs</del>,</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><del>reverse proxy</del>)</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">24</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-04-10 Mon]</span></span></td>
+<td class="org-left">App deployment</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">12.</td>
+<td class="org-left">Deployment and</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><del>How Web Servers Work</del></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">Security Benchmarking</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><del>(sockets, apache/nginx, wsgi)</del></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">25</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-04-13 Thu]</span></span></td>
+<td class="org-left">Review Session</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><del>HTTP</del></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><del>(protocol, headers</del>,</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><del>http2, https)</del></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-04-16 Sun]</span></span></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><a href="./assignments/peer-review/index.html">Content Curation</a></td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">(BONUS-II)</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-04-18 Tue 17:00]</span></span></td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">26</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-04-17 Mon]</span></span></td>
+<td class="org-left">Component and Workflow testing,</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Output Filters,</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Conclusion</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><del>Browser Platform model</del></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-04-27 Thu]</span></span></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">FINAL EXAM</td>
+<td class="org-left"><a href="./current-topics/lab-exam/instructions.html">Lab Exam Instructions</a></td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-04-28 Fri]</span></span></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">Demos</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">to</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left"><span class="timestamp-wrapper"><span class="timestamp">[2017-05-01 Mon]</span></span></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: VLEAD</p>
+<p class="date">Created: 2017-04-27 Thu 03:32</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

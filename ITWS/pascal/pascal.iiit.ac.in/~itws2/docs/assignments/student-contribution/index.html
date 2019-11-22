@@ -1,0 +1,615 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-04-27 Thu 03:32 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Content Contribution [Bonus Activity]</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="VLEAD" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="../../style/css/worg-style.css" />
+<link rel="stylesheet" type="text/css" href="../../style/css/override.css" />
+<link rel="icon" type="image/png" href="../../style/img/favicon/popl.png" />
+<script type="text/javascript" src="../../style/js/org-info.js">
+/**
+ *
+ * @source: ../../style/js/org-info.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in ../../style/js/org-info.js.
+ *
+ * Copyright (C) 2012-2013 Free Software Foundation, Inc.
+ *
+ *
+ * The JavaScript code in this tag is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in ../../style/js/org-info.js.
+ *
+ */
+</script>
+
+<script type="text/javascript">
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "1");
+org_html_manager.set("LINK_HOME", "../../index.html");
+org_html_manager.set("LINK_UP", "../index.html");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="../../index.html"> HOME </a>
+</div><div id="content">
+<h1 class="title">Content Contribution [Bonus Activity]</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org4dbadc9">1. Objective</a></li>
+<li><a href="#org1e5e546">2. Topics</a></li>
+<li><a href="#org24557ed">3. Directory Structure</a></li>
+<li><a href="#org5e8342d">4. Submission Instructions</a></li>
+<li><a href="#orgcff0132">5. Instructions</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org4dbadc9" class="outline-2">
+<h2 id="org4dbadc9"><span class="section-number-2">1</span> Objective</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+The objective of this activity is to encourage students for
+contributing to the content of the course. Students often refer to
+online content such as tutorials, videos, write-ups, blogs etc. for
+self learning. Also, many students try out examples that they find
+interesting or help them in understanding certain concepts
+better. Such examples are also welcome for contribution. The result
+of this activity is to gather a pool of information that is relevant
+to the course and for fellow students to make use of.
+</p>
+
+<p>
+<b>Added bonus:</b> Students also learn how to create merge requests and
+other subtle nuances of open source contribution.
+</p>
+<dl class="org-dl">
+<dt>Other takeaways</dt><dd><ul class="org-ul">
+<li>Learn to collaborate and work in teams</li>
+<li>Resolving merge conflicts</li>
+<li>Adhering to the given instructions :P</li>
+</ul></dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org1e5e546" class="outline-2">
+<h2 id="org1e5e546"><span class="section-number-2">2</span> Topics</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Students are divided into groups of 5. The list of groups is
+available <a href="https://docs.google.com/spreadsheets/d/1nvEw06gdlAaRY90CzqZkHL3plSKPUp-0IrRfzy5RWbY/edit?usp=sharing">here</a>.
+</p>
+
+<p>
+The list of topics and their corresponding groups are as under.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left"><b>Group numbers</b></th>
+<th scope="col" class="org-left"><b>Topics</b></th>
+<th scope="col" class="org-left"><b>File-name</b></th>
+<th scope="col" class="org-left"><b>Suggestions</b></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">1,7,13,19,25,31,37</td>
+<td class="org-left">Version Control</td>
+<td class="org-left">version-control.org</td>
+<td class="org-left">Documentation, git introductory</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">(git, gitlab, etc.)</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">tutorials/videos/etc</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">2,8,14,20,26,32</td>
+<td class="org-left">Racket and Drracket</td>
+<td class="org-left">racket.org</td>
+<td class="org-left">Documentation, drracket usage,</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">interesting drracket patches,</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">interesting examples/observations</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">3,9,15,21,27,33</td>
+<td class="org-left">Emacs</td>
+<td class="org-left">emacs.org</td>
+<td class="org-left">Documentation, tutorials,</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">additional/useful packages, etc.</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">4,10,16,22,28,34</td>
+<td class="org-left">Org mode</td>
+<td class="org-left">org-mode.org</td>
+<td class="org-left">&lt;same as above&gt;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">5,11,17,23,29,35</td>
+<td class="org-left">Objects, OOP</td>
+<td class="org-left">oops.org</td>
+<td class="org-left">What is an object, some witty</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">examples of object usage,</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">tutorials, etc.</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">6,12,18,24,30,36</td>
+<td class="org-left">Javascript</td>
+<td class="org-left">javascript.org</td>
+<td class="org-left">Documentation, tutorials, videos,</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">cool libraries, etc.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-org24557ed" class="outline-2">
+<h2 id="org24557ed"><span class="section-number-2">3</span> Directory Structure</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+All students have access to the <a href="https://gitlab.com/itws2-2017-spring-iiith/course-forum">course-forum</a>. Each topic listed
+above has a corresponding file name.
+</p>
+
+<pre class="example">
+     -------------------------
+     &lt;course-forum&gt;
+     |
+     `----src
+          |
+          `----student-contribution
+               |
+               `---- version-control.org
+                |--- racket.org
+                |--- emacs.org
+                |--- org-mode.org
+                |--- javascript.org
+     ------------------------
+</pre>
+
+<p>
+Students <b>must</b> contribute to the existing files only. Any
+contribution to another file will <b>NOT</b> be evaluated.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5e8342d" class="outline-2">
+<h2 id="org5e8342d"><span class="section-number-2">4</span> Submission Instructions</h2>
+<div class="outline-text-2" id="text-4">
+<dl class="org-dl">
+<dt>IMPORTANT NOTE</dt><dd>Each group needs to co-ordinate and
+decide <b>only one</b> person to be the one to create a merge
+request.
+
+<ol class="org-ol">
+<li>Each group is given a topic. You need to collect any
+resources/tutorials/any helpful material that you find relevant
+to the course and to your topic.</li>
+<li>Add the content that you found into the &lt;topic-name&gt;.org file.</li>
+<li>All students will have to fork <a href="https://gitlab.com/itws2-2017-spring-iiith/course-forum">this</a> repo and
+make a merge request to make contributions to this repository.</li>
+<li>To fork, follow the instructions mentioned <a href="https://docs.gitlab.com/ce/workflow/forking_workflow.html">here</a>.</li>
+<li><p>
+After forking, clone your repo.
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">        git clone https://gitlab.com/&lt;username&gt;/course-forum.git
+        $ cd course-forum
+</pre>
+</div></li>
+<li><p>
+Make your changes in this repo
+i.e. <b>&lt;username&gt;/course-forum</b>.You'll now have to synchronize with
+the main repository, so add an additional remote. We'll call
+the main repository <code>upstream</code> from now on.
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">         $ git remote add upstream https://gitlab.com/itws2-2017-spring-iiith/course-forum.git
+</pre>
+</div></li>
+
+<li><p>
+After committing, do a pull from upstream to synchronize your
+repo with any changes that might have been made upstream.
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">       $ git pull upstream master
+</pre>
+</div></li>
+
+<li><p>
+Any <b>merge-conflicts</b> would show up at this stage if a file
+in your repo conflicts with the upstream <code>master</code>
+branch. Fix these by modifying the conflicting files and
+commit any changes.
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">       $ <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Fix merge conflicts</span>
+       $ git commit -m <span style="font-style: italic;">"Fixed merge conflict: &lt;more description&gt;"</span>
+</pre>
+</div></li>
+<li><p>
+Now push the changes to the <code>master</code> branch in your fork.
+</p>
+<div class="org-src-container">
+<pre class="src src-bash">       $ git push origin master
+</pre>
+</div></li>
+
+<li>Make sure your commit messages and merge request messages
+are descriptive enough.</li>
+
+<li>Now head over to the gitlab UI, and from your fork of the repo
+create a merge request to <a href="https://gitlab.com/itws2-2017-spring-iiith/course-forum">itws2-2017-spring-iiith/course-forum</a>. Your commits will
+get reviewed by the TAs over there and will get accepted if
+satisfactory. If not, we'll respond with what modifications to
+make in comments on your merge request.</li>
+</ol></dd>
+</dl>
+
+<p>
+If you are googling for help/details on any of the terms mentioned
+above, please keep in mind that a <b>merge request</b> in gitlab is
+equivalent to a <b>pull request (PR)</b> in github terms.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcff0132" class="outline-2">
+<h2 id="orgcff0132"><span class="section-number-2">5</span> Instructions</h2>
+<div class="outline-text-2" id="text-5">
+<ol class="org-ol">
+<li>This is a contributory activity and not a competitive one. Please
+coordinate with your fellow group members (of the same topic) and
+make sure there are no duplicates/redundancies</li>
+<li>This is a bonus assignment, so make good use of it !!</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: VLEAD</p>
+<p class="date">Created: 2017-04-27 Thu 03:32</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

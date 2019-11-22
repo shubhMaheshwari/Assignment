@@ -1,0 +1,1196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-04-27 Thu 03:32 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Assignment: Python</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="VLEAD" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="../../style/css/worg-style.css" />
+<link rel="stylesheet" type="text/css" href="../../style/css/override.css" />
+<link rel="icon" type="image/png" href="../../style/img/favicon/popl.png" />
+<script type="text/javascript" src="../../style/js/org-info.js">
+/**
+ *
+ * @source: ../../style/js/org-info.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in ../../style/js/org-info.js.
+ *
+ * Copyright (C) 2012-2013 Free Software Foundation, Inc.
+ *
+ *
+ * The JavaScript code in this tag is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in ../../style/js/org-info.js.
+ *
+ */
+</script>
+
+<script type="text/javascript">
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "1");
+org_html_manager.set("LINK_HOME", "../../index.html");
+org_html_manager.set("LINK_UP", "../index.html");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="../../index.html"> HOME </a>
+</div><div id="content">
+<h1 class="title">Assignment: Python</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org76bda99">1. Introduction</a></li>
+<li><a href="#orgc096f1d">2. Problems</a>
+<ul>
+<li><a href="#orga86c07e">2.1. Classes and Iterators</a>
+<ul>
+<li><a href="#orgac05cb7">2.1.1. Matrix operations</a></li>
+<li><a href="#org2934958">2.1.2. Iterate over Matrix</a></li>
+</ul>
+</li>
+<li><a href="#orge1cea99">2.2. Regex: Validate Credit/Debit Card Details</a>
+<ul>
+<li><a href="#org805195e">2.2.1. Input</a></li>
+<li><a href="#orgc5cef26">2.2.2. Processing</a></li>
+<li><a href="#orga586923">2.2.3. Conventions</a></li>
+<li><a href="#orge98d683">2.2.4. Output</a></li>
+<li><a href="#orgdf6ae26">2.2.5. Example</a></li>
+<li><a href="#orga404224">2.2.6. Recommended modules</a></li>
+</ul>
+</li>
+<li><a href="#org93e15b0">2.3. Web Scraping - xkcd</a>
+<ul>
+<li><a href="#orgc01913c">2.3.1. Problem</a></li>
+<li><a href="#orgf96cc8c">2.3.2. Recommended modules</a></li>
+<li><a href="#orgec9cc51">2.3.3. Recommended resources</a></li>
+</ul>
+</li>
+<li><a href="#org631400c">2.4. Backup your dotfiles</a>
+<ul>
+<li><a href="#org6fd53da">2.4.1. Recommended modules</a></li>
+</ul>
+</li>
+<li><a href="#org5b5e225">2.5. Scientific Python (BONUS)</a>
+<ul>
+<li><a href="#org7902554">2.5.1. Recommended modules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org0970b88">3. Instructions</a>
+<ul>
+<li><a href="#orgcc9aa84">3.1. Problem specific file names for your lab solutions</a></li>
+<li><a href="#org822b4ff">3.2. Evaluation</a></li>
+<li><a href="#org49750a9">3.3. Naming Convention</a></li>
+<li><a href="#org2fb74b5">3.4. Directory Structure</a></li>
+<li><a href="#org5471a75">3.5. Strict Adherence</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org76bda99" class="outline-2">
+<h2 id="org76bda99"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>The objective of this assignment is to expose you to
+the various practical use-cases of Python(3) by using
+the various modules and libraries available.</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgc096f1d" class="outline-2">
+<h2 id="orgc096f1d"><span class="section-number-2">2</span> Problems</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-orga86c07e" class="outline-3">
+<h3 id="orga86c07e"><span class="section-number-3">2.1</span> Classes and Iterators</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Python is fully object-oriented - you can define classes,
+inherit from your own or built-in classes, and instantiate
+the classes you've defined. Compared to other programming
+languages, Python's class mechanism adds classes with a
+minimum of new syntax and semantics. Read more about classes
+in the Python <a href="https://docs.python.org/3/tutorial/classes.html">official docs</a>.
+</p>
+
+<p>
+Methods with a double underscore before and after their
+name are considered as built-in methods. They are used by
+interpreters and are generally used in the implementation
+of overloaded operators or other built-in functionality.
+</p>
+
+<pre class="example">
+__add__-&gt; Can be overloaded for + operation
+
+
+__sub__ -&gt; Can be overloaded for - operation
+
+
+__mul__ -&gt; Can be overloaded for * operation
+</pre>
+</div>
+
+<div id="outline-container-orgac05cb7" class="outline-4">
+<h4 id="orgac05cb7"><span class="section-number-4">2.1.1</span> Matrix operations</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<p>
+Now, you need to write a class <code>Matrix</code> that overload the
+above methods to do matrix addition, subtraction and
+multiplication respectively. Use the template given below.
+The tangled code should go into a file called <code>matrix.py</code>.
+</p>
+
+<p>
+<b>Note</b>: Remember to check the matrix dimensions in all the
+methods defined. Use assert statements for the same.
+</p>
+</div>
+
+<ol class="org-ol"><li><a id="org06409f2"></a>Solution template<br  /><div class="outline-text-5" id="text-2-1-1-1">
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold; font-style: italic;">#</span><span style="font-weight: bold; font-style: italic;">!/usr/bin/python3</span>
+
+<span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">Matrix</span>:
+    <span style="font-style: italic;">'''Class for matrix operations'''</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__init__</span>(<span style="font-weight: bold;">self</span>, lofl, m, n):
+        <span style="font-style: italic;">'''Initializes the matrix.</span>
+
+<span style="font-style: italic;">        lofl: List of lists</span>
+<span style="font-style: italic;">        m: Number of rows in the matrix</span>
+<span style="font-style: italic;">        n: Number of columns in the matrix</span>
+<span style="font-style: italic;">        '''</span>
+
+        <span style="font-weight: bold;">assert</span> <span style="font-weight: bold;">len</span>(lofl) == m
+        <span style="font-weight: bold;">for</span> row <span style="font-weight: bold;">in</span> lofl:
+            <span style="font-weight: bold;">assert</span> <span style="font-weight: bold;">len</span>(row) == n
+
+        <span style="font-weight: bold;">self</span>.lofl = lofl
+        <span style="font-weight: bold;">self</span>.m = m
+        <span style="font-weight: bold;">self</span>.n = n
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__add__</span>(<span style="font-weight: bold;">self</span>, mat):
+        <span style="font-weight: bold;">assert</span> <span style="font-weight: bold;">self</span>.m == mat.m
+        <span style="font-weight: bold;">assert</span> <span style="font-weight: bold;">self</span>.n == mat.n
+        <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Write similar assertions in other methods</span>
+
+        <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Your code here</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__sub__</span>(<span style="font-weight: bold;">self</span>, mat):
+        <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Your code here</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__mul__</span>(<span style="font-weight: bold;">self</span>, mat):
+        <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">Your code here</span>
+
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__str__</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold; font-style: italic;">stri</span> = <span style="font-style: italic;">''</span>
+        <span style="font-weight: bold;">for</span> i, row <span style="font-weight: bold;">in</span> <span style="font-weight: bold;">enumerate</span>(<span style="font-weight: bold;">self</span>.lofl):
+            <span style="font-weight: bold;">for</span> j, elem <span style="font-weight: bold;">in</span> <span style="font-weight: bold;">enumerate</span>(row):
+                <span style="font-weight: bold; font-style: italic;">stri</span> += <span style="font-weight: bold;">str</span>(elem) + <span style="font-style: italic;">' '</span>
+            <span style="font-weight: bold; font-style: italic;">stri</span> += <span style="font-style: italic;">'\n'</span>
+
+        <span style="font-weight: bold;">return</span> stri
+</pre>
+</div>
+</div></li>
+
+<li><a id="org5d993dd"></a>Test cases<br  /><div class="outline-text-5" id="text-2-1-1-2">
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold; font-style: italic;">#</span><span style="font-weight: bold; font-style: italic;">!/usr/bin/python3</span>
+
+<span style="font-weight: bold;">import</span> unittest
+<span style="font-weight: bold;">from</span> matrix <span style="font-weight: bold;">import</span> Matrix
+
+<span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">MatrixTest</span>(unittest.TestCase):
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">test_add1</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold; font-style: italic;">m1</span> = Matrix([[1, 2], [3, 4]], 2, 2)
+        <span style="font-weight: bold; font-style: italic;">m2</span> = Matrix([[5, 6], [7, 8]], 2, 2)
+        <span style="font-weight: bold;">self</span>.assertEqual(<span style="font-weight: bold;">str</span>(m1 + m2), <span style="font-weight: bold;">str</span>(Matrix([[6, 8], [10, 12]], 2, 2)))
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">test_add2</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold; font-style: italic;">m1</span> = Matrix([[1, 2, 3], [3, 4, 5]], 2, 3)
+        <span style="font-weight: bold; font-style: italic;">m2</span> = Matrix([[5, 6], [7, 8]], 2, 2)
+        <span style="font-weight: bold;">with</span> <span style="font-weight: bold;">self</span>.assertRaises(<span style="font-weight: bold; text-decoration: underline;">AssertionError</span>):
+            m1 + m2
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">test_sub1</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold; font-style: italic;">m1</span> = Matrix([[1, 2], [3, 4]], 2, 2)
+        <span style="font-weight: bold; font-style: italic;">m2</span> = Matrix([[5, 6], [7, 8]], 2, 2)
+        <span style="font-weight: bold;">self</span>.assertEqual(<span style="font-weight: bold;">str</span>(m1 - m2), <span style="font-weight: bold;">str</span>(Matrix([[-4, -4], [-4, -4]], 2, 2)))
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">test_mul1</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold; font-style: italic;">m1</span> = Matrix([[1, 2], [3, 4], [8, 9]], 3, 2)
+        <span style="font-weight: bold; font-style: italic;">m2</span> = Matrix([[5, 6, 7], [7, 8, 3]], 2, 3)
+        <span style="font-weight: bold;">self</span>.assertEqual(<span style="font-weight: bold;">str</span>(m1 * m2), <span style="font-weight: bold;">str</span>(Matrix([[19, 22, 13],
+                                                   [43, 50, 33],
+                                                   [103, 120, 83]], 3, 3)))
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">test_mul2</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold; font-style: italic;">m1</span> = Matrix([[5, 6, 7], [7, 8, 3]], 2, 3)
+        <span style="font-weight: bold; font-style: italic;">m2</span> = Matrix([[1, 2], [3, 4]], 2, 2)
+        <span style="font-weight: bold;">with</span> <span style="font-weight: bold;">self</span>.assertRaises(<span style="font-weight: bold; text-decoration: underline;">AssertionError</span>):
+            m1 * m2
+
+
+<span style="font-weight: bold;">if</span> <span style="font-weight: bold;">__name__</span> == <span style="font-style: italic;">'__main__'</span>:
+    unittest.main()
+</pre>
+</div>
+</div></li></ol>
+</div>
+
+
+<div id="outline-container-org2934958" class="outline-4">
+<h4 id="org2934958"><span class="section-number-4">2.1.2</span> Iterate over Matrix</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<p>
+Iterators are there everywhere in Python 3, they are its
+"secret sauce". They are used when we loop over lists,
+strings or dicts using a <code>for</code> loop. They are used when we
+use the <code>range</code> built-in function, and in many more places.
+An iterator is just a class the defines an <code>__iter__</code> and
+a <code>__next__</code> method. Read more about them <a href="http://www.diveintopython3.net/iterators.html">here</a>.
+</p>
+
+<p>
+Here's an example iterator that yields numbers in the
+Fibonacci sequence.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold; font-style: italic;">#</span><span style="font-weight: bold; font-style: italic;">!/usr/bin/python3</span>
+
+<span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">Fib</span>:
+    <span style="font-style: italic;">'''iterator that yields numbers in the Fibonacci sequence'''</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__init__</span>(<span style="font-weight: bold;">self</span>, <span style="font-weight: bold;">max</span>):
+        <span style="font-weight: bold;">self</span>.<span style="font-weight: bold;">max</span> = <span style="font-weight: bold;">max</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__iter__</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">self</span>.a = 0
+        <span style="font-weight: bold;">self</span>.b = 1
+        <span style="font-weight: bold;">return</span> <span style="font-weight: bold;">self</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__next__</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold; font-style: italic;">fib</span> = <span style="font-weight: bold;">self</span>.a
+        <span style="font-weight: bold;">if</span> fib &gt; <span style="font-weight: bold;">self</span>.<span style="font-weight: bold;">max</span>:
+            <span style="font-weight: bold;">raise</span> <span style="font-weight: bold; text-decoration: underline;">StopIteration</span>
+        <span style="font-weight: bold;">self</span>.a, <span style="font-weight: bold;">self</span>.b = <span style="font-weight: bold;">self</span>.b, <span style="font-weight: bold;">self</span>.a + <span style="font-weight: bold;">self</span>.b
+        <span style="font-weight: bold;">return</span> fib
+</pre>
+</div>
+
+<p>
+We call/use the iterator in the following way:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold; font-style: italic;">#</span><span style="font-weight: bold; font-style: italic;">!/usr/bin/python3</span>
+
+<span style="font-weight: bold;">for</span> n <span style="font-weight: bold;">in</span> Fib(1000):
+    <span style="font-weight: bold;">print</span>(n, end=<span style="font-style: italic;">' '</span>)
+</pre>
+</div>
+
+<p>
+We get the following output:
+</p>
+
+<pre class="example">
+0 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987
+</pre>
+
+<p>
+Add the <code>__iter__</code> and <code>__next__</code> methods to the <code>Matrix</code>
+class to iterate over its elements. You should iterate from
+the top-left element to the bottom-right element, row-wise.
+Iterating over the following matrix should give you the
+following sequence.
+</p>
+
+<pre class="example">
+1 2
+3 4
+</pre>
+
+<pre class="example">
+1 2 3 4
+</pre>
+</div>
+
+<ol class="org-ol"><li><a id="org0d5145b"></a>Test cases<br  /><div class="outline-text-5" id="text-2-1-2-1">
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold; font-style: italic;">#</span><span style="font-weight: bold; font-style: italic;">!/usr/bin/python3</span>
+
+<span style="font-weight: bold;">import</span> unittest
+<span style="font-weight: bold;">from</span> matrix <span style="font-weight: bold;">import</span> Matrix
+
+<span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">MatrixIteratorTest</span>(unittest.TestCase):
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">test_it1</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold; font-style: italic;">m1</span> = Matrix([[1, 2], [3, 4]], 2, 2)
+        <span style="font-weight: bold;">self</span>.assertEqual(<span style="font-weight: bold;">list</span>(m1), [1, 2, 3, 4])
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">test_it2</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold; font-style: italic;">m1</span> = Matrix([[5, 6, 7], [7, 8, 3]], 2, 3)
+        <span style="font-weight: bold;">self</span>.assertEqual(<span style="font-weight: bold;">list</span>(m1), [5, 6, 7, 7, 8, 3])
+
+
+<span style="font-weight: bold;">if</span> <span style="font-weight: bold;">__name__</span> == <span style="font-style: italic;">'__main__'</span>:
+    unittest.main()
+</pre>
+</div>
+</div></li></ol>
+</div>
+</div>
+
+
+<div id="outline-container-orge1cea99" class="outline-3">
+<h3 id="orge1cea99"><span class="section-number-3">2.2</span> Regex: Validate Credit/Debit Card Details</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+Sid has purchased a certain number of Sunburn tickets and
+would like to sell them off for a neat profit. However,
+before confirming the sale of any ticket, he has to
+validate the details (such as mobile number given and the
+validity and type of the credit/debit card number) given by
+the buyer. Help him do this.
+</p>
+</div>
+
+<div id="outline-container-org805195e" class="outline-4">
+<h4 id="org805195e"><span class="section-number-4">2.2.1</span> Input</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<p>
+You are given a file, <code>card_details.csv</code> with details in the
+following order (columns for each record):
+</p>
+
+<ul class="org-ul">
+<li>1. Name</li>
+<li>2. Mobile Number</li>
+<li>3. Credit/Debit Card Number</li>
+<li>4. Country/Nation <a href="http://www.nationsonline.org/oneworld/country_code_list.htm">ISO ALPHA-3 CODE</a></li>
+</ul>
+
+<p>
+Please note that no column headers are present in the input file.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgc5cef26" class="outline-4">
+<h4 id="orgc5cef26"><span class="section-number-4">2.2.2</span> Processing</h4>
+<div class="outline-text-4" id="text-2-2-2">
+<p>
+You have to validate each record (row) in the following order:
+</p>
+
+<ul class="org-ul">
+<li>1. You have to validate whether the mobile number given
+follows the mobile number convention of the
+respective country. The country's may be either of
+the following:
+<ul class="org-ul">
+<li>Republic of India: IND</li>
+<li>Sultanate of Oman: OMN</li>
+<li>United Arab Emirates: ARE</li>
+</ul></li>
+
+<li>2. If (1) gets validated, then you have to validate
+whether the credit/debit card number given is valid
+or not.</li>
+
+<li>3. Also determine the type of the credit/debit card.
+It may belong to either of the following:
+<ul class="org-ul">
+<li>VISA</li>
+<li>MasterCard</li>
+<li>Diners Club</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orga586923" class="outline-4">
+<h4 id="orga586923"><span class="section-number-4">2.2.3</span> Conventions</h4>
+<div class="outline-text-4" id="text-2-2-3">
+<ol class="org-ol">
+<li><p>
+You are supposed to check for the following mobile
+number formats:
+</p>
+
+<p>
+1.1. India (IND)
+</p>
+<ul class="org-ul">
+<li>All mobile phone numbers are 10 digits long
+(excluding the calling code)</li>
+<li>+91 XXXX NNNNNN</li>
+<li>+91-XXXX-NNNNNN</li>
+<li>+91-XXXX NNNNNN</li>
+<li>+91 XXXX-NNNNNN</li>
+</ul>
+<p>
+1.2. Oman (OMN)
+</p>
+<ul class="org-ul">
+<li>All mobile phone numbers are 8 digits long
+(excluding the calling code)</li>
+<li>+968 NNNNNNNN</li>
+<li>+968-NNNNNNNN</li>
+<li>+968 NNNN NNNN</li>
+<li>+968 NNNN-NNNN</li>
+<li>+968-NNNN-NNNN</li>
+</ul>
+<p>
+1.3. United Arab Emirates (ARE)
+</p>
+<ul class="org-ul">
+<li>All mobile phone numbers are 9 digits long
+(excluding the calling code)</li>
+<li>+971 XX NNNNNNN</li>
+<li>+971-XX-NNNNNNN</li>
+<li>+971-XX NNNNNNN</li>
+<li>+971 XX-NNNNNNN</li>
+</ul>
+<p>
+1.4. Please refer the following link for the
+       digit conventions/permitted in the mobile
+       phone numbers of the aforementioned countries.
+</p>
+<ul class="org-ul">
+<li><a href="https://en.wikipedia.org/wiki/List_of_mobile_phone_number_series_by_country">List of mobile phone number series by country</a></li>
+</ul></li>
+
+<li><p>
+The formats for the card numbers are as follows:
+</p>
+
+<p>
+2.1. VISA
+</p>
+<ul class="org-ul">
+<li>Valid length: 16 digits</li>
+<li>Card number must start with a 4</li>
+</ul>
+<p>
+2.2. MasterCard
+</p>
+<ul class="org-ul">
+<li>Valid length: 16 digits</li>
+<li>First digit must be 5 and second digit must be in
+the range 1 through 5 inclusive or the card numbers
+with the numbers must start with 2221 through 2720.</li>
+</ul>
+<p>
+2.3. Diner's Club
+</p>
+<ul class="org-ul">
+<li>Valid length: 14 digits</li>
+<li>Card numbers must being with either 300 through
+305, 36 or 38.</li>
+</ul>
+<p>
+2.4. Card numbers for any joint ventures for the above
+     are not to be considered at all.
+</p>
+
+<p>
+2.5. No format of card numbers other than the ones
+     specified above (in points, 2.1 through 2.3) are
+     to be considered.
+</p></li>
+</ol>
+</div>
+</div>
+
+
+<div id="outline-container-orge98d683" class="outline-4">
+<h4 id="orge98d683"><span class="section-number-4">2.2.4</span> Output</h4>
+<div class="outline-text-4" id="text-2-2-4">
+<p>
+You have to print those records which pass all the above
+validation tests to a file, <code>valid_cards.csv</code> wherein the
+credit/debit card type (VISA / MasterCard / Diners Club)
+is appended to the original record (as the last column).
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgdf6ae26" class="outline-4">
+<h4 id="orgdf6ae26"><span class="section-number-4">2.2.5</span> Example</h4>
+<div class="outline-text-4" id="text-2-2-5">
+<p>
+Given the following input file, <code>card_details.csv</code>
+</p>
+
+<pre class="example">
+ABC,+91-95154856,5335201711205456,OMN
+Ankit,+968-95154856,5335201711205456,OMN
+Mahika,+91 7022 209552,4581770000915566,IND
+DEF,+91 7022 209552,458170000,IND
+XYZ,+971 55 8859081,36055690059552,UAE
+Shreyas,+971 55 8859081,36055690059552,ARE
+</pre>
+
+<p>
+The output file, <code>valid_cards.csv</code> will be as follows,
+</p>
+
+<pre class="example">
+Ankit,+968-95154856,5335201711205456,OMN,MasterCard
+Mahika,+91 7022 209552,4581770000915566,IND,VISA
+Shreyas,+971 55 8859081,36055690059552,ARE,Diners Club
+</pre>
+</div>
+
+<ol class="org-ol"><li><a id="org740da8f"></a>Explanation<br  /><div class="outline-text-5" id="text-2-2-5-1">
+<ul class="org-ul">
+<li>The record with name ABC is invalid as the country
+code of the given mobile number is incorrect.</li>
+<li>The record with name DEF is invalid as credit/debit
+card number is invalid (incorrect length for a VISA
+card).</li>
+<li>The record with name XYZ is invalid because the
+ISO ALPHA-3 code for UAE is incorrect.</li>
+</ul>
+</div></li></ol>
+</div>
+
+
+<div id="outline-container-orga404224" class="outline-4">
+<h4 id="orga404224"><span class="section-number-4">2.2.6</span> Recommended modules</h4>
+<div class="outline-text-4" id="text-2-2-6">
+<ul class="org-ul">
+<li>You are recommended to use the following modules in
+the solution code for this assignment:
+
+<ul class="org-ul">
+<li>Regex module, <code>re</code></li>
+<li>CSV module, <code>csv</code></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org93e15b0" class="outline-3">
+<h3 id="org93e15b0"><span class="section-number-3">2.3</span> Web Scraping - xkcd</h3>
+<div class="outline-text-3" id="text-2-3">
+</div><div id="outline-container-orgc01913c" class="outline-4">
+<h4 id="orgc01913c"><span class="section-number-4">2.3.1</span> Problem</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<p>
+You are required to write a web scraper in python to extract
+the latest <code>N</code> xkcd comics. Web scraping is a technique used to
+extract information from websites. You will start at
+<a href="https://xkcd.com/"><a href="https://xkcd.com/">https://xkcd.com/</a></a>. From this page you will first extract
+the comic, which is a PNG image file, and save it to the
+specified path. Then, you will go to the previous comic
+(which on the webpage is accessed via the previous button),
+and save that comic and so on, <code>N</code> times.
+</p>
+
+<p>
+The tangled output script should be called <code>get_comics.py</code>.
+It should accept 2 command-line arguments (see <code>sys.argv</code>).
+The first one should be a non-negative integer specifying
+the number of comics to be downloaded. The second should be
+the path to which the comics will be saved.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf96cc8c" class="outline-4">
+<h4 id="orgf96cc8c"><span class="section-number-4">2.3.2</span> Recommended modules</h4>
+<div class="outline-text-4" id="text-2-3-2">
+<ul class="org-ul">
+<li><code>requests</code> to fetch web content</li>
+<li><code>lxml</code> or <code>beautifulsoup4</code> for extracting and parsing data</li>
+<li><code>sys</code> for command-line arguments</li>
+<li><code>PIL</code> / <code>Pillow</code> and <code>io</code> for saving images</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgec9cc51" class="outline-4">
+<h4 id="orgec9cc51"><span class="section-number-4">2.3.3</span> Recommended resources</h4>
+<div class="outline-text-4" id="text-2-3-3">
+<ul class="org-ul">
+<li>A good overview of web scraping and web scraping libraries
+&#x00ad; <a href="https://elitedatascience.com/python-web-scraping-libraries">here</a></li>
+<li><a href="http://docs.python-requests.org/en/master/">Requests Official Documentation</a></li>
+<li><a href="http://lxml.de/index.html#introduction">lxml Official Documentation</a></li>
+<li><a href="https://www.w3schools.com/xml/xpath_intro.asp">XPath Tutorial</a></li>
+<li><a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/">Beautiful Soup Official Documentation</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org631400c" class="outline-3">
+<h3 id="org631400c"><span class="section-number-3">2.4</span> Backup your dotfiles</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+Your ITWS TA's best friend created killer configurations for her systems over
+time. But during last night's power outage, the systems went down. All the
+config files, hours of hardwork vaporized. Having learnt the lesson the hard
+way, and depressed he asked his friend to come up with a solution. The lazy TA
+decided to pass this off as an assignment.
+</p>
+
+<p>
+You're supposed to create a <code>backup.py</code>, which takes in options <code>backup</code> or
+<code>restore</code>, <code>push</code> to copy files to the local directory, restore saved files to
+their original locations and push to git remote respectively.  It reads a
+configuration file from the same directory as the script, and then backs up or
+restores the files based on the option chosen.  Assume git is manually setup in
+the directory.
+</p>
+
+
+<p>
+The lazy TA favours automated evaluation, and has decided the config file will
+be a <code>json</code>, with the following format. Each element of the list is a tuple,
+containing (absolute path to source, destination). Assume the config file is
+provided in the same directory with name <code>list.json</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-json">[
+  [
+    "/home/lazy-ta/.emacs",
+    ".emacs"
+  ],
+  [
+    "/home/lazy-ta/.vimrc",
+    ".vimrc"
+  ],
+  [
+    "/home/lazy-ta/.emacs.d",
+    ".emacs.d"
+  ],
+  [
+    "/home/lazy-ta/.vim",
+    ".vim"
+  ]
+]
+</pre>
+</div>
+
+<p>
+The code will be run the following way from the command prompt.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">python backup.py backup <span style="font-weight: bold; font-style: italic;">#</span><span style="font-weight: bold; font-style: italic;">For backup</span>
+python backup.py restore <span style="font-weight: bold; font-style: italic;">#</span><span style="font-weight: bold; font-style: italic;">For restore</span>
+python backup.py push <span style="font-weight: bold; font-style: italic;">#</span><span style="font-weight: bold; font-style: italic;">For pushing to remote</span>
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org6fd53da" class="outline-4">
+<h4 id="org6fd53da"><span class="section-number-4">2.4.1</span> Recommended modules</h4>
+<div class="outline-text-4" id="text-2-4-1">
+<ul class="org-ul">
+<li><code>subprocess</code> / <code>os</code></li>
+<li><code>json</code>: for handling config file.</li>
+<li><code>sys</code>: for handling command line argument.</li>
+<li><code>datetime</code>: For using date in commit message.</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org5b5e225" class="outline-3">
+<h3 id="org5b5e225"><span class="section-number-3">2.5</span> Scientific Python (BONUS)</h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+Have a look at <code>matplotlib</code> and optionally <code>numpy</code>. These are modules widely
+used by the scientific community. Your task is to use <code>grades.csv</code> (<a href="https://gitlab.com/itws2-2017-spring-iiith/course-forum/blob/master/src/grades.csv">link</a> ) to generate
+histograms for each of the column and the grand total. Save the figures as
+<code>&lt;column_key&gt;.png</code> and <code>grand_total.png</code>. For example, for <code>assignment_1</code>
+column, create a file <code>assignment_1.png</code> containing the histogram. Assume
+<code>grades.csv</code> is available in the same directory as the script. You needn't
+generate histogram for the roll number column.
+</p>
+
+<p>
+Use 8 bins in your histogram, corresponding to the grades available. (A, A-, B,
+B-, C, C-, D, F).
+</p>
+</div>
+
+<div id="outline-container-org7902554" class="outline-4">
+<h4 id="org7902554"><span class="section-number-4">2.5.1</span> Recommended modules</h4>
+<div class="outline-text-4" id="text-2-5-1">
+<ul class="org-ul">
+<li>Plotting module, <code>matplotlib</code></li>
+<li>CSV module <code>csv</code> (Optional). You may choose to use
+normal file I/O.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-org0970b88" class="outline-2">
+<h2 id="org0970b88"><span class="section-number-2">3</span> Instructions</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-orgcc9aa84" class="outline-3">
+<h3 id="orgcc9aa84"><span class="section-number-3">3.1</span> Problem specific file names for your lab solutions</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+There are a total of 5 questions (4 questions + 1 bonus
+question) in this assignment. Please write out the
+solutions in a literate way in an org file called
+<code>main.org</code>. Then make sure that the tangled solutions
+go to the following python files:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">Problem</th>
+<th scope="col" class="org-left">File Name</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">1.</td>
+<td class="org-left"><code>matrix.py</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">2.</td>
+<td class="org-left"><code>valid_cards.py</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">3.</td>
+<td class="org-left"><code>get_comics.py</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">4.</td>
+<td class="org-left"><code>backup.py</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">5.</td>
+<td class="org-left"><code>bonus.py</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+<div id="outline-container-org822b4ff" class="outline-3">
+<h3 id="org822b4ff"><span class="section-number-3">3.2</span> Evaluation</h3>
+<div class="outline-text-3" id="text-3-2">
+<ol class="org-ol">
+<li>You will be graded according to various other test cases as
+well as the quality of your solution.</li>
+
+<li>No module is to be used in the 1st problem's solution.</li>
+</ol>
+</div>
+</div>
+
+
+<div id="outline-container-org49750a9" class="outline-3">
+<h3 id="org49750a9"><span class="section-number-3">3.3</span> Naming Convention</h3>
+<div class="outline-text-3" id="text-3-3">
+<ol class="org-ol">
+<li>Use the same names of functions, file names, etc.
+as mentioned in the questions.</li>
+
+<li>All the solutions should be in the same file, and
+the file is to be called "main.org".</li>
+</ol>
+</div>
+</div>
+
+
+<div id="outline-container-org2fb74b5" class="outline-3">
+<h3 id="org2fb74b5"><span class="section-number-3">3.4</span> Directory Structure</h3>
+<div class="outline-text-3" id="text-3-4">
+<ol class="org-ol">
+<li>Each student has access to a repository whose name is
+the roll-number of the student.</li>
+
+<li>You are supposed to make a virual environment wherein
+you will code your solutions.</li>
+
+<li>Please make a <code>requirements.txt</code> which has all the
+modules that you used, with their versions. Please run
+<code>pip freeze &gt;&gt; requirements.txt</code> in the virtual
+environment created for the assignment (refer point 2).</li>
+
+<li><p>
+In your GitLab repository, you <b>must</b> follow the
+directory structure as below:
+</p>
+
+<pre class="example">
+      ----------------------------
+      &lt;roll-no&gt;
+      |
+      `--assignment-solutions
+           |
+           `- assignment-8
+		|- main.org
+		|- requirements.txt
+      ----------------------------
+</pre></li>
+</ol>
+</div>
+</div>
+
+
+<div id="outline-container-org5471a75" class="outline-3">
+<h3 id="org5471a75"><span class="section-number-3">3.5</span> Strict Adherence</h3>
+<div class="outline-text-3" id="text-3-5">
+<ul class="org-ul">
+<li>If you do not adhere to this directory structure and
+naming, you <b>will</b> lose marks. The evaluation of this
+homework is <b>automated</b>.  So, please make sure that you
+don't miss hyphens and upper case letters in file,
+directory and function names. No requests for regrading
+of your homework will be entertained if the directory
+structure or naming convention is not followed!</li>
+
+<li>Any cases of plagiarism will be awarded <b>zero</b> marks
+in the assignment and/or an <b>F</b> grade in the course.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: VLEAD</p>
+<p class="date">Created: 2017-04-27 Thu 03:32</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

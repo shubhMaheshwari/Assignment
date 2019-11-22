@@ -1,0 +1,874 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-04-27 Thu 03:32 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tutorial on Web Security and Deployment</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="VLEAD" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="../../style/css/worg-style.css" />
+<link rel="stylesheet" type="text/css" href="../../style/css/override.css" />
+<link rel="icon" type="image/png" href="../../style/img/favicon/popl.png" />
+<script type="text/javascript" src="../../style/js/org-info.js">
+/**
+ *
+ * @source: ../../style/js/org-info.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in ../../style/js/org-info.js.
+ *
+ * Copyright (C) 2012-2013 Free Software Foundation, Inc.
+ *
+ *
+ * The JavaScript code in this tag is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in ../../style/js/org-info.js.
+ *
+ */
+</script>
+
+<script type="text/javascript">
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "1");
+org_html_manager.set("LINK_HOME", "../../index.html");
+org_html_manager.set("LINK_UP", "../index.html");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="../../index.html"> HOME </a>
+</div><div id="content">
+<h1 class="title">Tutorial on Web Security and Deployment</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org3d80a16">1. Objective of Lab</a>
+<ul>
+<li><a href="#orge05c268">1.1. Introduction to Web Security</a></li>
+<li><a href="#orgd5fbf8e">1.2. Introduction to Deployment</a></li>
+</ul>
+</li>
+<li><a href="#org0352aa4">2. Web application security vulnerabilities</a>
+<ul>
+<li><a href="#orgee74185">2.1. SQL Injection</a></li>
+<li><a href="#org1d2b9dd">2.2. Broken Authentication and Session Management</a></li>
+<li><a href="#org4dafd57">2.3. Cross-Site Scripting</a></li>
+<li><a href="#orgd48b060">2.4. Insecure Direct Object References</a></li>
+<li><a href="#orga68c0e6">2.5. Security Misconfiguration</a></li>
+</ul>
+</li>
+<li><a href="#orgfbbed33">3. Cryptography</a>
+<ul>
+<li><a href="#orga66ca1b">3.1. Hashes</a></li>
+</ul>
+</li>
+<li><a href="#org85aad43">4. Configure LXC</a>
+<ul>
+<li><a href="#org48a20e7">4.1. Install lxc</a></li>
+<li><a href="#org221cf74">4.2. Commands in LXC</a></li>
+</ul>
+</li>
+<li><a href="#org403d5f8">5. Deploying flask app on Nginx (Web Server)</a>
+<ul>
+<li><a href="#org96340c3">5.1. Install the required packages</a></li>
+<li><a href="#org1535cc4">5.2. Create a sample flask app</a></li>
+<li><a href="#org0209213">5.3. Testing uWSGI Serving</a></li>
+<li><a href="#org8f03076">5.4. Creating a uWSGI Configuration File</a></li>
+<li><a href="#org94d91f3">5.5. Configuring Nginx to Proxy Requests</a></li>
+<li><a href="#org3ab654e">5.6. Start uwsgi and restart nginx</a></li>
+</ul>
+</li>
+<li><a href="#org4fb4d58">6. Create a Self-Signed SSL Certificate</a>
+<ul>
+<li><a href="#org85b9d94">6.1. Create the SSL Certificate</a></li>
+<li><a href="#orgae51ffa">6.2. Configure Nginx to Use SSL</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3d80a16" class="outline-2">
+<h2 id="org3d80a16"><span class="section-number-2">1</span> Objective of Lab</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+The objective of this lab is to give insight for security on web and production deployment tactics.
+</p>
+</div>
+
+<div id="outline-container-orge05c268" class="outline-3">
+<h3 id="orge05c268"><span class="section-number-3">1.1</span> Introduction to Web Security</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Web application security is a branch of Information Security that deals specifically with security of websites, web applications and web services.
+OWASP is the emerging standards body for Web application security. In particular they have published the OWASP Top 10 which describes in detail the major threats against web applications.
+In this lab, we gonna discuss top 5 of them:
+</p>
+<ol class="org-ol">
+<li>Injection.</li>
+<li>Broken Authentication and Session Management.</li>
+<li>Cross-Site Scripting (XSS)</li>
+<li>Insecure Direct Object References.</li>
+<li>Security Misconfiguration.</li>
+</ol>
+
+<p>
+We will also cover these topics in breif:
+</p>
+<ul class="org-ul">
+<li><p>
+Cryptography
+</p>
+<ul class="org-ul">
+<li>public-private key encryption</li>
+<li>Hashes
+<ul class="org-ul">
+<li>Rainbow table Attack</li>
+<li>Brute Force Attack</li>
+<li>Checking data integrity</li>
+</ul></li>
+</ul>
+<p>
+Optional
+</p>
+<ul class="org-ul">
+<li>Email Signing</li>
+<li>SSH Server Verification</li>
+<li>RSA and DSA</li>
+<li>Firewall
+<ul class="org-ul">
+<li>iptables (Linux firewall)</li>
+</ul></li>
+<li>Port Scanning
+<ul class="org-ul">
+<li>nmap</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgd5fbf8e" class="outline-3">
+<h3 id="orgd5fbf8e"><span class="section-number-3">1.2</span> Introduction to Deployment</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+There are some major factors and key points which are very important in deploying an app in production. In this section we will be covering different open source web servers, there pros and cons etc.
+We will also cover Continues Integration (CI) in this section. We will discuss how CI tools makes development as well as production simple. Using CI we can maintain seperate enviroments for production and development.
+</p>
+
+<p>
+Keywords for this section.
+</p>
+
+<ul class="org-ul">
+<li><p>
+Web Servers
+</p>
+<ul class="org-ul">
+<li>Apache and its modules</li>
+<li>Nginx
+<ul class="org-ul">
+<li>Reverse Proxy</li>
+<li>python: nginx + uwsgi</li>
+</ul></li>
+</ul>
+<p>
+Optional
+</p>
+<ul class="org-ul">
+<li>Load balancing using haproxy.
+<ul class="org-ul">
+<li>Layer 4 load balancing (Round Robin)</li>
+<li>Layer 7 load balancing</li>
+</ul></li>
+</ul></li>
+</ul>
+<p>
+-HTTPS
+</p>
+<ul class="org-ul">
+<li>Self signed certificate</li>
+<li>Let's encrypt</li>
+</ul>
+<p>
+-CI (Continues Integration)
+</p>
+<ul class="org-ul">
+<li>Git</li>
+<li>python: Tox (For Automated test)</li>
+<li>Travis</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0352aa4" class="outline-2">
+<h2 id="org0352aa4"><span class="section-number-2">2</span> Web application security vulnerabilities</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-orgee74185" class="outline-3">
+<h3 id="orgee74185"><span class="section-number-3">2.1</span> SQL Injection</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+SQL Injection (SQLi) refers to an injection attack wherein an attacker can execute malicious SQL statements.
+</p>
+
+<pre class="example">
+# Define POST variables
+
+txtUserId = getRequestString("UserId");
+txtSQL = "SELECT * FROM Users WHERE UserId = " + txtUserId;
+
+# Malicious SQL statement
+SELECT * FROM Users WHERE UserId = 105 OR 1=1;
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org1d2b9dd" class="outline-3">
+<h3 id="org1d2b9dd"><span class="section-number-3">2.2</span> Broken Authentication and Session Management</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+When authentication functions related to the application are NOT implemented correctly which will allow hackers to compromise passwords or session ID's or to exploit other implementation flaws using other users credentials.
+</p>
+
+<pre class="example">
+http://example.com/sale/saleitems?sessionid=268544541&amp;dest=Hawaii
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org4dafd57" class="outline-3">
+<h3 id="org4dafd57"><span class="section-number-3">2.3</span> Cross-Site Scripting</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+Cross-site scripting (XSS) is a type of computer security vulnerability typically found in web applications. XSS enables attackers to inject client-side scripts into web pages viewed by other users.
+A cross-site scripting vulnerability may be used by attackers to bypass access controls such as the same-origin policy.
+</p>
+<pre class="example">
+print "&lt;html&gt;"
+print "&lt;h1&gt;Most recent comment&lt;/h1&gt;"
+print database.latestComment
+print "&lt;/html&gt;"
+
+# Attack
+
+&lt;html&gt;
+&lt;h1&gt;Most recent comment&lt;/h1&gt;
+&lt;script&gt;doSomethingEvil();&lt;/script&gt;
+&lt;/html&gt;
+</pre>
+
+<p>
+What can you with Javascript(Examples)?
+</p>
+<ol class="org-ol">
+<li>Malicious JavaScript has access to all the same objects the rest of the web page has, including access to cookies. Cookies are often used to store session tokens, if an attacker can obtain a user’s session cookie, they can impersonate that user.</li>
+<li>JavaScript can read and make arbitrary modifications to the browser’s DOM (within the page that JavaScript is running).</li>
+<li>JavaScript can use XMLHttpRequest to send HTTP requests with arbitrary content to arbitrary destinations.</li>
+<li>JavaScript in modern browsers can leverage HTML5 APIs such as accessing a user’s geolocation, webcam, microphone and even the specific files from the user’s file system. While most of these APIs require user opt-in, XSS in conjunction with some clever social engineering can bring an attacker a long way.</li>
+</ol>
+
+<p>
+More:
+</p>
+<ul class="org-ul">
+<li><a href="https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet">https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet</a></li>
+<li><a href="https://www.acunetix.com/websitesecurity/cross-site-scripting/">https://www.acunetix.com/websitesecurity/cross-site-scripting/</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgd48b060" class="outline-3">
+<h3 id="orgd48b060"><span class="section-number-3">2.4</span> Insecure Direct Object References</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+It refers to when a reference to an internal implementation object, such as a file or database key, is exposed to users without any other access control. In such cases, the attacker can manipulate those references to get access to unauthorized data.
+</p>
+
+<pre class="example">
+http://example.com/app/accountInfo?acct=notmyacct
+</pre>
+
+<p>
+Very common example:
+Profile view (If it is private profile and there is no check regarding this)
+</p>
+<pre class="example">
+http://example.com/app/userInfo?id=1
+http://example.com/app/userInfo?id=2
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orga68c0e6" class="outline-3">
+<h3 id="orga68c0e6"><span class="section-number-3">2.5</span> Security Misconfiguration</h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+Common examples:
+</p>
+
+<ol class="org-ol">
+<li>The app server admin console is automatically installed and not removed. Default accounts aren’t changed. Attacker discovers the standard admin pages are on your server, logs in with default passwords, and takes over.</li>
+<li>Directory listing is not disabled on your server. Attacker discovers she can simply list directories to find any file. Attacker finds and downloads all your compiled Java classes, which she decompiles and reverse engineers to get all your custom code. She then finds a serious access control flaw in your application.</li>
+<li>App server configuration allows stack traces to be returned to users, potentially exposing underlying flaws. Attackers love the extra information error messages provide.</li>
+<li>App server comes with sample applications that are not removed from your production server. Said sample applications have well known security flaws attackers can use to compromise your server.</li>
+</ol>
+
+<p>
+Generally happens if outdated software, unchanged default passwords, error reveals stack trace etc.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfbbed33" class="outline-2">
+<h2 id="orgfbbed33"><span class="section-number-2">3</span> Cryptography</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+The art of coding the messages in such a way that only the intended people could have access to the information. Unauthorized people could not extract any information, even if the scrambled messages fell in their hand is called cryptography.
+</p>
+<ol class="org-ol">
+<li>Passive attack - The main goal of a passive attack is to obtain unauthorized access to the information.</li>
+<li>Active attack - An active attack involves changing the information in some way by conducting some process on the information.</li>
+</ol>
+
+<p>
+Detailed:
+</p>
+<ul class="org-ul">
+<li><a href="https://www.tutorialspoint.com/cryptography/">https://www.tutorialspoint.com/cryptography/</a></li>
+</ul>
+</div>
+
+<div id="outline-container-orga66ca1b" class="outline-3">
+<h3 id="orga66ca1b"><span class="section-number-3">3.1</span> Hashes</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+A hash function is a function that can be used to map data of arbitrary size to data of fixed size. Primarily condition of function to be a Hash function is that it is hard to find collision.
+[H(x) = H(x') if x!= x'] this is hard to find (not impossible).[Merkle Damgard Transform - optional]
+Examples:
+SH1
+</p>
+<pre class="example">
+$ echo -n something | sha1sum
+</pre>
+
+<p>
+SH256
+</p>
+<pre class="example">
+$ echo -n something | sha256sum
+</pre>
+
+<p>
+MD5
+</p>
+<pre class="example">
+$ echo -n something | md5sum
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org85aad43" class="outline-2">
+<h2 id="org85aad43"><span class="section-number-2">4</span> Configure LXC</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+LXC stands for linux containers. Main objective of using LXC is to create isolation on servers.  
+</p>
+</div>
+<div id="outline-container-org48a20e7" class="outline-3">
+<h3 id="org48a20e7"><span class="section-number-3">4.1</span> Install lxc</h3>
+<div class="outline-text-3" id="text-4-1">
+<pre class="example">
+$ sudo apt install lxc
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org221cf74" class="outline-3">
+<h3 id="org221cf74"><span class="section-number-3">4.2</span> Commands in LXC</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+To create container:
+</p>
+<pre class="example">
+$ sudo lxc-create -t download -n Dany
+</pre>
+
+<p>
+To move into container:
+After doing this step you will get shell for specified container. You can now run your commands in the same.
+</p>
+<pre class="example">
+$ sudo lxc-attach -n Dany
+</pre>
+
+<p>
+To start containers:
+</p>
+<pre class="example">
+$ sudo lxc-start -n Dany -d
+</pre>
+
+<p>
+To list containers:
+This will provide you ip allocated to container.
+</p>
+<pre class="example">
+$ sudo lxc-ls -f
+</pre>
+
+<p>
+Example:
+</p>
+<pre class="example">
+NAME STATE   AUTOSTART GROUPS IPV4       IPV6 
+test RUNNING 0         -      10.0.3.133 -
+</pre>
+
+<p>
+You can use this IP to access services running on VM.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org403d5f8" class="outline-2">
+<h2 id="org403d5f8"><span class="section-number-2">5</span> Deploying flask app on Nginx (Web Server)</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+To Deploy python apps, we use nginx as a reverse proxy server. We use uWSGI with nginx to deploy python apps like flask.
+Insight about WSGI - Web Server Gateway Interface (WSGI) is a specification for simple and universal interface between web servers and web applications.
+</p>
+</div>
+
+<div id="outline-container-org96340c3" class="outline-3">
+<h3 id="org96340c3"><span class="section-number-3">5.1</span> Install the required packages</h3>
+<div class="outline-text-3" id="text-5-1">
+<pre class="example">
+$ sudo apt install python-pip python-dev nginx
+$ pip install uwsgi flask
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org1535cc4" class="outline-3">
+<h3 id="org1535cc4"><span class="section-number-3">5.2</span> Create a sample flask app</h3>
+<div class="outline-text-3" id="text-5-2">
+<pre class="example">
+vim ~/myproject/myproject.py
+</pre>
+
+<pre class="example">
+from flask import Flask
+application = Flask(__name__)
+
+@application.route("/")
+def hello():
+    return "&lt;h1 style='color:blue'&gt;Hello There!&lt;/h1&gt;"
+
+if __name__ == "__main__":
+    application.run(host='0.0.0.0')
+</pre>
+
+<pre class="example">
+vim ~/myproject/wsgi.py
+</pre>
+
+<pre class="example">
+from myproject import application
+
+if __name__ == "__main__":
+    application.run()
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org0209213" class="outline-3">
+<h3 id="org0209213"><span class="section-number-3">5.3</span> Testing uWSGI Serving</h3>
+<div class="outline-text-3" id="text-5-3">
+<pre class="example">
+$ uwsgi --socket 0.0.0.0:8000 --protocol=http -w wsgi
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org8f03076" class="outline-3">
+<h3 id="org8f03076"><span class="section-number-3">5.4</span> Creating a uWSGI Configuration File</h3>
+<div class="outline-text-3" id="text-5-4">
+<p>
+We have tested that uWSGI is able to serve our application, but we want something more robust for long-term usage. We can create a uWSGI configuration file with the options we want.
+</p>
+
+<pre class="example">
+$ vim ~/myproject/myproject.ini
+</pre>
+
+<pre class="example">
+[uwsgi]
+module = wsgi  # module by referring to our wsgi.py
+master = true
+processes = 5
+socket = myproject.sock # Unix socket is preferred because it is more secure and faster
+chmod-socket = 666
+vacuum = true #clean up the socket when the process stops
+daemonize = /tmp/uwsgi.log # To deamonize the uwsgi (Good question: What is deamon?)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org94d91f3" class="outline-3">
+<h3 id="org94d91f3"><span class="section-number-3">5.5</span> Configuring Nginx to Proxy Requests</h3>
+<div class="outline-text-3" id="text-5-5">
+<p>
+Our uWSGI application server should now be up and running, waiting for requests on the socket file in the project directory. We need to configure Nginx to pass web requests to that socket using the uwsgi protocol.
+</p>
+
+<pre class="example">
+sudo vim /etc/nginx/sites-available/default
+</pre>
+
+<pre class="example">
+server {
+    listen 80;
+    server_name server_domain_or_IP;
+
+    location / {
+        include uwsgi_params;
+        uwsgi_pass unix:/home/user/myproject/myproject.sock;
+    }
+</pre>
+</div>
+</div>
+<div id="outline-container-org3ab654e" class="outline-3">
+<h3 id="org3ab654e"><span class="section-number-3">5.6</span> Start uwsgi and restart nginx</h3>
+<div class="outline-text-3" id="text-5-6">
+<pre class="example">
+uwsgi --ini myproject.ini
+sudo service nginx restart
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4fb4d58" class="outline-2">
+<h2 id="org4fb4d58"><span class="section-number-2">6</span> Create a Self-Signed SSL Certificate</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+A self-signed certificate will not validate the identity of your server for your users since it is not signed by one of their web browser's trusted certificate authorities, but it will allow you to encrypt communications with your web clients.
+</p>
+</div>
+
+<div id="outline-container-org85b9d94" class="outline-3">
+<h3 id="org85b9d94"><span class="section-number-3">6.1</span> Create the SSL Certificate</h3>
+<div class="outline-text-3" id="text-6-1">
+<ul class="org-ul">
+<li>openssl: This is the basic command line tool for creating and managing OpenSSL certificates, keys, and other files.</li>
+<li>req: This subcommand specifies that we want to use X.509 certificate signing request (CSR) management. The "X.509" is a public key infrastructure standard that SSL and TLS adheres to for its key and certificate management. We want to create a new X.509 cert, so we are using this subcommand.</li>
+<li>-x509: This further modifies the previous subcommand by telling the utility that we want to make a self-signed certificate instead of generating a certificate signing request, as would normally happen.</li>
+<li>-nodes: This tells OpenSSL to skip the option to secure our certificate with a passphrase. We need Nginx to be able to read the file, without user intervention, when the server starts up. A passphrase would prevent this from happening because we would have to enter it after every restart.</li>
+<li>-days 365: This option sets the length of time that the certificate will be considered valid. We set it for one year here.</li>
+<li>-newkey rsa:2048: This specifies that we want to generate a new certificate and a new key at the same time. We did not create the key that is required to sign the certificate in a previous step, so we need to create it along with the certificate. The rsa:2048 portion tells it to make an RSA key that is 2048 bits long.</li>
+<li>-keyout: This line tells OpenSSL where to place the generated private key file that we are creating.</li>
+<li>-out: This tells OpenSSL where to place the certificate that we are creating.</li>
+</ul>
+
+<pre class="example">
+$ sudo mkdir /etc/nginx/ssl
+$ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx.key -out /etc/nginx/ssl/nginx.crt
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgae51ffa" class="outline-3">
+<h3 id="orgae51ffa"><span class="section-number-3">6.2</span> Configure Nginx to Use SSL</h3>
+<div class="outline-text-3" id="text-6-2">
+<p>
+Add this lines to your server block
+</p>
+<pre class="example">
+listen 443 ssl;
+ssl_certificate /etc/nginx/ssl/nginx.crt;
+ssl_certificate_key /etc/nginx/ssl/nginx.key;
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: VLEAD</p>
+<p class="date">Created: 2017-04-27 Thu 03:32</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

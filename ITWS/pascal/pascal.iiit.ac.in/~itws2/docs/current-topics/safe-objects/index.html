@@ -1,0 +1,875 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-04-27 Thu 03:32 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Object Invariants and Safe Objects</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="VLEAD" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="../../style/css/worg-style.css" />
+<link rel="stylesheet" type="text/css" href="../../style/css/override.css" />
+<link rel="icon" type="image/png" href="../../style/img/favicon/popl.png" />
+<script type="text/javascript" src="../../style/js/org-info.js">
+/**
+ *
+ * @source: ../../style/js/org-info.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in ../../style/js/org-info.js.
+ *
+ * Copyright (C) 2012-2013 Free Software Foundation, Inc.
+ *
+ *
+ * The JavaScript code in this tag is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in ../../style/js/org-info.js.
+ *
+ */
+</script>
+
+<script type="text/javascript">
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "1");
+org_html_manager.set("LINK_HOME", "../../index.html");
+org_html_manager.set("LINK_UP", "../index.html");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="../../index.html"> HOME </a>
+</div><div id="content">
+<h1 class="title">Object Invariants and Safe Objects</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org418844a">1. Objective</a></li>
+<li><a href="#org7700311">2. Data Invariants</a>
+<ul>
+<li><a href="#orgb2f10eb">2.1. Example</a></li>
+<li><a href="#org6107d9c">2.2. Data invariant</a></li>
+</ul>
+</li>
+<li><a href="#org4bdd760">3. Take 1: <code>balance</code> is a global variable</a>
+<ul>
+<li><a href="#org6fb02ce">3.1. Global variables</a></li>
+<li><a href="#org47ef53f">3.2. What is so wrong with this 'implementation' ?</a></li>
+</ul>
+</li>
+<li><a href="#org1399f4a">4. Take 2: Functions implementing an interaction interface</a>
+<ul>
+<li><a href="#org140e5e4">4.1. Interaction interface</a></li>
+<li><a href="#org4cfffda">4.2. Naive implementation</a></li>
+<li><a href="#org301332b">4.3. Why is this still a poor design?</a></li>
+</ul>
+</li>
+<li><a href="#org59542ed">5. Take 3: Objects with fields</a>
+<ul>
+<li><a href="#org479d8d4">5.1. Implementation</a></li>
+<li><a href="#org2b87440">5.2. Problems with this design</a></li>
+</ul>
+</li>
+<li><a href="#orga633792">6. Take 4: Encapsulation</a>
+<ul>
+<li><a href="#orge1fb552">6.1. Interfaces</a>
+<ul>
+<li><a href="#org35e2876">6.1.1. Construction Interface</a></li>
+<li><a href="#orga759be3">6.1.2. Interaction interface</a></li>
+</ul>
+</li>
+<li><a href="#org207dc87">6.2. Implementation</a></li>
+<li><a href="#org0437043">6.3. Discussion on implementation</a></li>
+</ul>
+</li>
+<li><a href="#orgf98fd62">7. Take 5: Error as part of <code>withdraw</code>'s signature</a>
+<ul>
+<li>
+<ul>
+<li><a href="#org3dc767b">7.0.1. Construction Interface</a></li>
+<li><a href="#org0b43774">7.0.2. Interaction interface</a></li>
+<li><a href="#org9ea6113">7.0.3. Implementation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org899147a">8. Racket Implementation</a></li>
+<li><a href="#org840b80f">9. Are safe objects are no longer extensible?</a></li>
+<li><a href="#org79b8e33">10. Files</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org418844a" class="outline-2">
+<h2 id="org418844a"><span class="section-number-2">1</span> Objective</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+We study the following concepts:
+</p>
+
+<ul class="org-ul">
+<li>Data Invariant</li>
+
+<li>Construction Interface</li>
+
+<li>Interaction Interface</li>
+
+<li>Safe Objects</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org7700311" class="outline-2">
+<h2 id="org7700311"><span class="section-number-2">2</span> Data Invariants</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>Almost always data comes with
+some constraint, or
+<i>invariant</i> on it.</li>
+
+<li>Design challenge: Allow data
+to change, but make sure
+invariant is preserved across
+changes.</li>
+</ul>
+</div>
+
+<div id="outline-container-orgb2f10eb" class="outline-3">
+<h3 id="orgb2f10eb"><span class="section-number-3">2.1</span> Example</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li>Model a bank account that
+stores the value of current
+balance.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org6107d9c" class="outline-3">
+<h3 id="org6107d9c"><span class="section-number-3">2.2</span> Data invariant</h3>
+<div class="outline-text-3" id="text-2-2">
+<ul class="org-ul">
+<li><code>balance</code> is a natural number.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4bdd760" class="outline-2">
+<h2 id="org4bdd760"><span class="section-number-2">3</span> Take 1: <code>balance</code> is a global variable</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-org6fb02ce" class="outline-3">
+<h3 id="org6fb02ce"><span class="section-number-3">3.1</span> Global variables</h3>
+<div class="outline-text-3" id="text-3-1">
+<ul class="org-ul">
+<li><code>balance</code> is a global
+variable.</li>
+
+<li>reading and setting the
+global variable to change
+its value.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org47ef53f" class="outline-3">
+<h3 id="org47ef53f"><span class="section-number-3">3.2</span> What is so wrong with this 'implementation' ?</h3>
+<div class="outline-text-3" id="text-3-2">
+<ul class="org-ul">
+<li><i>Anyone</i> can access this
+variable.</li>
+
+<li>Change it any way they
+like.</li>
+
+<li>To something that is not a
+natural number.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1399f4a" class="outline-2">
+<h2 id="org1399f4a"><span class="section-number-2">4</span> Take 2: Functions implementing an interaction interface</h2>
+<div class="outline-text-2" id="text-4">
+<pre class="example">
+Balance : is_nat -&gt; is_Balance
+</pre>
+</div>
+
+<div id="outline-container-org140e5e4" class="outline-3">
+<h3 id="org140e5e4"><span class="section-number-3">4.1</span> Interaction interface</h3>
+<div class="outline-text-3" id="text-4-1">
+<ul class="org-ul">
+<li><code>show</code>     : <code>() -&gt; = is_nat</code></li>
+
+<li><code>deposit</code>  : <code>is_nat -&gt; void</code></li>
+
+<li><code>withdraw</code> : <code>_is_nat -&gt; void</code></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org4cfffda" class="outline-3">
+<h3 id="org4cfffda"><span class="section-number-3">4.2</span> Naive implementation</h3>
+<div class="outline-text-3" id="text-4-2">
+<ul class="org-ul">
+<li><code>balance</code> is still a global
+variable= but interaction
+via an <i>interface</i>.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-js"><span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">balance</span>;
+
+<span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">Balance</span>  = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">init</span>) {
+        <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">init: is_nat</span>
+        balance = init;
+};
+
+<span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">show</span> = <span style="font-weight: bold;">function</span>() {
+        <span style="font-weight: bold;">return</span> balance;
+};
+
+<span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">deposit</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">d</span>) {
+        <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">d : is_nat</span>
+        balance = balance + d;
+};
+
+<span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">withdraw</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">w</span>) {
+        <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">w : is_nat</span>
+        balance = balance - w;
+};
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org301332b" class="outline-3">
+<h3 id="org301332b"><span class="section-number-3">4.3</span> Why is this still a poor design?</h3>
+<div class="outline-text-3" id="text-4-3">
+<ul class="org-ul">
+<li>The global variable <code>balance</code>
+can be set to any value
+<i>without</i> using any of the
+above functions.</li>
+</ul>
+
+<div class="org-src-container">
+<pre class="src src-js">balance = -100;
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org59542ed" class="outline-2">
+<h2 id="org59542ed"><span class="section-number-2">5</span> Take 3: Objects with fields</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+This time around, <code>balance</code> is
+defined as a field of an object.
+</p>
+</div>
+
+<div id="outline-container-org479d8d4" class="outline-3">
+<h3 id="org479d8d4"><span class="section-number-3">5.1</span> Implementation</h3>
+<div class="outline-text-3" id="text-5-1">
+<div class="org-src-container">
+<pre class="src src-js"><span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">Balance</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">init</span>) {
+        
+        <span style="font-weight: bold; text-decoration: underline;">this</span>.balance = init;
+};
+
+<span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">show</span> = <span style="font-weight: bold;">function</span>() {
+        <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">this</span>.balance;
+}
+
+<span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">deposit</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">d</span>) {
+        <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">d : is_nat</span>
+
+        <span style="font-weight: bold; text-decoration: underline;">this</span>.balance = <span style="font-weight: bold; text-decoration: underline;">this</span>.balance + d;
+}
+
+<span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">withdraw</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">w</span>) {
+        <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">w : is_nat</span>
+        <span style="font-weight: bold; text-decoration: underline;">this</span>.balance = <span style="font-weight: bold; text-decoration: underline;">this</span>.balance - w;
+};
+
+Balance.<span style="font-weight: bold; text-decoration: underline;">prototype</span>.show = show;
+Balance.<span style="font-weight: bold; text-decoration: underline;">prototype</span>.deposit = deposit;
+Balance.<span style="font-weight: bold; text-decoration: underline;">prototype</span>.withdraw = withdraw;
+
+<span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">b</span> = <span style="font-weight: bold;">new</span> <span style="font-weight: bold; text-decoration: underline;">Balance</span>(100);
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2b87440" class="outline-3">
+<h3 id="org2b87440"><span class="section-number-3">5.2</span> Problems with this design</h3>
+<div class="outline-text-3" id="text-5-2">
+<ul class="org-ul">
+<li>Doesn't solve the fundamental
+problem of setting the
+balance field to whatever we
+wish.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga633792" class="outline-2">
+<h2 id="orga633792"><span class="section-number-2">6</span> Take 4: Encapsulation</h2>
+<div class="outline-text-2" id="text-6">
+<ul class="org-ul">
+<li>Object is a closure.</li>
+
+<li><code>balance</code> is a lexically
+scoped variable local to the
+object.</li>
+</ul>
+</div>
+
+
+<div id="outline-container-orge1fb552" class="outline-3">
+<h3 id="orge1fb552"><span class="section-number-3">6.1</span> Interfaces</h3>
+<div class="outline-text-3" id="text-6-1">
+</div><div id="outline-container-org35e2876" class="outline-4">
+<h4 id="org35e2876"><span class="section-number-4">6.1.1</span> Construction Interface</h4>
+<div class="outline-text-4" id="text-6-1-1">
+<pre class="example">
+mk_balance(init: Nat) -&gt; Balance
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orga759be3" class="outline-4">
+<h4 id="orga759be3"><span class="section-number-4">6.1.2</span> Interaction interface</h4>
+<div class="outline-text-4" id="text-6-1-2">
+<pre class="example">
+show: () -&gt; Int
+deposit: Nat -&gt; void
+withdraw: Nat -&gt; void
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org207dc87" class="outline-3">
+<h3 id="org207dc87"><span class="section-number-3">6.2</span> Implementation</h3>
+<div class="outline-text-3" id="text-6-2">
+<div class="org-src-container">
+<pre class="src src-js"><span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">MakeBalance</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">init</span>) {
+        <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">init : is_nat</span>
+        <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">balance</span> = init;
+
+        <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">show</span> = <span style="font-weight: bold;">function</span>() {
+                <span style="font-weight: bold;">return</span> balance;
+                };
+
+        <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">deposit</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">d</span>) {
+                <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">d : is_nat</span>
+                balance = balance + d;
+        };
+
+        <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">withdraw</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">w</span>) {
+                <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">w : is_nat</span>
+                balance = balance - w;
+        };
+
+        <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">a</span> = {};
+        a.show = show;
+        a.deposit = deposit;
+        a.withdraw = withdraw;
+        <span style="font-weight: bold;">return</span> a;
+};
+
+<span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">b</span> = MakeBalance(200);
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0437043" class="outline-3">
+<h3 id="org0437043"><span class="section-number-3">6.3</span> Discussion on implementation</h3>
+<div class="outline-text-3" id="text-6-3">
+<ul class="org-ul">
+<li><code>balance</code> is no longer
+available from outside the
+object.</li>
+
+<li>Object construction no longer
+uses <code>new</code> because there is
+no reference to <code>this</code> in any
+of the methods.</li>
+
+<li>Invariant still can not be
+ensured: if <code>withdraw</code> is
+called with an amount greater
+than <code>balance</code>, then the
+invariant breaks.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf98fd62" class="outline-2">
+<h2 id="orgf98fd62"><span class="section-number-2">7</span> Take 5: Error as part of <code>withdraw</code>'s signature</h2>
+<div class="outline-text-2" id="text-7">
+</div><div id="outline-container-org3dc767b" class="outline-4">
+<h4 id="org3dc767b"><span class="section-number-4">7.0.1</span> Construction Interface</h4>
+<div class="outline-text-4" id="text-7-0-1">
+<p>
+Same as before.
+</p>
+<pre class="example">
+mk_balance(init: Nat) -&gt; Balance
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org0b43774" class="outline-4">
+<h4 id="org0b43774"><span class="section-number-4">7.0.2</span> Interaction interface</h4>
+<div class="outline-text-4" id="text-7-0-2">
+<pre class="example">
+show: () -&gt; Int
+deposit: Nat -&gt; void 
+withdraw: Nat -&gt; void throws "insufficient balance" Error
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-org9ea6113" class="outline-4">
+<h4 id="org9ea6113"><span class="section-number-4">7.0.3</span> Implementation</h4>
+<div class="outline-text-4" id="text-7-0-3">
+<p>
+Note the <code>Error</code> thrown by the
+<code>withdraw</code> method. 
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-js"><span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">mk_balance</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">init</span>) {
+        <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">balance</span> = init;
+
+        <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">show</span> = <span style="font-weight: bold;">function</span>() {
+                <span style="font-weight: bold;">return</span> balance;
+                };
+
+        <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">deposit</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">d</span>) {
+                <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">d : is_nat</span>
+                balance = balance + d;
+        };
+
+    <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">withdraw : is_nat -&gt; void,  throws Error()</span>
+    <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">withdraw</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">w</span>) {
+          <span style="font-weight: bold;">if</span> (balance &lt; w) {
+          <span style="font-weight: bold;">throw</span> <span style="font-weight: bold;">new</span> <span style="font-weight: bold; text-decoration: underline;">Error</span>(<span style="font-style: italic;">"insufficient balance"</span>);
+          }
+          <span style="font-weight: bold;">else</span> {
+              balance = balance-w;
+          };
+    };
+
+        <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">a</span> = {};
+        a.show = show;
+        a.deposit = deposit;
+        a.withdraw = withdraw;
+        <span style="font-weight: bold;">return</span> a;
+};
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org899147a" class="outline-2">
+<h2 id="org899147a"><span class="section-number-2">8</span> Racket Implementation</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+Here is a simple implementation
+of safe objects in Racket.
+Nothing special is needed.
+<code>mk-balance</code> returns a safe
+object.  
+</p>
+
+<p>
+Note the safe object's methods
+are invoked not using <code>mcall</code>
+but <code>fcall</code>. 
+</p>
+
+<p>
+Exercise:  what would happen if
+we used <code>mcall</code> instead? 
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme"><span style="font-weight: bold; font-style: italic;">;;; </span><span style="font-weight: bold; font-style: italic;">safe-balance.rkt</span>
+<span style="font-weight: bold; font-style: italic;">;;; </span><span style="font-weight: bold; font-style: italic;">usage: (load "safe-balance.rkt")</span>
+
+<span style="font-weight: bold; font-style: italic;">;;; </span><span style="font-weight: bold; font-style: italic;">mk-balance : nat? -&gt; balance?</span>
+(require <span style="font-style: italic;">"../object-impl/obj.rkt"</span>)
+
+(<span style="font-weight: bold;">define</span> <span style="font-weight: bold;">mk-balance</span> 
+  (<span style="font-weight: bold;">lambda</span> (init)
+    (<span style="font-weight: bold;">let</span> ([balance init])
+      (<span style="font-weight: bold;">let</span> ([show (<span style="font-weight: bold;">lambda</span> ()
+                       balance)]
+               [deposit (<span style="font-weight: bold;">lambda</span> (d)
+                          (set! balance (+ balance d)))]
+               [withdraw (<span style="font-weight: bold;">lambda</span> (w)
+                           (<span style="font-weight: bold;">if</span> (&lt; balance w)
+                               (error 'balance <span style="font-style: italic;">"insufficient balance"</span>)
+                               (set! balance (- balance w))))])
+        (<span style="font-weight: bold;">let</span> ([a (obj '())])
+          (<span style="font-weight: bold;">begin</span>
+            (a 'show show)
+            (a 'deposit deposit)
+            (a 'withdraw withdraw)
+            a))))))
+
+(<span style="font-weight: bold;">define</span> <span style="font-weight: bold;">fcall</span> 
+  (<span style="font-weight: bold;">lambda</span> (obj fn-name . args)
+    (<span style="font-weight: bold;">let</span> ([fn (obj fn-name)])
+      (apply fn args))))
+
+(require rackunit)
+(<span style="font-weight: bold;">define</span> <span style="font-weight: bold;">a</span> (mk-balance 100))
+(check-equal? (fcall a 'show) 100 <span style="font-style: italic;">"a-show"</span>)
+(check-exn exn:fail? (<span style="font-weight: bold;">lambda</span> () (fcall a 'withdraw 300)) <span style="font-style: italic;">"a-withdraw-error"</span>)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org840b80f" class="outline-2">
+<h2 id="org840b80f"><span class="section-number-2">9</span> Are safe objects are no longer extensible?</h2>
+<div class="outline-text-2" id="text-9">
+<ul class="org-ul">
+<li>Safe objects are no
+longer extensible via
+inheritance.</li>
+
+<li>More precisely, a safe object
+may be extended, but the new
+methods in safe object are
+not privy to the object's
+state variables.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org79b8e33" class="outline-2">
+<h2 id="org79b8e33"><span class="section-number-2">10</span> Files</h2>
+<div class="outline-text-2" id="text-10">
+<ul class="org-ul">
+<li><a href="./naive.js">naive.js</a>: naive version with
+balance implemented as a
+global variable (Take 2).</li>
+
+<li><a href="./balance-obj.js">balance-obj.js</a>: Unsafe
+version of balance with
+balance implemented as a 
+field (Take 3).</li>
+
+<li><a href="./balance-closure.js">balance-closure.js</a>: 
+Version with <code>balance</code>
+implemented as a local,
+lexically bound variable
+(Take 4).</li>
+
+<li><a href="./safe-balance.js">safe-balance.js</a>: Safe
+implementation where
+<code>balance</code> is a lexically
+bound variable and the
+interaction interface now
+includes an exception (error)
+as part of its specification.
+(Take 5).</li>
+
+<li><a href="./safe-balance.rkt">safe-balance.rkt</a>: Racket 
+implementation of the safe
+balance object.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: VLEAD</p>
+<p class="date">Created: 2017-04-27 Thu 03:32</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

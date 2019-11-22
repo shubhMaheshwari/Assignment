@@ -1,0 +1,92 @@
+<html>
+  <head>
+  <link rel="stylesheet" type="text/css" href="common.css" />
+  <script type="text/javascript" src="jquery-3.1.1.min.js"></script>
+  <script type="text/javascript" src="main.js"></script>
+  </head>
+  <body>
+    <div id="add-user-btn" class="hidden">
+      <p> List of Users </p>
+      <ul id="add-user">
+        <li>
+          <button id="add">Add</button>
+        </li>
+      </ul>
+    </div>
+          
+    <div id="get-all-users-container" class="hidden">
+      <ul id="users-list">
+        <li>
+          Name: Jub Jub Bird | Email: jub-jub@nonsense.verse
+          <button id="edit">Edit</button>
+          <button id="delete">Delete</button>
+        </li>
+    
+        <li>
+          Name: Grim Reaper | Email: reaper@whitehouse.gov
+          <button id="edit">Edit</button>
+          <button id="delete">Delete</button>
+        </li>
+    
+      </ul>
+    </div>
+    
+    <div id="add-user-container" class="hidden">
+      <p> Add User </p>
+      <ul id="add-user">
+        <li>
+          <label> Name:</label>
+          <input id="name-box" type="text"></input>
+        </li>
+    
+        <li>
+          <label> Email:</label>
+          <input id="email-box" type="text"></input>
+        </li>
+    
+        <li>
+          <button id="add">Add</button>
+          <button id="cancel">Cancel</button>
+        </li>
+        
+      </ul>
+    </div>
+    
+    <div id="delete-user-container" class="hidden">
+      <p> Delete User </p>
+      <ul id="delete-user">
+        <li>
+          Name: Grim Reaper | Email: reaper@whitehouse.gov
+        </li>
+    
+        <li>
+          <button id="delete">Delete</button>
+          <button id="cancel">Cancel</button>
+        </li>
+    
+      </ul>
+    </div>
+    
+    <div id="edit-user-container" class="hidden">
+      <p> Edit User </p>
+      <ul id="edit-user">
+        <li>
+          <label> Name:</label>
+          <input id="name-box" type="text" value="Grim Reaper"></input>
+        </li>
+    
+        <li>
+          <label> Email:</label>
+          <input id="email-box" type="text" value="reaper@whitehouse.gov"></input>
+        </li>
+    
+        <li>
+          <button id="done">Done</button>
+          <button id="cancel">Cancel</button>
+        </li>
+        
+      </ul>
+    </div>
+    
+  </body>
+</html>

@@ -1,0 +1,1618 @@
+<!DOCTYPE html>
+<html slick-uniqueid="3"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="description" content="Test your JavaScript, CSS, HTML or CoffeeScript online with JSFiddle code editor.">
+    <meta name="keywords" content="online javascript editor, testing javascript online, online ide, online code editor, html, css, coffeescript, scss online editor">
+    <meta name="author" content="JSFiddle">
+    <meta name="copyright" content="share alike">
+    <!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> -->
+
+    
+      <meta name="robots" content="index, follow">
+      <meta name="googlebot" content="index, follow">
+    
+
+    <!-- BEGIN TRACKJS -->
+    <script async="" src="graph_files/analytics.js"></script><script type="text/javascript">window._trackJs = { token: '3d76aff019bf47d99bd239b239a6ea3e' };</script>
+    <script type="text/javascript" src="graph_files/tracker.js"></script>
+    <!-- END TRACKJS -->
+
+    
+
+    
+      <meta name="google-site-verification" content="9m4aWTtDLfQ1kJNm3NtNsCrtpsOx_QoOPQRJ7jAwup8">
+    
+
+    <!--meta name="viewport" content="width=device-width, maximum-scale=0.5" /-->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-touch-fullscreen" content="yes">
+
+    
+      <script type="text/javascript" src="graph_files/_dist-editor.js"></script>
+
+    
+    
+    <link rel="stylesheet" type="text/css" href="graph_files/_dist-editor.css">
+
+
+    
+      <link rel="stylesheet" type="text/css" href="graph_files/light.html">
+
+    
+
+    
+      <script type="text/javascript">
+        var fiddleOptions = {
+          example_id: "",
+          exampleURL: "",
+          slug: "",
+          userId: "None"
+        };
+        var csspath = "/css/",
+          jspath = "/js/",
+          imgpath = "/img/",
+          mediapath = "/mooshellmedia/",
+          codemirrorpath = "/codemirror/",
+          panel_html = 'html',
+          panel_css = 'css',
+          panel_js = 'javascript',
+          makefavouritepath = "/_make_favourite/",
+          example_server = "//jsfiddle.net",
+          username = "",
+          static_hash = "update_15_02_2017_1",
+          csrfToken = Cookie.read('csrftoken'),
+          editor_save = "",
+          mooshell,
+          preload_resources;
+
+        
+
+        Layout.skin = "light";// "light"
+        window.addEvent('domready', function() {
+          if (panel_js != 'javascript' && $('jslint')) {
+            $('jslint').getParent('li').hide();
+          }
+
+          $extend(Layout, new Events());
+          mooshell = new MooShellActions({
+            example_id: fiddleOptions.example_id,
+            exampleURL: fiddleOptions.exampleURL,
+            exampleSaveUrl: '/_save/',
+            // sendCallbackURL: '',
+            loadDependenciesURL: '/_get_dependencies/{lib_id}/',
+            loadLibraryVersionsURL: '/_get_library_versions/{group_id}/'
+          });
+          new MooShellEditor.JS(document.id('id_code_js'), {
+            language: panel_js
+          }); // add user defined parameters
+          new MooShellEditor.HTML(document.id('id_code_html'), {
+            language: panel_html
+          }); // add user defined parameters
+          new MooShellEditor.CSS(document.id('id_code_css'), {
+            language: panel_css
+          }); // add user defined parameters
+          Layout.render();
+
+          
+            
+              Layout.updateFromMirror();
+              $('show-result').submit();
+              this.fireEvent('run');
+            
+          
+
+          // show editors and content when the last editor loads
+          // this will prevent flickering, plus looks nice
+          document.id('content').setStyle('opacity', 1);
+
+          // always keep this at the bottom
+          $$('select.panelChoice').each(function(sel) {
+            this.switchLanguage(sel);
+          }, mooshell);
+        });
+      </script>
+
+      
+    
+
+    
+      <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  var GA_LOCAL_STORAGE_KEY = 'ga:clientId';
+  if (window.localStorage) {
+    ga('create', 'UA-366077-13', {
+      'storage': 'none',
+      'clientId': localStorage.getItem(GA_LOCAL_STORAGE_KEY)
+    });
+    ga(function(tracker) {
+      localStorage.setItem(GA_LOCAL_STORAGE_KEY, tracker.get('clientId'));
+    });
+    ga('send', 'pageview', '/gh/get/[framework]/[framework_version]/[github_url]/'); // where `url_structure` is for example `/[user]/[fiddle]/[revision]/embedded/js,css/`
+  }
+</script>
+
+      
+
+      <!-- Hotjar Tracking Code for jsfiddle.net -->
+      <!-- <script>
+        (function(h,o,t,j,a,r){
+          h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+          h._hjSettings={hjid:13981,hjsv:5};
+          a=o.getElementsByTagName('head')[0];
+          r=o.createElement('script');r.async=1;
+          r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+          a.appendChild(r);
+        })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
+      </script> -->
+    
+
+    <script>
+      var HW_config = {
+        selector: ".changelog-badge",
+        account: "1xGMJQ"
+      };
+    </script>
+    <script async="" src="graph_files/widget.js"></script>
+
+    <link rel="icon" href="http://jsfiddle.net/favicon.png">
+    <link href="graph_files/css.css" rel="stylesheet" type="text/css">
+    <!-- <link href="//fonts.googleapis.com/css?family=Lato:400|Inconsolata" rel="stylesheet" type="text/css"> -->
+
+    <title>Highcharts Demo - JSFiddle</title>
+  <script id="_carbonads_projs" type="text/javascript" src="graph_files/C6AILKT.js"></script></head>
+  <body>
+    <h1>Test your JavaScript, CSS, HTML or CoffeeScript online with JSFiddle code editor.</h1>
+    <h2>online javascript editor, testing javascript online, online ide, online code editor, html, css, coffeescript, scss online editor</h2>
+    <form method="post" id="show-result" target="result" action="//fiddle.jshell.net/_display/">
+      
+      
+      <div style="display:none"><input name="csrfmiddlewaretoken" value="M4VsO7oWi2oHy6jbXr4LWZBdHweBqAj7" type="hidden"></div>
+      <div id="header">
+        <div id="branding">
+          <p id="name" class="changelog-badge"><a title="JSFiddle " href="http://jsfiddle.net/" id="home" class="drop-target">JSFiddle</a><span id="HW_badge_cont" class="HW_visible"><span id="HW_badge" class="HW_visible" data-count-unseen="4">4</span></span></p>
+        </div>
+        
+          <div id="actions">
+  <nav class="actionCont collapsed">
+    <div class="actionItem">
+      <a class="aiButton" id="run" title="Run (CTRL + Return)" href="#run"><i class="bts bt-play"></i>Run</a>
+    </div>
+
+    
+    
+
+    
+    
+      <div class="actionItem visible" style="display: none;">
+        <a class="aiButton" id="savenew" title="Save new Fiddle (CTRL + S)" href="#save"><i class="bts bt-pencil"></i>Save</a>
+      </div>
+      <div class="actionItem hidden" style="display: block;">
+        <a class="aiButton" id="update" title="Update (CTRL + S)" href="#update"><i class="bts bt-pencil"></i>Update</a>
+      </div>
+      <div class="actionItem hidden" style="display: block;">
+        <a class="aiButton" id="fork" title="Fork into a new Fiddle" href="#fork"><i class="bts bt-fork"></i>Fork</a>
+      </div>
+    
+
+    
+
+    <div class="actionItem">
+      <a class="aiButton" id="tidy" title="Tidy messy code" href="#tidy"><i class="bts bt-align-left"></i>Tidy</a>
+    </div>
+    <!-- <div class="actionItem">
+      <a class="aiButton" id="showjscode" title="Show JavaScript code" href="#showjs"><i class="bts bt-code"></i>Show JS</a>
+    </div -->
+    <div class="actionItem">
+      <a class="aiButton" id="collaborate" title="Collaborate on code" href="#collaborate"><i class="bts bt-commenting"></i>Collaborate</a>
+    </div>
+  </nav>
+
+  
+  
+
+  <ul class="actionCont dropdown">
+    <li class="actionItem hidden" style="display: block;">
+      <a class="aiButton dropdownTrigger" id="share" title="Embed this Fiddle" href="#embed">Embed<i class="bts bt-angle-down rightIcon"></i></a>
+      <div class="dropdownCont center">
+        <div class="dcWrapper embed">
+
+          <div id="creator">
+            <section>
+              <h3>Tabs:</h3>
+              <div class="inlineFields">
+                <label class="inputCont_checkbox checkboxCont">
+                  <input name="tabs" value="js" checked="checked" type="checkbox">
+                  <span class="checkbox"><i class="bts bt-check"></i></span> JavaScript
+                </label>
+                <label class="inputCont_checkbox checkboxCont">
+                  <input name="tabs" value="html" checked="checked" type="checkbox">
+                  <span class="checkbox"><i class="bts bt-check"></i></span> HTML
+                </label>
+                <label class="inputCont_checkbox checkboxCont">
+                  <input name="tabs" value="css" checked="checked" type="checkbox">
+                  <span class="checkbox"><i class="bts bt-check"></i></span> CSS
+                </label>
+                <label class="inputCont_checkbox checkboxCont">
+                  <input name="tabs" value="result" checked="checked" type="checkbox">
+                  <span class="checkbox"><i class="bts bt-check"></i></span> Result
+                </label>
+              </div> <!-- /inlineFields -->
+            </section>
+
+            <section class="noborder">
+              <h3>Visual:</h3>
+              <div class="inlineFields">
+                <label class="inputCont_checkbox checkboxCont">
+                  <input name="skin" value="light" checked="checked" type="radio">
+                  <span class="radio"></span> Light
+                </label>
+                <label class="inputCont_checkbox checkboxCont">
+                  <input name="skin" value="dark" type="radio">
+                  <span class="radio"></span> Dark
+                </label>
+              </div> <!-- /inlineFields -->
+              <label class="inputCont_text">
+                <input name="accentColor" maxlength="7" placeholder="Accent color" type="text">
+              </label>
+              <label class="inputCont_text">
+                <input name="fontColor" maxlength="7" placeholder="Font color" type="text">
+              </label>
+              <label class="inputCont_text">
+                <input name="menuColor" maxlength="7" placeholder="Menu background" type="text">
+              </label>
+              <label class="inputCont_text">
+                <input name="bodyColor" maxlength="7" placeholder="Code background" type="text">
+              </label>
+            </section>
+
+            <section class="noborder">
+              <h3>Embed code <a href="#" class="codeTypeToggle">Prefer iframe?</a>:</h3>
+              <div class="embedCodeWrap">
+<textarea class="embedCode" id="share_embedded_dropdown" data-view="embed" data-pattern-value="&lt;script async src=&quot;{embedSrc}&quot;&gt;&lt;/script&gt;">&lt;script async src="//jsfiddle.net/g3j8tLtt/embed/"&gt;&lt;/script&gt;</textarea>
+              </div> <!-- /embedCodeWrap -->
+
+              <div class="embedCodeWrap hidden">
+<textarea class="embedCode" data-view="embedded" data-pattern-value="&lt;iframe width=&quot;100%&quot; height=&quot;300&quot; src=&quot;{embedSrc}&quot; allowfullscreen=&quot;allowfullscreen&quot; frameborder=&quot;0&quot;&gt;&lt;/iframe&gt;">&lt;iframe
+ width="100%" height="300" src="//jsfiddle.net/g3j8tLtt/embedded/" 
+allowfullscreen="allowfullscreen" frameborder="0"&gt;&lt;/iframe&gt;</textarea>
+                <p><strong>No autoresizing</strong> to fit the code</p>
+                <p><strong>Render blocking</strong> of the parent page</p>
+              </div> <!-- /embedCodeWrap -->
+            </section>
+          </div> <!-- /creator -->
+
+          <div id="preview"><iframe sandbox="allow-modals allow-forms allow-scripts allow-same-origin allow-popups" src="graph_files/a.html" width="100%" height="300" frameborder="0"></iframe></div> <!-- /preview -->
+
+        </div> <!-- /dcWrapper -->
+      </div> <!-- /dropdownCont -->
+    </li> <!-- /actionItem -->
+  </ul> <!-- /actionCont -->
+
+
+  
+<ul class="actionCont dropdown right">
+  <li class="actionItem hidden draftTriggerCont" style="display: none;">
+    <a class="aiButton dropdownTrigger applyDraft" href="#">
+      <i class="bts bt-flag"></i>Your fiddle has an unsaved draft
+    </a>
+    <div class="dropdownCont">
+      <div class="dcWrapper diffCont">
+        <h4>Diff between the <strong>saved</strong> and <strong>locally drafted</strong> fiddle:</h4>
+        <div class="diffPanels">
+          <div class="diffWrap" id="diff-html"><table class="diff inlinediff"><thead><tr><th></th><th></th><th class="texttitle">Base Text vs. New Text</th></tr></thead><tbody><tr><th>1</th><th>1</th><td class="equal">&lt;script src="https://code.highcharts.com/highcharts.js"&gt;&lt;/script&gt;</td></tr><tr><th>2</th><th>2</th><td class="equal">&lt;script src="https://code.highcharts.com/modules/heatmap.js"&gt;&lt;/script&gt;</td></tr><tr><th>3</th><th>3</th><td class="equal">&lt;script src="https://code.highcharts.com/modules/exporting.js"&gt;&lt;/script&gt;</td></tr><tr><th>4</th><th>4</th><td class="equal"></td></tr><tr><th>5</th><th>5</th><td class="equal"></td></tr><tr><th>6</th><th>6</th><td class="equal">&lt;div id="container" style="height: 400px; min-width: 310px; max-width: 800px; margin: 0 auto"&gt;&lt;/div&gt;</td></tr><th class="author" colspan="3">diff view generated by <a href="http://github.com/cemerick/jsdifflib">jsdifflib</a></th></tbody></table></div>
+          <div class="diffWrap" id="diff-js"><table class="diff inlinediff"><thead><tr><th></th><th></th><th class="texttitle">Base Text vs. New Text</th></tr></thead><tbody><tr><th>1</th><th>1</th><td class="equal"></td></tr><tr><th>2</th><th>2</th><td class="equal">Highcharts.chart('container', {</td></tr><tr><th>3</th><th>3</th><td class="equal"></td></tr><tr><th>4</th><th>4</th><td class="equal">    chart: {</td></tr><tr><th>5</th><th>5</th><td class="equal">        type: 'heatmap',</td></tr><tr><th>6</th><th>6</th><td class="equal">        marginTop: 40,</td></tr><tr><th>7</th><th>7</th><td class="equal">        marginBottom: 80,</td></tr><tr><th>8</th><th>8</th><td class="equal">        plotBorderWidth: 1</td></tr><tr><th>9</th><th>9</th><td class="equal">    },</td></tr><tr><th>10</th><th>10</th><td class="equal"></td></tr><tr><th>11</th><th>11</th><td class="equal"></td></tr><tr><th>12</th><th>12</th><td class="equal">    title: {</td></tr><tr><th>13</th><th>13</th><td class="equal">        text: 'Sales per employee per weekday'</td></tr><tr><th>14</th><th>14</th><td class="equal">    },</td></tr><tr><th>15</th><th>15</th><td class="equal"></td></tr><tr><th>16</th><th>16</th><td class="equal">    xAxis: {</td></tr><tr><th>17</th><th>17</th><td class="equal">        categories: ['Alexander', 'Marie', 'Maximilian', 'Sophia', 'Lukas', 'Maria', 'Leon', 'Anna', 'Tim', 'Laura']</td></tr><tr><th>18</th><th>18</th><td class="equal">    },</td></tr><tr><th>19</th><th>19</th><td class="equal"></td></tr><tr><th>20</th><th>20</th><td class="equal">    yAxis: {</td></tr><tr><th>21</th><th>21</th><td class="equal">        categories: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],</td></tr><tr><th>22</th><th>22</th><td class="equal">        title: null</td></tr><tr><th>23</th><th>23</th><td class="equal">    },</td></tr><tr><th>24</th><th>24</th><td class="equal"></td></tr><tr><th>25</th><th>25</th><td class="equal">    colorAxis: {</td></tr><tr><th>26</th><th>26</th><td class="equal">        min: 0,</td></tr><tr><th>27</th><th>27</th><td class="equal">        minColor: '#FFFFFF',</td></tr><tr><th>28</th><th>28</th><td class="equal">        maxColor: Highcharts.getOptions().colors[0]</td></tr><tr><th>29</th><th>29</th><td class="equal">    },</td></tr><tr><th>30</th><th>30</th><td class="equal"></td></tr><tr><th>31</th><th>31</th><td class="equal">    legend: {</td></tr><tr><th>32</th><th>32</th><td class="equal">        align: 'right',</td></tr><tr><th>33</th><th>33</th><td class="equal">        layout: 'vertical',</td></tr><tr><th>34</th><th>34</th><td class="equal">        margin: 0,</td></tr><tr><th>35</th><th>35</th><td class="equal">        verticalAlign: 'top',</td></tr><tr><th>36</th><th>36</th><td class="equal">        y: 25,</td></tr><tr><th>37</th><th>37</th><td class="equal">        symbolHeight: 280</td></tr><tr><th>38</th><th>38</th><td class="equal">    },</td></tr><tr><th>39</th><th>39</th><td class="equal"></td></tr><tr><th>40</th><th>40</th><td class="equal">    tooltip: {</td></tr><tr><th>41</th><th>41</th><td class="equal">        formatter: function () {</td></tr><tr><th>42</th><th>42</th><td class="equal">            return '&lt;b&gt;' + this.series.xAxis.categories[this.point.x] + '&lt;/b&gt; sold &lt;br&gt;&lt;b&gt;' +</td></tr><tr><th>43</th><th>43</th><td class="equal">
+                this.point.value + '&lt;/b&gt; items on 
+&lt;br&gt;&lt;b&gt;' + this.series.yAxis.categories[this.point.y] + 
+'&lt;/b&gt;';</td></tr><tr><th>44</th><th>44</th><td class="equal">        }</td></tr><tr><th>45</th><th>45</th><td class="equal">    },</td></tr><tr><th>46</th><th>46</th><td class="equal"></td></tr><tr><th>47</th><th>47</th><td class="equal">    series: [{</td></tr><tr><th>48</th><th>48</th><td class="equal">        name: 'Sales per employee',</td></tr><tr><th>49</th><th>49</th><td class="equal">        borderWidth: 1,</td></tr><tr><th>50</th><th></th><td class="delete">
+        data: [[0, 0, 10], [0, 1, 19], [0, 2, 8], [0, 3, 24], [0, 4, 
+67], [1, 0, 92], [1, 1, 58], [1, 2, 78], [1, 3, 117], [1, 4, 48], [2, 0,
+ 35], [2, 1, 15], [2, 2, 123], [2, 3, 64], [2, 4, 52], [3, 0, 72], [3, 
+1, 132], [3, 2, 114], [3, 3, 19], [3, 4, 16], [4, 0, 38], [4, 1, 5], [4,
+ 2, 8], [4, 3, 117], [4, 4, 115], [5, 0, 88], [5, 1, 32], [5, 2, 12], 
+[5, 3, 6], [5, 4, 120], [6, 0, 13], [6, 1, 44], [6, 2, 88], [6, 3, 98], 
+[6, 4, 96], [7, 0, 31], [7, 1, 1], [7, 2, 82], [7, 3, 32], [7, 4, 30], 
+[8, 0, 85], [8, 1, 97], [8, 2, 123], [8, 3, 64], [8, 4, 84], [9, 0, 47],
+ [9, 1, 114], [9, 2, 31], [9, 3, 48], [9, 4, 91]],</td></tr><tr><th></th><th>50</th><td class="insert">
+        data: [[0, 0, 10], [0, 1, 19], [0, 2, 8], [0, 3, 24], [0, 4, 
+67], [1, 0, 92], [1, 1, 58], [1, 2, 78], [1, 3, 117], [1, 4, 48], [2, 0,
+ 35], [2, 1, 15], [2, 2, 123], [2, 3, 64], [2, 4, 52], [3, 0, 72], [3, 
+1, 132], [3, 2, 114], [3, 3, 1009], [3, 4, 16], [4, 0, 38], [4, 1, 5], 
+[4, 2, 8], [4, 3, 117], [4, 4, 115], [5, 0, 88], [5, 1, 32], [5, 2, 12],
+ [5, 3, 6], [5, 4, 120], [6, 0, 13], [6, 1, 44], [6, 2, 88], [6, 3, 98],
+ [6, 4, 96], [7, 0, 31], [7, 1, 1], [7, 2, 82], [7, 3, 32], [7, 4, 30], 
+[8, 0, 85], [8, 1, 97], [8, 2, 123], [8, 3, 64], [8, 4, 84], [9, 0, 47],
+ [9, 1, 114], [9, 2, 31], [9, 3, 48], [9, 4, 91]],</td></tr><tr><th>51</th><th>51</th><td class="equal">        dataLabels: {</td></tr><tr><th>52</th><th>52</th><td class="equal">            enabled: true,</td></tr><tr><th>53</th><th>53</th><td class="equal">            color: '#000000'</td></tr><tr><th>54</th><th>54</th><td class="equal">        }</td></tr><tr><th>55</th><th>55</th><td class="equal">    }]</td></tr><tr><th>56</th><th>56</th><td class="equal"></td></tr><tr><th>57</th><th>57</th><td class="equal">});</td></tr><th class="author" colspan="3">diff view generated by <a href="http://github.com/cemerick/jsdifflib">jsdifflib</a></th></tbody></table></div>
+          <div class="diffWrap" id="diff-css"></div>
+        </div><!-- /diffCont -->
+        <p><a class="apply" href="#" id="apply-draft">Apply local draft version</a> or <a href="#" id="discard-draft">discard it</a></p>
+      </div><!-- /actionItem -->
+    </div><!-- /dcWrapper -->
+  </li> <!-- /actionItem -->
+
+  <li class="actionItem">
+    <a class="aiButton dropdownTrigger" href="#editor-options">
+      <i class="bts bt-gear"></i>Settings
+      <i class="bts bt-angle-down rightIcon"></i>
+    </a>
+    <div class="dropdownCont">
+      <div class="dcWrapper" id="editor-options">
+        <p>
+          <label class="checkboxCont">
+            <input name="autoCloseTags" checked="checked" type="checkbox">
+            <span class="checkbox"><i class="bts bt-check"></i></span>
+            Auto-close HTML tags
+          </label>
+        </p>
+        <p>
+          <label class="checkboxCont">
+            <input name="lineNumbers" checked="checked" type="checkbox">
+            <span class="checkbox"><i class="bts bt-check"></i></span>
+            Show line numbers
+          </label>
+        </p>
+        <p>
+          <label class="checkboxCont">
+            <input name="lineWrapping" checked="checked" type="checkbox">
+            <span class="checkbox"><i class="bts bt-check"></i></span>
+            Enable line wrapping
+          </label>
+        </p>
+        <p>
+          <label class="checkboxCont">
+            <input name="indentWithTabs" type="checkbox">
+            <span class="checkbox"><i class="bts bt-check"></i></span>
+            Indent with tabs
+          </label>
+        </p>
+
+        <div class="selectPair">
+          <span class="label">Indent size:</span>
+          <div class="selectCont">
+            <select name="indentUnit">
+              <option value="2" selected="selected">2 spaces</option>
+              <option value="3">3 spaces</option>
+              <option value="4">4 spaces</option>
+            </select>
+            <label><i class="bts bt-angle-down"></i></label>
+          </div> <!-- /selectCont -->
+        </div> <!-- /selectPair -->
+
+        <div class="selectPair">
+          <span class="label">Key map:</span>
+          <div class="selectCont">
+            <select name="keyMap">
+              <option value="default" selected="selected">Default</option>
+              <option value="sublime">Sublime Text</option>
+              <option value="vim">VIM</option>
+              <option value="emacs">EMACS</option>
+            </select>
+            <label><i class="bts bt-angle-down"></i></label>
+          </div> <!-- /selectCont -->
+        </div> <!-- /selectPair -->
+      </div>
+    </div>
+  </li> <!-- /actionItem -->
+  
+    <li class="actionItem noIcon"><a class="aiButton" id="login" title="Login" href="http://jsfiddle.net/user/login/"><i class="bts bt-smile"></i>Sign in</a></li>
+  
+</ul>
+
+</div>
+
+        
+        <div id="progressbar" class=" "><div class="pb"></div></div>
+      </div>
+
+      
+        <div id="sidebar">
+          <section id="s-cont">
+            
+
+            <h3 id="about_toggler" class="toggler active">Fiddle Meta</h3>
+<div class="element">
+  <div class="elementBody" style="padding-top: 0px; border-top: medium none; padding-bottom: 0px; border-bottom: medium none; overflow: hidden; opacity: 1; height: auto;">
+    <div class="ebCont">
+      <p>
+        <label>
+          <input id="id_title" name="title" maxlength="255" value="Highcharts Demo" placeholder="Untitled fiddle" type="text">
+        </label>
+      </p>
+      <p>
+        <label>
+          <textarea id="id_description" rows="10" cols="40" name="description" placeholder="No description">author(s):
+Torstein Hønsi</textarea>
+        </label>
+      </p>
+      <p class="metaInfo">Add title to make the fiddle public.</p>
+    </div>
+  </div>
+</div>
+
+            
+
+<h3 class="toggler" id="resources_toggler">
+  External Resources
+</h3>
+
+
+<div class="element" id="resources_element">
+  <div class="elementBody" style="padding-top: 0px; border-top: medium none; padding-bottom: 0px; border-bottom: medium none; overflow: hidden; opacity: 0; height: 0px;">
+    <div class="ebCont">
+      <div id="external-resources-form">
+        <input id="external_resource" placeholder="JavaScript/CSS URI" type="text">
+        <a id="add_external_resource" class="submit" href="#" title="Add resource"><i class="bts bt-plus-circle"></i></a>
+      </div>
+      <input value="" id="external_resources_id" name="add_external_resources" type="hidden">
+
+      <ul id="external_resources_list">
+      <script type="text/javascript">var resources = [];</script>
+      
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  var default_text = 'JavaScript/CSS URL',
+      add_external_resource_url = "/_add_external_resource/";
+</script>
+
+            <h3 class="toggler">AJAX Requests</h3>
+<div class="element">
+  <div class="elementBody" style="padding-top: 0px; border-top: medium none; padding-bottom: 0px; border-bottom: medium none; overflow: hidden; opacity: 0; height: 0px;">
+    <div class="ebCont">
+
+      <p><code>/echo</code> simulates AJAX calls:<br>
+        JSON: <code>/echo/json/</code><br>
+        JSONP: <code>//jsfiddle.net/echo/jsonp/</code><br>
+        HTML: <code>/echo/html/</code><br>
+        XML: <code>/echo/xml/</code>
+      </p>
+      <p>See <a href="http://doc.jsfiddle.net/use/echo.html" target="_new">docs</a> for more info.</p>
+    </div>
+  </div>
+</div>
+
+            
+            <h3 class="toggler">Legal, Credits and Links</h3>
+<div class="element">
+  <div class="elementBody" style="padding-top: 0px; border-top: medium none; padding-bottom: 0px; border-bottom: medium none; overflow: hidden; opacity: 0; height: 0px;">
+    <div class="ebCont">
+      <p class="maintainers">Created and maintained by <a title="Piotr's twitter" href="http://twitter.com/zalun" target="_blank">Piotr</a> and <a title="UX and UI Designer" href="http://twitter.com/oskar" target="_blank">@oskar</a>.</p>
+      <p>Hosted on <a href="https://m.do.co/c/52e7a0ad196d" target="_blank"><strong>DigitalOcean</strong></a></p>
+      <p><strong>License</strong></p>
+      <p>All code belongs to the poster and no license is enforced.</p>
+      <p>JSFiddle or its authors are not responsible or liable for any loss or damage of any kind during the usage of provided code.</p>
+      <p><strong>Links</strong></p>
+      <p>
+        <a href="https://jsfiddle.net/about" target="_blank">About JSFiddle</a><br>
+        <!-- <a href="http://doc.jsfiddle.net/" target="_blank">Docs</a><br> -->
+        <a href="http://status.jsfiddle.net/" target="_blank">Status page</a> by <a href="https://updown.io/r/bzxdq" target="_blank">updown.io</a>
+      </p>
+    </div>
+  </div>
+</div>
+
+<style media="screen">
+  .maintainers {
+    position: absolute;
+    top: -900em;
+    left: -900em;
+  }
+</style>
+
+
+            <div id="roadmap">
+              <a href="https://trello.com/b/LakLkQBW/jsfiddle-roadmap" target="_blank">JSFiddle Roadmap <span>suggest and vote for features</span></a>
+            </div>
+          </section>
+          <section id="s-bottom">
+            <div class="twitterCont">
+              <script async="" type="text/javascript" src="graph_files/carbon.js" id="_carbonads_js"></script><div id="carbonads"><span><span class="carbon-wrap"><a href="http://srv.carbonads.net/ads/click/x/GTND4237CTBIC53JCWY4YKQWF6YDV27JCK7DKZ3JCEAIT23JCEYD6K3KC6BDLK3MCKSDEK3EHJNCLSIZZRLCP7I35MNFV?segment=placement:jsfiddlenet;&amp;encredirect=https%3A%2F%2Fslack.com%2Fis%3Fcvosrc%3Ddisplay.carbon.green%20dev%26utm_source%3Dcarbon%26utm_medium%3Ddisplay%26utm_campaign%3Dgreen%20dev%26c3ch%3DCarbon%20Networks%26c3nid%3DGreen%20dev" class="carbon-img" target="_blank"><img src="graph_files/32054.png" alt="" style="max-width: 130px;" width="130" height="100" border="0"></a><a href="http://srv.carbonads.net/ads/click/x/GTND4237CTBIC53JCWY4YKQWF6YDV27JCK7DKZ3JCEAIT23JCEYD6K3KC6BDLK3MCKSDEK3EHJNCLSIZZRLCP7I35MNFV?segment=placement:jsfiddlenet;&amp;encredirect=https%3A%2F%2Fslack.com%2Fis%3Fcvosrc%3Ddisplay.carbon.green%20dev%26utm_source%3Dcarbon%26utm_medium%3Ddisplay%26utm_campaign%3Dgreen%20dev%26c3ch%3DCarbon%20Networks%26c3nid%3DGreen%20dev" class="carbon-text" target="_blank">All the tools your team needs in one place. Slack: Where work happens.</a></span><a href="http://carbonads.net/" class="carbon-poweredby" target="_blank">ads via Carbon</a><img src="graph_files/cvo.gif" style="display: none;" width="1" height="1" border="0"><img src="graph_files/v.gif" style="display: none;" width="1" height="1" border="0"></span></div>
+            </div>
+            <div id="keep-us-running">
+              <p>Like JSFiddle?</p>
+              <p>Keep us running by whitelisting JSFiddle in your ad blocker.</p>
+              <p>We're serving quality, tech-related ads only.</p>
+              <p>Thank you!</p>
+            </div>
+            <script type="text/javascript">
+              window.onload = function(){
+                setTimeout(function(){
+                  var info = document.getElementById("keep-us-running");
+                  var ads = document.getElementById("carbonads");
+
+                  if (ads === null){
+                    info.className = "show";
+                    info.addEvent("click", function(){
+                      info.className = "";
+                    });
+                  }
+                }, 2000)
+              }
+            </script>
+            
+            
+          </section>
+        </div>
+        <div id="content" style="height: 930px; opacity: 1;">
+          
+          
+
+
+<input name="version" id="id_version" type="hidden">
+<input id="id_slug" name="slug" value="g3j8tLtt" type="hidden">
+
+<fieldset class="column left">
+  <div class="window top" id="panel_html" data-panel_type="html">
+    <textarea id="id_code_html" rows="10" cols="40" name="code_html" style="display: none;">&lt;script src="https://code.highcharts.com/highcharts.js"&gt;&lt;/script&gt;
+&lt;script src="https://code.highcharts.com/modules/heatmap.js"&gt;&lt;/script&gt;
+&lt;script src="https://code.highcharts.com/modules/exporting.js"&gt;&lt;/script&gt;
+
+
+&lt;div id="container" style="height: 400px; min-width: 310px; max-width: 800px; margin: 0 auto"&gt;&lt;/div&gt;</textarea>
+    <a href="#" class="windowLabel" data-panel="html">
+      <span class="label">HTML</span><i class="bts bt-gear"></i>
+    </a>
+  <div class="CodeMirror cm-s-default CodeMirror-wrap"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 102px; left: 739px;"><textarea style="position: absolute; bottom: -1em; padding: 0px; width: 1px; height: 1em; outline: medium none;" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" wrap="off">&lt;div id="container" style="height: 400px; min-width: 310px; max-width: 800px; margin: 0 auto"&gt;&lt;/div&gt;</textarea></div><div class="CodeMirror-vscrollbar" cm-not-content="true"><div style="min-width: 1px; height: 0px;"></div></div><div class="CodeMirror-hscrollbar" cm-not-content="true"><div style="height: 100%; min-height: 1px; width: 0px;"></div></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1" draggable="true"><div class="CodeMirror-sizer" style="margin-left: 35px; margin-bottom: -10px; border-right-width: 20px; min-height: 126px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines"><div style="position: relative; outline: medium none;"><div class="CodeMirror-measure"><pre>x</pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"><div class="CodeMirror-selected" style="position: absolute; left: 4px; top: 98px; width: 700px; height: 20px;"></div></div><div class="CodeMirror-cursors" style=""></div><div class="CodeMirror-code" style=""><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">1</div></div><pre class=" CodeMirror-line "><span><span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">script</span> <span class="cm-attribute">src</span>=<span class="cm-string">"https://code.highcharts.com/highcharts.js"</span><span class="cm-tag cm-bracket">&gt;&lt;/</span><span class="cm-tag">script</span><span class="cm-tag cm-bracket">&gt;</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">2</div></div><pre class=" CodeMirror-line "><span><span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">script</span> <span class="cm-attribute">src</span>=<span class="cm-string">"https://code.highcharts.com/modules/heatmap.js"</span><span class="cm-tag cm-bracket">&gt;&lt;/</span><span class="cm-tag">script</span><span class="cm-tag cm-bracket">&gt;</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">3</div></div><pre class=" CodeMirror-line "><span><span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">script</span> <span class="cm-attribute">src</span>=<span class="cm-string">"https://code.highcharts.com/modules/exporting.js"</span><span class="cm-tag cm-bracket">&gt;&lt;/</span><span class="cm-tag">script</span><span class="cm-tag cm-bracket">&gt;</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">4</div></div><pre class=" CodeMirror-line "><span><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">5</div></div><pre class=" CodeMirror-line "><span><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">6</div></div><pre class=" CodeMirror-line "><span><span class="cm-tag cm-bracket">&lt;</span><span class="cm-tag">div</span> <span class="cm-attribute">id</span>=<span class="cm-string">"container"</span> <span class="cm-attribute">style</span>=<span class="cm-string">"height: 400px; min-width: 310px; max-width: 800px; margin: 0 auto"</span><span class="cm-tag cm-bracket">&gt;&lt;/</span><span class="cm-tag">div</span><span class="cm-tag cm-bracket">&gt;</span></span></pre></div></div></div></div></div></div><div style="position: absolute; height: 20px; width: 1px; border-bottom: 0px solid transparent; top: 126px;"></div><div class="CodeMirror-gutters" style="height: 146px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 34px;"></div></div></div></div></div>
+  <div class="handler handler_horizontal" style="top: 234px;"></div>
+  <div class="window bottom" id="panel_js" data-panel_type="js">
+    <textarea id="id_code_js" rows="10" cols="40" name="code_js" style="display: none;">
+Highcharts.chart('container', {
+
+    chart: {
+        type: 'heatmap',
+        marginTop: 40,
+        marginBottom: 80,
+        plotBorderWidth: 1
+    },
+
+
+    title: {
+        text: 'Sales per employee per weekday'
+    },
+
+    xAxis: {
+        categories: ['Alexander', 'Marie', 'Maximilian', 'Sophia', 
+'Lukas', 'Maria', 'Leon', 'Anna', 'Tim', 'Laura']
+    },
+
+    yAxis: {
+        categories: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 
+'Friday'],
+        title: null
+    },
+
+    colorAxis: {
+        min: 0,
+        minColor: '#FFFFFF',
+        maxColor: Highcharts.getOptions().colors[0]
+    },
+
+    legend: {
+        align: 'right',
+        layout: 'vertical',
+        margin: 0,
+        verticalAlign: 'top',
+        y: 25,
+        symbolHeight: 280
+    },
+
+    tooltip: {
+        formatter: function () {
+            return '&lt;b&gt;' + 
+this.series.xAxis.categories[this.point.x] + '&lt;/b&gt; sold 
+&lt;br&gt;&lt;b&gt;' +
+                this.point.value + '&lt;/b&gt; items on 
+&lt;br&gt;&lt;b&gt;' + this.series.yAxis.categories[this.point.y] + 
+'&lt;/b&gt;';
+        }
+    },
+
+    series: [{
+        name: 'Sales per employee',
+        borderWidth: 1,
+        data: [[0, 0, 10], [0, 1, 19], [0, 2, 8], [0, 3, 24], [0, 4, 
+67], [1, 0, 92], [1, 1, 58], [1, 2, 78], [1, 3, 117], [1, 4, 48], [2, 0,
+ 35], [2, 1, 15], [2, 2, 123], [2, 3, 64], [2, 4, 52], [3, 0, 72], [3, 
+1, 132], [3, 2, 114], [3, 3, 19], [3, 4, 16], [4, 0, 38], [4, 1, 5], [4,
+ 2, 8], [4, 3, 117], [4, 4, 115], [5, 0, 88], [5, 1, 32], [5, 2, 12], 
+[5, 3, 6], [5, 4, 120], [6, 0, 13], [6, 1, 44], [6, 2, 88], [6, 3, 98], 
+[6, 4, 96], [7, 0, 31], [7, 1, 1], [7, 2, 82], [7, 3, 32], [7, 4, 30], 
+[8, 0, 85], [8, 1, 97], [8, 2, 123], [8, 3, 64], [8, 4, 84], [9, 0, 47],
+ [9, 1, 114], [9, 2, 31], [9, 3, 48], [9, 4, 91]],
+        dataLabels: {
+            enabled: true,
+            color: '#000000'
+        }
+    }]
+
+});</textarea>
+    <a href="#" class="windowLabel" data-panel="js">
+      <span class="label">JavaScript</span><i class="bts bt-gear"></i>
+    </a>
+  <div class="CodeMirror cm-s-default CodeMirror-wrap CodeMirror-focused"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 351.2px; left: 39px;"><textarea style="position: absolute; bottom: -1em; padding: 0px; width: 1px; height: 1em; outline: medium none;" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" wrap="off"></textarea></div><div class="CodeMirror-vscrollbar" cm-not-content="true" style="display: block; bottom: 0px; width: 18px; pointer-events: none;"><div style="min-width: 1px; height: 1272px;"></div></div><div class="CodeMirror-hscrollbar" cm-not-content="true" style="height: 18px; pointer-events: none;"><div style="height: 100%; min-height: 1px; width: 0px;"></div></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1" draggable="true"><div class="CodeMirror-sizer" style="margin-left: 35px; margin-bottom: 0px; border-right-width: 30px; min-height: 1262px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines"><div style="position: relative; outline: medium none;"><div class="CodeMirror-measure"><pre>x</pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-cursors" style=""><div class="CodeMirror-cursor" style="left: 4px; top: 921.2px; height: 19.6px;">&nbsp;</div></div><div class="CodeMirror-code" style=""><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">1</div></div><pre class=" CodeMirror-line "><span><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">2</div></div><pre class=" CodeMirror-line "><span><span class="cm-variable">Highcharts</span>.<span class="cm-property">chart</span>(<span class="cm-string">'container'</span>, {</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">3</div></div><pre class=" CodeMirror-line "><span><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">4</div></div><pre class=" CodeMirror-line "><span>    <span class="cm-property">chart</span>: {</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">5</div></div><pre class=" CodeMirror-line "><span>        <span class="cm-property">type</span>: <span class="cm-string">'heatmap'</span>,</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">6</div></div><pre class=" CodeMirror-line "><span>        <span class="cm-property">marginTop</span>: <span class="cm-number">40</span>,</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">7</div></div><pre class=" CodeMirror-line "><span>        <span class="cm-property">marginBottom</span>: <span class="cm-number">80</span>,</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">8</div></div><pre class=" CodeMirror-line "><span>        <span class="cm-property">plotBorderWidth</span>: <span class="cm-number">1</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">9</div></div><pre class=" CodeMirror-line "><span>    },</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">10</div></div><pre class=" CodeMirror-line "><span><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">11</div></div><pre class=" CodeMirror-line "><span><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">12</div></div><pre class=" CodeMirror-line "><span>    <span class="cm-property">title</span>: {</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">13</div></div><pre class=" CodeMirror-line "><span>        <span class="cm-property">text</span>: <span class="cm-string">'Sales per employee per weekday'</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">14</div></div><pre class=" CodeMirror-line "><span>    },</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">15</div></div><pre class=" CodeMirror-line "><span><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">16</div></div><pre class=" CodeMirror-line "><span>    <span class="cm-property">xAxis</span>: {</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">17</div></div><pre class=" CodeMirror-line "><span>        <span class="cm-property">categories</span>: [<span class="cm-string">'Alexander'</span>, <span class="cm-string">'Marie'</span>, <span class="cm-string">'Maximilian'</span>, <span class="cm-string">'Sophia'</span>, <span class="cm-string">'Lukas'</span>, <span class="cm-string">'Maria'</span>, <span class="cm-string">'Leon'</span>, <span class="cm-string">'Anna'</span>, <span class="cm-string">'Tim'</span>, <span class="cm-string">'Laura'</span>]</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">18</div></div><pre class=" CodeMirror-line "><span>    },</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">19</div></div><pre class=" CodeMirror-line "><span><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">20</div></div><pre class=" CodeMirror-line "><span>    <span class="cm-property">yAxis</span>: {</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">21</div></div><pre class=" CodeMirror-line "><span>        <span class="cm-property">categories</span>: [<span class="cm-string">'Monday'</span>, <span class="cm-string">'Tuesday'</span>, <span class="cm-string">'Wednesday'</span>, <span class="cm-string">'Thursday'</span>, <span class="cm-string">'Friday'</span>],</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">22</div></div><pre class=" CodeMirror-line "><span>        <span class="cm-property">title</span>: <span class="cm-atom">null</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">23</div></div><pre class=" CodeMirror-line "><span>    },</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">24</div></div><pre class=" CodeMirror-line "><span><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">25</div></div><pre class=" CodeMirror-line "><span>    <span class="cm-property">colorAxis</span>: {</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">26</div></div><pre class=" CodeMirror-line "><span>        <span class="cm-property">min</span>: <span class="cm-number">0</span>,</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">27</div></div><pre class=" CodeMirror-line "><span>        <span class="cm-property">minColor</span>: <span class="cm-string">'#FFFFFF'</span>,</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">28</div></div><pre class=" CodeMirror-line "><span>        <span class="cm-property">maxColor</span>: <span class="cm-variable">Highcharts</span>.<span class="cm-property">getOptions</span>().<span class="cm-property">colors</span>[<span class="cm-number">0</span>]</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">29</div></div><pre class=" CodeMirror-line "><span>    },</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">30</div></div><pre class=" CodeMirror-line "><span><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">31</div></div><pre class=" CodeMirror-line "><span>    <span class="cm-property">legend</span>: {</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">32</div></div><pre class=" CodeMirror-line "><span>        <span class="cm-property">align</span>: <span class="cm-string">'right'</span>,</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">33</div></div><pre class=" CodeMirror-line "><span>        <span class="cm-property">layout</span>: <span class="cm-string">'vertical'</span>,</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">34</div></div><pre class=" CodeMirror-line "><span>        <span class="cm-property">margin</span>: <span class="cm-number">0</span>,</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">35</div></div><pre class=" CodeMirror-line "><span>        <span class="cm-property">verticalAlign</span>: <span class="cm-string">'top'</span>,</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">36</div></div><pre class=" CodeMirror-line "><span>        <span class="cm-property">y</span>: <span class="cm-number">25</span>,</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">37</div></div><pre class=" CodeMirror-line "><span>        <span class="cm-property">symbolHeight</span>: <span class="cm-number">280</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">38</div></div><pre class=" CodeMirror-line "><span>    },</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">39</div></div><pre class=" CodeMirror-line "><span><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">40</div></div><pre class=" CodeMirror-line "><span>    <span class="cm-property">tooltip</span>: {</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">41</div></div><pre class=" CodeMirror-line "><span>        <span class="cm-property">formatter</span>: <span class="cm-keyword">function</span> () {</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">42</div></div><pre class=" CodeMirror-line "><span>            <span class="cm-keyword">return</span> <span class="cm-string">'&lt;b&gt;'</span> <span class="cm-operator">+</span> <span class="cm-keyword">this</span>.<span class="cm-property">series</span>.<span class="cm-property">xAxis</span>.<span class="cm-property">categories</span>[<span class="cm-keyword">this</span>.<span class="cm-property">point</span>.<span class="cm-property">x</span>] <span class="cm-operator">+</span> <span class="cm-string">'&lt;/b&gt; sold &lt;br&gt;&lt;b&gt;'</span> <span class="cm-operator">+</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">43</div></div><pre class=" CodeMirror-line "><span>                <span class="cm-keyword">this</span>.<span class="cm-property">point</span>.<span class="cm-property">value</span> <span class="cm-operator">+</span> <span class="cm-string">'&lt;/b&gt; items on &lt;br&gt;&lt;b&gt;'</span> <span class="cm-operator">+</span> <span class="cm-keyword">this</span>.<span class="cm-property">series</span>.<span class="cm-property">yAxis</span>.<span class="cm-property">categories</span>[<span class="cm-keyword">this</span>.<span class="cm-property">point</span>.<span class="cm-property">y</span>] <span class="cm-operator">+</span> <span class="cm-string">'&lt;/b&gt;'</span>;</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">44</div></div><pre class=" CodeMirror-line "><span>        }</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">45</div></div><pre class=" CodeMirror-line "><span>    },</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">46</div></div><pre class=" CodeMirror-line "><span><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">47</div></div><pre class=" CodeMirror-line "><span>    <span class="cm-property">series</span>: [{</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">48</div></div><pre class=" CodeMirror-line "><span>        <span class="cm-property">name</span>: <span class="cm-string">'Sales per employee'</span>,</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">49</div></div><pre class=" CodeMirror-line "><span>        <span class="cm-property">borderWidth</span>: <span class="cm-number">1</span>,</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">50</div></div><pre class=" CodeMirror-line "><span>        <span class="cm-property">data</span>: [[<span class="cm-number">0</span>, <span class="cm-number">0</span>, <span class="cm-number">10</span>], [<span class="cm-number">0</span>, <span class="cm-number">1</span>, <span class="cm-number">19</span>], [<span class="cm-number">0</span>, <span class="cm-number">2</span>, <span class="cm-number">8</span>], [<span class="cm-number">0</span>, <span class="cm-number">3</span>, <span class="cm-number">24</span>], [<span class="cm-number">0</span>, <span class="cm-number">4</span>, <span class="cm-number">67</span>], [<span class="cm-number">1</span>, <span class="cm-number">0</span>, <span class="cm-number">92</span>], [<span class="cm-number">1</span>, <span class="cm-number">1</span>, <span class="cm-number">58</span>], [<span class="cm-number">1</span>, <span class="cm-number">2</span>, <span class="cm-number">78</span>], [<span class="cm-number">1</span>, <span class="cm-number">3</span>, <span class="cm-number">117</span>], [<span class="cm-number">1</span>, <span class="cm-number">4</span>, <span class="cm-number">48</span>], [<span class="cm-number">2</span>, <span class="cm-number">0</span>, <span class="cm-number">35</span>], [<span class="cm-number">2</span>, <span class="cm-number">1</span>, <span class="cm-number">15</span>], [<span class="cm-number">2</span>, <span class="cm-number">2</span>, <span class="cm-number">123</span>], [<span class="cm-number">2</span>, <span class="cm-number">3</span>, <span class="cm-number">64</span>], [<span class="cm-number">2</span>, <span class="cm-number">4</span>, <span class="cm-number">52</span>], [<span class="cm-number">3</span>, <span class="cm-number">0</span>, <span class="cm-number">72</span>], [<span class="cm-number">3</span>, <span class="cm-number">1</span>, <span class="cm-number">132</span>], [<span class="cm-number">3</span>, <span class="cm-number">2</span>, <span class="cm-number">114</span>], [<span class="cm-number">3</span>, <span class="cm-number">3</span>, <span class="cm-number">19</span>], [<span class="cm-number">3</span>, <span class="cm-number">4</span>, <span class="cm-number">16</span>], [<span class="cm-number">4</span>, <span class="cm-number">0</span>, <span class="cm-number">38</span>], [<span class="cm-number">4</span>, <span class="cm-number">1</span>, <span class="cm-number">5</span>], [<span class="cm-number">4</span>, <span class="cm-number">2</span>, <span class="cm-number">8</span>], [<span class="cm-number">4</span>, <span class="cm-number">3</span>, <span class="cm-number">117</span>], [<span class="cm-number">4</span>, <span class="cm-number">4</span>, <span class="cm-number">115</span>], [<span class="cm-number">5</span>, <span class="cm-number">0</span>, <span class="cm-number">88</span>], [<span class="cm-number">5</span>, <span class="cm-number">1</span>, <span class="cm-number">32</span>], [<span class="cm-number">5</span>, <span class="cm-number">2</span>, <span class="cm-number">12</span>], [<span class="cm-number">5</span>, <span class="cm-number">3</span>, <span class="cm-number">6</span>], [<span class="cm-number">5</span>, <span class="cm-number">4</span>, <span class="cm-number">120</span>], [<span class="cm-number">6</span>, <span class="cm-number">0</span>, <span class="cm-number">13</span>], [<span class="cm-number">6</span>, <span class="cm-number">1</span>, <span class="cm-number">44</span>], [<span class="cm-number">6</span>, <span class="cm-number">2</span>, <span class="cm-number">88</span>], [<span class="cm-number">6</span>, <span class="cm-number">3</span>, <span class="cm-number">98</span>], [<span class="cm-number">6</span>, <span class="cm-number">4</span>, <span class="cm-number">96</span>], [<span class="cm-number">7</span>, <span class="cm-number">0</span>, <span class="cm-number">31</span>], [<span class="cm-number">7</span>, <span class="cm-number">1</span>, <span class="cm-number">1</span>], [<span class="cm-number">7</span>, <span class="cm-number">2</span>, <span class="cm-number">82</span>], [<span class="cm-number">7</span>, <span class="cm-number">3</span>, <span class="cm-number">32</span>], [<span class="cm-number">7</span>, <span class="cm-number">4</span>, <span class="cm-number">30</span>], [<span class="cm-number">8</span>, <span class="cm-number">0</span>, <span class="cm-number">85</span>], [<span class="cm-number">8</span>, <span class="cm-number">1</span>, <span class="cm-number">97</span>], [<span class="cm-number">8</span>, <span class="cm-number">2</span>, <span class="cm-number">123</span>], [<span class="cm-number">8</span>, <span class="cm-number">3</span>, <span class="cm-number">64</span>], [<span class="cm-number">8</span>, <span class="cm-number">4</span>, <span class="cm-number">84</span>], [<span class="cm-number">9</span>, <span class="cm-number">0</span>, <span class="cm-number">47</span>], [<span class="cm-number">9</span>, <span class="cm-number">1</span>, <span class="cm-number">114</span>], [<span class="cm-number">9</span>, <span class="cm-number">2</span>, <span class="cm-number">31</span>], [<span class="cm-number">9</span>, <span class="cm-number">3</span>, <span class="cm-number">48</span>], [<span class="cm-number">9</span>, <span class="cm-number">4</span>, <span class="cm-number">91</span>]],</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">51</div></div><pre class=" CodeMirror-line "><span>        <span class="cm-property">dataLabels</span>: {</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">52</div></div><pre class=" CodeMirror-line "><span>            <span class="cm-property">enabled</span>: <span class="cm-atom">true</span>,</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">53</div></div><pre class=" CodeMirror-line "><span>            <span class="cm-property">color</span>: <span class="cm-string">'#000000'</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">54</div></div><pre class=" CodeMirror-line "><span>        }</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">55</div></div><pre class=" CodeMirror-line "><span>    }]</span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">56</div></div><pre class=" CodeMirror-line "><span><span cm-text="">​</span></span></pre></div><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">57</div></div><pre class=" CodeMirror-line "><span>});</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px; border-bottom: 0px solid transparent; top: 1262px;"></div><div class="CodeMirror-gutters" style="height: 1292px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 34px;"></div></div></div></div></div>
+  <div class="shim"></div>
+</fieldset>
+
+<div class="handler" id="handler_vertical" style="left: 834px;"></div>
+
+<fieldset class="column right">
+  <div class="window top" id="panel_css" data-panel_type="css">
+    <textarea id="id_code_css" rows="10" cols="40" name="code_css" style="display: none;"></textarea>
+    <a href="#" class="windowLabel" data-panel="css">
+      <span class="label">CSS</span><i class="bts bt-gear"></i>
+    </a>
+  <div class="CodeMirror cm-s-default CodeMirror-wrap"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 4px; left: 39px;"><textarea style="position: absolute; bottom: -1em; padding: 0px; width: 1px; height: 1em; outline: medium none;" autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" wrap="off"></textarea></div><div class="CodeMirror-vscrollbar" cm-not-content="true"><div style="min-width: 1px; height: 0px;"></div></div><div class="CodeMirror-hscrollbar" cm-not-content="true"><div style="height: 100%; min-height: 1px; width: 0px;"></div></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1" draggable="true"><div class="CodeMirror-sizer" style="margin-left: 35px; margin-bottom: -10px; border-right-width: 20px; min-height: 28px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines"><div style="position: relative; outline: medium none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre><div class="CodeMirror-linenumber CodeMirror-gutter-elt"><div>1</div></div></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-cursors"><div class="CodeMirror-cursor" style="left: 4px; top: 0px; height: 19.6px;">&nbsp;</div></div><div class="CodeMirror-code"><div style="position: relative;"><div class="CodeMirror-gutter-wrapper" style="left: -35px;"><div class="CodeMirror-linenumber CodeMirror-gutter-elt" style="left: 0px; width: 21px;">1</div></div><pre class=" CodeMirror-line "><span><span cm-text="">​</span></span></pre></div></div></div></div></div></div><div style="position: absolute; height: 20px; width: 1px; border-bottom: 0px solid transparent; top: 28px;"></div><div class="CodeMirror-gutters" style="height: 48px;"><div class="CodeMirror-gutter CodeMirror-linenumbers" style="width: 34px;"></div></div></div></div></div>
+  <div class="handler handler_horizontal" style="top: 234px;"></div>
+  <div id="result" class="window bottom">
+    <iframe name="result" sandbox="allow-forms allow-scripts allow-same-origin allow-modals allow-popups" allowfullscreen="" frameborder="0"></iframe>
+    
+      <span class="windowLabel">Result</span>
+    
+  </div>
+  <div class="shim"></div>
+</fieldset>
+
+<div class="windowSettings html">
+  <h3>Language</h3>
+<div class="selectCont">
+  <select name="panel_html" class="panelChoice" id="panel_html_choice" disabled="disabled" data-panel_id="id_code_html" data-panel="html">
+    
+      <option data-mime-type="text/html" value="0" selected="selected">HTML</option>
+    
+  </select>
+  <label for="js_lib"><i class="bts bt-angle-down"></i></label>
+</div> <!-- /selectCont -->
+
+<h3>Doctype</h3>
+<div class="selectCont">
+  <select name="doctype">
+    
+      <option id="dtd_XHTML 1.0 Strict" value="1">XHTML 1.0 Strict</option>
+    
+      <option id="dtd_XHTML 1.0 Transitional" value="2">XHTML 1.0 Transitional</option>
+    
+      <option selected="selected" id="dtd_HTML 5" value="3">HTML 5</option>
+    
+      <option id="dtd_HTML 4.01 Strict" value="4">HTML 4.01 Strict</option>
+    
+      <option id="dtd_HTML 4.01 Transitional" value="5">HTML 4.01 Transitional</option>
+    
+      <option id="dtd_HTML 4.01 Frameset" value="6">HTML 4.01 Frameset</option>
+    
+  </select>
+  <label for="doctype"><i class="bts bt-angle-down"></i></label>
+</div>
+
+<h3>Body tag</h3>
+<p>
+  <label>
+    <input id="id_body_tag" name="body_tag" value="&lt;body&gt;" maxlength="255" type="text">
+  </label>
+</p>
+
+</div> <!-- /windowSettings -->
+
+<div class="windowSettings js">
+  
+
+
+<h3>Language</h3>
+<div class="selectCont">
+  <select name="panel_js" class="panelChoice" id="panel_js_choice" data-panel_id="id_code_js" data-panel="js">
+    
+      <option data-mime-type="text/javascript" value="0" selected="selected">JavaScript</option>
+    
+      <option data-mime-type="text/x-coffeescript" value="1">CoffeeScript</option>
+    
+      <option data-mime-type="application/javascript;version=1.7" value="2">JavaScript 1.7</option>
+    
+      <option data-mime-type="text/babel" value="3">Babel</option>
+    
+      <option data-mime-type="text/typescript" value="4">TypeScript</option>
+    
+  </select>
+  <label for="js_lib"><i class="bts bt-angle-down"></i></label>
+</div> <!-- /selectCont -->
+
+<h3>Frameworks &amp; Extensions</h3>
+
+  
+    
+<div class="selectCont">
+  <select name="js_lib" id="js_lib">
+    
+    <optgroup label="AngularJS">
+      
+        <option value="281">AngularJS 2.0.0-alpha.47</option>
+      
+        <option value="283">AngularJS 1.4.8</option>
+      
+        <option value="180">AngularJS 1.2.1</option>
+      
+        <option value="137">AngularJS 1.1.1</option>
+      
+        
+      
+        
+      
+    </optgroup>
+    
+    <optgroup label="Bonsai">
+      
+        <option value="120">Bonsai 0.4.1</option>
+      
+    </optgroup>
+    
+    <optgroup label="Brick">
+      
+        <option value="176">Brick edge</option>
+      
+    </optgroup>
+    
+    <optgroup label="CreateJS">
+      
+        <option value="279">CreateJS 2015.05.21</option>
+      
+        <option value="170">CreateJS 2013.09.25</option>
+      
+        
+      
+    </optgroup>
+    
+    <optgroup label="D3">
+      
+        <option value="134">D3 3.x</option>
+      
+    </optgroup>
+    
+    <optgroup label="Dojo">
+      
+        <option value="87">Dojo (nightly)</option>
+      
+        <option value="356">Dojo 1.12.2</option>
+      
+        <option value="358">Dojo 1.11.4</option>
+      
+        <option value="360">Dojo 1.10.8</option>
+      
+        
+      
+        
+      
+        
+      
+        <option value="362">Dojo 1.9.11</option>
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        <option value="364">Dojo 1.8.14</option>
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        <option value="366">Dojo 1.7.12</option>
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        <option value="368">Dojo 1.6.5</option>
+      
+        
+      
+        
+      
+        
+      
+        <option value="370">Dojo 1.5.6</option>
+      
+        
+      
+        
+      
+        
+      
+        <option value="372">Dojo 1.4.8</option>
+      
+        
+      
+        
+      
+    </optgroup>
+    
+    <optgroup label="Ember">
+      
+        <option value="190">Ember (latest)</option>
+      
+        
+      
+        
+      
+        
+      
+    </optgroup>
+    
+    <optgroup label="Enyo">
+      
+        <option value="115">Enyo (nightly)</option>
+      
+        <option value="299">Enyo 2.7.0</option>
+      
+        <option value="238">Enyo 2.5.1</option>
+      
+        <option value="214">Enyo 2.4.0</option>
+      
+        <option value="145">Enyo 2.2.0</option>
+      
+        <option value="121">Enyo 2.1</option>
+      
+        <option value="116">Enyo 2.0.1</option>
+      
+        
+      
+    </optgroup>
+    
+    <optgroup label="ExtJS">
+      
+        <option value="338">ExtJS 6.2.0</option>
+      
+        <option value="256">ExtJS 5.1.0</option>
+      
+        <option value="258">ExtJS 5.0.0</option>
+      
+        <option value="147">ExtJS 4.2.0</option>
+      
+        <option value="80">ExtJS 4.1.1</option>
+      
+        <option value="107">ExtJS 4.1.0</option>
+      
+        
+      
+        <option value="109">ExtJS 3.4.0</option>
+      
+        <option value="23">ExtJS 3.1.0</option>
+      
+        
+      
+    </optgroup>
+    
+    <optgroup label="FabricJS">
+      
+        <option value="342">FabricJS 1.7.7</option>
+      
+        <option value="340">FabricJS 1.7.1</option>
+      
+        <option value="250">FabricJS 1.5.0</option>
+      
+        
+      
+        
+      
+        
+      
+    </optgroup>
+    
+    <optgroup label="Glow">
+      
+        
+      
+        
+      
+    </optgroup>
+    
+    <optgroup label="Inferno">
+      
+        <option value="336">Inferno 1.0.0-beta9</option>
+      
+    </optgroup>
+    
+    <optgroup label="jQuery">
+      
+        
+      
+        
+      
+        <option value="46">jQuery (edge)</option>
+      
+        <option value="376">jQuery 3.2.1</option>
+      
+        
+      
+        <option value="333">jQuery 3.1.1</option>
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        <option value="319">jQuery 2.2.4</option>
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        <option value="248">jQuery 2.1.3</option>
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        <option value="131">jQuery 1.9.1</option>
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </optgroup>
+    
+    <optgroup label="jQuery Slim">
+      
+        <option value="335">jQuery Slim 3.1.1 Slim</option>
+      
+        <option value="323">jQuery Slim 3.1.0 Slim</option>
+      
+        <option value="313">jQuery Slim 3.0.0 Slim</option>
+      
+    </optgroup>
+    
+    <optgroup label="JSBlocks">
+      
+        <option value="252">JSBlocks (edge)</option>
+      
+    </optgroup>
+    
+    <optgroup label="jTypes">
+      
+        <option value="165">jTypes 2.1.0</option>
+      
+    </optgroup>
+    
+    <optgroup label="KineticJS">
+      
+        <option value="139">KineticJS 4.3.1</option>
+      
+        <option value="124">KineticJS 4.0.5</option>
+      
+    </optgroup>
+    
+    <optgroup label="Knockout.js">
+      
+        <option value="277">Knockout.js 3.4.0</option>
+      
+        <option value="172">Knockout.js 3.0.0</option>
+      
+        <option value="163">Knockout.js 2.3.0</option>
+      
+        <option value="122">Knockout.js 2.2.1</option>
+      
+        <option value="117">Knockout.js 2.1.0</option>
+      
+        <option value="104">Knockout.js 2.0.0</option>
+      
+    </optgroup>
+    
+    <optgroup label="Lo-Dash">
+      
+        <option value="167">Lo-Dash 2.2.1</option>
+      
+    </optgroup>
+    
+    <optgroup label="Minified">
+      
+        <option value="164">Minified 1.0 beta1</option>
+      
+    </optgroup>
+    
+    <optgroup label="MithrilJS">
+      
+        <option value="273">MithrilJS 0.2.0</option>
+      
+    </optgroup>
+    
+    <optgroup label="Mootools">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        <option value="59">Mootools (nightly)</option>
+      
+        <option value="327">Mootools 1.6.0 (compat)</option>
+      
+        <option value="325">Mootools 1.6.0</option>
+      
+        <option value="329">Mootools 1.5.2 (compat)</option>
+      
+        <option value="263">Mootools 1.5.2</option>
+      
+        
+      
+        
+      
+        <option value="216">Mootools 1.5.1</option>
+      
+        
+      
+        <option value="208">Mootools 1.5.0</option>
+      
+        <option value="96">Mootools 1.4.5 (compat)</option>
+      
+        <option value="95">Mootools 1.4.5</option>
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        <option value="63">Mootools 1.3.2 (compat)</option>
+      
+        <option value="62">Mootools 1.3.2</option>
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </optgroup>
+    
+    <optgroup label="No-Library">
+      
+        <option value="11" selected="selected">No-Library (pure JS)</option>
+      
+    </optgroup>
+    
+    <optgroup label="OpenUI5">
+      
+        <option value="271">OpenUI5 (latest, mobile)</option>
+      
+    </optgroup>
+    
+    <optgroup label="Paper.js">
+      
+        <option value="158">Paper.js 0.22</option>
+      
+    </optgroup>
+    
+    <optgroup label="Pixi">
+      
+        <option value="331">Pixi 4.0.0</option>
+      
+        <option value="315">Pixi 3.0.11</option>
+      
+    </optgroup>
+    
+    <optgroup label="Processing.js">
+      
+        <option value="206">Processing.js 1.4.7</option>
+      
+        <option value="135">Processing.js 1.4.1</option>
+      
+        <option value="81">Processing.js 1.3.6</option>
+      
+        <option value="67">Processing.js 1.2.3</option>
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </optgroup>
+    
+    <optgroup label="Prototype">
+      
+        
+      
+        <option value="265">Prototype 1.7.3</option>
+      
+        
+      
+        
+      
+        <option value="4">Prototype 1.6.1.0</option>
+      
+    </optgroup>
+    
+    <optgroup label="qooxdoo">
+      
+        <option value="126">qooxdoo 2.1</option>
+      
+        <option value="127">qooxdoo 2.0.3</option>
+      
+    </optgroup>
+    
+    <optgroup label="RactiveJS">
+      
+        
+      
+        
+      
+        <option value="287">RactiveJS 0.7.3</option>
+      
+    </optgroup>
+    
+    <optgroup label="Raphael">
+      
+        <option value="76">Raphael 2.1.0</option>
+      
+        <option value="36">Raphael 1.5.2 (min)</option>
+      
+        <option value="30">Raphael 1.4</option>
+      
+        
+      
+    </optgroup>
+    
+    <optgroup label="React">
+      
+        <option value="285">React 0.14.3</option>
+      
+        <option value="192">React 0.9.0</option>
+      
+        <option value="184">React 0.8.0</option>
+      
+        <option value="166">React 0.4.0</option>
+      
+        <option value="159">React 0.3.2</option>
+      
+    </optgroup>
+    
+    <optgroup label="RightJS">
+      
+        <option value="136">RightJS 2.3.1</option>
+      
+        <option value="45">RightJS 2.1.1</option>
+      
+    </optgroup>
+    
+    <optgroup label="Shipyard">
+      
+        <option value="99">Shipyard (nightly)</option>
+      
+        <option value="105">Shipyard 0.2</option>
+      
+        
+      
+    </optgroup>
+    
+    <optgroup label="svg.js">
+      
+        <option value="346">svg.js 2.5.0</option>
+      
+        <option value="348">svg.js 2.4.0</option>
+      
+        <option value="350">svg.js 2.3.7</option>
+      
+        <option value="352">svg.js 2.2.5</option>
+      
+        <option value="269">svg.js 2.1.1</option>
+      
+        <option value="354">svg.js 2.0.5</option>
+      
+        
+      
+    </optgroup>
+    
+    <optgroup label="The X Toolkit">
+      
+        <option value="106">The X Toolkit edge</option>
+      
+    </optgroup>
+    
+    <optgroup label="Thorax">
+      
+        <option value="174">Thorax 2.0.0rc6</option>
+      
+        <option value="143">Thorax 2.0.0rc3</option>
+      
+    </optgroup>
+    
+    <optgroup label="Three.js">
+      
+        <option value="82">Three.js r54</option>
+      
+    </optgroup>
+    
+    <optgroup label="Underscore">
+      
+        <option value="267">Underscore 1.8.3</option>
+      
+        <option value="160">Underscore 1.4.4</option>
+      
+        <option value="133">Underscore 1.4.3</option>
+      
+        <option value="111">Underscore 1.3.3</option>
+      
+    </optgroup>
+    
+    <optgroup label="Vue">
+      
+        <option value="236">Vue (edge)</option>
+      
+        <option value="344">Vue 2.2.1</option>
+      
+        <option value="289">Vue 1.0.12</option>
+      
+        
+      
+    </optgroup>
+    
+    <optgroup label="WebApp Install">
+      
+        <option value="142">WebApp Install 0.1</option>
+      
+    </optgroup>
+    
+    <optgroup label="YUI">
+      
+        
+      
+        <option value="230">YUI 3.17.2</option>
+      
+        <option value="204">YUI 3.16.0</option>
+      
+        <option value="182">YUI 3.14.0</option>
+      
+        <option value="153">YUI 3.10.1</option>
+      
+        
+      
+        <option value="130">YUI 3.8.0</option>
+      
+        <option value="123">YUI 3.7.3</option>
+      
+        <option value="118">YUI 3.6.0</option>
+      
+        <option value="102">YUI 3.5.0</option>
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        <option value="9">YUI 2.8.0r4</option>
+      
+        
+      
+    </optgroup>
+    
+    <optgroup label="Zepto">
+      
+        <option value="90">Zepto 1.0rc1</option>
+      
+    </optgroup>
+    
+  </select>
+  <label for="js_lib"><i class="bts bt-angle-down"></i></label>
+</div>
+
+<ul id="js_dependency">
+  
+
+</ul>
+
+  
+
+
+<h3>Load type</h3>
+<div class="selectCont">
+  <select name="js_wrap" id="id_js_wrap">
+<option value="l">onLoad</option>
+<option value="d">onDomready</option>
+<option value="h">No wrap - in &lt;head&gt;</option>
+<option value="b" selected="selected">No wrap - in &lt;body&gt;</option>
+</select>
+  <label for="js_wrap"><i class="bts bt-angle-down"></i></label>
+</div>
+
+
+  <h3>Framework &lt;script&gt; attribute</h3>
+  <p class="libraryTagAttributes">
+    <label>
+      <input id="id_js_lib_option" name="js_lib_option" maxlength="255" placeholder="ie. data-type=&quot;&quot;" type="text">
+    </label>
+  </p>
+
+
+<script type="text/javascript">
+  window.addEvent('load', function() {
+    $('js_lib').addEvent('change', function() {
+      mooshell.loadDependencies(this.value);
+    })
+    if ($('library_group')) $('library_group').addEvent('change', function() {
+      mooshell.loadLibraryVersions(this.value);
+    })
+  });
+</script>
+
+</div> <!-- /windowSettings -->
+
+<div class="windowSettings css">
+  <h3>Language</h3>
+<div class="selectCont">
+  <select name="panel_css" class="panelChoice" id="panel_css_choice" data-panel_id="id_code_css" data-panel="css">
+    
+      <option data-mime-type="text/x-scss" value="0" selected="selected">CSS</option>
+    
+      <option data-mime-type="text/x-scss" value="1">SCSS</option>
+    
+  </select>
+  <label for="js_lib"><i class="bts bt-angle-down"></i></label>
+</div> <!-- /selectCont -->
+
+<h3>Options</h3>
+<p id="normalize_check">
+  <label class="checkboxCont"><input name="normalize_css" id="id_normalize_css" type="checkbox"><span class="checkbox"><i class="bts bt-check"></i></span> Normalized CSS</label>
+</p>
+
+</div> <!-- /windowSettings -->
+
+        </div>
+      
+    </form>
+
+    
+<script>
+  TogetherJSConfig_enableAnalytics = true;
+  TogetherJSConfig_cloneClicks = "#run, .toggler";
+  TogetherJSConfig_toolName = "Collaboration"
+</script>
+<script defer="defer" src="graph_files/togetherjs.js"></script>
+
+
+    
+
+
+    
+      <script type="text/javascript">
+        window.addEvent('load', function() {
+          
+            
+              // $('show-result').submit();
+            
+          
+        });
+      </script>
+    
+  
+
+<span class="CodeMirror-error-tooltip"></span><div id="HW_frame_cont" style="height: 379px;"><iframe id="HW_frame" src="graph_files/1xGMJQ.html" sandbox="allow-same-origin allow-scripts allow-top-navigation allow-popups allow-forms" style="height: 379px;"></iframe></div><style id="HW_styles_cont">#HW_badge_cont {
+  visibility: hidden;
+  pointer-events: none;
+  display: block;
+  height: 32px;
+  width: 32px;
+  cursor: pointer;
+  position: relative;
+}
+
+#HW_badge_cont.HW_visible {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+#HW_badge {
+  display: block;
+  border-radius: 20px;
+  background: #CD4B5B;
+  height: 16px;
+  width: 16px;
+  color: #fff;
+  text-align: center;
+  line-height: 16px;
+  font-size: 11px;
+  cursor: pointer;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.3s;
+}
+
+#HW_badge.HW_softHidden {
+  background: #d4d4d4;
+  opacity: 1;
+  transform: scale(0.6);
+}
+
+#HW_badge.HW_hidden {
+  opacity: 0;
+  transform: scale(0);
+}
+
+#HW_badge.HW_visible {
+  opacity: 1;
+  transform: scale(1.0);
+}
+
+#HW_frame_cont {
+  pointer-events: none;
+  border-radius: 4px;
+  box-shadow: 0 0 1px rgba(99, 114, 130, 0.32), 0 8px 16px rgba(27, 39, 51, 0.08);
+  background: #fff;
+  border: none;
+  position: absolute;
+  top: -900em;
+  z-index: 999;
+  width: 340px;
+  height: 300px;
+  opacity: 0;
+  will-change: height, margin-top, opacity;
+  margin-top: -10px;
+  transition: margin-top 0.15s ease-out, opacity 0.1s ease-out, height 0.3s ease-out;
+}
+
+#HW_frame_cont.HW_visible {
+  opacity: 1;
+  pointer-events: auto;
+  margin-top: 0px;
+}
+
+#HW_frame {
+  background: #fff;
+  border: none;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 4px;
+  position: relative;
+  z-index: 900;
+  transition: height 0.3s ease-out;
+}</style></body></html>

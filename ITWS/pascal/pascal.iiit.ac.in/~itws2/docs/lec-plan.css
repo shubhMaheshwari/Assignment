@@ -1,0 +1,62 @@
+/* Table */
+
+.lec-plan  {
+/*  table-layout: fixed; */
+  white-space: nowrap;
+/*  font-size: 60%; */
+  color: Olive;
+  border-collapse: inherit;
+  border-style: solid;
+  border-width: 2px;
+
+/* http://stackoverflow.com/questions/1264187/css-how-do-i-create-a-gap-between-rows-in-a-table   */
+/*  border-collapse: inherit; */
+  border-spacing: 0pt 0pt;  */
+}
+
+.lec-plan tbody tr {
+    line-height: 1em;
+    border-style: solid; 
+}
+
+.lec-plan tbody:hover {
+  background-color: #ccff66; 
+}
+
+/* thead {background: #ffffb3;} */ /* Parrot Green */
+.lec-plan tbody:nth-child(even) {
+	background: #e6e6ff;
+}
+
+.lec-plan tbody:nth-child(odd) {
+	background: #FFF; 
+}
+
+.lec-plan thead {
+    border-style: solid;
+    border-width: 3px;
+/*    background:  green; */  /* #1aff1a; */
+    background: maroon;
+}
+
+.lec-plan tbody tr {
+    line-height: 1em;
+    border-style: solid; 
+}
+
+.lec-plan thead tr th{
+    /* border-style: hidden;  */
+/*    height: 0.6em; */
+    color: #ffffff;
+	border: none;
+	border-width: 0px;
+    text-align: center;
+}
+
+
+.lec-plan tbody tr td {
+    border-width: 0;
+/*    height: 0.6em; */
+    border: none;
+}
+

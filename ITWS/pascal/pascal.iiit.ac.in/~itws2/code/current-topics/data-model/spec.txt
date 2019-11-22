@@ -1,0 +1,31 @@
+;;; Entity Types
+TYPE User
+TYPE Email
+TYPE Name
+TYPE Role = {admin, user}
+TYPE Session
+;;; Relations with cardinality constraints
+[email, user]    :  User?    > Email!
+[name, users]    :  User     > Name!
+[roles, users]   :  User     > Role+
+[user, sessions] :  Session  > User!
+;;; Primary state variables
+ user-set    : set[User]    ; set of users in the system
+ session-set : set[Session] ; set of sessions in the system
+;;; Relations
+ email:      User > Email!
+ name :      User > Name!
+ roles:      User > Role+
+ user:       Session > User!
+;;; Derived Entity sets
+ email-set   : set[Email]   = user-set.email        ; set of emails in the system
+ name-set    : set[Name]    = user-set.name         ; set of names in the system
+ role-set    : set[Role]    = user-set.role         ; set of all roles of all users
+ logged-in-user-set : set[User]   = session-set.user   
+ logged-in-role-set :  set[Role]  = session-set.role
+;;; Relation variables with Referential Integrity
+[email, user]     :  user-set!    > email-set!
+[name, users]     :  user-set+    > name-set!    
+[roles, users]    :  user-set+    > role-set+
+[user, sessions]  :  session-set  > user-set!
+[role, session]   :  session-set  > role-set!

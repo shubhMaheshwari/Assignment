@@ -1,0 +1,82 @@
+
+* Racket
+** What is Racket?
+*** Introduction
+- Racket (formerly PLT Scheme) is a general purpose, multi-paradigm programming language in the Lisp-Scheme family.
+- One of its design goals is to serve as a platform for language creation, design, and implementation.
+- The language is used in a variety of contexts such as scripting, general-purpose programming, computer science education and research.
+- The platform provides an implementation of the Racket language (including a sophisticated run-time system,various libraries,JIT compiler, and more) along with a development environment called DrRacket (formerly named DrScheme) written in Racket itself.
+- The IDE and an accompanying programming curriculum is used in the ProgramByDesign outreach program, an attempt to turn computing and programming into "an indispensable part of the liberal arts curriculum".
+- The core language is known for its extensive macro system which enables the creation of embedded and domain-specific languages, language constructs such as classes or modules, and separate dialects of Racket with different semantics.
+- The platform distribution is free and open-source software distributed under the GNU Lesser General Public License (LGPL) license.
+- Extensions and packages written by the community are uploaded to Racket's centralized package catalog.
+- Racket Wikipedia : [[https://en.wikipedia.org/wiki/Racket_(programming_language)]]
+- Official Racket website : [[https://racket-lang.org/]]
+
+** Why do we need it?
+- Racket is a general-purpose programming language as well as the world's first ecosystem for developing and deploying new languages
+- The language platform provides a self-hosted IDE named DrRacket, a continuation-based web server, a graphical user interface and other tools.
+- Racket is also a viable scripting tool and can be used for scripting the Unix shell.
+- It can parse command line arguments, execute external tools and includes libraries like all common scripting languages.
+** How to use?
+- Installation : [[http://download.racket-lang.org/]]
+- Quick: An Introduction to Racket with Pictures: [[https://docs.racket-lang.org/quick/]]
+- How to Program Racket : [[https://docs.racket-lang.org/style/index.html]]
+- The Racket Guide : [[https://docs.racket-lang.org/guide/]]
+- The Racket Reference : [[https://docs.racket-lang.org/reference/index.html]]
+- Racket Documentation : [[https://docs.racket-lang.org/]]
+- Web Applications in Racket : [[https://docs.racket-lang.org/continue/]]
+
+** Miscellaneous
+- How to Design Programs(Book on functional programming) : [[http://www.htdp.org/]]
+- Essentials of Programming Languages Language : [[https://docs.racket-lang.org/eopl/index.html]]]
+- raco: Racket Command-Line Tools : [[https://docs.racket-lang.org/raco/index.html]]
+- Racket Playist on youtube : [[https://www.youtube.com/watch?v=vKjOTdVi99A&list=PLO9y7hOkmmSF1pZsZORBQ_e_0rQ49tHvI]]
+*** History
+- Matthias Felleisen founded PLT in the mid 1990s, first as a research group, soon after as a project dedicated to the production of pedagogic materials for novice programmers (lectures, exercises/projects, software).
+- In January 1995, the group decided to develop a pedagogic programming environment based on Scheme.
+- Matthew Flatt cobbled together MrEd—the original virtual machine for Racket—from libscheme, wxWidgets, and a few other free systems.
+- In the years that followed, a team including Flatt, Robby Findler, Shriram Krishnamurthi, Cormac Flanagan, and many others produced DrScheme, a programming environment for novice Scheme programmers and a research environment for soft typing.
+- The main development language that DrScheme supported was called PLT Scheme.
+
+
+
+
+* DrRacket
+** What is DrRacket?
+DrRacket is a graphical environment for developing programs using the Racket programming languages.
+** Why do we need it?
+We need it for running Racket programs.
+DrScheme(Dr Racket) is a programming environment for novice Scheme programmers and a research environment for soft typing.
+** How to use?
+- DrRacket: The Racket Programming Environment : [[https://docs.racket-lang.org/drracket/index.html]]
+- How To Design Programs -- basic DrRacket Playlist : [[https://www.youtube.com/watch?v=T4Myub8sJH0&list=PLD0EB7BC8D7CF739A]]
+** Miscellaneous
+- DrRacket Plugins : [[https://docs.racket-lang.org/tools/index.html]]
+- DrRacket Tools : [[https://docs.racket-lang.org/drracket-tools/index.html]]
+- The Racket Graphical Interface Toolkit : [[https://docs.racket-lang.org/gui/index.html]]
+
+
+* Racket 
+** Racket language
+Depending on how you look at it, Racket is
+a programming language—a dialect of Lisp and a descendant of Scheme;
+See Dialects of Racket and Scheme for more information on other dialects of Lisp and how they relate to Racket.
+a family of programming languages—variants of Racket, and more; or
+a set of tools—for using a family of programming languages.
+Where there is no room for confusion, we use simply Racket. 
+** Use
+To use racket we can
+use scheme in emacs and tangle the file
+use drracket application
+** shapes
+we can even draw in racket using many packages like 2htdp/image and many more
+we can draw circle,square,even shade colours
+** Important Links
+*** racket-guide:https://docs.racket-lang.org/
+*** Packages:https://pkgs.racket-lang.org/#
+*** Assignments:pascal.iiit.ac.in/~itws2/docs/assignments/
+** Author
+Shubh Maheshwari 
+20161170
+ITWS-2 

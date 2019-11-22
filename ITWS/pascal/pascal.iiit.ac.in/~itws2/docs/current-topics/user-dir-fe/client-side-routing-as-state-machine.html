@@ -1,0 +1,930 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-04-27 Thu 03:32 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Client side Routing as a State Machine</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="VLEAD" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="../../style/css/worg-style.css" />
+<link rel="stylesheet" type="text/css" href="../../style/css/override.css" />
+<link rel="icon" type="image/png" href="../../style/img/favicon/popl.png" />
+<script type="text/javascript" src="../../style/js/org-info.js">
+/**
+ *
+ * @source: ../../style/js/org-info.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in ../../style/js/org-info.js.
+ *
+ * Copyright (C) 2012-2013 Free Software Foundation, Inc.
+ *
+ *
+ * The JavaScript code in this tag is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in ../../style/js/org-info.js.
+ *
+ */
+</script>
+
+<script type="text/javascript">
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "1");
+org_html_manager.set("LINK_HOME", "../../index.html");
+org_html_manager.set("LINK_UP", "../index.html");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="../../index.html"> HOME </a>
+</div><div id="content">
+<h1 class="title">Client side Routing as a State Machine</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org9aad66b">1. Objective</a></li>
+<li><a href="#orgabeb23a">2. Routes (DFA locations)</a>
+<ul>
+<li><a href="#orgc2319ce">2.1. Transition Graph</a></li>
+</ul>
+</li>
+<li><a href="#org1b11da7">3. Templates</a>
+<ul>
+<li><a href="#org3bd0380">3.1. get_all_users</a>
+<ul>
+<li><a href="#orgb531b5c">3.1.1. A notation for specifying elements</a></li>
+<li><a href="#orgf5b3ec7">3.1.2. HTML for get_all_users</a></li>
+</ul>
+</li>
+<li><a href="#org3bb9c3e">3.2. delete_user</a>
+<ul>
+<li><a href="#org588b73f">3.2.1. Notation</a></li>
+<li><a href="#org4b84986">3.2.2. HTML for delete user</a></li>
+</ul>
+</li>
+<li><a href="#orgb829248">3.3. edit_user</a>
+<ul>
+<li><a href="#org469e133">3.3.1. Notation</a></li>
+<li><a href="#org7d9349c">3.3.2. HTML for edit user</a></li>
+</ul>
+</li>
+<li><a href="#org76d69d5">3.4. add_user</a>
+<ul>
+<li><a href="#orgb613b27">3.4.1. Notation</a></li>
+<li><a href="#org08ae625">3.4.2. HTML for Add User</a></li>
+</ul>
+</li>
+<li><a href="#org08cddc9">3.5. All together</a></li>
+<li><a href="#org3ec995e">3.6. Style</a></li>
+</ul>
+</li>
+<li><a href="#orga992473">4. Behaviour</a>
+<ul>
+<li><a href="#org62bafc8">4.1. Hash Route registration handlers and helpers</a></li>
+<li><a href="#org3976933">4.2. Set On Load Handlers</a></li>
+<li><a href="#orgeb878aa">4.3. Get Users</a>
+<ul>
+<li><a href="#orgc186195">4.3.1. Set handlers for the buttons</a></li>
+</ul>
+</li>
+<li><a href="#org097b9c7">4.4. Add User</a></li>
+<li><a href="#orgedba12a">4.5. Edit User</a></li>
+<li><a href="#orgf9b2400">4.6. Delete User</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org9aad66b" class="outline-2">
+<h2 id="org9aad66b"><span class="section-number-2">1</span> Objective</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+How to design and develop the
+front end (client side
+routing) of an application as
+a state machine.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgabeb23a" class="outline-2">
+<h2 id="orgabeb23a"><span class="section-number-2">2</span> Routes (DFA locations)</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+The front end application is
+conceived as a set of states
+in a DFA.  Each route is a
+state and the transition of
+the states in the DFA is
+determined by the different
+triggers.
+</p>
+
+<pre class="example">
+ 1.  #get_all_users
+ 2.  #edit_user
+ 3.  #add_user
+ 4.  #delete_user
+</pre>
+</div>
+
+<div id="outline-container-orgc2319ce" class="outline-3">
+<h3 id="orgc2319ce"><span class="section-number-3">2.1</span> Transition Graph</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Include Picture here.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1b11da7" class="outline-2">
+<h2 id="org1b11da7"><span class="section-number-2">3</span> Templates</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-org3bd0380" class="outline-3">
+<h3 id="org3bd0380"><span class="section-number-3">3.1</span> get_all_users</h3>
+<div class="outline-text-3" id="text-3-1">
+<pre class="example">
+1. edit  (button for each row)
+2. delete (button for each row)
+3. add user (button)
+4. Name and email of the user
+</pre>
+</div>
+<div id="outline-container-orgb531b5c" class="outline-4">
+<h4 id="orgb531b5c"><span class="section-number-4">3.1.1</span> A notation for specifying elements</h4>
+<div class="outline-text-4" id="text-3-1-1">
+<pre class="example">
+(&lt;app-header&gt;
+ &lt;add-user-button&gt;
+ (&lt;user-name&gt; &lt;user-email&gt; &lt;edit-button&gt; &lt;del-button&gt;) 
+ ...)
+</pre>
+</div>
+</div>
+<div id="outline-container-orgf5b3ec7" class="outline-4">
+<h4 id="orgf5b3ec7"><span class="section-number-4">3.1.2</span> HTML for get_all_users</h4>
+<div class="outline-text-4" id="text-3-1-2">
+<p>
+The rows are hard coded with the values, to show the routing
+</p>
+<div class="org-src-container">
+<pre class="src src-html" id="org86e450f">&lt;<span style="font-weight: bold;">div</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"add-user-btn"</span> <span style="font-weight: bold; font-style: italic;">class</span>=<span style="font-style: italic;">"hidden"</span>&gt;
+  &lt;<span style="font-weight: bold;">p</span>&gt; List of Users &lt;/<span style="font-weight: bold;">p</span>&gt;
+  &lt;<span style="font-weight: bold;">ul</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"add-user"</span>&gt;
+    &lt;<span style="font-weight: bold;">li</span>&gt;
+      &lt;<span style="font-weight: bold;">button</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"add"</span>&gt;Add&lt;/<span style="font-weight: bold;">button</span>&gt;
+    &lt;/<span style="font-weight: bold;">li</span>&gt;
+  &lt;/<span style="font-weight: bold;">ul</span>&gt;
+&lt;/<span style="font-weight: bold;">div</span>&gt;
+      
+&lt;<span style="font-weight: bold;">div</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"get-all-users-container"</span> <span style="font-weight: bold; font-style: italic;">class</span>=<span style="font-style: italic;">"hidden"</span>&gt;
+  &lt;<span style="font-weight: bold;">ul</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"users-list"</span>&gt;
+    &lt;<span style="font-weight: bold;">li</span>&gt;
+      Name: Jub Jub Bird | Email: jub-jub@nonsense.verse
+      &lt;<span style="font-weight: bold;">button</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"edit"</span>&gt;Edit&lt;/<span style="font-weight: bold;">button</span>&gt;
+      &lt;<span style="font-weight: bold;">button</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"delete"</span>&gt;Delete&lt;/<span style="font-weight: bold;">button</span>&gt;
+    &lt;/<span style="font-weight: bold;">li</span>&gt;
+
+    &lt;<span style="font-weight: bold;">li</span>&gt;
+      Name: Grim Reaper | Email: reaper@whitehouse.gov
+      &lt;<span style="font-weight: bold;">button</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"edit"</span>&gt;Edit&lt;/<span style="font-weight: bold;">button</span>&gt;
+      &lt;<span style="font-weight: bold;">button</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"delete"</span>&gt;Delete&lt;/<span style="font-weight: bold;">button</span>&gt;
+    &lt;/<span style="font-weight: bold;">li</span>&gt;
+
+  &lt;/<span style="font-weight: bold;">ul</span>&gt;
+&lt;/<span style="font-weight: bold;">div</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org3bb9c3e" class="outline-3">
+<h3 id="org3bb9c3e"><span class="section-number-3">3.2</span> delete_user</h3>
+<div class="outline-text-3" id="text-3-2">
+<pre class="example">
+1. name  (read only)
+2. email (read only)
+3. delete  (button)
+4. cancel (button)
+</pre>
+</div>
+
+<div id="outline-container-org588b73f" class="outline-4">
+<h4 id="org588b73f"><span class="section-number-4">3.2.1</span> Notation</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<pre class="example">
+(&lt;app-header&gt;
+ &lt;name-label&gt; &lt;name-readonly&gt;
+ &lt;email-label&gt; &lt;email-readonly&gt;
+ &lt;delete-button&gt; &lt;cancel-button&gt;)
+</pre>
+</div>
+</div>
+<div id="outline-container-org4b84986" class="outline-4">
+<h4 id="org4b84986"><span class="section-number-4">3.2.2</span> HTML for delete user</h4>
+<div class="outline-text-4" id="text-3-2-2">
+<div class="org-src-container">
+<pre class="src src-html" id="org96013cc">&lt;<span style="font-weight: bold;">div</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"delete-user-container"</span> <span style="font-weight: bold; font-style: italic;">class</span>=<span style="font-style: italic;">"hidden"</span>&gt;
+  &lt;<span style="font-weight: bold;">p</span>&gt; Delete User &lt;/<span style="font-weight: bold;">p</span>&gt;
+  &lt;<span style="font-weight: bold;">ul</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"delete-user"</span>&gt;
+    &lt;<span style="font-weight: bold;">li</span>&gt;
+      Name: Grim Reaper | Email: reaper@whitehouse.gov
+    &lt;/<span style="font-weight: bold;">li</span>&gt;
+
+    &lt;<span style="font-weight: bold;">li</span>&gt;
+      &lt;<span style="font-weight: bold;">button</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"delete"</span>&gt;Delete&lt;/<span style="font-weight: bold;">button</span>&gt;
+      &lt;<span style="font-weight: bold;">button</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"cancel"</span>&gt;Cancel&lt;/<span style="font-weight: bold;">button</span>&gt;
+    &lt;/<span style="font-weight: bold;">li</span>&gt;
+
+  &lt;/<span style="font-weight: bold;">ul</span>&gt;
+&lt;/<span style="font-weight: bold;">div</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb829248" class="outline-3">
+<h3 id="orgb829248"><span class="section-number-3">3.3</span> edit_user</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+Controls (transition edges)
+</p>
+<pre class="example">
+1. name  (text input)
+2. email (text input)
+3. done  (button)
+4. cancel (button)
+</pre>
+</div>
+
+<div id="outline-container-org469e133" class="outline-4">
+<h4 id="org469e133"><span class="section-number-4">3.3.1</span> Notation</h4>
+<div class="outline-text-4" id="text-3-3-1">
+<pre class="example">
+&lt;edit-template&gt; :: = 
+(&lt;app-header&gt;
+ &lt;name-label&gt; &lt;name-input&gt;
+ &lt;email-label&gt; &lt;email-input&gt;
+ &lt;done-button&gt; &lt;cancel-button&gt;)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org7d9349c" class="outline-4">
+<h4 id="org7d9349c"><span class="section-number-4">3.3.2</span> HTML for edit user</h4>
+<div class="outline-text-4" id="text-3-3-2">
+<div class="org-src-container">
+<pre class="src src-html" id="org539590c">&lt;<span style="font-weight: bold;">div</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"edit-user-container"</span> <span style="font-weight: bold; font-style: italic;">class</span>=<span style="font-style: italic;">"hidden"</span>&gt;
+  &lt;<span style="font-weight: bold;">p</span>&gt; Edit User &lt;/<span style="font-weight: bold;">p</span>&gt;
+  &lt;<span style="font-weight: bold;">ul</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"edit-user"</span>&gt;
+    &lt;<span style="font-weight: bold;">li</span>&gt;
+      &lt;<span style="font-weight: bold;">label</span>&gt; Name:&lt;/<span style="font-weight: bold;">label</span>&gt;
+      &lt;<span style="font-weight: bold;">input</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"name-box"</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text"</span> <span style="font-weight: bold; font-style: italic;">value</span>=<span style="font-style: italic;">"Grim Reaper"</span>&gt;&lt;/<span style="font-weight: bold;">input</span>&gt;
+    &lt;/<span style="font-weight: bold;">li</span>&gt;
+
+    &lt;<span style="font-weight: bold;">li</span>&gt;
+      &lt;<span style="font-weight: bold;">label</span>&gt; Email:&lt;/<span style="font-weight: bold;">label</span>&gt;
+      &lt;<span style="font-weight: bold;">input</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"email-box"</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text"</span> <span style="font-weight: bold; font-style: italic;">value</span>=<span style="font-style: italic;">"reaper@whitehouse.gov"</span>&gt;&lt;/<span style="font-weight: bold;">input</span>&gt;
+    &lt;/<span style="font-weight: bold;">li</span>&gt;
+
+    &lt;<span style="font-weight: bold;">li</span>&gt;
+      &lt;<span style="font-weight: bold;">button</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"done"</span>&gt;Done&lt;/<span style="font-weight: bold;">button</span>&gt;
+      &lt;<span style="font-weight: bold;">button</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"cancel"</span>&gt;Cancel&lt;/<span style="font-weight: bold;">button</span>&gt;
+    &lt;/<span style="font-weight: bold;">li</span>&gt;
+    
+  &lt;/<span style="font-weight: bold;">ul</span>&gt;
+&lt;/<span style="font-weight: bold;">div</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org76d69d5" class="outline-3">
+<h3 id="org76d69d5"><span class="section-number-3">3.4</span> add_user</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+Controls (transition edges)
+</p>
+<pre class="example">
+1. name  (text input)
+2. email (text input)
+3. add  (button)
+4. cancel (button)
+</pre>
+</div>
+<div id="outline-container-orgb613b27" class="outline-4">
+<h4 id="orgb613b27"><span class="section-number-4">3.4.1</span> Notation</h4>
+<div class="outline-text-4" id="text-3-4-1">
+<pre class="example">
+&lt;edit-template&gt;
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org08ae625" class="outline-4">
+<h4 id="org08ae625"><span class="section-number-4">3.4.2</span> HTML for Add User</h4>
+<div class="outline-text-4" id="text-3-4-2">
+<div class="org-src-container">
+<pre class="src src-html" id="orge4e489e">&lt;<span style="font-weight: bold;">div</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"add-user-container"</span> <span style="font-weight: bold; font-style: italic;">class</span>=<span style="font-style: italic;">"hidden"</span>&gt;
+  &lt;<span style="font-weight: bold;">p</span>&gt; Add User &lt;/<span style="font-weight: bold;">p</span>&gt;
+  &lt;<span style="font-weight: bold;">ul</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"add-user"</span>&gt;
+    &lt;<span style="font-weight: bold;">li</span>&gt;
+      &lt;<span style="font-weight: bold;">label</span>&gt; Name:&lt;/<span style="font-weight: bold;">label</span>&gt;
+      &lt;<span style="font-weight: bold;">input</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"name-box"</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text"</span>&gt;&lt;/<span style="font-weight: bold;">input</span>&gt;
+    &lt;/<span style="font-weight: bold;">li</span>&gt;
+
+    &lt;<span style="font-weight: bold;">li</span>&gt;
+      &lt;<span style="font-weight: bold;">label</span>&gt; Email:&lt;/<span style="font-weight: bold;">label</span>&gt;
+      &lt;<span style="font-weight: bold;">input</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"email-box"</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text"</span>&gt;&lt;/<span style="font-weight: bold;">input</span>&gt;
+    &lt;/<span style="font-weight: bold;">li</span>&gt;
+
+    &lt;<span style="font-weight: bold;">li</span>&gt;
+      &lt;<span style="font-weight: bold;">button</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"add"</span>&gt;Add&lt;/<span style="font-weight: bold;">button</span>&gt;
+      &lt;<span style="font-weight: bold;">button</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"cancel"</span>&gt;Cancel&lt;/<span style="font-weight: bold;">button</span>&gt;
+    &lt;/<span style="font-weight: bold;">li</span>&gt;
+    
+  &lt;/<span style="font-weight: bold;">ul</span>&gt;
+&lt;/<span style="font-weight: bold;">div</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org08cddc9" class="outline-3">
+<h3 id="org08cddc9"><span class="section-number-3">3.5</span> All together</h3>
+<div class="outline-text-3" id="text-3-5">
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="font-weight: bold;">html</span>&gt;
+  &lt;<span style="font-weight: bold;">head</span>&gt;
+  &lt;<span style="font-weight: bold;">link</span> <span style="font-weight: bold; font-style: italic;">rel</span>=<span style="font-style: italic;">"stylesheet"</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text/css"</span> <span style="font-weight: bold; font-style: italic;">href</span>=<span style="font-style: italic;">"common.css"</span> /&gt;
+  &lt;<span style="font-weight: bold;">script</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text/javascript"</span> <span style="font-weight: bold; font-style: italic;">src</span>=<span style="font-style: italic;">"jquery-3.1.1.min.js"</span>&gt;&lt;/<span style="font-weight: bold;">script</span>&gt;
+  &lt;<span style="font-weight: bold;">script</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text/javascript"</span> <span style="font-weight: bold; font-style: italic;">src</span>=<span style="font-style: italic;">"main.js"</span>&gt;&lt;/<span style="font-weight: bold;">script</span>&gt;
+  &lt;/<span style="font-weight: bold;">head</span>&gt;
+  &lt;<span style="font-weight: bold;">body</span>&gt;
+    &lt;&lt;<span style="font-weight: bold;">get_all_users_html</span>&gt;&gt;
+    &lt;&lt;<span style="font-weight: bold;">add_user_html</span>&gt;&gt;
+    &lt;&lt;<span style="font-weight: bold;">delete_user_html</span>&gt;&gt;
+    &lt;&lt;<span style="font-weight: bold;">edit_user_html</span>&gt;&gt;
+  &lt;/<span style="font-weight: bold;">body</span>&gt;
+&lt;/<span style="font-weight: bold;">html</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3ec995e" class="outline-3">
+<h3 id="org3ec995e"><span class="section-number-3">3.6</span> Style</h3>
+<div class="outline-text-3" id="text-3-6">
+<div class="org-src-container">
+<pre class="src src-css" id="org32f850b"><span style="font-weight: bold;">#add-user-btn </span>{
+    <span style="font-weight: bold; font-style: italic;">margin-top</span>: 2em;
+    <span style="font-weight: bold; font-style: italic;">margin-left</span>: 32em;
+}
+
+<span style="font-weight: bold;">#get-all-users-container </span>{
+    <span style="font-weight: bold; font-style: italic;">margin-left</span>: 4em;
+    <span style="font-weight: bold; font-style: italic;">margin-top</span>: 2.5em;
+}
+
+<span style="font-weight: bold;">#add-user-container </span>{
+    <span style="font-weight: bold; font-style: italic;">margin-left</span>: 4em;
+    <span style="font-weight: bold; font-style: italic;">margin-top</span>: 2.5em;
+}
+
+<span style="font-weight: bold;">#delete-user-container </span>{
+    <span style="font-weight: bold; font-style: italic;">margin-left</span>: 4em;
+    <span style="font-weight: bold; font-style: italic;">margin-top</span>: 2.5em;
+}
+
+<span style="font-weight: bold;">#edit-user-container </span>{
+    <span style="font-weight: bold; font-style: italic;">margin-left</span>: 4em;
+    <span style="font-weight: bold; font-style: italic;">margin-top</span>: 2.5em;
+}
+
+<span style="font-weight: bold;">li </span>{
+    <span style="font-weight: bold; font-style: italic;">list-style-type</span>: none;
+    <span style="font-weight: bold; font-style: italic;">margin-bottom</span>: 3em;
+}
+
+<span style="font-weight: bold;">ul </span>{
+    <span style="font-weight: bold; font-style: italic;">list-style-type</span>: none;
+}
+
+<span style="font-weight: bold;">button </span>{ 
+    <span style="font-weight: bold; font-style: italic;">width</span>: 4em;
+    <span style="font-weight: bold; font-style: italic;">margin</span>: 1.5em;
+}
+
+<span style="font-weight: bold;">.hidden </span>{
+    <span style="font-weight: bold; font-style: italic;">display</span>: none;
+}
+
+<span style="font-weight: bold;">p </span>{
+    <span style="font-weight: bold; font-style: italic;">font-size</span>:300%;
+    <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">margin-left: 0em; </span><span style="font-weight: bold; font-style: italic;">*/</span>
+    <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">margin-top: 2.5em; </span><span style="font-weight: bold; font-style: italic;">*/</span>
+
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga992473" class="outline-2">
+<h2 id="orga992473"><span class="section-number-2">4</span> Behaviour</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-org62bafc8" class="outline-3">
+<h3 id="org62bafc8"><span class="section-number-3">4.1</span> Hash Route registration handlers and helpers</h3>
+<div class="outline-text-3" id="text-4-1">
+<div class="org-src-container">
+<pre class="src src-js" id="org6715019"><span style="font-weight: bold;">function</span> <span style="font-weight: bold;">hide_all_containers</span>() {
+  <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">TODO: consider refactoring to addClass in a loop</span>
+  console.log(<span style="font-style: italic;">"hide containers"</span>);
+  $(<span style="font-style: italic;">'#get-all-users-container'</span>).addClass(<span style="font-style: italic;">"hidden"</span>);
+  $(<span style="font-style: italic;">'#add-user-container'</span>).addClass(<span style="font-style: italic;">"hidden"</span>);
+  $(<span style="font-style: italic;">'#edit-user-container'</span>).addClass(<span style="font-style: italic;">"hidden"</span>);
+  $(<span style="font-style: italic;">'#delete-user-container'</span>).addClass(<span style="font-style: italic;">"hidden"</span>);
+  $(<span style="font-style: italic;">'#add-user-btn'</span>).addClass(<span style="font-style: italic;">"hidden"</span>);
+};
+
+<span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">setAddHash</span> = <span style="font-weight: bold;">function</span>() {
+  window.location.hash=<span style="font-style: italic;">'add_user'</span>;
+};
+
+<span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">setEditHash</span> = <span style="font-weight: bold;">function</span>() {
+  window.location.hash=<span style="font-style: italic;">'edit_user'</span>;
+};
+
+<span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">setDelHash</span> = <span style="font-weight: bold;">function</span>() {
+  window.location.hash=<span style="font-style: italic;">'delete_user'</span>;
+};
+
+<span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">setIndexHash</span> = <span style="font-weight: bold;">function</span>() {
+  window.location.hash=<span style="font-style: italic;">'index'</span>;
+};
+
+<span style="font-weight: bold;">function</span> <span style="font-weight: bold;">navigate</span>(<span style="font-weight: bold; font-style: italic;">path</span>) {
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">current</span> = window.location.href;
+  window.location.href = current.replace(<span style="font-style: italic;">/#(.*)$/</span>, <span style="font-style: italic;">''</span>) + <span style="font-style: italic;">'#'</span> + path;
+};
+
+<span style="font-weight: bold; font-style: italic;">//</span><span style="font-weight: bold; font-style: italic;">strip # from window.location.hash</span>
+<span style="font-weight: bold;">function</span> <span style="font-weight: bold;">get_window_hash_path</span>() {
+  <span style="font-weight: bold;">return</span> location.hash.substring(1);
+};
+
+<span style="font-weight: bold;">function</span> <span style="font-weight: bold;">register_onhashchange_handlers</span>(<span style="font-weight: bold; font-style: italic;">handler_functions</span>) {
+  $(window).on(<span style="font-style: italic;">"hashchange"</span>, <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">e</span>) {
+    <span style="font-weight: bold; font-style: italic;">//</span><span style="font-weight: bold; font-style: italic;">strip hash out</span>
+    hash_path = get_window_hash_path();
+    console.log(<span style="font-style: italic;">"new hash: "</span>, hash_path);
+    <span style="font-weight: bold; font-style: italic;">//</span><span style="font-weight: bold; font-style: italic;">we use hasOwnProperty since we need to check if a handler is </span>
+    <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">defined for the hash_path</span>
+    <span style="font-weight: bold; font-style: italic;">//</span><span style="font-weight: bold; font-style: italic;">object has it, not its parents (in the prototype chain)</span>
+    <span style="font-weight: bold;">if</span> (handler_functions.hasOwnProperty(hash_path)) {
+      <span style="font-weight: bold; font-style: italic;">//</span><span style="font-weight: bold; font-style: italic;">invoke said handler function</span>
+      handler_functions[hash_path]();
+    } <span style="font-weight: bold;">else</span> {
+      console.warn(`no handler <span style="font-weight: bold;">for</span> ${hash_path}`);
+    }
+  });
+};
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3976933" class="outline-3">
+<h3 id="org3976933"><span class="section-number-3">4.2</span> Set On Load Handlers</h3>
+<div class="outline-text-3" id="text-4-2">
+<div class="org-src-container">
+<pre class="src src-js" id="org5fa79e5">window.onload = <span style="font-weight: bold;">function</span>() {
+  register_onhashchange_handlers({
+    index: get_all_users_handler,
+    get_all_users: get_all_users_handler,
+    add_user: add_user_handler,
+    edit_user: edit_user_handler,
+    delete_user: delete_user_handler});
+
+  <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">current_hash</span> = get_window_hash_path();
+  <span style="font-weight: bold;">if</span> (current_hash === <span style="font-style: italic;">""</span>) {
+    console.log(<span style="font-style: italic;">"defaulting #url to get_all_users"</span>);
+    current_hash = <span style="font-style: italic;">"index"</span>;
+    console.log(<span style="font-style: italic;">"navigating to: #"</span> + current_hash);
+    navigate(current_hash);
+  }
+  
+  $(window).trigger(<span style="font-style: italic;">"hashchange"</span>);
+  
+};
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgeb878aa" class="outline-3">
+<h3 id="orgeb878aa"><span class="section-number-3">4.3</span> Get Users</h3>
+<div class="outline-text-3" id="text-4-3">
+<pre class="example">
+1. When the page loads,
+   i.e. index, users are shown
+2. The =Add= button =click=
+   event should be set to allow
+   adding a user
+3. The =Edit= and =Delete=
+   buttons on each row should be
+   set to navigate to edit page
+   and delete page respectively.
+</pre>
+</div>
+
+<div id="outline-container-orgc186195" class="outline-4">
+<h4 id="orgc186195"><span class="section-number-4">4.3.1</span> Set handlers for the buttons</h4>
+<div class="outline-text-4" id="text-4-3-1">
+<p>
+The handlers for the buttons - add, edit and delete - have to be set so
+that navigation happens to the respective page. 
+</p>
+
+<div class="org-src-container">
+<pre class="src src-js" id="org2720df3"><span style="font-weight: bold;">function</span> <span style="font-weight: bold;">get_all_users_handler</span>() {
+  console.log(<span style="font-style: italic;">"get_all_users_handler"</span>);
+  hide_all_containers();
+  $(<span style="font-style: italic;">'#get-all-users-container'</span>).removeClass(<span style="font-style: italic;">"hidden"</span>);
+  $(<span style="font-style: italic;">'#add-user-btn'</span>).removeClass(<span style="font-style: italic;">"hidden"</span>);
+
+  $(<span style="font-style: italic;">'#add-user-btn #add'</span>)[0].addEventListener(<span style="font-style: italic;">"click"</span>, setAddHash);
+                   
+  <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">editBtns</span> = $(<span style="font-style: italic;">'#get-all-users-container #edit'</span>);
+  <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">delBtns</span> =  $(<span style="font-style: italic;">'#get-all-users-container #delete'</span>);
+
+
+  <span style="font-weight: bold;">for</span> (editBtn of editBtns) {
+    editBtn.removeEventListener(<span style="font-style: italic;">'click'</span>, setEditHash);
+    editBtn.addEventListener(<span style="font-style: italic;">'click'</span>, setEditHash);
+  };
+
+  <span style="font-weight: bold;">for</span> (delBtn of delBtns) {
+    delBtn.removeEventListener(<span style="font-style: italic;">'click'</span>, setDelHash);
+    delBtn.addEventListener(<span style="font-style: italic;">'click'</span>, setDelHash);
+  };
+
+};
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org097b9c7" class="outline-3">
+<h3 id="org097b9c7"><span class="section-number-3">4.4</span> Add User</h3>
+<div class="outline-text-3" id="text-4-4">
+<pre class="example">
+1. Show =Add user page= and hide
+   all others.
+2. Set listeners for the buttons
+   =Add= and =Cancel= for the
+   event =click= such that we
+   traverse to the index page.
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-js" id="orgbb2e7cb"><span style="font-weight: bold;">function</span> <span style="font-weight: bold;">add_user_handler</span>() {
+  console.log(<span style="font-style: italic;">"add user handler"</span>)
+  hide_all_containers();
+  $(<span style="font-style: italic;">'#add-user-container'</span>).removeClass(<span style="font-style: italic;">"hidden"</span>);
+  $(<span style="font-style: italic;">'#add-user-container #add'</span>)[0].addEventListener(<span style="font-style: italic;">"click"</span>, setIndexHash);
+  $(<span style="font-style: italic;">'#add-user-container #cancel'</span>)[0].addEventListener(<span style="font-style: italic;">"click"</span>, setIndexHash);
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgedba12a" class="outline-3">
+<h3 id="orgedba12a"><span class="section-number-3">4.5</span> Edit User</h3>
+<div class="outline-text-3" id="text-4-5">
+<pre class="example">
+1. Show =Edit User page= and
+   hide all others.
+2. Set listeners for the buttons
+   =Done= and =Cancel= for the
+   event =click= such that we
+   traverse to the index page.
+</pre>
+<div class="org-src-container">
+<pre class="src src-js" id="org92f6ff2"><span style="font-weight: bold;">function</span> <span style="font-weight: bold;">edit_user_handler</span>() {
+  console.log(<span style="font-style: italic;">"edit user handler"</span>)
+  hide_all_containers();
+  $(<span style="font-style: italic;">'#edit-user-container'</span>).removeClass(<span style="font-style: italic;">"hidden"</span>);
+  $(<span style="font-style: italic;">'#edit-user-container #done'</span>)[0].addEventListener(<span style="font-style: italic;">"click"</span>, setIndexHash);
+  $(<span style="font-style: italic;">'#edit-user-container #cancel'</span>)[0].addEventListener(<span style="font-style: italic;">"click"</span>, setIndexHash);
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf9b2400" class="outline-3">
+<h3 id="orgf9b2400"><span class="section-number-3">4.6</span> Delete User</h3>
+<div class="outline-text-3" id="text-4-6">
+<pre class="example">
+1. Show =Delete User page= and
+   hide all others.
+2. Set listeners for the buttons
+   =Delete= and =Cancel= for the
+   event =click= such that we
+   traverse to the index page.
+</pre>
+<div class="org-src-container">
+<pre class="src src-js" id="orgfd1c4d2"><span style="font-weight: bold;">function</span> <span style="font-weight: bold;">delete_user_handler</span>() {
+  console.log(<span style="font-style: italic;">"delete user handler"</span>)
+  hide_all_containers();
+  $(<span style="font-style: italic;">'#delete-user-container'</span>).removeClass(<span style="font-style: italic;">"hidden"</span>);
+  $(<span style="font-style: italic;">'#delete-user-container #delete'</span>)[0].addEventListener(<span style="font-style: italic;">"click"</span>, setIndexHash);
+  $(<span style="font-style: italic;">'#delete-user-container #cancel'</span>)[0].addEventListener(<span style="font-style: italic;">"click"</span>, setIndexHash);
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2017-02-19 Sun 00:00</p>
+<p class="author">Author: VLEAD</p>
+<p class="date">Created: 2017-04-27 Thu 03:32</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

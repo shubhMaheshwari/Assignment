@@ -1,0 +1,4 @@
+I used scikit learn to generate a 1000 X 1000 psd matrix,
+
+The conjugate gradient method was faster and took 320 iterations, and completes in 0.340685 units of time
+The gauss eliminaition method took a larger time and completed in 1.443060 units of time.

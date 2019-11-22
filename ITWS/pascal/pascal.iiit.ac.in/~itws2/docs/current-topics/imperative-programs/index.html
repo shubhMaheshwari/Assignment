@@ -1,0 +1,1111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-04-27 Thu 03:32 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>An execution model for imperative programs</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="VLEAD" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="../../style/css/worg-style.css" />
+<link rel="stylesheet" type="text/css" href="../../style/css/override.css" />
+<link rel="icon" type="image/png" href="../../style/img/favicon/popl.png" />
+<script type="text/javascript" src="../../style/js/org-info.js">
+/**
+ *
+ * @source: ../../style/js/org-info.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in ../../style/js/org-info.js.
+ *
+ * Copyright (C) 2012-2013 Free Software Foundation, Inc.
+ *
+ *
+ * The JavaScript code in this tag is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in ../../style/js/org-info.js.
+ *
+ */
+</script>
+
+<script type="text/javascript">
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "1");
+org_html_manager.set("LINK_HOME", "../../index.html");
+org_html_manager.set("LINK_UP", "../index.html");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="../../index.html"> HOME </a>
+</div><div id="content">
+<h1 class="title">An execution model for imperative programs</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org3959dd6">1. The declarative model</a>
+<ul>
+<li><a href="#org38bbbee">1.1. Value Space</a></li>
+<li><a href="#org7a91e36">1.2. Environment Space</a></li>
+<li><a href="#org9fbf154">1.3. Evaluator Space</a></li>
+<li><a href="#org23d2db2">1.4. Expression Space (Syntax)</a>
+<ul>
+<li><a href="#orgab9f917">1.4.1. Datum</a></li>
+<li><a href="#orge289af8">1.4.2. Literal</a></li>
+<li><a href="#org4d94fa6">1.4.3. Expression</a></li>
+<li><a href="#orgeb0fac7">1.4.4. Conditional</a></li>
+<li><a href="#org6bcbe7b">1.4.5. Definition</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org7201862">2. Imperative programs</a>
+<ul>
+<li><a href="#orgef5b296">2.1. Main idea</a></li>
+<li><a href="#orgc34d7ca">2.2. Example</a></li>
+</ul>
+</li>
+<li><a href="#org55c2eec">3. Components of the imperative model</a>
+<ul>
+<li><a href="#orgb6dd813">3.1. Value space extended with <code>Void</code></a></li>
+<li><a href="#org7d66f6c">3.2. A model for memory</a></li>
+<li><a href="#org01cd92a">3.3. An updated model of environments</a></li>
+<li><a href="#orge85d85f">3.4. No pointers</a></li>
+<li><a href="#org234f52b">3.5. Memory, like environment is not a value</a></li>
+<li><a href="#org6a8d700">3.6. Identifier vs. Variables</a></li>
+<li><a href="#org81def86">3.7. Imperative program syntax</a></li>
+</ul>
+</li>
+<li><a href="#orgea29efa">4. Evaluating imperative programs</a>
+<ul>
+<li><a href="#orgcb61570">4.1. Basic structure of evaluation</a></li>
+<li><a href="#org78eb257">4.2. The signature of the evaluator</a></li>
+<li><a href="#orgcaf4828">4.3. Memory, like environment is implicit</a></li>
+<li><a href="#orgd9b748d">4.4. Variable lookup</a></li>
+<li><a href="#orge21b2ec">4.5. Assignments modify memory</a></li>
+</ul>
+</li>
+<li><a href="#org8715093">5. Evaluating ASTs for imperative programs</a></li>
+<li><a href="#org3fdcbef">6. Evaluating a <code>set!</code></a></li>
+<li><a href="#org59ef2bb">7. Evaluating a <code>begin</code> expression</a></li>
+<li><a href="#orgb24c834">8. Creating new bindings</a></li>
+<li><a href="#orgb6f5b0a">9. Losing Referential transparency</a>
+<ul>
+<li><a href="#org0b95940">9.1. Example of referential transparency</a></li>
+<li><a href="#org20f7a56">9.2. Referential transparency breaks down</a></li>
+</ul>
+</li>
+<li><a href="#org3fba219">10. Examples of Evaluation</a>
+<ul>
+<li><a href="#org92b0fe5">10.1. <code>begin</code> and <code>set!</code></a></li>
+<li><a href="#org5e1340c">10.2. Application</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3959dd6" class="outline-2">
+<h2 id="org3959dd6"><span class="section-number-2">1</span> The declarative model</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-org38bbbee" class="outline-3">
+<h3 id="org38bbbee"><span class="section-number-3">1.1</span> Value Space</h3>
+<div class="outline-text-3" id="text-1-1">
+<pre class="example">
+Val     ::=   Num | Bool | Sym |
+              Str | Procedure
+Procedure ::= Primitive | Closure
+</pre>
+<p>
+Note that Procedure could either
+be primitive or a closure
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7a91e36" class="outline-3">
+<h3 id="org7a91e36"><span class="section-number-3">1.2</span> Environment Space</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Environments map identifiers
+to values.
+</p>
+
+<pre class="example">
+Env  = Id -&gt; Val
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org9fbf154" class="outline-3">
+<h3 id="org9fbf154"><span class="section-number-3">1.3</span> Evaluator Space</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>Evaluation takes an
+Expression and an Environment.</li>
+
+<li>Evaluation returns a value.</li>
+</ul>
+
+<pre class="example">
+Eval  = [Exp,  Env] -&gt; Val
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-org23d2db2" class="outline-3">
+<h3 id="org23d2db2"><span class="section-number-3">1.4</span> Expression Space (Syntax)</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+The evaluation model discussed
+so far works on a language of
+expressions.  Here is a grammar
+of the language used in our
+model.  
+</p>
+</div>
+
+<div id="outline-container-orgab9f917" class="outline-4">
+<h4 id="orgab9f917"><span class="section-number-4">1.4.1</span> Datum</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<pre class="example">
+&lt;atom&gt;   ::=  &lt;num&gt; | &lt;bool&gt; |
+               &lt;str&gt; | &lt;sym&gt;
+
+&lt;datum&gt; ::= &lt;atom&gt; | 
+            (&lt;datum&gt; ...)
+            (&lt;datum&gt; ... . &lt;datum&gt;)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orge289af8" class="outline-4">
+<h4 id="orge289af8"><span class="section-number-4">1.4.2</span> Literal</h4>
+<div class="outline-text-4" id="text-1-4-2">
+<pre class="example">
+&lt;lit-exp&gt; ::= &lt;num&gt; | &lt;bool&gt;
+              &lt;str&gt; 
+              '&lt;sym&gt; | 
+              '(&lt;datum&gt; ...)
+              #(&lt;datum&gt; ...)
+              '&lt;lit-exp&gt;
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org4d94fa6" class="outline-4">
+<h4 id="org4d94fa6"><span class="section-number-4">1.4.3</span> Expression</h4>
+<div class="outline-text-4" id="text-1-4-3">
+<pre class="example">
+&lt;exp&gt;     ::= &lt;lit-exp&gt; | 
+              &lt;id-exp&gt;
+              &lt;app-exp&gt; | 
+              &lt;fn-exp&gt;  |  
+              &lt;let-exp&gt; | 
+              &lt;letrec-exp&gt; | 
+              &lt;if-exp&gt; | 
+              &lt;cond-exp&gt;
+
+&lt;id-exp&gt;  ::= &lt;sym&gt;  
+; but excluding keywords 
+
+
+&lt;app-exp&gt; ::= (&lt;exp&gt; &lt;exp&gt; ...)
+
+&lt;fn-exp&gt;  ::= (lambda &lt;formals&gt; &lt;exp&gt;)
+&lt;formals&gt; ::= (&lt;id&gt; ...)
+
+&lt;let-exp&gt; ::= (let &lt;binds&gt; &lt;exp&gt;)
+&lt;binds&gt;   ::= (&lt;bind&gt; ...)
+&lt;bind&gt;    ::= (&lt;id&gt; &lt;exp&gt;)
+
+&lt;letrec-exp&gt;
+          ::= (letrec &lt;binds&gt; &lt;exp&gt;)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgeb0fac7" class="outline-4">
+<h4 id="orgeb0fac7"><span class="section-number-4">1.4.4</span> Conditional</h4>
+<div class="outline-text-4" id="text-1-4-4">
+<pre class="example">
+&lt;if-exp&gt;  ::= (if &lt;exp&gt; &lt;exp&gt; &lt;exp&gt;)
+
+&lt;cond-exp&gt; ::= (cond &lt;clause&gt; &lt;clause&gt; ...) | 
+               (cond &lt;clause&gt; ... &lt;else-clause&gt;)
+&lt;clause&gt;   ::= (&lt;exp&gt; &lt;exp&gt;)
+&lt;else-clause&gt; ::= (else &lt;exp&gt;)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org6bcbe7b" class="outline-4">
+<h4 id="org6bcbe7b"><span class="section-number-4">1.4.5</span> Definition</h4>
+<div class="outline-text-4" id="text-1-4-5">
+<pre class="example">
+&lt;defn&gt; ::= (define &lt;id&gt; &lt;exp&gt;)
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org7201862" class="outline-2">
+<h2 id="org7201862"><span class="section-number-2">2</span> Imperative programs</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-orgef5b296" class="outline-3">
+<h3 id="orgef5b296"><span class="section-number-3">2.1</span> Main idea</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Imperative programs work on
+memory, or store. 
+</p>
+
+<p>
+The value in a memory location
+may be modified, or <i>mutated</i> to
+contain a new value.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc34d7ca" class="outline-3">
+<h3 id="orgc34d7ca"><span class="section-number-3">2.2</span> Example</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+Consider the Racket program:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> <span style="font-weight: bold;">x</span> 3)
+(<span style="font-weight: bold;">define</span> <span style="font-weight: bold;">f</span> 
+  (<span style="font-weight: bold;">lambda</span> ()
+    (<span style="font-weight: bold;">begin</span>
+      (set! x 0)
+      5)))
+
+(f) <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">=&gt; 5</span>
+x <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">=&gt; 0</span>
+</pre>
+</div>
+<p>
+When <code>f</code> is invoked, it returns
+<code>5</code>, but it also silently
+changes the contents of the
+memory location to which <code>x</code> is
+bound to contain <code>0</code>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org55c2eec" class="outline-2">
+<h2 id="org55c2eec"><span class="section-number-2">3</span> Components of the imperative model</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Understanding the imperative
+model requires we revisit our
+notion of values, and
+environments, and formalize the
+notion of memory.
+</p>
+</div>
+
+<div id="outline-container-orgb6dd813" class="outline-3">
+<h3 id="orgb6dd813"><span class="section-number-3">3.1</span> Value space extended with <code>Void</code></h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+We extend the notion of values
+to include the type <code>Void</code> .  An
+element of <code>Void</code> can only be
+returned, and at top level there
+is no way to either read it or
+print it.
+</p>
+
+<pre class="example">
+Val := ... | Void
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org7d66f6c" class="outline-3">
+<h3 id="org7d66f6c"><span class="section-number-3">3.2</span> A model for memory</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+A Memory is a map from
+<i>locations</i> to <i>values</i>.
+</p>
+
+<pre class="example">
+Mem = Loc -&gt; Val
+</pre>
+
+<p>
+Locations are also known as
+<i>memory addresses</i>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org01cd92a" class="outline-3">
+<h3 id="org01cd92a"><span class="section-number-3">3.3</span> An updated model of environments</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+Environment is now a map from 
+identifiers to locations.
+</p>
+
+<pre class="example">
+Env = Id -&gt; Loc
+</pre>
+
+<p>
+In other words, the denotations
+of identifiers in imperative
+programs are locations.  
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge85d85f" class="outline-3">
+<h3 id="orge85d85f"><span class="section-number-3">3.4</span> No pointers</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+Locations are <i>not</i> values.
+They refer to addresses where
+values are memd.  It isn't
+possible to have an expression
+return a location.
+</p>
+
+<p>
+Some languages, like C allow
+locations to be values.  In such
+languages, these locations are
+called <i>pointers</i>.
+</p>
+
+<p>
+All the languages we consider in
+this course are both functional
+and imperative, but none of them
+have pointers. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org234f52b" class="outline-3">
+<h3 id="org234f52b"><span class="section-number-3">3.5</span> Memory, like environment is not a value</h3>
+<div class="outline-text-3" id="text-3-5">
+<p>
+Note, like the environment,
+memory is not a value and can
+not be directly accessed. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org6a8d700" class="outline-3">
+<h3 id="org6a8d700"><span class="section-number-3">3.6</span> Identifier vs. Variables</h3>
+<div class="outline-text-3" id="text-3-6">
+<p>
+A <i>variable</i> is an identifier
+whose denotation is a location
+rather than a value.   
+</p>
+</div>
+</div>
+
+<div id="outline-container-org81def86" class="outline-3">
+<h3 id="org81def86"><span class="section-number-3">3.7</span> Imperative program syntax</h3>
+<div class="outline-text-3" id="text-3-7">
+<p>
+We extend the syntax of
+pure functional programs with
+the following productions
+</p>
+
+<pre class="example">
+&lt;exp&gt; ::= 
+          &lt;assign-exp&gt; |
+          &lt;seq-exp&gt;
+
+&lt;assign-exp&gt; ::= (set! &lt;id&gt; &lt;exp&gt;)
+&lt;seq-exp&gt;    ::= (begin &lt;exp&gt; &lt;exp&gt; ...)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgea29efa" class="outline-2">
+<h2 id="orgea29efa"><span class="section-number-2">4</span> Evaluating imperative programs</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-orgcb61570" class="outline-3">
+<h3 id="orgcb61570"><span class="section-number-3">4.1</span> Basic structure of evaluation</h3>
+<div class="outline-text-3" id="text-4-1">
+<ul class="org-ul">
+<li>Evaluating an imperative
+programs also returns a
+value.</li>
+
+<li>But may also side-effect, or
+modify the state.</li>
+
+<li>How do we characterise the
+signature of evaluation in
+the imperative setting?</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org78eb257" class="outline-3">
+<h3 id="org78eb257"><span class="section-number-3">4.2</span> The signature of the evaluator</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+An evaluator takes an
+expression, an environment and a
+memory and returns a value, but
+also a memory (potentially a new
+mapping from locations to
+values.)
+</p>
+
+<pre class="example">
+eval: Exp, Env, Mem -&gt; [Val, Mem]
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgcaf4828" class="outline-3">
+<h3 id="orgcaf4828"><span class="section-number-3">4.3</span> Memory, like environment is implicit</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+Note, like the environment, the
+memory is never explicit.  Like
+an environment, it is not
+returned as a value of any
+expression.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd9b748d" class="outline-3">
+<h3 id="orgd9b748d"><span class="section-number-3">4.4</span> Variable lookup</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+In the imperative model,
+evaluating a variable reference
+occurrence involves the
+following steps:
+</p>
+
+
+<ul class="org-ul">
+<li>Look up the variable in the
+environment.</li>
+
+<li>The lookup results in a  location</li>
+
+<li>Take the location and index
+it into the store.</li>
+</ul>
+
+
+<p>
+Thus, the evaluation of a
+reference occurrence of an
+identifier returns not its
+denotation, a memory location,
+but the <i>contents</i> of that
+memory location.
+</p>
+
+
+<p>
+Compare this with the
+declarative model, where
+evaluating a reference
+occurrence returns its
+denotation, which is a value.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orge21b2ec" class="outline-3">
+<h3 id="orge21b2ec"><span class="section-number-3">4.5</span> Assignments modify memory</h3>
+<div class="outline-text-3" id="text-4-5">
+<p>
+So far, we have only seen how a
+store is employed in evaluating
+a variable's reference
+occurrence.  
+</p>
+
+<p>
+However, a store may be modified
+as well
+</p>
+
+<p>
+This is done by the <i>variable
+assignment</i> construct <code>set!</code>.
+</p>
+
+<p>
+The syntax is shown below:
+</p>
+<pre class="example">
+(set! &lt;id&gt; &lt;exp&gt;)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8715093" class="outline-2">
+<h2 id="org8715093"><span class="section-number-2">5</span> Evaluating ASTs for imperative programs</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>Each vertex takes in an
+environment <i>and</i> a memory.</li>
+
+<li>Expression evaluation returns
+a value <i>and</i> a memory.</li>
+
+<li>Declaration elaboration
+returns an environment (or
+binding) <i>and</i> a memory.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3fdcbef" class="outline-2">
+<h2 id="org3fdcbef"><span class="section-number-2">6</span> Evaluating a <code>set!</code></h2>
+<div class="outline-text-2" id="text-6">
+<p>
+To evaluate <code>(set! &lt;id&gt; &lt;exp&gt;)</code>
+in an <code>r</code> environment and a
+store <code>s</code>, we do the following
+steps:
+</p>
+
+<ul class="org-ul">
+<li>1. Evaluate <code>&lt;exp&gt;</code> in <code>r</code>
+and <code>s</code>.</li>
+
+<li>2. This returns a value <code>v</code>
+and a new store <code>s1</code>.</li>
+
+<li>3. Lookup <code>&lt;id&gt;</code> in <code>r</code> to
+retrieve a location  <code>l</code>.</li>
+
+<li>4. Return a new store <code>s2</code>
+which is identical to <code>s1</code>,
+except that <code>s2</code> maps <code>l</code> to
+<code>v</code>.</li>
+
+<li>5. Return <code>void</code> and the new
+store <code>s2</code>.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org59ef2bb" class="outline-2">
+<h2 id="org59ef2bb"><span class="section-number-2">7</span> Evaluating a <code>begin</code> expression</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+A <code>begin</code> expression is for
+sequencing.   
+</p>
+
+<pre class="example">
+(begin &lt;exp&gt; &lt;exp&gt; ...)
+</pre>
+
+
+<ol class="org-ol">
+<li>Each expression is
+evaluated in order.</li>
+
+<li>Each expression may modify
+the memory.</li>
+
+<li>The value of the <code>begin</code>
+expression is the value
+returned by the last
+subexpression.</li>
+</ol>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="outline-container-orgb24c834" class="outline-2">
+<h2 id="orgb24c834"><span class="section-number-2">8</span> Creating new bindings</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+Creating new binding now
+involves: 
+</p>
+
+<ol class="org-ol">
+<li>extending the memory with a
+new location  <code>l</code></li>
+
+<li>Binding an identifier <code>x</code> to
+the new location <code>l</code>.</li>
+
+<li>Populating <code>l</code> with the value <code>v</code>.</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgb6f5b0a" class="outline-2">
+<h2 id="orgb6f5b0a"><span class="section-number-2">9</span> Losing Referential transparency</h2>
+<div class="outline-text-2" id="text-9">
+<p>
+Pure functional programs have
+the advantage of <i>referential
+transparency</i>.  Once you know
+the binding of an identifier,
+you can <i>replace</i> the reference
+occurrence of an identifier with
+its value of its binding
+occurrence.
+</p>
+</div>
+
+<div id="outline-container-org0b95940" class="outline-3">
+<h3 id="org0b95940"><span class="section-number-3">9.1</span> Example of referential transparency</h3>
+<div class="outline-text-3" id="text-9-1">
+<pre class="example">
+(let ([y 5])
+  y)
+ =   
+
+; substituting y with 5
+
+(let ([y 5])
+  5) = 
+
+5
+</pre>
+
+<p>
+This is extremely useful to
+debug programs, because we can
+now execute programs by
+simplifying them (as we have
+done so far).
+</p>
+</div>
+</div>
+
+
+
+<div id="outline-container-org20f7a56" class="outline-3">
+<h3 id="org20f7a56"><span class="section-number-3">9.2</span> Referential transparency breaks down</h3>
+<div class="outline-text-3" id="text-9-2">
+<pre class="example">
+(let ([y 5])
+  (begin 
+    (set! y 0)
+    y))   =
+
+(let ([y 5])
+  (begin 
+    (set! y 0)
+    5)) =
+
+5
+</pre>
+
+<p>
+However, when we run the 
+program, we get the answer 0.
+This mismatch is because we can
+no longer substitute an
+identifier with its bind
+expression. 
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3fba219" class="outline-2">
+<h2 id="org3fba219"><span class="section-number-2">10</span> Examples of Evaluation</h2>
+<div class="outline-text-2" id="text-10">
+<p>
+Examples of AST evaluation in
+</p>
+</div>
+
+
+<div id="outline-container-org92b0fe5" class="outline-3">
+<h3 id="org92b0fe5"><span class="section-number-3">10.1</span> <code>begin</code> and <code>set!</code></h3>
+<div class="outline-text-3" id="text-10-1">
+<p>
+AST annotation of the expression
+<code>(begin (set! x 0) x)</code> evaluated
+with <code>G = {x:l_1}</code> and <code>s_0 =
+{l_1: 5}</code> is shown below:
+</p>
+
+
+<div id="orgf1aafff" class="figure">
+<p><img src="./figs/begin-cropped.png" alt="begin-cropped.png" width="80%" />
+</p>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-org5e1340c" class="outline-3">
+<h3 id="org5e1340c"><span class="section-number-3">10.2</span> Application</h3>
+<div class="outline-text-3" id="text-10-2">
+<p>
+AST annotation of the expression
+</p>
+<pre class="example">
+((lambda (x) (begin (set! x 0) x)) 5)
+</pre>
+
+<p>
+is shown below.  Notice the new
+locations during creation of the
+environment \(alpha\).
+</p>
+
+
+<div id="org8c8b3a8" class="figure">
+<p><img src="./figs/application.png" alt="application.png" width="80%" />
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: VLEAD</p>
+<p class="date">Created: 2017-04-27 Thu 03:32</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

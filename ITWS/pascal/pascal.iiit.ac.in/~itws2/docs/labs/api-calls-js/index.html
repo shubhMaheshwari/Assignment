@@ -1,0 +1,887 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-04-27 Thu 03:32 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Making API calls in Javascript</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="VLEAD" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="../../style/css/worg-style.css" />
+<link rel="stylesheet" type="text/css" href="../../style/css/override.css" />
+<link rel="icon" type="image/png" href="../../style/img/favicon/popl.png" />
+<script type="text/javascript" src="../../style/js/org-info.js">
+/**
+ *
+ * @source: ../../style/js/org-info.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in ../../style/js/org-info.js.
+ *
+ * Copyright (C) 2012-2013 Free Software Foundation, Inc.
+ *
+ *
+ * The JavaScript code in this tag is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in ../../style/js/org-info.js.
+ *
+ */
+</script>
+
+<script type="text/javascript">
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "1");
+org_html_manager.set("LINK_HOME", "../../index.html");
+org_html_manager.set("LINK_UP", "../index.html");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="../../index.html"> HOME </a>
+</div><div id="content">
+<h1 class="title">Making API calls in Javascript</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org89209c7">1. Objective of Lab</a>
+<ul>
+<li><a href="#org81e8c65">1.1. HTML forms</a></li>
+<li><a href="#org075f5d5">1.2. XMLHttpRequest</a></li>
+<li><a href="#orga8de38e">1.3. jQuery and jQuery.ajax</a></li>
+<li><a href="#org2d626f6">1.4. Introduction to Promises</a></li>
+<li><a href="#org6f08b68">1.5. <code>window.fetch</code> (Optional) (For the curious)</a></li>
+</ul>
+</li>
+<li><a href="#org1cb6242">2. Instructions</a>
+<ul>
+<li><a href="#orgd5af4f4">2.1. Problem specific file names for your lab solutions</a></li>
+<li><a href="#org1fdbc05">2.2. Directory Structure</a></li>
+</ul>
+</li>
+<li><a href="#org5c23bca">3. Problems</a>
+<ul>
+<li><a href="#org86ffaf3">3.1. View your profile</a></li>
+<li><a href="#orgce6a89f">3.2. View everyone's profile</a></li>
+</ul>
+</li>
+<li><a href="#org61029df">4. References</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org89209c7" class="outline-2">
+<h2 id="org89209c7"><span class="section-number-2">1</span> Objective of Lab</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+In this lab we'll learn about various ways of how to send 
+and get data from server.
+</p>
+</div>
+
+<div id="outline-container-org81e8c65" class="outline-3">
+<h3 id="org81e8c65"><span class="section-number-3">1.1</span> HTML forms</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>First we'll learn about HTML Forms. HTML forms can be
+used to send data to server. Server can process the
+data, store it or do whatever intended.</li>
+<li>Using forms, data is sent to the server using key 
+value pairs. The key is defined by <code>name</code> attribute
+of the <code>&lt;input&gt;</code>, <code>&lt;select&gt;</code> or <code>&lt;textarea&gt;</code> elements.
+These elements are various ways of getting data from
+the user and when put inside a form, can be used to
+send it to server.</li>
+<li>Let's see how it actually works. Create a form with 
+some <code>&lt;input&gt;</code> elements and put the value of <code>action</code>
+attribute to 
+<code>https://web.iiit.ac.in/~harshit.harchani/itws2/echo/</code>
+and submit the form (You need to add a submit button as well).</li>
+<li>There is something called <b>HTTP method</b>, which can be
+thought of as two difference ways of sending the data
+to the server. You can specify method attribute on form 
+for changing the method of the request. By default,
+browser uses GET method to send the data. Notice the
+difference between the two (by using them). Generally
+speaking, GET is used when we just have to get some
+data on the server, without changing the state of the
+server. Whereas, we use POST when there is going to be
+some change in the state of server (for example, a user
+getting created, or any field in database getting
+updated).</li>
+<li>Let's try to use this for something. Create a new form 
+which send some value named <code>str</code> and submit it to
+<code>https://web.iiit.ac.in/~harshit.harchani/itws2/reverse/</code>
+and see what you get.</li>
+<li>Now you should try doing the first problem.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org075f5d5" class="outline-3">
+<h3 id="org075f5d5"><span class="section-number-3">1.2</span> XMLHttpRequest</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>Notice submitting the form takes us to a new page,
+resulting in changing of page (or reloading the page).
+But lets say we do not want to do that. We want to
+send some data to the server and get the response and 
+display on the page, without refreshing or changing
+the page.</li>
+<li>We can accomplish this using Javascript.</li>
+<li>Let's create an input box and get it's input reversed
+by sending it to the previously mentioned URL, i.e.
+<code>https://web.iiit.ac.in/~harshit.harchani/itws2/reverse/</code></li>
+<li>You would have created a form very similar to this above.</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-html">  &lt;<span style="font-weight: bold;">form</span> <span style="font-weight: bold; font-style: italic;">method</span>=<span style="font-style: italic;">"POST"</span> <span style="font-weight: bold; font-style: italic;">action</span>=<span style="font-style: italic;">"https://web.iiit.ac.in/~harshit.harchani/itws2/reverse/"</span>&gt;
+    &lt;<span style="font-weight: bold;">input</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text"</span> <span style="font-weight: bold; font-style: italic;">name</span>=<span style="font-style: italic;">"str"</span>&gt;
+    &lt;<span style="font-weight: bold;">input</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"submit"</span> <span style="font-weight: bold; font-style: italic;">value</span>=<span style="font-style: italic;">"Reverse"</span>&gt;
+  &lt;/<span style="font-weight: bold;">form</span>&gt;
+</pre>
+</div>
+<ul class="org-ul">
+<li>Let us change this form to  do the task of reversing our
+string at server side without refreshing or changing page.</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-html">  &lt;<span style="font-weight: bold;">form</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"myform"</span> <span style="font-weight: bold; font-style: italic;">onsubmit</span>=<span style="font-style: italic;">"return false"</span>&gt;
+    &lt;<span style="font-weight: bold;">input</span> <span style="font-weight: bold; font-style: italic;">name</span>=<span style="font-style: italic;">"str"</span>&gt;
+    &lt;<span style="font-weight: bold;">input</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"button"</span> <span style="font-weight: bold; font-style: italic;">onclick</span>=<span style="font-style: italic;">"reverse()"</span> <span style="font-weight: bold; font-style: italic;">value</span>=<span style="font-style: italic;">"Reverse"</span>&gt;
+    &lt;<span style="font-weight: bold;">p</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"reversed-str"</span>&gt;&lt;/<span style="font-weight: bold;">p</span>&gt;
+  &lt;/<span style="font-weight: bold;">form</span>&gt;
+  &lt;<span style="font-weight: bold;">script</span>&gt;
+  function reverse() {
+          var xhr = new XMLHttpRequest();
+          xhr.open(
+                  'POST', 
+                  'https://web.iiit.ac.in/~harshit.harchani/itws2/reverse/'
+          );
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 &amp;&amp; xhr.status == 200) {
+                  document.getElementById('reversed-str').innerHTML = xhr.responseText;
+            }
+          }
+          xhr.send(new FormData(document.getElementById('myform')));
+  }
+  &lt;/<span style="font-weight: bold;">script</span>&gt;
+</pre>
+</div>
+<ul class="org-ul">
+<li>So we are able to now send some data to server, and get
+some response back and show it on the page, without
+refreshing the whole page.</li>
+<li>But don't you think this API of doing this task is a little
+bit messy? (<code>xhr.readystate == 4 &amp;&amp; xhr.status == 200</code>)</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orga8de38e" class="outline-3">
+<h3 id="orga8de38e"><span class="section-number-3">1.3</span> jQuery and jQuery.ajax</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+jQuery is the most popular javascript library of all the times.
+It gives very convinient API for DOM traversal, DOM manipulations,
+event handling, animation and Ajax which works across all browsers.
+(There are many a times browser incompatibilites).
+</p>
+
+<ul class="org-ul">
+<li>When we include jQuery script in our page, we get a global
+jQuery and <code>$</code> variable defined. Both are the same thing.
+Since we use jQuery alot, so instead of writing 
+<code>jQuery.doSomething()</code> we write <code>$.doSomething()</code>.</li>
+<li><code>jQuery</code> or <code>$</code> itself is a function. Calling it with
+suitable arguments returns a jQuery element, which is
+a wrapper around DOM elements. For example, <code>$('#my-elem')</code>
+will be a jQuery element, wrapped around a DOM element with 
+<code>my-elem</code> as its ID. (Remember, how to style an element if
+you know its ID?)</li>
+<li>So we pass a CSS selector to <code>$</code> and we get jQuery element(s)
+back, using which we can manipulate the DOM element. Let's
+see jQuery's syntax with examples.</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-js">  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">onClick</span> = <span style="font-weight: bold;">function</span> () {};
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">x</span> = 100;
+
+  <span style="font-weight: bold; font-style: italic;">/**</span>
+<span style="font-weight: bold; font-style: italic;">   * Using vanilla JS</span>
+<span style="font-weight: bold; font-style: italic;">   */</span>
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">el</span> = document.getElementById(<span style="font-style: italic;">'my-elem'</span>); <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">Getting the element from DOM</span>
+  console.log(el.innerHTML); <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">Getting the innerHTML</span>
+  el.innerHTML = <span style="font-style: italic;">"&lt;h2&gt;Some new content&lt;/h2&gt;"</span>; <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">Setting html</span>
+  el.style.backgroundColor = <span style="font-style: italic;">'#f3a342'</span>; <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">Setting css property</span>
+  el.style.marginLeft = x + <span style="font-style: italic;">'px'</span>;
+  el.setAttribute(<span style="font-style: italic;">'required'</span>, <span style="font-style: italic;">'required'</span>); <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">Setting an attribute</span>
+  el.addEventListener(<span style="font-style: italic;">'click'</span>, onClick); <span style="font-weight: bold; font-style: italic;">//</span><span style="font-weight: bold; font-style: italic;">Adding event listener</span>
+
+  <span style="font-weight: bold; font-style: italic;">/**</span>
+<span style="font-weight: bold; font-style: italic;">   * Using jQuery</span>
+<span style="font-weight: bold; font-style: italic;">   */</span>
+
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">$el</span> = $(<span style="font-style: italic;">'#my-elem'</span>); <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">Getting the element from DOM</span>
+  console.log( $el.html() ); <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">Getting HTML</span>
+  $el.html(<span style="font-style: italic;">"&lt;h2&gt;Some new content&lt;/h2&gt;"</span>); <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">Setting HTML</span>
+  $el.css(<span style="font-style: italic;">'background-color'</span>, <span style="font-style: italic;">'#f3a342'</span>);
+  <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">OR</span>
+  $el.css({
+      <span style="font-style: italic;">'background-color'</span>: <span style="font-style: italic;">'#f3a342'</span>,
+      <span style="font-style: italic;">'color'</span>: <span style="font-style: italic;">'#02ab54'</span>,
+      <span style="font-style: italic;">'margin-left'</span>: x <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">No need of (x+ 'px'). If no unit given, default px is taken</span>
+  });
+
+  $el.attr(<span style="font-style: italic;">'required'</span>, <span style="font-style: italic;">'required'</span>); <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">Setting an attribute.</span>
+
+  $el.on(<span style="font-style: italic;">'click'</span>, onClick); <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">Adding event listener</span>
+
+  <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">All of the methods could also be chained.</span>
+
+  $(<span style="font-style: italic;">'#my-elem'</span>)
+      .html(<span style="font-style: italic;">"&lt;h2&gt;Some new content&lt;/h2&gt;"</span>)
+      .css({
+          <span style="font-style: italic;">'background-color'</span>: <span style="font-style: italic;">'#f3a342'</span>,
+          <span style="font-style: italic;">'color'</span>: <span style="font-style: italic;">'#02ab54'</span>,
+          <span style="font-style: italic;">'margin-left'</span>: x,
+      })
+      .attr(<span style="font-style: italic;">'required'</span>, <span style="font-style: italic;">'required'</span>)
+      .on(<span style="font-style: italic;">'click'</span>, onClick);
+</pre>
+</div>
+<ul class="org-ul">
+<li>Let us now look at the ajax API provided by jQuery.
+Below written code does the exact same thing as the 
+previously written code, which reversed the string by
+sending it to server.</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-html">  &lt;<span style="font-weight: bold;">input</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"str"</span>&gt;
+  &lt;<span style="font-weight: bold;">input</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"button"</span> <span style="font-weight: bold; font-style: italic;">class</span>=<span style="font-style: italic;">"my-button"</span> <span style="font-weight: bold; font-style: italic;">value</span>=<span style="font-style: italic;">"Reverse"</span>&gt;
+  &lt;<span style="font-weight: bold;">p</span>&gt;&lt;/<span style="font-weight: bold;">p</span>&gt;
+  &lt;<span style="font-weight: bold;">script</span> <span style="font-weight: bold; font-style: italic;">src</span>=<span style="font-style: italic;">"https://web.iiit.ac.in/~harshit.harchani/jquery.js"</span>&gt;&lt;/<span style="font-weight: bold;">script</span>&gt;
+  &lt;<span style="font-weight: bold;">script</span>&gt;
+    $(document).ready(function() {
+      $('.my-button').on('click', function () {
+        $.ajax({
+          url: 'https://web.iiit.ac.in/~harshit.harchani/itws2/reverse/',
+          method: 'POST',
+          data: {
+            str: $('#str').val(),
+          },
+          success: function (response) {
+            $('p').text( response );
+          },
+       });
+      });
+    });
+  &lt;/<span style="font-weight: bold;">script</span>&gt;
+</pre>
+</div>
+<ul class="org-ul">
+<li><code>$.get</code> and <code>$.post</code> are short hand for <code>$.ajax({method: 'GET',...})</code>
+and <code>$.ajax({method: 'POST',...})</code> respectively.</li>
+<li>Try entering <code>&gt;2h/&lt;iH&gt;2h&lt;</code> in this and in the previous forms.</li>
+<li>Now you should solve the second problem.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org2d626f6" class="outline-3">
+<h3 id="org2d626f6"><span class="section-number-3">1.4</span> Introduction to Promises</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>What are promises?</li>
+<li>Return value of <code>$.ajax</code></li>
+<li>Why promises?</li>
+<li>How does it reduce callback hell?</li>
+</ul>
+<div class="org-src-container">
+<pre class="src src-js">  <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">Ajax with callbacks</span>
+  jQuery
+      .get(<span style="font-style: italic;">'https://web.iiit.ac.in/~harshit.harchani/itws2/reverse/?str=abcde'</span>, <span style="font-weight: bold;">function</span> (<span style="font-weight: bold; font-style: italic;">res</span>) {
+          console.log(<span style="font-style: italic;">"Reverse of abcde is"</span>, res);
+          jQuery.get(<span style="font-style: italic;">'https://web.iiit.ac.in/~harshit.harchani/itws2/reverse/?str=12345'</span>, <span style="font-weight: bold;">function</span> (<span style="font-weight: bold; font-style: italic;">res</span>) {
+              console.log(<span style="font-style: italic;">"Reverse of 12345 is"</span>, res);
+              jQuery.get(<span style="font-style: italic;">'https://web.iiit.ac.in/~harshit.harchani/itws2/reverse/?str=!@#$%'</span>, <span style="font-weight: bold;">function</span> (<span style="font-weight: bold; font-style: italic;">res</span>) {
+                  console.log(<span style="font-style: italic;">"Reverse of !@#$% is"</span>, res);
+                  jQuery.get(<span style="font-style: italic;">'https://web.iiit.ac.in/~harshit.harchani/itws2/reverse/?str=vwxyz'</span>, <span style="font-weight: bold;">function</span> (<span style="font-weight: bold; font-style: italic;">res</span>) {
+                      console.log(<span style="font-style: italic;">"Reverse of vwxyz is"</span>, res);
+                  })
+              })
+          })
+      });
+
+  <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">Ajax with promises.</span>
+  jQuery
+      .get(<span style="font-style: italic;">'https://web.iiit.ac.in/~harshit.harchani/itws2/reverse/?str=abcde'</span>)
+      .then(<span style="font-weight: bold;">function</span> (<span style="font-weight: bold; font-style: italic;">res</span>) {
+          console.log(<span style="font-style: italic;">"Reverse of abcde is"</span>, res);
+          <span style="font-weight: bold;">return</span> jQuery.get(<span style="font-style: italic;">'https://web.iiit.ac.in/~harshit.harchani/itws2/reverse/?str=12345'</span>);
+      })
+      .then(<span style="font-weight: bold;">function</span> (<span style="font-weight: bold; font-style: italic;">res</span>) {
+          console.log(<span style="font-style: italic;">"Reverse of 12345 is"</span>, res);
+          <span style="font-weight: bold;">return</span> jQuery.get(<span style="font-style: italic;">'https://web.iiit.ac.in/~harshit.harchani/itws2/reverse/?str=!@#$%'</span>);
+      })
+      .then(<span style="font-weight: bold;">function</span> (<span style="font-weight: bold; font-style: italic;">res</span>) {
+          console.log(<span style="font-style: italic;">"Reverse of !@#$% is"</span>, res);
+          <span style="font-weight: bold;">return</span> jQuery.get(<span style="font-style: italic;">'https://web.iiit.ac.in/~harshit.harchani/itws2/reverse/?str=vwxyz'</span>);
+      })
+      .then(<span style="font-weight: bold;">function</span> (<span style="font-weight: bold; font-style: italic;">res</span>) {
+          console.log(<span style="font-style: italic;">"Reverse of vwxyz is"</span>, res);
+      });
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6f08b68" class="outline-3">
+<h3 id="org6f08b68"><span class="section-number-3">1.5</span> <code>window.fetch</code> (Optional) (For the curious)</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+It is the new API based for doing AJAX request provided
+by the browsers. It is based on promises. You can
+read more about it online. Just search for it and try
+using it.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org1cb6242" class="outline-2">
+<h2 id="org1cb6242"><span class="section-number-2">2</span> Instructions</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-orgd5af4f4" class="outline-3">
+<h3 id="orgd5af4f4"><span class="section-number-3">2.1</span> Problem specific file names for your lab solutions</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+There are 2 problems in this lab.  Please
+write out and save the solutions for each part in the
+following files:
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">Problem</th>
+<th scope="col" class="org-left">File Name</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+</tr>
+
+<tr>
+<th scope="col" class="org-right">part</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+<th scope="col" class="org-left">&#xa0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">1.</td>
+<td class="org-left"><code>view-your-profile.org</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-right">2.</td>
+<td class="org-left"><code>view-everyones-profile.org</code></td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+<ul class="org-ul">
+<li><code>view-your-profile.org</code> when tangled should generate 
+<code>view-your-profile.html</code>.</li>
+<li><code>view-everyones-profile.org</code> when tangled should generate
+2 files namely <code>view-everyones-profile.html</code> (source of
+which is already provided) and <code>view-everyones-profile.js</code>.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org1fdbc05" class="outline-3">
+<h3 id="org1fdbc05"><span class="section-number-3">2.2</span> Directory Structure</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+In your Gitlab directory, you <b>must</b> follow the directory structure as below:
+</p>
+
+<pre class="example">
+     -------------------------
+     &lt;roll-no&gt;
+     |
+     `----src
+          |
+          |
+          `--- labs
+               |
+               |
+               `--- lab-6
+                    |--- view-your-profile.org
+                    `--- view-everyones-profile.org
+     ------------------------
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org5c23bca" class="outline-2">
+<h2 id="org5c23bca"><span class="section-number-2">3</span> Problems</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-org86ffaf3" class="outline-3">
+<h3 id="org86ffaf3"><span class="section-number-3">3.1</span> View your profile</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Create a form which sends the required parameters to 
+<code>https://web.iiit.ac.in/~harshit.harchani/itws2/profile/</code>
+Open the link (cleverly) to see the required parameters.
+(Hint: You will have to set <code>enctype</code> attribute of the form
+to <code>"multipart/form-data"</code> in order to send a file.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgce6a89f" class="outline-3">
+<h3 id="orgce6a89f"><span class="section-number-3">3.2</span> View everyone's profile</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+There is a list of few people at this URL:
+<code>https://web.iiit.ac.in/~harshit.harchani/itws2/profiles/</code>.
+Each item in the list contains the name of the person and
+the link to its full profile.
+Your task is to render a list of all the people. On clicking
+a particular person's name, fetch its full profile and display
+it on the right. Use the below provided HTML.
+</p>
+<div class="org-src-container">
+<pre class="src src-html">  &lt;<span style="font-weight: bold;">!DOCTYPE</span> html&gt;
+  &lt;<span style="font-weight: bold;">html</span>&gt;
+    &lt;<span style="font-weight: bold;">head</span>&gt;
+      &lt;<span style="font-weight: bold;">title</span>&gt;<span style="font-weight: bold; text-decoration: underline;">View everyone's profile</span>&lt;/<span style="font-weight: bold;">title</span>&gt;
+      &lt;<span style="font-weight: bold;">meta</span> <span style="font-weight: bold; font-style: italic;">charset</span>=<span style="font-style: italic;">"utf-8"</span>&gt;
+      &lt;<span style="font-weight: bold;">style</span>&gt;
+  * {
+    box-sizing: border-box;
+    margin: 0;
+  }
+
+  body {
+    font-family: <span style="font-style: italic;">"Helvetica Neue"</span>, Helvetica, Arial, sans-serif;
+    color: #333;
+  }
+
+  html,
+  body,
+  .row {
+    height: 100%;
+    width: 100%;
+  }
+
+  .row {
+    padding-top: 1em;
+  }
+
+  .row:before,
+  .row:after {
+    display: table;
+    content: <span style="font-style: italic;">" "</span>;
+  }
+
+  .row:after {
+    clear: both;
+  }
+
+  .list,
+  .profile {
+    float: left;
+  }
+
+  .list {
+    width: 40%;
+  }
+
+  .profile {
+    width: 60%;
+    position: fixed;
+    right: 0;
+    text-align: center;
+  }
+
+  .profile img {
+    max-height: 100px;
+    border-radius: 50px;
+  }
+
+  .profile div p:first-child {
+    font-size:  .8em;
+    border-top: 1px solid #ddd;
+  }
+      &lt;/<span style="font-weight: bold;">style</span>&gt;
+    &lt;/<span style="font-weight: bold;">head</span>&gt;
+    &lt;<span style="font-weight: bold;">body</span>&gt;
+      &lt;<span style="font-weight: bold;">div</span> <span style="font-weight: bold; font-style: italic;">class</span>=<span style="font-style: italic;">"row"</span>&gt;
+        &lt;<span style="font-weight: bold;">div</span> <span style="font-weight: bold; font-style: italic;">class</span>=<span style="font-style: italic;">"list"</span>&gt;
+          &lt;<span style="font-weight: bold;">ul</span>&gt;
+            &lt;<span style="font-weight: bold;">li</span>&gt;&lt;<span style="font-weight: bold;">a</span> <span style="font-weight: bold; font-style: italic;">href</span>=<span style="font-style: italic;">"#"</span>&gt;Aayush Naik&lt;/<span style="font-weight: bold;">a</span>&gt;&lt;/<span style="font-weight: bold;">li</span>&gt;
+            &lt;<span style="font-weight: bold;">li</span>&gt;&lt;<span style="font-weight: bold;">a</span> <span style="font-weight: bold; font-style: italic;">href</span>=<span style="font-style: italic;">"#"</span>&gt;Aditya Baskar&lt;/<span style="font-weight: bold;">a</span>&gt;&lt;/<span style="font-weight: bold;">li</span>&gt;
+            &lt;<span style="font-weight: bold;">li</span>&gt;&lt;<span style="font-weight: bold;">a</span> <span style="font-weight: bold; font-style: italic;">href</span>=<span style="font-style: italic;">"#"</span>&gt;Ayush Mishra&lt;/<span style="font-weight: bold;">a</span>&gt;&lt;/<span style="font-weight: bold;">li</span>&gt;
+            &lt;<span style="font-weight: bold;">li</span>&gt;&lt;<span style="font-weight: bold;">a</span> <span style="font-weight: bold; font-style: italic;">href</span>=<span style="font-style: italic;">"#"</span>&gt;Eshita Jayaswal&lt;/<span style="font-weight: bold;">a</span>&gt;&lt;/<span style="font-weight: bold;">li</span>&gt;
+            &lt;<span style="font-weight: bold;">li</span>&gt;&lt;<span style="font-weight: bold;">a</span> <span style="font-weight: bold; font-style: italic;">href</span>=<span style="font-style: italic;">"#"</span>&gt;Harshit Harchani&lt;/<span style="font-weight: bold;">a</span>&gt;&lt;/<span style="font-weight: bold;">li</span>&gt;
+            &lt;<span style="font-weight: bold;">li</span>&gt;&lt;<span style="font-weight: bold;">a</span> <span style="font-weight: bold; font-style: italic;">href</span>=<span style="font-style: italic;">"#"</span>&gt;Ishaan Arora&lt;/<span style="font-weight: bold;">a</span>&gt;&lt;/<span style="font-weight: bold;">li</span>&gt;
+            &lt;<span style="font-weight: bold;">li</span>&gt;&lt;<span style="font-weight: bold;">a</span> <span style="font-weight: bold; font-style: italic;">href</span>=<span style="font-style: italic;">"#"</span>&gt;Jerin Philip&lt;/<span style="font-weight: bold;">a</span>&gt;&lt;/<span style="font-weight: bold;">li</span>&gt;
+            &lt;<span style="font-weight: bold;">li</span>&gt;&lt;<span style="font-weight: bold;">a</span> <span style="font-weight: bold; font-style: italic;">href</span>=<span style="font-style: italic;">"#"</span>&gt;Nazrul Haque&lt;/<span style="font-weight: bold;">a</span>&gt;&lt;/<span style="font-weight: bold;">li</span>&gt;
+            &lt;<span style="font-weight: bold;">li</span>&gt;&lt;<span style="font-weight: bold;">a</span> <span style="font-weight: bold; font-style: italic;">href</span>=<span style="font-style: italic;">"#"</span>&gt;Raj Patel&lt;/<span style="font-weight: bold;">a</span>&gt;&lt;/<span style="font-weight: bold;">li</span>&gt;
+            &lt;<span style="font-weight: bold;">li</span>&gt;&lt;<span style="font-weight: bold;">a</span> <span style="font-weight: bold; font-style: italic;">href</span>=<span style="font-style: italic;">"#"</span>&gt;Sahiti Chedalavada&lt;/<span style="font-weight: bold;">a</span>&gt;&lt;/<span style="font-weight: bold;">li</span>&gt;
+            &lt;<span style="font-weight: bold;">li</span>&gt;&lt;<span style="font-weight: bold;">a</span> <span style="font-weight: bold; font-style: italic;">href</span>=<span style="font-style: italic;">"#"</span>&gt;Sambuddha Basu&lt;/<span style="font-weight: bold;">a</span>&gt;&lt;/<span style="font-weight: bold;">li</span>&gt;
+            &lt;<span style="font-weight: bold;">li</span>&gt;&lt;<span style="font-weight: bold;">a</span> <span style="font-weight: bold; font-style: italic;">href</span>=<span style="font-style: italic;">"#"</span>&gt;Saraswati Soumya&lt;/<span style="font-weight: bold;">a</span>&gt;&lt;/<span style="font-weight: bold;">li</span>&gt;
+            &lt;<span style="font-weight: bold;">li</span>&gt;&lt;<span style="font-weight: bold;">a</span> <span style="font-weight: bold; font-style: italic;">href</span>=<span style="font-style: italic;">"#"</span>&gt;Siddhant Shrivastava&lt;/<span style="font-weight: bold;">a</span>&gt;&lt;/<span style="font-weight: bold;">li</span>&gt;
+            &lt;<span style="font-weight: bold;">li</span>&gt;&lt;<span style="font-weight: bold;">a</span> <span style="font-weight: bold; font-style: italic;">href</span>=<span style="font-style: italic;">"#"</span>&gt;Siddharth Bhat&lt;/<span style="font-weight: bold;">a</span>&gt;&lt;/<span style="font-weight: bold;">li</span>&gt;
+            &lt;<span style="font-weight: bold;">li</span>&gt;&lt;<span style="font-weight: bold;">a</span> <span style="font-weight: bold; font-style: italic;">href</span>=<span style="font-style: italic;">"#"</span>&gt;Vishal Kaja&lt;/<span style="font-weight: bold;">a</span>&gt;&lt;/<span style="font-weight: bold;">li</span>&gt;
+          &lt;/<span style="font-weight: bold;">ul</span>&gt;
+        &lt;/<span style="font-weight: bold;">div</span>&gt;
+        &lt;<span style="font-weight: bold;">div</span> <span style="font-weight: bold; font-style: italic;">class</span>=<span style="font-style: italic;">"profile"</span>&gt;
+          &lt;<span style="font-weight: bold;">img</span> <span style="font-weight: bold; font-style: italic;">src</span>=<span style="font-style: italic;">"https://unsplash.it/300/400?image=6"</span>&gt;
+          &lt;<span style="font-weight: bold;">h2</span>&gt;<span style="font-weight: bold; font-style: italic; text-decoration: underline;">Harshit Harchani</span>&lt;/<span style="font-weight: bold;">h2</span>&gt;
+          &lt;<span style="font-weight: bold;">div</span>&gt;
+            &lt;<span style="font-weight: bold;">p</span>&gt;
+              Works at
+            &lt;/<span style="font-weight: bold;">p</span>&gt;
+            &lt;<span style="font-weight: bold;">p</span>&gt;
+              IIIT Hyderabad
+            &lt;/<span style="font-weight: bold;">p</span>&gt;
+          &lt;/<span style="font-weight: bold;">div</span>&gt;
+          &lt;<span style="font-weight: bold;">div</span>&gt;
+            &lt;<span style="font-weight: bold;">p</span>&gt;
+              Lives at
+            &lt;/<span style="font-weight: bold;">p</span>&gt;
+            &lt;<span style="font-weight: bold;">p</span>&gt;
+              Gachibowli, Hyderabad
+            &lt;/<span style="font-weight: bold;">p</span>&gt;
+          &lt;/<span style="font-weight: bold;">div</span>&gt;
+          &lt;<span style="font-weight: bold;">div</span>&gt;
+            &lt;<span style="font-weight: bold;">p</span>&gt;
+              Contact
+            &lt;/<span style="font-weight: bold;">p</span>&gt;
+            &lt;<span style="font-weight: bold;">p</span>&gt;
+              040-65771122
+            &lt;/<span style="font-weight: bold;">p</span>&gt;
+          &lt;/<span style="font-weight: bold;">div</span>&gt;
+        &lt;/<span style="font-weight: bold;">div</span>&gt;
+      &lt;/<span style="font-weight: bold;">div</span>&gt;
+      &lt;<span style="font-weight: bold;">script</span> <span style="font-weight: bold; font-style: italic;">src</span>=<span style="font-style: italic;">"https://web.iiit.ac.in/~harshit.harchani/jquery.js"</span>&gt;&lt;/<span style="font-weight: bold;">script</span>&gt;
+      &lt;<span style="font-weight: bold;">script</span> <span style="font-weight: bold; font-style: italic;">src</span>=<span style="font-style: italic;">"view-everyones-profile.js"</span>&gt;&lt;/<span style="font-weight: bold;">script</span>&gt;
+    &lt;/<span style="font-weight: bold;">body</span>&gt;
+  &lt;/<span style="font-weight: bold;">html</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org61029df" class="outline-2">
+<h2 id="org61029df"><span class="section-number-2">4</span> References</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li><a href="http://www.w3schools.com/">http://www.w3schools.com/</a> (Only for beginners, stricly)</li>
+<li><a href="https://developer.mozilla.org/en-US/">https://developer.mozilla.org/en-US/</a></li>
+<li><a href="https://jquery.com/">https://jquery.com/</a></li>
+<li><a href="https://classroom.udacity.com/courses/ud897">https://classroom.udacity.com/courses/ud897</a></li>
+<li><a href="https://classroom.udacity.com/courses/ud989">https://classroom.udacity.com/courses/ud989</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: VLEAD</p>
+<p class="date">Created: 2017-04-27 Thu 03:32</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

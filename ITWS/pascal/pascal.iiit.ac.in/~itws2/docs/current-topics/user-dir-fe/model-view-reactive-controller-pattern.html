@@ -1,0 +1,1533 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-04-27 Thu 03:32 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Model View Controller Pattern where Controller is Reactive</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="VLEAD" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="../../style/css/worg-style.css" />
+<link rel="stylesheet" type="text/css" href="../../style/css/override.css" />
+<link rel="icon" type="image/png" href="../../style/img/favicon/popl.png" />
+<script type="text/javascript" src="../../style/js/org-info.js">
+/**
+ *
+ * @source: ../../style/js/org-info.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in ../../style/js/org-info.js.
+ *
+ * Copyright (C) 2012-2013 Free Software Foundation, Inc.
+ *
+ *
+ * The JavaScript code in this tag is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in ../../style/js/org-info.js.
+ *
+ */
+</script>
+
+<script type="text/javascript">
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "1");
+org_html_manager.set("LINK_HOME", "../../index.html");
+org_html_manager.set("LINK_UP", "../index.html");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="../../index.html"> HOME </a>
+</div><div id="content">
+<h1 class="title">Model View Controller Pattern where Controller is Reactive</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orged95415">1. Objective</a></li>
+<li><a href="#orgf04b39c">2. Routes (DFA locations)</a>
+<ul>
+<li><a href="#org9a91561">2.1. Transition Graph</a></li>
+</ul>
+</li>
+<li><a href="#org9be5649">3. Templates</a>
+<ul>
+<li><a href="#org1481ab6">3.1. get_all_users</a>
+<ul>
+<li><a href="#orgdf39ae8">3.1.1. A notation for specifying elements</a></li>
+<li><a href="#orgc6a521b">3.1.2. HTML for get_all_users</a></li>
+</ul>
+</li>
+<li><a href="#org1a18b96">3.2. delete_user</a>
+<ul>
+<li><a href="#orgc4eed5e">3.2.1. Notation</a></li>
+<li><a href="#org2b6e8c7">3.2.2. HTML for delete user</a></li>
+</ul>
+</li>
+<li><a href="#org125e2bd">3.3. edit_user</a>
+<ul>
+<li><a href="#org1aa3caf">3.3.1. Notation</a></li>
+<li><a href="#orge282bc3">3.3.2. HTML for edit user</a></li>
+</ul>
+</li>
+<li><a href="#org6d76576">3.4. add_user</a>
+<ul>
+<li><a href="#org4f3f946">3.4.1. Notation</a></li>
+<li><a href="#org9fbe9b6">3.4.2. HTML for Add User</a></li>
+</ul>
+</li>
+<li><a href="#orgcfeab4a">3.5. All together</a></li>
+<li><a href="#org3d29b36">3.6. Style</a></li>
+</ul>
+</li>
+<li><a href="#org2c07ec7">4. Behaviour</a>
+<ul>
+<li><a href="#orgb79b8c9">4.1. Hash Route registration handlers and helpers</a></li>
+<li><a href="#org6df6215">4.2. Set On-Load Handlers</a></li>
+<li><a href="#org879ecf5">4.3. Get Users</a>
+<ul>
+<li><a href="#org0969864">4.3.1. Set handlers for the buttons</a></li>
+</ul>
+</li>
+<li><a href="#org1fd61f7">4.4. Add User</a>
+<ul>
+<li><a href="#orgc0d991e">4.4.1. Wire events to the the listeners.</a></li>
+<li><a href="#orgcec8707">4.4.2. Define how a user is added</a></li>
+</ul>
+</li>
+<li><a href="#org0a78f61">4.5. Edit User</a></li>
+<li><a href="#org95d1b29">4.6. Delete User</a></li>
+</ul>
+</li>
+<li><a href="#org968070e">5. Model</a>
+<ul>
+<li><a href="#orgddc6104">5.1. User definition</a></li>
+<li><a href="#org1f390f1">5.2. Model Definition</a></li>
+</ul>
+</li>
+<li><a href="#orgdf3833a">6. Controller</a></li>
+<li><a href="#org8fecf92">7. Error Store</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orged95415" class="outline-2">
+<h2 id="orged95415"><span class="section-number-2">1</span> Objective</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+The objective of this lecture
+is to introduce the idea of a
+controller and the
+Model-View-Controller design
+pattern, where the controller
+reacts to the success and
+failure of the operations that
+it performs.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf04b39c" class="outline-2">
+<h2 id="orgf04b39c"><span class="section-number-2">2</span> Routes (DFA locations)</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+The front end application is
+conceived as a set of states
+in a DFA.  Each route is a
+state and the transition of
+the states in the DFA is
+determined by the differentent
+triggers.
+</p>
+
+<pre class="example">
+ 1.  #get_all_users
+ 2.  #edit_user
+ 3.  #add_user
+ 4.  #delete_user
+</pre>
+</div>
+
+<div id="outline-container-org9a91561" class="outline-3">
+<h3 id="org9a91561"><span class="section-number-3">2.1</span> Transition Graph</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Include Picture here.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9be5649" class="outline-2">
+<h2 id="org9be5649"><span class="section-number-2">3</span> Templates</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-org1481ab6" class="outline-3">
+<h3 id="org1481ab6"><span class="section-number-3">3.1</span> get_all_users</h3>
+<div class="outline-text-3" id="text-3-1">
+<pre class="example">
+1. edit  (button for each row)
+2. delete (button for each row)
+3. add user (button)
+4. Name and email of the user
+5. Error message
+</pre>
+</div>
+<div id="outline-container-orgdf39ae8" class="outline-4">
+<h4 id="orgdf39ae8"><span class="section-number-4">3.1.1</span> A notation for specifying elements</h4>
+<div class="outline-text-4" id="text-3-1-1">
+<pre class="example">
+(&lt;app-header&gt;
+ &lt;add-user-button&gt;
+ (&lt;user-name&gt; &lt;user-email&gt; &lt;edit-button&gt; &lt;del-button&gt;) 
+ ...
+ &lt;error-label&gt;
+)
+</pre>
+</div>
+</div>
+<div id="outline-container-orgc6a521b" class="outline-4">
+<h4 id="orgc6a521b"><span class="section-number-4">3.1.2</span> HTML for get_all_users</h4>
+<div class="outline-text-4" id="text-3-1-2">
+<p>
+The rows are hard coded with the values, to show the routing
+</p>
+<div class="org-src-container">
+<pre class="src src-html" id="orgf7d2c84">&lt;<span style="font-weight: bold;">div</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"index-container"</span> <span style="font-weight: bold; font-style: italic;">class</span>=<span style="font-style: italic;">"hidden"</span>&gt;
+  &lt;<span style="font-weight: bold;">div</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"add-user-btn"</span>&gt;
+    &lt;<span style="font-weight: bold;">p</span>&gt; List of Users &lt;/<span style="font-weight: bold;">p</span>&gt;
+    &lt;<span style="font-weight: bold;">ul</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"add-user"</span>&gt;
+      &lt;<span style="font-weight: bold;">li</span>&gt;
+        &lt;<span style="font-weight: bold;">button</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"add"</span>&gt;Add&lt;/<span style="font-weight: bold;">button</span>&gt;
+      &lt;/<span style="font-weight: bold;">li</span>&gt;
+    &lt;/<span style="font-weight: bold;">ul</span>&gt;
+  &lt;/<span style="font-weight: bold;">div</span>&gt;
+  
+  &lt;<span style="font-weight: bold;">div</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"get-all-users-container"</span>&gt;
+    &lt;<span style="font-weight: bold;">ul</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"users-list"</span>&gt;
+    &lt;/<span style="font-weight: bold;">ul</span>&gt;
+  &lt;/<span style="font-weight: bold;">div</span>&gt;
+
+  &lt;<span style="font-weight: bold;">label</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"error-box"</span> <span style="font-weight: bold; font-style: italic;">class</span>=<span style="font-style: italic;">"error hidden"</span>&gt;Error&lt;/<span style="font-weight: bold;">label</span>&gt;
+
+&lt;/<span style="font-weight: bold;">div</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org1a18b96" class="outline-3">
+<h3 id="org1a18b96"><span class="section-number-3">3.2</span> delete_user</h3>
+<div class="outline-text-3" id="text-3-2">
+<pre class="example">
+1. name  (read only)
+2. email (read only)
+3. delete  (button)
+4. cancel (button)
+</pre>
+</div>
+
+<div id="outline-container-orgc4eed5e" class="outline-4">
+<h4 id="orgc4eed5e"><span class="section-number-4">3.2.1</span> Notation</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<pre class="example">
+(&lt;app-header&gt;
+ &lt;name-label&gt; &lt;name-readonly&gt;
+ &lt;email-label&gt; &lt;email-readonly&gt;
+ &lt;delete-button&gt; &lt;cancel-button&gt;)
+</pre>
+</div>
+</div>
+<div id="outline-container-org2b6e8c7" class="outline-4">
+<h4 id="org2b6e8c7"><span class="section-number-4">3.2.2</span> HTML for delete user</h4>
+<div class="outline-text-4" id="text-3-2-2">
+<div class="org-src-container">
+<pre class="src src-html" id="org7093d90">&lt;<span style="font-weight: bold;">div</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"delete-user-container"</span> <span style="font-weight: bold; font-style: italic;">class</span>=<span style="font-style: italic;">"hidden"</span>&gt;
+  &lt;<span style="font-weight: bold;">p</span>&gt; Delete User &lt;/<span style="font-weight: bold;">p</span>&gt;
+  &lt;<span style="font-weight: bold;">ul</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"delete-user"</span>&gt;
+    &lt;<span style="font-weight: bold;">li</span>&gt;
+      &lt;<span style="font-weight: bold;">label</span>&gt; Name:&lt;/<span style="font-weight: bold;">label</span>&gt;
+      &lt;<span style="font-weight: bold;">input</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"delete-name-box"</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text"</span>&gt;&lt;/<span style="font-weight: bold;">input</span>&gt;
+    &lt;/<span style="font-weight: bold;">li</span>&gt;
+
+    &lt;<span style="font-weight: bold;">li</span>&gt;
+      &lt;<span style="font-weight: bold;">label</span>&gt; Email:&lt;/<span style="font-weight: bold;">label</span>&gt;
+      &lt;<span style="font-weight: bold;">input</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"delete-email-box"</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text"</span>&gt;&lt;/<span style="font-weight: bold;">input</span>&gt;
+    &lt;/<span style="font-weight: bold;">li</span>&gt;
+
+    &lt;<span style="font-weight: bold;">li</span>&gt;
+      &lt;<span style="font-weight: bold;">button</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"delete"</span>&gt;Delete&lt;/<span style="font-weight: bold;">button</span>&gt;
+      &lt;<span style="font-weight: bold;">button</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"cancel"</span>&gt;Cancel&lt;/<span style="font-weight: bold;">button</span>&gt;
+    &lt;/<span style="font-weight: bold;">li</span>&gt;
+  &lt;/<span style="font-weight: bold;">ul</span>&gt;
+  &lt;<span style="font-weight: bold;">label</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"error-box"</span> <span style="font-weight: bold; font-style: italic;">class</span>=<span style="font-style: italic;">"error hidden"</span>&gt;Error&lt;/<span style="font-weight: bold;">label</span>&gt;
+&lt;/<span style="font-weight: bold;">div</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org125e2bd" class="outline-3">
+<h3 id="org125e2bd"><span class="section-number-3">3.3</span> edit_user</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+Controls (transition edges)
+</p>
+<pre class="example">
+1. name  (text input)
+2. email (text input)
+3. done  (button)
+4. cancel (button)
+</pre>
+</div>
+
+<div id="outline-container-org1aa3caf" class="outline-4">
+<h4 id="org1aa3caf"><span class="section-number-4">3.3.1</span> Notation</h4>
+<div class="outline-text-4" id="text-3-3-1">
+<pre class="example">
+&lt;edit-template&gt; :: = 
+(&lt;app-header&gt;
+ &lt;name-label&gt; &lt;name-input&gt;
+ &lt;email-label&gt; &lt;email-input&gt;
+ &lt;done-button&gt; &lt;cancel-button&gt;)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orge282bc3" class="outline-4">
+<h4 id="orge282bc3"><span class="section-number-4">3.3.2</span> HTML for edit user</h4>
+<div class="outline-text-4" id="text-3-3-2">
+<div class="org-src-container">
+<pre class="src src-html" id="orgecf8411">&lt;<span style="font-weight: bold;">div</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"edit-user-container"</span> <span style="font-weight: bold; font-style: italic;">class</span>=<span style="font-style: italic;">"hidden"</span>&gt;
+  &lt;<span style="font-weight: bold;">p</span>&gt; Edit User &lt;/<span style="font-weight: bold;">p</span>&gt;
+  &lt;<span style="font-weight: bold;">ul</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"edit-user"</span>&gt;
+    &lt;<span style="font-weight: bold;">li</span>&gt;
+      &lt;<span style="font-weight: bold;">label</span>&gt; Name:&lt;/<span style="font-weight: bold;">label</span>&gt;
+      &lt;<span style="font-weight: bold;">input</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"name-box"</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text"</span>&gt;&lt;/<span style="font-weight: bold;">input</span>&gt;
+    &lt;/<span style="font-weight: bold;">li</span>&gt;
+
+    &lt;<span style="font-weight: bold;">li</span>&gt;
+      &lt;<span style="font-weight: bold;">label</span>&gt; Email:&lt;/<span style="font-weight: bold;">label</span>&gt;
+      &lt;<span style="font-weight: bold;">input</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"email-box"</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text"</span>&gt;&lt;/<span style="font-weight: bold;">input</span>&gt;
+    &lt;/<span style="font-weight: bold;">li</span>&gt;
+
+    &lt;<span style="font-weight: bold;">li</span>&gt;
+      &lt;<span style="font-weight: bold;">button</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"done"</span>&gt;Done&lt;/<span style="font-weight: bold;">button</span>&gt;
+      &lt;<span style="font-weight: bold;">button</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"cancel"</span>&gt;Cancel&lt;/<span style="font-weight: bold;">button</span>&gt;
+    &lt;/<span style="font-weight: bold;">li</span>&gt;
+  &lt;/<span style="font-weight: bold;">ul</span>&gt;
+
+  &lt;<span style="font-weight: bold;">label</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"error-box"</span> <span style="font-weight: bold; font-style: italic;">class</span>=<span style="font-style: italic;">"error hidden"</span>&gt;&lt;/<span style="font-weight: bold;">label</span>&gt;
+&lt;/<span style="font-weight: bold;">div</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org6d76576" class="outline-3">
+<h3 id="org6d76576"><span class="section-number-3">3.4</span> add_user</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+Controls (transition edges)
+</p>
+<pre class="example">
+1. name  (text input)
+2. email (text input)
+3. add  (button)
+4. cancel (button)
+</pre>
+</div>
+<div id="outline-container-org4f3f946" class="outline-4">
+<h4 id="org4f3f946"><span class="section-number-4">3.4.1</span> Notation</h4>
+<div class="outline-text-4" id="text-3-4-1">
+<pre class="example">
+&lt;edit-template&gt;
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org9fbe9b6" class="outline-4">
+<h4 id="org9fbe9b6"><span class="section-number-4">3.4.2</span> HTML for Add User</h4>
+<div class="outline-text-4" id="text-3-4-2">
+<div class="org-src-container">
+<pre class="src src-html" id="org2bf1a41">&lt;<span style="font-weight: bold;">div</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"add-user-container"</span> <span style="font-weight: bold; font-style: italic;">class</span>=<span style="font-style: italic;">"hidden"</span>&gt;
+  &lt;<span style="font-weight: bold;">p</span>&gt; Add User &lt;/<span style="font-weight: bold;">p</span>&gt;
+  &lt;<span style="font-weight: bold;">ul</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"add-user"</span>&gt;
+    &lt;<span style="font-weight: bold;">li</span>&gt;
+      &lt;<span style="font-weight: bold;">label</span>&gt; Name:&lt;/<span style="font-weight: bold;">label</span>&gt;
+      &lt;<span style="font-weight: bold;">input</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"name-box"</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text"</span>&gt;&lt;/<span style="font-weight: bold;">input</span>&gt;
+    &lt;/<span style="font-weight: bold;">li</span>&gt;
+
+    &lt;<span style="font-weight: bold;">li</span>&gt;
+      &lt;<span style="font-weight: bold;">label</span>&gt; Email:&lt;/<span style="font-weight: bold;">label</span>&gt;
+      &lt;<span style="font-weight: bold;">input</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"email-box"</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text"</span>&gt;&lt;/<span style="font-weight: bold;">input</span>&gt;
+    &lt;/<span style="font-weight: bold;">li</span>&gt;
+
+    &lt;<span style="font-weight: bold;">li</span>&gt;
+      &lt;<span style="font-weight: bold;">button</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"add"</span>&gt;Add&lt;/<span style="font-weight: bold;">button</span>&gt;
+      &lt;<span style="font-weight: bold;">button</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"cancel"</span>&gt;Cancel&lt;/<span style="font-weight: bold;">button</span>&gt;
+    &lt;/<span style="font-weight: bold;">li</span>&gt;
+  &lt;/<span style="font-weight: bold;">ul</span>&gt;
+  &lt;<span style="font-weight: bold;">label</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"error-box"</span> <span style="font-weight: bold; font-style: italic;">class</span>=<span style="font-style: italic;">"error hidden"</span>&gt;&lt;/<span style="font-weight: bold;">label</span>&gt;
+&lt;/<span style="font-weight: bold;">div</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgcfeab4a" class="outline-3">
+<h3 id="orgcfeab4a"><span class="section-number-3">3.5</span> All together</h3>
+<div class="outline-text-3" id="text-3-5">
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="font-weight: bold;">html</span>&gt;
+  &lt;<span style="font-weight: bold;">head</span>&gt;
+  &lt;<span style="font-weight: bold;">link</span> <span style="font-weight: bold; font-style: italic;">rel</span>=<span style="font-style: italic;">"stylesheet"</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text/css"</span> <span style="font-weight: bold; font-style: italic;">href</span>=<span style="font-style: italic;">"common.css"</span> /&gt;
+  &lt;<span style="font-weight: bold;">script</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text/javascript"</span> <span style="font-weight: bold; font-style: italic;">src</span>=<span style="font-style: italic;">"jquery-3.1.1.min.js"</span>&gt;&lt;/<span style="font-weight: bold;">script</span>&gt;
+  &lt;<span style="font-weight: bold;">script</span> <span style="font-weight: bold; font-style: italic;">type</span>=<span style="font-style: italic;">"text/javascript"</span> <span style="font-weight: bold; font-style: italic;">src</span>=<span style="font-style: italic;">"main.js"</span>&gt;&lt;/<span style="font-weight: bold;">script</span>&gt;
+  &lt;/<span style="font-weight: bold;">head</span>&gt;
+  &lt;<span style="font-weight: bold;">body</span>&gt;
+    &lt;&lt;<span style="font-weight: bold;">get_all_users_html</span>&gt;&gt;
+    &lt;&lt;<span style="font-weight: bold;">add_user_html</span>&gt;&gt;
+    &lt;&lt;<span style="font-weight: bold;">delete_user_html</span>&gt;&gt;
+    &lt;&lt;<span style="font-weight: bold;">edit_user_html</span>&gt;&gt;
+  &lt;/<span style="font-weight: bold;">body</span>&gt;
+&lt;/<span style="font-weight: bold;">html</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3d29b36" class="outline-3">
+<h3 id="org3d29b36"><span class="section-number-3">3.6</span> Style</h3>
+<div class="outline-text-3" id="text-3-6">
+<div class="org-src-container">
+<pre class="src src-css" id="org17ed86a"><span style="font-weight: bold;">#add-user-btn </span>{
+    <span style="font-weight: bold; font-style: italic;">margin-top</span>: 2em;
+    <span style="font-weight: bold; font-style: italic;">margin-left</span>: 32em;
+}
+
+<span style="font-weight: bold;">#get-all-users-container </span>{
+    <span style="font-weight: bold; font-style: italic;">margin-left</span>: 4em;
+    <span style="font-weight: bold; font-style: italic;">margin-top</span>: 2.5em;
+}
+
+<span style="font-weight: bold;">#add-user-container </span>{
+    <span style="font-weight: bold; font-style: italic;">margin-left</span>: 4em;
+    <span style="font-weight: bold; font-style: italic;">margin-top</span>: 2.5em;
+}
+
+<span style="font-weight: bold;">#delete-user-container </span>{
+    <span style="font-weight: bold; font-style: italic;">margin-left</span>: 4em;
+    <span style="font-weight: bold; font-style: italic;">margin-top</span>: 2.5em;
+}
+
+<span style="font-weight: bold;">#edit-user-container </span>{
+    <span style="font-weight: bold; font-style: italic;">margin-left</span>: 4em;
+    <span style="font-weight: bold; font-style: italic;">margin-top</span>: 2.5em;
+}
+
+<span style="font-weight: bold;">li </span>{
+    <span style="font-weight: bold; font-style: italic;">list-style-type</span>: none;
+    <span style="font-weight: bold; font-style: italic;">margin-bottom</span>: 3em;
+}
+
+<span style="font-weight: bold;">ul </span>{
+    <span style="font-weight: bold; font-style: italic;">list-style-type</span>: none;
+}
+
+<span style="font-weight: bold;">button </span>{ 
+    <span style="font-weight: bold; font-style: italic;">width</span>: 4em;
+    <span style="font-weight: bold; font-style: italic;">margin</span>: 1.5em;
+}
+
+<span style="font-weight: bold;">.error </span>{
+    <span style="font-weight: bold; font-style: italic;">margin-left</span>: 4em;
+    <span style="font-weight: bold; font-style: italic;">font-size</span>:200%;
+    <span style="font-weight: bold; font-style: italic;">color</span>: red;
+    <span style="font-weight: bold; font-style: italic;">font-weight</span>: bold;
+}
+
+<span style="font-weight: bold;">.hidden </span>{
+    <span style="font-weight: bold; font-style: italic;">display</span>: none;
+}
+
+<span style="font-weight: bold;">p </span>{
+    <span style="font-weight: bold; font-style: italic;">font-size</span>:300%;
+    <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">margin-left: 0em; </span><span style="font-weight: bold; font-style: italic;">*/</span>
+    <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">margin-top: 2.5em; </span><span style="font-weight: bold; font-style: italic;">*/</span>
+
+}
+
+<span style="font-weight: bold;">#delete-name-box </span>{
+    <span style="font-weight: bold; font-style: italic;">border-width</span>: 0px;
+}
+
+<span style="font-weight: bold;">#delete-email-box </span>{
+    <span style="font-weight: bold; font-style: italic;">border-width</span>: 0px;
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2c07ec7" class="outline-2">
+<h2 id="org2c07ec7"><span class="section-number-2">4</span> Behaviour</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-orgb79b8c9" class="outline-3">
+<h3 id="orgb79b8c9"><span class="section-number-3">4.1</span> Hash Route registration handlers and helpers</h3>
+<div class="outline-text-3" id="text-4-1">
+<pre class="example">
+   The event =hashchange= fires
+   when a window's =hash=
+   changes.  =hash= can be part
+   of the =window.location= and
+   =location.hash= gives the
+   =hash= part of the location. 
+   if a window's url is:
+   =https://localhost/#index=,
+   =window.location.hash=
+   returns =#index=. 
+
+   With this paraphernalia at
+   our disposal, a listener
+   (handler) is registered on
+   the the =hashchange= event.
+
+   The listener that is
+   triggered on every
+   =hashchange= 
+   1) looks up a dictionary
+      containing key, value
+      pairs where each key is a
+      hash while the key's
+      corresponding value is a
+      function(handler).
+   2) Picks the handler
+      corresponding to the key
+      =hash= and runs it.
+</pre>
+<div class="org-src-container">
+<pre class="src src-js" id="org9018633"><span style="font-weight: bold;">function</span> <span style="font-weight: bold;">hide_all_containers</span>() {
+  <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">TODO: consider refactoring to addClass in a loop</span>
+  console.log(<span style="font-style: italic;">"hide containers"</span>);
+  $(<span style="font-style: italic;">'#index-container'</span>).addClass(<span style="font-style: italic;">"hidden"</span>);
+  $(<span style="font-style: italic;">'#add-user-container'</span>).addClass(<span style="font-style: italic;">"hidden"</span>);
+  $(<span style="font-style: italic;">'#edit-user-container'</span>).addClass(<span style="font-style: italic;">"hidden"</span>);
+  $(<span style="font-style: italic;">'#delete-user-container'</span>).addClass(<span style="font-style: italic;">"hidden"</span>);
+};
+
+<span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">create_hash_setter</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">hash</span>) {
+  <span style="font-weight: bold;">return</span> <span style="font-weight: bold;">function</span>() {
+    window.location.hash = hash;
+  };
+};
+
+<span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">setAddHash</span> = create_hash_setter(<span style="font-style: italic;">'add_user'</span>);
+
+<span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">setEditHash</span> = create_hash_setter(<span style="font-style: italic;">'edit_user'</span>);
+
+<span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">setDelHash</span> = create_hash_setter(<span style="font-style: italic;">'delete_user'</span>);
+
+<span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">setIndexHash</span> = create_hash_setter(<span style="font-style: italic;">'index'</span>);
+
+<span style="font-weight: bold;">function</span> <span style="font-weight: bold;">navigate</span>(<span style="font-weight: bold; font-style: italic;">path</span>) {
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">current</span> = window.location.href;
+  window.location.href = current.replace(<span style="font-style: italic;">/#(.*)$/</span>, <span style="font-style: italic;">''</span>) + <span style="font-style: italic;">'#'</span> + path;
+};
+
+<span style="font-weight: bold; font-style: italic;">//</span><span style="font-weight: bold; font-style: italic;">strip # from window.location.hash</span>
+<span style="font-weight: bold;">function</span> <span style="font-weight: bold;">get_window_hash_path</span>() {
+  <span style="font-weight: bold;">return</span> location.hash.substring(1);
+};
+
+<span style="font-weight: bold;">function</span> <span style="font-weight: bold;">register_onhashchange_handlers</span>(<span style="font-weight: bold; font-style: italic;">hash_to_handlers_mapper</span>) {
+  $(window).on(<span style="font-style: italic;">"hashchange"</span>, <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">e</span>) {
+    <span style="font-weight: bold; font-style: italic;">//</span><span style="font-weight: bold; font-style: italic;">strip hash out</span>
+    hash_path = get_window_hash_path();
+    console.log(<span style="font-style: italic;">"new hash: "</span>, hash_path);
+    <span style="font-weight: bold; font-style: italic;">//</span><span style="font-weight: bold; font-style: italic;">we use hasOwnProperty since we need to check if a handler is </span>
+    <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">defined for the hash_path</span>
+    <span style="font-weight: bold; font-style: italic;">//</span><span style="font-weight: bold; font-style: italic;">object has it, not its parents (in the prototype chain)</span>
+    <span style="font-weight: bold;">if</span> (hash_to_handlers_mapper.hasOwnProperty(hash_path)) {
+      <span style="font-weight: bold; font-style: italic;">//</span><span style="font-weight: bold; font-style: italic;">invoke said handler function</span>
+      hash_to_handlers_mapper[hash_path]();
+    } <span style="font-weight: bold;">else</span> {
+      console.warn(`no handler <span style="font-weight: bold;">for</span> ${hash_path}`);
+    }
+  });
+};
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6df6215" class="outline-3">
+<h3 id="org6df6215"><span class="section-number-3">4.2</span> Set On-Load Handlers</h3>
+<div class="outline-text-3" id="text-4-2">
+<pre class="example">
+   After successful loading of
+   the initial page,
+   1. the listener for event
+      =hashchange= is registered and
+   2. model is created
+   are ensured.
+</pre>
+<div class="org-src-container">
+<pre class="src src-js" id="org68739c1">window.onload = <span style="font-weight: bold;">function</span>() {
+  register_onhashchange_handlers({
+    index: get_all_users_handler,
+    get_all_users: get_all_users_handler,
+    add_user: add_user_handler,
+    edit_user: edit_user_handler,
+    delete_user: delete_user_handler});
+
+  window.controller = controllerMaker();
+  window.errorStore = errorStoreMaker();
+  console.log(<span style="font-style: italic;">"on load on load onload"</span>)
+  <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">current_hash</span> = get_window_hash_path();
+  <span style="font-weight: bold;">if</span> (current_hash === <span style="font-style: italic;">""</span>) {
+    console.log(<span style="font-style: italic;">"defaulting #url to get_all_users"</span>);
+    current_hash = <span style="font-style: italic;">"index"</span>;
+    console.log(<span style="font-style: italic;">"navigating to: #"</span> + current_hash);
+    navigate(current_hash);
+  }
+  
+  $(window).trigger(<span style="font-style: italic;">"hashchange"</span>);
+  
+};
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org879ecf5" class="outline-3">
+<h3 id="org879ecf5"><span class="section-number-3">4.3</span> Get Users</h3>
+<div class="outline-text-3" id="text-4-3">
+<pre class="example">
+1. When the page loads,
+   i.e. index, users are
+   retreived from the model and
+   listed while hiding all other
+   pages.
+
+2. The listener for the =Add=
+   button on the event =click=
+   is set to allow adding a user
+
+3. The click event for =Edit=
+   button on each row is set to
+   listener(s) that do:
+
+   1. populate the =Edit User=
+      page with user details.
+
+   2. Set the listener for the
+      =click= event on the
+      =Done= button to update
+      the model and navigate 
+      back to the =index= page.
+
+   3. Set the listener for the
+      =click= event on the
+      =Cancel= button to
+      navigate back to the
+      =index= page.
+
+4. The click event for =Delete=
+   button on each row is set to
+   listener(s) that:
+
+   1. populate the =Delete User=
+      page with user details.
+
+   2. Set the listener for the
+      =click= event on the
+      =Delete= button to update
+      the model and navigate
+      back to =index= page.
+
+   3. Set the listener for the
+      =click= event on the
+      =Cancel= button to
+      navigate back to the
+      =index= page.
+</pre>
+</div>
+<div id="outline-container-org0969864" class="outline-4">
+<h4 id="org0969864"><span class="section-number-4">4.3.1</span> Set handlers for the buttons</h4>
+<div class="outline-text-4" id="text-4-3-1">
+<div class="org-src-container">
+<pre class="src src-js" id="orge2ee32a"><span style="font-weight: bold;">function</span> <span style="font-weight: bold;">populate_delete_user_page</span>() {
+  console.log(<span style="font-style: italic;">"populate_delete_user_page"</span>);
+  $(<span style="font-style: italic;">'#delete-user-container #delete-name-box'</span>)[0].value = <span style="font-weight: bold; text-decoration: underline;">this</span>.user.getName();
+  $(<span style="font-style: italic;">'#delete-user-container #delete-name-box'</span>)[0].readOnly = <span style="font-weight: bold; text-decoration: underline;">true</span>;
+  $(<span style="font-style: italic;">'#delete-user-container #delete-email-box'</span>)[0].value = <span style="font-weight: bold; text-decoration: underline;">this</span>.user.getEmail();
+  $(<span style="font-style: italic;">'#delete-user-container #delete-email-box'</span>)[0].readOnly = <span style="font-weight: bold; text-decoration: underline;">true</span>;
+
+  $(<span style="font-style: italic;">'#delete-user-container #delete'</span>).off();
+
+
+  $(<span style="font-style: italic;">'#delete-user-container #delete'</span>).click(<span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">e</span>) {
+    deleteAndNavigate(<span style="font-weight: bold; text-decoration: underline;">this</span>.user.getEmail());
+  }.bind(<span style="font-weight: bold; text-decoration: underline;">this</span>)); <span style="font-weight: bold; font-style: italic;">//</span><span style="font-weight: bold; font-style: italic;">explain this well</span>
+
+  $(<span style="font-style: italic;">'#delete-user-container #cancel'</span>).off();
+  $(<span style="font-style: italic;">'#delete-user-container #cancel'</span>).click(setIndexHash);
+
+  setDelHash();
+};
+
+<span style="font-weight: bold;">function</span> <span style="font-weight: bold;">populate_edit_user_page</span>() {
+  console.log(<span style="font-style: italic;">"populate_edit_user_page"</span>);
+
+
+  $(<span style="font-style: italic;">'#edit-user-container #name-box'</span>)[0].value = <span style="font-weight: bold; text-decoration: underline;">this</span>.user.getName();
+  $(<span style="font-style: italic;">'#edit-user-container #email-box'</span>)[0].value = <span style="font-weight: bold; text-decoration: underline;">this</span>.user.getEmail();
+  $(<span style="font-style: italic;">'#edit-user-container #error-box'</span>).text(<span style="font-style: italic;">""</span>);
+  $(<span style="font-style: italic;">'#edit-user-container #error-box'</span>).addClass(<span style="font-style: italic;">"hidden"</span>);
+
+  $(<span style="font-style: italic;">'#edit-user-container #done'</span>).off()
+  $(<span style="font-style: italic;">'#edit-user-container #done'</span>).click(<span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">e</span>) {
+    updateAndNavigate(<span style="font-weight: bold; text-decoration: underline;">this</span>.user.getEmail());
+  }.bind(<span style="font-weight: bold; text-decoration: underline;">this</span>));
+
+  $(<span style="font-style: italic;">'#edit-user-container #cancel'</span>).off()
+  $(<span style="font-style: italic;">'#edit-user-container #cancel'</span>).click(setIndexHash)
+  setEditHash();
+};
+
+<span style="font-weight: bold;">function</span> <span style="font-weight: bold;">get_all_users_handler</span>() {
+
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">make_li_for_user</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">user</span>) {
+
+    del_btn = document.createElement(<span style="font-style: italic;">"button"</span>);
+    del_btn.id = <span style="font-style: italic;">"delete"</span>;
+    del_btn.innerText = <span style="font-style: italic;">"Delete"</span>;
+    del_btn.onclick = populate_delete_user_page;
+    del_btn.user = user;
+
+    edit_btn = document.createElement(<span style="font-style: italic;">"button"</span>);
+    edit_btn.id = <span style="font-style: italic;">"edit"</span>;
+    edit_btn.innerText = <span style="font-style: italic;">"Edit"</span>;
+    edit_btn.onclick = populate_edit_user_page;
+    edit_btn.user = user;
+
+    <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">li</span> = document.createElement(<span style="font-style: italic;">"li"</span>);
+    li.innerText = `Name: ${user.getName()}  | Email: ${user.getEmail()}`;
+    li.appendChild(del_btn);
+    li.appendChild(edit_btn);
+
+    <span style="font-weight: bold;">return</span> li;
+  };
+
+  console.log(<span style="font-style: italic;">"get_all_users_handler"</span>);
+  hide_all_containers();
+  $(<span style="font-style: italic;">'#index-container'</span>).removeClass(<span style="font-style: italic;">"hidden"</span>);
+
+  $(<span style="font-style: italic;">'#add-user-btn #add'</span>).off()
+  $(<span style="font-style: italic;">'#add-user-btn #add'</span>).click(setAddHash);
+
+  <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">users</span> = window.controller.getUsers();
+  <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">ul</span> = $(<span style="font-style: italic;">'#get-all-users-container #users-list'</span>)
+  ul.empty(); <span style="font-weight: bold; font-style: italic;">//</span><span style="font-weight: bold; font-style: italic;">TODO: slower than removing nodes</span>
+  
+  <span style="font-weight: bold;">for</span> (user of users) {
+    <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">li</span> = make_li_for_user(user);
+    ul.append(li);
+  };
+
+};
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1fd61f7" class="outline-3">
+<h3 id="org1fd61f7"><span class="section-number-3">4.4</span> Add User</h3>
+<div class="outline-text-3" id="text-4-4">
+<pre class="example">
+1. Show =Add User= page and hide
+   all others.
+2. Set listener(s) for the button
+   =Add= on the event =click=
+   that adds a user to the
+   model and navigates the
+   control back to index page.
+3. Set listener(s) for the
+   button =Cancel= on the event
+   =click= that navigates the
+   control back to index page.
+</pre>
+</div>
+
+<div id="outline-container-orgc0d991e" class="outline-4">
+<h4 id="orgc0d991e"><span class="section-number-4">4.4.1</span> Wire events to the the listeners.</h4>
+<div class="outline-text-4" id="text-4-4-1">
+<p>
+The <code>click</code> events for both
+the buttons are set.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-js" id="org6c60f1a"><span style="font-weight: bold;">function</span> <span style="font-weight: bold;">add_user_handler</span>() {
+  console.log(<span style="font-style: italic;">"add user handler"</span>);
+  hide_all_containers();
+  $(<span style="font-style: italic;">'#add-user-container'</span>).removeClass(<span style="font-style: italic;">"hidden"</span>);
+  $(<span style="font-style: italic;">'#add-user-container #add'</span>).off()
+  $(<span style="font-style: italic;">'#add-user-container #add'</span>).click(addUserToModelAndNavigate);
+  $(<span style="font-style: italic;">'#add-user-container #cancel'</span>).off()
+  $(<span style="font-style: italic;">'#add-user-container #cancel'</span>).click(setAddUserCancel);
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcec8707" class="outline-4">
+<h4 id="orgcec8707"><span class="section-number-4">4.4.2</span> Define how a user is added</h4>
+<div class="outline-text-4" id="text-4-4-2">
+<p>
+Collect the <code>name</code> and
+<code>email</code> values from the text
+boxes and update the model. 
+</p>
+
+<div class="org-src-container">
+<pre class="src src-js" id="orgfbed030"><span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">addUserToModelAndNavigate</span> = <span style="font-weight: bold;">function</span>() {
+  console.log(<span style="font-style: italic;">'addUserToModelAndNavigate'</span>);
+  <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">name</span> = $(<span style="font-style: italic;">'#add-user-container #name-box'</span>)[0].value;
+  <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">email</span> = $(<span style="font-style: italic;">'#add-user-container #email-box'</span>)[0].value;
+
+  window.controller.addUser(name,
+                            email,
+                            <span style="font-weight: bold;">function</span>() {
+                              $(<span style="font-style: italic;">'#add-user-container #name-box'</span>)[0].value = <span style="font-style: italic;">""</span>;
+                              $(<span style="font-style: italic;">'#add-user-container #email-box'</span>)[0].value = <span style="font-style: italic;">""</span>;
+                              $(<span style="font-style: italic;">'#add-user-container #error-box'</span>).text(<span style="font-style: italic;">""</span>);
+                              $(<span style="font-style: italic;">'#add-user-container #error-box'</span>).addClass(<span style="font-style: italic;">"hidden"</span>);
+                              setIndexHash();
+                            },
+                            <span style="font-weight: bold;">function</span>() {
+                              $(<span style="font-style: italic;">'#add-user-container #name-box'</span>)[0].value = name;
+                              $(<span style="font-style: italic;">'#add-user-container #email-box'</span>)[0].value = email;
+                              $(<span style="font-style: italic;">'#add-user-container #error-box'</span>).text(window.errorStore.getError());
+                              $(<span style="font-style: italic;">'#add-user-container #error-box'</span>).removeClass(<span style="font-style: italic;">"hidden"</span>);
+                              setAddHash();
+                            });
+};
+
+<span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">setAddUserCancel</span> = <span style="font-weight: bold;">function</span>() {
+  $(<span style="font-style: italic;">'#add-user-container #name-box'</span>)[0].value = <span style="font-style: italic;">""</span>;
+  $(<span style="font-style: italic;">'#add-user-container #email-box'</span>)[0].value = <span style="font-style: italic;">""</span>;
+  $(<span style="font-style: italic;">'#add-user-container #error-box'</span>).text(<span style="font-style: italic;">""</span>);
+  $(<span style="font-style: italic;">'#add-user-container #error-box'</span>).addClass(<span style="font-style: italic;">"hidden"</span>);
+  setIndexHash();
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0a78f61" class="outline-3">
+<h3 id="org0a78f61"><span class="section-number-3">4.5</span> Edit User</h3>
+<div class="outline-text-3" id="text-4-5">
+<pre class="example">
+1. Show =Edit User= page and
+   hide all others.
+</pre>
+<div class="org-src-container">
+<pre class="src src-js" id="org24b86f0"><span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">updateAndNavigate</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">email</span>) {
+  console.log(<span style="font-style: italic;">"update and navigate"</span>);
+  <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">new_name</span> = $(<span style="font-style: italic;">'#edit-user-container #name-box'</span>)[0].value;
+  <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">new_email</span> = $(<span style="font-style: italic;">'#edit-user-container #email-box'</span>)[0].value;
+
+  window.controller.updateUser(email,
+                               new_name,
+                               new_email,
+                               <span style="font-weight: bold;">function</span>() {setIndexHash();},
+                               <span style="font-weight: bold;">function</span>() {
+                                 $(<span style="font-style: italic;">'#edit-user-container #error-box'</span>).text(window.errorStore.getError());
+                                 $(<span style="font-style: italic;">'#edit-user-container #error-box'</span>).removeClass(<span style="font-style: italic;">"hidden"</span>);
+                               });
+};
+
+<span style="font-weight: bold;">function</span> <span style="font-weight: bold;">edit_user_handler</span>(<span style="font-weight: bold; font-style: italic;">email</span>) {
+  console.log(<span style="font-style: italic;">"edit user handler"</span>);
+
+  hide_all_containers();
+  $(<span style="font-style: italic;">'#edit-user-container'</span>).removeClass(<span style="font-style: italic;">"hidden"</span>);
+
+};
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org95d1b29" class="outline-3">
+<h3 id="org95d1b29"><span class="section-number-3">4.6</span> Delete User</h3>
+<div class="outline-text-3" id="text-4-6">
+<pre class="example">
+1. Show =Delete User page= and
+   hide all others.
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-js" id="org6666d93"><span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">deleteAndNavigate</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">email</span>) {
+  console.log(<span style="font-style: italic;">"delete and navigate"</span>);
+  <span style="font-weight: bold;">if</span> (window.controller.deleteUser(email)) {
+    console.log(<span style="font-style: italic;">"user is deleted, before changing the hash"</span>);
+    setIndexHash();
+  } <span style="font-weight: bold;">else</span> {
+    $(<span style="font-style: italic;">'#delete-user-container #error-box'</span>).text(window.errorStore.getError());
+    $(<span style="font-style: italic;">'#delete-user-container #error-box'</span>).removeClass(<span style="font-style: italic;">"hidden"</span>);
+  }
+};
+
+<span style="font-weight: bold;">function</span> <span style="font-weight: bold;">delete_user_handler</span>(<span style="font-weight: bold; font-style: italic;">email</span>) {
+  console.log(<span style="font-style: italic;">"delete user handler"</span>);
+
+  hide_all_containers();
+  $(<span style="font-style: italic;">'#delete-user-container'</span>).removeClass(<span style="font-style: italic;">"hidden"</span>);
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org968070e" class="outline-2">
+<h2 id="org968070e"><span class="section-number-2">5</span> Model</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+The model contains a list of
+users and operations on the
+list and user.  Each user is
+uniquely identified by email.
+The attributes of a user are
+<code>name</code> and <code>email</code>.
+</p>
+</div>
+
+<div id="outline-container-orgddc6104" class="outline-3">
+<h3 id="orgddc6104"><span class="section-number-3">5.1</span> User definition</h3>
+<div class="outline-text-3" id="text-5-1">
+<pre class="example">
+   A user is constructed with a
+   name and an email.  The
+   operations available on user
+   object or the API exposed by
+   a user object are/is:
+   1. getName
+   2. setName
+   3. getEmail
+   4. setEmail
+
+   
+   It is only through these
+   operations that a user object
+   is manipulated.  Given a user
+   object, one cannot get their
+   hands on the attributes of
+   the user - name and email -
+   directly.  These attributes
+   are closed within an user
+   object.
+</pre>
+<div class="org-src-container">
+<pre class="src src-js" id="org6fac8ab"><span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">userMaker</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">na</span>, <span style="font-weight: bold; font-style: italic;">em</span>) {
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">name</span> = na;
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">email</span> = em;
+
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">getName</span> = <span style="font-weight: bold;">function</span>() {
+    <span style="font-weight: bold;">return</span> name;
+  };
+
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">setName</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">na</span>) {
+    name = na;
+  };
+
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">getEmail</span> = <span style="font-weight: bold;">function</span>() {
+    <span style="font-weight: bold;">return</span> email;
+  };
+
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">setEmail</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">em</span>){
+    email = em;
+  };
+
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">user</span> = {};
+  user.getName = getName;
+  user.getEmail = getEmail;
+  user.setName = setName;
+  user.setEmail = setEmail;
+  <span style="font-weight: bold;">return</span> user;
+};
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1f390f1" class="outline-3">
+<h3 id="org1f390f1"><span class="section-number-3">5.2</span> Model Definition</h3>
+<div class="outline-text-3" id="text-5-2">
+<pre class="example">
+   The model contains a list of
+   users.  The model provides a
+   of operations for interaction
+   with the outside world.
+
+   The API of the model is:
+   1. getUsers
+   2. addUser
+   3. userExists
+   4. findUserByEmail
+   5. deleteUser
+   6. updateUser
+</pre>
+
+<div class="org-src-container">
+<pre class="src src-js" id="org8e9c2a0"><span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">modelMaker</span> = <span style="font-weight: bold;">function</span>() {
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">userList</span> = [];
+
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">addUser</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">name</span>, <span style="font-weight: bold; font-style: italic;">email</span>) {
+    userList.push(userMaker(name, email));
+  };
+
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">getUsers</span> = <span style="font-weight: bold;">function</span>() {
+    <span style="font-weight: bold;">return</span> userList;
+  };
+
+  <span style="font-weight: bold;">function</span> <span style="font-weight: bold;">filterByEmail</span>(<span style="font-weight: bold; font-style: italic;">email</span>) {
+    <span style="font-weight: bold;">return</span> userList.filter(<span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">el</span>) {
+      <span style="font-weight: bold;">return</span> el.getEmail() == email;
+    });
+  };
+
+  <span style="font-weight: bold;">function</span> <span style="font-weight: bold;">filterByEmailCompliment</span>(<span style="font-weight: bold; font-style: italic;">email</span>) {
+    <span style="font-weight: bold;">return</span> userList.filter(<span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">el</span>) {
+      <span style="font-weight: bold;">return</span> el.getEmail() != email;
+    });
+  };
+
+  <span style="font-weight: bold;">function</span> <span style="font-weight: bold;">findUserByEmail</span>(<span style="font-weight: bold; font-style: italic;">email</span>) {
+    <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">usrLst</span> = filterByEmail(email);
+    <span style="font-weight: bold;">if</span> (usrLst.length &gt; 0) {
+      <span style="font-weight: bold;">return</span> usrLst[0];
+    } <span style="font-weight: bold;">else</span> {
+      <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">undefined</span>;
+    }
+  };
+  
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">userExists</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">email</span>) {
+    <span style="font-weight: bold;">return</span> (filterByEmail(email).length &gt; 0);
+  };
+
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">deleteUser</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">email</span>) {
+    <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">newList</span> = filterByEmailCompliment(email);
+    userList = newList;
+    console.log(<span style="font-style: italic;">"user deleted"</span>)
+  };
+    
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">updateUser</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">email</span>, <span style="font-weight: bold; font-style: italic;">new_name</span>, <span style="font-weight: bold; font-style: italic;">new_email</span>) {
+    <span style="font-weight: bold;">let</span> <span style="font-weight: bold; font-style: italic;">user</span> = findUserByEmail(email);
+    user.setName(new_name);
+    user.setEmail(new_email);
+  };
+
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">model</span> = {};
+  model.getUsers = getUsers;
+  model.addUser = addUser;
+  model.userExists = userExists;
+  model.findUserByEmail = findUserByEmail;
+  model.deleteUser = deleteUser;
+  model.updateUser = updateUser;
+  <span style="font-weight: bold;">return</span> model;
+};
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdf3833a" class="outline-2">
+<h2 id="orgdf3833a"><span class="section-number-2">6</span> Controller</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+All operations on the model
+are through the controller.
+The controller is the gateway
+that does type, arity,
+referential or state checks
+before modifying the model.
+These checks ensure system
+invariants are safe guarded. 
+</p>
+<ol class="org-ol">
+<li><code>Arity Checks</code> :: Each operation on the model is a signature specifies the
+number of arguments.  The controller does not proceed with the operation
+on model when an arity mismatch exists.</li>
+</ol>
+<pre class="example">
+Adding a user requires two
+arguments - name and email.
+</pre>
+<ol class="org-ol">
+<li><code>Type Checks</code> :: Controller ensures the type of the arguments match with the
+type the model expects.</li>
+</ol>
+<pre class="example">
+When adding a user, the name and
+email are of type strings and
+follow name and email patterns.
+</pre>
+
+<ol class="org-ol">
+<li>Referential or State Checks :: These checks ensure referential integrity of
+the model is maintained.</li>
+</ol>
+<pre class="example">
+Two users with the same email
+cannot exist in the model.
+</pre>
+
+<p>
+The controller after operating on the model chooses to relieve control via
+either of the handlers based on the result of the operation on the model.  The
+success and failure define further continuation. 
+</p>
+
+<div class="org-src-container">
+<pre class="src src-js" id="org8e11317"><span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">controllerMaker</span> = <span style="font-weight: bold;">function</span>() {
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">model</span> = modelMaker();
+
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">getUsers</span> = <span style="font-weight: bold;">function</span>() {
+    <span style="font-weight: bold;">return</span> model.getUsers();
+  };
+
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">isName</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">name</span>) {
+    <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">non_alphabet_pattern</span> = <span style="font-weight: bold;">new</span> <span style="font-weight: bold; text-decoration: underline;">RegExp</span>(<span style="font-style: italic;">'[^a-zA-Z. ]+'</span>);
+    <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">response</span> = non_alphabet_pattern.exec(name);
+    <span style="font-weight: bold;">if</span> (<span style="font-weight: bold;">typeof</span> name == <span style="font-style: italic;">"string"</span> &amp;&amp; response == <span style="font-weight: bold; text-decoration: underline;">null</span> &amp;&amp; name.length &gt; 0)
+      <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">true</span>;
+    <span style="font-weight: bold;">else</span>
+      <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">false</span>;
+  };
+
+  <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">http://stackoverflow.com/questions/46155/validate-email-address-in-javascript */</span>
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">isEmail</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">email</span>) {
+    <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">re</span> = <span style="font-style: italic;">/^(([^&lt;&gt;()\[\]\\.,;:\s@"]+(\.[^&lt;&gt;()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/</span>;
+    <span style="font-weight: bold;">return</span> re.test(email);
+  };
+
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">addUser</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">name</span>, <span style="font-weight: bold; font-style: italic;">email</span>, <span style="font-weight: bold; font-style: italic;">success_handler</span>, <span style="font-weight: bold; font-style: italic;">failure_handler</span>) {
+    <span style="font-weight: bold;">if</span> (!isName(name)) {
+      window.errorStore.pushError(`name: ${name} should contain only alphabets and spaces`);
+      failure_handler();
+      <span style="font-weight: bold;">return</span>;
+    }
+
+    <span style="font-weight: bold;">if</span> (!isEmail(email)) {
+      window.errorStore.pushError(`email: ${email} is not a valid email`);
+      failure_handler();
+      <span style="font-weight: bold;">return</span>;
+    }
+
+    <span style="font-weight: bold;">if</span> (model.userExists(email)) {
+      window.errorStore.pushError(`email: ${email} already exists <span style="font-weight: bold;">in</span> the model`);
+      failure_handler();
+      <span style="font-weight: bold;">return</span>;
+    }
+
+    model.addUser(name, email);
+    success_handler();
+    <span style="font-weight: bold;">return</span>;
+  };
+
+
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">updateUser</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">email</span>, <span style="font-weight: bold; font-style: italic;">new_name</span>, <span style="font-weight: bold; font-style: italic;">new_email</span>, <span style="font-weight: bold; font-style: italic;">success_handler</span>, <span style="font-weight: bold; font-style: italic;">failure_handler</span>) {
+
+    <span style="font-weight: bold;">if</span> (!model.userExists(email)) {
+      window.errorStore.pushError(`user <span style="font-weight: bold;">with</span> email: ${email} does not exist <span style="font-weight: bold;">in</span> the model`)
+      failure_handler();
+      <span style="font-weight: bold;">return</span>;
+    }
+
+    <span style="font-weight: bold;">if</span> (!isName(new_name)) {
+      window.errorStore.pushError(`name: ${new_name} is not alphanumeric`);
+      failure_handler();
+      <span style="font-weight: bold;">return</span>;
+    }
+
+    <span style="font-weight: bold;">if</span> (!isEmail(new_email)) {
+      window.errorStore.pushError(`email: ${new_email} is not a valid email`);
+      failure_handler();
+      <span style="font-weight: bold;">return</span>;
+    }
+
+    <span style="font-weight: bold;">if</span> (email != new_email &amp;&amp; model.userExists(new_email)) {
+      window.errorStore.pushError(`email: ${new_email} already exists <span style="font-weight: bold;">in</span> the model`);
+      failure_handler();
+      <span style="font-weight: bold;">return</span>;
+    }
+
+    model.updateUser(email, new_name, new_email);
+    success_handler();
+    <span style="font-weight: bold;">return</span>;
+  };
+
+
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">deleteUser</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">email</span>) {
+    <span style="font-weight: bold;">if</span> (!model.userExists(email)) {
+      window.errorStore.pushError(<span style="font-style: italic;">"user with email: \'%s\' does not exist in the model"</span>, email);
+      <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">false</span>;
+    }
+    model.deleteUser(email);
+    <span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">true</span>;
+  };
+
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">findUserByEmail</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">email</span>) {
+    <span style="font-weight: bold;">return</span> model.findUserByEmail();
+  };
+
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">controller</span> = {};
+  controller.getUsers = getUsers;
+  controller.addUser = addUser;
+  controller.deleteUser = deleteUser;
+  controller.updateUser = updateUser;
+  controller.findUserByEmail = findUserByEmail;
+  <span style="font-weight: bold;">return</span> controller;
+};
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org8fecf92" class="outline-2">
+<h2 id="org8fecf92"><span class="section-number-2">7</span> Error Store</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+Errors happen when performing
+operation(s) on the model.  The
+application should have the
+mechanism to handle these
+errors.
+</p>
+
+<p>
+Since all operations on the
+model are through the
+<code>controller</code>, whenever it
+cannot successfully perform an
+operation, it pushes an error
+to the <code>errorStore</code>. 
+</p>
+
+<p>
+There is always only one error
+this <code>errorStore</code> holds.
+It is the responsibility of
+the caller of the controller
+to find out the error and
+perform the appropriate
+remedial action. 
+</p>
+<div class="org-src-container">
+<pre class="src src-js" id="orgd4119a2"><span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">errorStoreMaker</span> = <span style="font-weight: bold;">function</span>() {
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">errorList</span> = [];
+
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">getError</span> = <span style="font-weight: bold;">function</span>() {
+    <span style="font-weight: bold;">return</span> errorList[0];
+
+  };
+
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">pushError</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">error</span>) {
+    <span style="font-weight: bold;">if</span> (errorList.length &gt; 0)
+      errorList.pop();
+
+    errorList.push(error);
+  };
+
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">errorStore</span> = {};
+  errorStore.pushError = pushError;
+  errorStore.getError = getError;
+  <span style="font-weight: bold;">return</span> errorStore;
+};
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2017-02-19 Sun 00:00</p>
+<p class="author">Author: VLEAD</p>
+<p class="date">Created: 2017-04-27 Thu 03:32</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

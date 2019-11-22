@@ -1,0 +1,49 @@
+#add-user-btn {
+    margin-top: 2em;
+    margin-left: 32em;
+}
+
+#get-all-users-container {
+    margin-left: 4em;
+    margin-top: 2.5em;
+}
+
+#add-user-container {
+    margin-left: 4em;
+    margin-top: 2.5em;
+}
+
+#delete-user-container {
+    margin-left: 4em;
+    margin-top: 2.5em;
+}
+
+#edit-user-container {
+    margin-left: 4em;
+    margin-top: 2.5em;
+}
+
+li {
+    list-style-type: none;
+    margin-bottom: 3em;
+}
+
+ul {
+    list-style-type: none;
+}
+
+button { 
+    width: 4em;
+    margin: 1.5em;
+}
+
+.hidden {
+    display: none;
+}
+
+p {
+    font-size:300%;
+    /* margin-left: 0em; */
+    /* margin-top: 2.5em; */
+
+}

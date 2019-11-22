@@ -1,0 +1,700 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-04-27 Thu 03:32 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Emacs and Orgmode</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="VLEAD" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="../../style/css/worg-style.css" />
+<link rel="stylesheet" type="text/css" href="../../style/css/override.css" />
+<link rel="icon" type="image/png" href="../../style/img/favicon/popl.png" />
+<script type="text/javascript" src="../../style/js/org-info.js">
+/**
+ *
+ * @source: ../../style/js/org-info.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in ../../style/js/org-info.js.
+ *
+ * Copyright (C) 2012-2013 Free Software Foundation, Inc.
+ *
+ *
+ * The JavaScript code in this tag is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in ../../style/js/org-info.js.
+ *
+ */
+</script>
+
+<script type="text/javascript">
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "1");
+org_html_manager.set("LINK_HOME", "../../index.html");
+org_html_manager.set("LINK_UP", "../index.html");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="../../index.html"> HOME </a>
+</div><div id="content">
+<h1 class="title">Emacs and Orgmode</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgf48687c">1. Objective of Lab</a></li>
+<li><a href="#orge3ab9ed">2. Instructions</a></li>
+<li><a href="#orgefd0301">3. Problems</a>
+<ul>
+<li><a href="#org62b297b">3.1. Emacs</a>
+<ul>
+<li><a href="#org6969e40">3.1.1. Files and Keys</a></li>
+<li><a href="#orgbb21401">3.1.2. Navigation and Commands:</a></li>
+<li><a href="#orgb5b3a99">3.1.3. Help</a></li>
+<li><a href="#org7bebfd9">3.1.4. Custom</a></li>
+<li><a href="#org8088219">3.1.5. <code>.emacs</code> preview</a></li>
+<li><a href="#org2fe66ec">3.1.6. <i>Bonus</i></a></li>
+</ul>
+</li>
+<li><a href="#org8400f0f">3.2. Org-mode</a>
+<ul>
+<li><a href="#orgd60293d">3.2.1. Document structure</a></li>
+<li><a href="#org15a0d74">3.2.2. Markup and Plain Lists</a></li>
+<li><a href="#orgafc9c84">3.2.3. Source blocks</a></li>
+<li><a href="#orgfc6c0b8">3.2.4. Links</a></li>
+<li><a href="#orgcd42fff">3.2.5. <i>Bonus</i>:</a></li>
+<li><a href="#orgbc29009">3.2.6. <i>Bonus</i>: Tables</a></li>
+<li><a href="#org9d5ffbd">3.2.7. Export</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org1861822">4. Instructions</a></li>
+<li><a href="#org696972b">5. Directory Structure</a></li>
+<li><a href="#org66edecf">6. Guidelines</a></li>
+<li><a href="#orgddffd4e">7. References</a>
+<ul>
+<li><a href="#org7cbb8d6">7.1. Emacs</a></li>
+<li><a href="#org516d71a">7.2. Org-mode</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgf48687c" class="outline-2">
+<h2 id="orgf48687c"><span class="section-number-2">1</span> Objective of Lab</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>Learn what Emacs is and how it works.
+<ul class="org-ul">
+<li>Navigation</li>
+<li>Basic commands
+<ul class="org-ul">
+<li>Kill/yank vs. cut/paste</li>
+<li>Undo</li>
+</ul></li>
+<li>Frames, buffers</li>
+<li>M-x</li>
+<li>Everything is a command</li>
+<li>Accessing help and documentation</li>
+<li>The Custom package</li>
+</ul></li>
+<li>Learn what orgmode is, how it works, and what it's good
+for.
+
+<ul class="org-ul">
+<li>Structure of an org document</li>
+
+<li>Markup - <i>italics</i>, <b>boldface</b>, <span class="underline">underline</span>, <code>code</code>,
+<code>verbatim</code>.</li>
+
+<li>Hyperlinks</li>
+
+<li>Source code</li>
+
+<li>Exporting</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orge3ab9ed" class="outline-2">
+<h2 id="orge3ab9ed"><span class="section-number-2">2</span> Instructions</h2>
+<div class="outline-text-2" id="text-2">
+<ol class="org-ol">
+<li>Write out and save the above problem solutions in a
+single file called <code>main.org</code>. Follow the guidelines
+for format.</li>
+
+<li>Export to <code>main.html</code> once the entire exercise is
+done.</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgefd0301" class="outline-2">
+<h2 id="orgefd0301"><span class="section-number-2">3</span> Problems</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-org62b297b" class="outline-3">
+<h3 id="org62b297b"><span class="section-number-3">3.1</span> Emacs</h3>
+<div class="outline-text-3" id="text-3-1">
+</div><div id="outline-container-org6969e40" class="outline-4">
+<h4 id="org6969e40"><span class="section-number-4">3.1.1</span> Files and Keys</h4>
+<div class="outline-text-4" id="text-3-1-1">
+<p>
+Find the <i>key</i> sequence that performs the following actions:
+</p>
+<ul class="org-ul">
+<li>Open a new file named <code>hello.txt</code></li>
+<li>Enter Info, the documentation browser.</li>
+<li>Enter the Emacs manual in Info.</li>
+<li>Copy the first line of the Emacs manual into <code>hello.txt</code> 5 times.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgbb21401" class="outline-4">
+<h4 id="orgbb21401"><span class="section-number-4">3.1.2</span> Navigation and Commands:</h4>
+<div class="outline-text-4" id="text-3-1-2">
+<p>
+Find the <i>command</i> sequence that moves around a buffer as
+specified.
+</p>
+
+<ul class="org-ul">
+<li>Up 5 lines, right 4 chars, down 3 lines.</li>
+<li>Up 1 screen, right 3 words, left 5 chars.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgb5b3a99" class="outline-4">
+<h4 id="orgb5b3a99"><span class="section-number-4">3.1.3</span> Help</h4>
+<div class="outline-text-4" id="text-3-1-3">
+<p>
+Answer the questions below, and list the sequence of actions
+you took to find the answers in Emacs.
+</p>
+
+<ul class="org-ul">
+<li>What command is <code>C-x C-c</code> tied to?
+<ul class="org-ul">
+<li>What does that command do, according to the documentation?</li>
+</ul></li>
+<li>What does the command <code>dired</code> do?
+<ul class="org-ul">
+<li>What keys is it bound to?</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org7bebfd9" class="outline-4">
+<h4 id="org7bebfd9"><span class="section-number-4">3.1.4</span> Custom</h4>
+<div class="outline-text-4" id="text-3-1-4">
+<p>
+Run the command <code>customize-face</code>, hit enter (<code>RET</code> is what
+docs call the Enter key, by the way), type <code>default</code>, then
+<code>RET</code> again. Perform the actions listed, and write out what
+you did to make them happen. (Be brief, please.)
+</p>
+
+<ul class="org-ul">
+<li>Change the font size to 100.</li>
+<li>Change the foreground color.</li>
+<li>Change the font.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org8088219" class="outline-4">
+<h4 id="org8088219"><span class="section-number-4">3.1.5</span> <code>.emacs</code> preview</h4>
+<div class="outline-text-4" id="text-3-1-5">
+<p>
+Open the file <code>~/.emacs</code>. Save its contents to you org file.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2fe66ec" class="outline-4">
+<h4 id="org2fe66ec"><span class="section-number-4">3.1.6</span> <i>Bonus</i></h4>
+<div class="outline-text-4" id="text-3-1-6">
+<p>
+Talk to the <code>doctor</code> for a while. Save the conversation!
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8400f0f" class="outline-3">
+<h3 id="org8400f0f"><span class="section-number-3">3.2</span> Org-mode</h3>
+<div class="outline-text-3" id="text-3-2">
+</div><div id="outline-container-orgd60293d" class="outline-4">
+<h4 id="orgd60293d"><span class="section-number-4">3.2.1</span> Document structure</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<p>
+Make a file called <code>main.org</code>.
+</p>
+
+<ul class="org-ul">
+<li>Title it <i>Org-mode Lab</i>, using the <code>#+TITLE</code> header.</li>
+<li>Create <code>#+AUTHOR</code> and <code>#+EMAIL</code> headers.</li>
+<li>Make a heading called <i>Org 1</i>.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org15a0d74" class="outline-4">
+<h4 id="org15a0d74"><span class="section-number-4">3.2.2</span> Markup and Plain Lists</h4>
+<div class="outline-text-4" id="text-3-2-2">
+<ul class="org-ul">
+<li>Inside it, make a plain list.</li>
+
+<li>Make a series of items in the plain list, with <b>bold</b>,
+<i>italic</i>, <code>code</code>, and <code>verbatim</code> formats respectively.</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgafc9c84" class="outline-4">
+<h4 id="orgafc9c84"><span class="section-number-4">3.2.3</span> Source blocks</h4>
+<div class="outline-text-4" id="text-3-2-3">
+<ul class="org-ul">
+<li>Make a Racket source block.  Inside it, put the
+<code>ring-area</code> function you created in the Intro to Racket
+lab.
+
+<ul class="org-ul">
+<li>Provide this function using <code>provide</code>.</li>
+</ul></li>
+
+<li>Make a Racket source block. Inside it, write a program
+that will output a list of the first 20 even numbers.
+
+<ul class="org-ul">
+<li>Provide this function using <code>provide</code>.</li>
+</ul></li>
+
+<li><i>Bonus</i>: Find out how to pass arguments to code blocks,
+and create a code block for a Hello World program that
+says, "Hello, " followed by your name, in C. Pass your name to it as an argument.</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgfc6c0b8" class="outline-4">
+<h4 id="orgfc6c0b8"><span class="section-number-4">3.2.4</span> Links</h4>
+<div class="outline-text-4" id="text-3-2-4">
+<p>
+Make a heading called <i>Links</i>. Create a plain list with
+items according to the instructions below.
+</p>
+
+<ul class="org-ul">
+<li>Make a link to your <a href="#org15a0d74">Markups and Plain Lists heading</a>.</li>
+
+<li>Make a link to this lab page on the course portal.</li>
+
+<li>Make a link to <code>hello.txt</code> (that you created using <a href="#org6969e40">Files and Keys</a>).</li>
+</ul>
+
+<p>
+<i>Hint</i>: Use <a href="http://orgmode.org/manual/Hyperlinks.html#Hyperlinks">Hyperlinks help</a> from Org mode (inside Info in Emacs, or online).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcd42fff" class="outline-4">
+<h4 id="orgcd42fff"><span class="section-number-4">3.2.5</span> <i>Bonus</i>:</h4>
+<div class="outline-text-4" id="text-3-2-5">
+<ul class="org-ul">
+<li>Make a target inside the <i>Org 1</i> heading, and link to
+it. Title it <i>Target Link</i>.</li>
+
+<li>Store a link to the org Info page, and make a link
+using that stored link.</li>
+
+<li>Store a link to the Python source block in <a href="#orgafc9c84">Source Blocks</a>.</li>
+
+<li>Store a link to the table in <a href="#orgbc29009"><i>Bonus</i>: Tables</a>.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgbc29009" class="outline-4">
+<h4 id="orgbc29009"><span class="section-number-4">3.2.6</span> <i>Bonus</i>: Tables</h4>
+<div class="outline-text-4" id="text-3-2-6">
+<ul class="org-ul">
+<li>Make a 3 column table.</li>
+<li>Title the columns A, B, A &and; B. (Hint: Use <code>\land</code> for &and;).</li>
+<li>Write the truth table for A &and; B.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org9d5ffbd" class="outline-4">
+<h4 id="org9d5ffbd"><span class="section-number-4">3.2.7</span> Export</h4>
+<div class="outline-text-4" id="text-3-2-7">
+<p>
+After finishing all the exercises, export to html.
+</p>
+<ul class="org-ul">
+<li>using <code>C-c C-e h</code> or <code>M-x org-export-as-html</code> if org version &gt;8</li>
+<li>using <code>C-c C-e h h</code> or <code>M-x org-html-export-as-html</code> if org version 8+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1861822" class="outline-2">
+<h2 id="org1861822"><span class="section-number-2">4</span> Instructions</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>Write out and save the above problem solutions - to both the Emacs and Org-mode sections - in a single
+file called <code>main.org</code>. Follow the guidelines for format.</li>
+
+<li>Export to <code>main.html</code> once the entire exercise is done.</li>
+
+<li>Commit <code>main.org</code>, <code>main.html</code>, <code>hello.txt</code>.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org696972b" class="outline-2">
+<h2 id="org696972b"><span class="section-number-2">5</span> Directory Structure</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+In your Gitlab directory, you <b>must</b> follow the directory structure as below:
+</p>
+
+<pre class="example">
+     -------------------------
+     &lt;roll-no&gt;
+     |
+     `----labs
+          |
+          `--- lab-2
+               |--- main.org
+               |--- hello.txt
+     ------------------------
+</pre>
+</div>
+</div>
+<div id="outline-container-org66edecf" class="outline-2">
+<h2 id="org66edecf"><span class="section-number-2">6</span> Guidelines</h2>
+<div class="outline-text-2" id="text-6">
+<ul class="org-ul">
+<li>Every solution should be under a heading with the problem
+title.</li>
+
+<li>Keybindings should be printed <code>code</code>, eg. <code>C-x C-f</code>. (Use <code>==</code>).</li>
+
+<li>Commands should be <code>code, eg. =find-file</code>. (Use <code>==</code>).</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgddffd4e" class="outline-2">
+<h2 id="orgddffd4e"><span class="section-number-2">7</span> References</h2>
+<div class="outline-text-2" id="text-7">
+</div><div id="outline-container-org7cbb8d6" class="outline-3">
+<h3 id="org7cbb8d6"><span class="section-number-3">7.1</span> Emacs</h3>
+<div class="outline-text-3" id="text-7-1">
+<ul class="org-ul">
+<li><a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/index.html">The GNU Emacs Manual</a></li>
+<li><a href="https://www.gnu.org/software/emacs/tour/">A Guided Tour of Emacs</a>, GNU</li>
+<li><a href="https://www.masteringemacs.org/article/beginners-guide-to-emacs">An Emacs Tutorial: Beginner’s Guide to Emacs, By Mickey Petersen</a></li>
+<li><a href="http://sachachua.com/blog/2014/04/emacs-beginner-resources/">Emacs beginner resources</a>, Sacha Chua</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org516d71a" class="outline-3">
+<h3 id="org516d71a"><span class="section-number-3">7.2</span> Org-mode</h3>
+<div class="outline-text-3" id="text-7-2">
+<ul class="org-ul">
+<li><a href="http://orgmode.org/guide/index.html#Top">The Compact Org-mode Guide</a></li>
+<li><a href="http://orgmode.org/worg/org-tutorials/org4beginners.html">Org-mode begnning at the basics</a>, also good for a minimal introduction to Emacs</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: VLEAD</p>
+<p class="date">Created: 2017-04-27 Thu 03:32</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

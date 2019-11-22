@@ -1,0 +1,210 @@
+#+title:  Literate Programming Template
+#+SETUPFILE: ../../org-templates/level-2.org
+#+EXCLUDE_TAGS: boilerplate
+#+PROPERTY: session *scheme*
+#+PROPERTY: results output
+#+PROPERTY: exports code
+#+TAGS: boilerplate(b) notes(n) solution(s)
+
+* Introduction
+
+Please use this template for doing literate programming in
+Racket.  The goal is to write a narrative in an =org= mode
+file with src blocks to support the narrative. 
+
+Code in src blocks is tangled out to a Racket file
+=main.rkt=.  This Racket file is an executable module.
+
+Each section of your narrative tangles out code from a src
+block into the =main.rkt= file.  Each src block has a
+=#+name:= directive naming the src block (see below).
+
+* Preamble
+
+The first thing is to add the =#lang racket= line at the top
+of your 
+This needs to be done once at the beginning for each file.
+=:session none= means that the line =#lang racket= is not to
+be input into the running scheme session =*scheme*=.
+
+** Module language
+#+name: lang_racket
+#+BEGIN_SRC scheme :session none 
+#lang racket
+#+END_SRC
+
+** Imports
+This section lists all the modules that your module needs to
+import.  You may need to add more =require= declarations
+depending on your homework. 
+
+#+NAME: imports
+#+BEGIN_SRC scheme  
+(require racket/list)
+(require rackunit)
+(require racket/contract)
+#+END_SRC
+
+* Problem 1
+
+Here is a mock problem: Write a program =add2= that takes
+two numbers and adds them.
+* Solution to Problem 1
+The solution is structured as follows:
+** Purpose
+
+The purpose of =add2= is to take two numbers and return
+their sum.
+
+** Example usage
+#+name: prob1_usage
+#+BEGIN_SRC scheme
+(add2 4 7) ; => 11
+(add2 2/3 8/9) ; => 14/9
+#+END_SRC
+
+** Signature and Definition
+The signature and definition are written together.  You may
+want to write in plain English an explanation of the
+signature and any special boundary conditions that apply. 
+
+For example: 
+
+=add2= takes two numbers and returns a number.  These
+numbers could be integers, fractions or even complex
+numbers. 
+#+name: add2
+#+BEGIN_SRC scheme
+;;; add2 : [number? number?]  ->  number?
+(define add2
+  (lambda (x y)
+    (+ x y)))
+#+END_SRC
+
+** Test cases
+
+These test cases demonstrate that your program works some of
+the time.  We will occasionally supply some test cases to
+you, but not the test cases against which we will test your
+program to grade it.
+
+#+NAME: add2_tests
+#+BEGIN_SRC scheme
+(check-equal? (add2 3 5) 8 "add2:t1")
+(check-equal? (add2 7 4) 11 "add2:t2")
+;;; this test verifies that add2 when 
+;;; called with only one argument
+;;; fails
+(check-exn exn:fail? (lambda () (add2 4)) "add2:t3")
+#+END_SRC
+
+** Export
+This declaration exports the definition =add2=. 
+#+NAME: prob_1_exports
+#+BEGIN_SRC scheme
+(provide add2)
+#+END_SRC
+
+* Problem 2
+Write a program =fact= that takes a number and returns its
+factorial.
+* Solution to Problem 2
+
+** Auxiliary definition
+
+First we need to define =nat?=, a predicate to check if the
+argument is a non negative number.
+
+#+name: nat
+#+BEGIN_SRC scheme
+(define nat? exact-nonnegative-integer?)
+#+END_SRC
+
+** =fact=
+This section designs the function =fact=. 
+*** Purpose
+
+The purpose of =fact= is to compute the factorial of a number.
+
+*** Example usage
+
+#+BEGIN_SRC scheme :eval no
+(fact 0) ; => 1
+(fact 5) ; => 120
+#+END_SRC
+
+*** Signature and Definition
+#+BEGIN_SRC scheme
+;;; fact:  nat? -> nat? 
+#+END_SRC
+
+#+name: fact
+#+BEGIN_SRC scheme
+(define fact
+  (lambda (n)
+    (if (= n 0)
+        1
+        (* n (fact (sub1 n))))))
+#+END_SRC
+
+*** Test cases
+#+name: fact_tests
+#+BEGIN_SRC scheme
+(check-equal? (fact 0) 1 "fact:t1")
+(check-equal? (fact 3) 6 "fact:t2")
+(check-equal? (fact 5) 120 "fact:t3")
+;;; this test verifies that fact fails if 
+;;; no arguments to it are passed
+(check-exn exn:fail? (lambda ()  (fact)) "fact:t4")
+           
+#+END_SRC
+
+*** Export
+Note that we need not export =nat?=.
+#+NAME: prob_2_exports
+#+BEGIN_SRC scheme
+(provide fact)
+#+END_SRC
+
+
+
+* Tangle
+Now it's time to take all the code blocks and put them
+together and tangle them into =main.rkt=.
+#+BEGIN_SRC scheme :eval no :noweb yes :tangle main.rkt
+<<lang_racket>>
+<<imports>>
+<<prob_1_exports>>
+<<prob_2_exports>>
+<<add2>>
+<<add2_tests>>
+<<nat>>
+<<fact>>
+<<fact_tests>>
+#+END_SRC
+
+
+* COMMENT Running =main.rkt=
+
+
+  1. From the org file containing your solution, type the
+     emacs key sequence =C-c C-v t= (this is a short cut to
+     emacs command =M-x org-babel-tangle=).
+
+  2. Visit the file =main.rkt=.
+
+  3. Start a new Racket Session using the command =M-x
+     racket-repl=.  Make sure you run the command when you
+     are visiting =main.rkt=.  This ensures that Racket's
+     start in the directory containing =main.rkt=.
+
+* Running =main.rkt= from Racket
+   Run the following =require= declaration from your Racket repl.
+#+BEGIN_EXAMPLE
+(require "main.rkt") 
+#+END_EXAMPLE
+
+ If your test cases are correct, you should see no error
+     messages.  If you have errors, fix the code in the
+     /org/ file, not =main.rkt=, then tangle out again to
+     =main.rkt= and repeat the require declaration. 

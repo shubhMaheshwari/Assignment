@@ -1,0 +1,1447 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-04-27 Thu 03:32 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>System with Entities as Objects</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="VLEAD" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="../../style/css/worg-style.css" />
+<link rel="stylesheet" type="text/css" href="../../style/css/override.css" />
+<link rel="icon" type="image/png" href="../../style/img/favicon/popl.png" />
+<script type="text/javascript" src="../../style/js/org-info.js">
+/**
+ *
+ * @source: ../../style/js/org-info.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in ../../style/js/org-info.js.
+ *
+ * Copyright (C) 2012-2013 Free Software Foundation, Inc.
+ *
+ *
+ * The JavaScript code in this tag is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in ../../style/js/org-info.js.
+ *
+ */
+</script>
+
+<script type="text/javascript">
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "1");
+org_html_manager.set("LINK_HOME", "../../index.html");
+org_html_manager.set("LINK_UP", "../index.html");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="../../index.html"> HOME </a>
+</div><div id="content">
+<h1 class="title">System with Entities as Objects</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org572872b">1. Entities</a>
+<ul>
+<li><a href="#org3192772">1.1. Name Entity</a></li>
+<li><a href="#orge071d98">1.2. Email Entity</a></li>
+<li><a href="#org790a813">1.3. User Entity</a></li>
+<li><a href="#orgd5500b9">1.4. Utils</a></li>
+</ul>
+</li>
+<li><a href="#org4ad0bb7">2. System</a>
+<ul>
+<li><a href="#org2dbf323">2.1. The <code>System</code> class</a>
+<ul>
+<li><a href="#org066200e">2.1.1. Constructor</a></li>
+<li><a href="#orga71f290">2.1.2. Arity and Type check methods</a></li>
+</ul>
+</li>
+<li><a href="#org2aabff5">2.2. <code>do</code> method</a></li>
+<li><a href="#orgecf25ee">2.3. <code>AddUser</code></a></li>
+<li><a href="#orgfc0353d">2.4. <code>ShowUsers</code></a></li>
+<li><a href="#org3cf6626">2.5. <code>DelUser</code></a></li>
+<li><a href="#orgb0912a4">2.6. <code>SetName</code></a></li>
+<li><a href="#org657cfcd">2.7. <code>SetEmail</code></a></li>
+<li><a href="#org4cd658b">2.8. Operations Table</a></li>
+</ul>
+</li>
+<li><a href="#org37d0b43">3. Test System</a>
+<ul>
+<li><a href="#org587ecec">3.1. Introduction</a></li>
+<li><a href="#org2222022">3.2. Test AddUser</a></li>
+<li><a href="#orgc15c1f8">3.3. Test DelUser</a></li>
+<li><a href="#orgbd9a6dc">3.4. Test SetEmail</a></li>
+<li><a href="#org51a30ef">3.5. Test SetName</a></li>
+<li><a href="#org22ae8d5">3.6. Run Tests</a></li>
+</ul>
+</li>
+<li><a href="#org9c49037">4. Object Delegate</a>
+<ul>
+<li><a href="#org8b12f6f">4.1. Initialize Object Delegate</a>
+<ul>
+<li><a href="#org3138bf6">4.1.1. class<sub>object</sub><sub>delegate</sub></a></li>
+</ul>
+</li>
+<li><a href="#org49efb62">4.2. Other functions</a>
+<ul>
+<li><a href="#org72b87d8">4.2.1. Check if <code>user</code> already exists</a></li>
+<li><a href="#org2ba48c7">4.2.2. Add a user to the system</a></li>
+<li><a href="#org1c9c770">4.2.3. Delete a user to the system</a></li>
+<li><a href="#orgf791e77">4.2.4. Get user by Email</a></li>
+<li><a href="#org96d41a1">4.2.5. Set Email of a User</a></li>
+<li><a href="#org0e572ff">4.2.6. Set Name of a User</a></li>
+<li><a href="#org2492a7d">4.2.7. Return the users in the system</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org08653d4">5. Custom Exceptions</a>
+<ul>
+<li>
+<ul>
+<li><a href="#org1706aa9">5.0.1. AttributeRequired</a></li>
+<li><a href="#org7764eb9">5.0.2. Constraint Error</a></li>
+<li><a href="#org8d4bdf8">5.0.3. NotAuthorized Error</a></li>
+<li><a href="#org134e9ed">5.0.4. ArityError</a></li>
+<li><a href="#org4f87837">5.0.5. State Error</a></li>
+<li><a href="#org0d14660">5.0.6. NotFound Error</a></li>
+<li><a href="#orgc8e4fef">5.0.7. Error</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org572872b" class="outline-2">
+<h2 id="org572872b"><span class="section-number-2">1</span> Entities</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-org3192772" class="outline-3">
+<h3 id="org3192772"><span class="section-number-3">1.1</span> Name Entity</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Name entity has an attribute <code>val</code> that is a string.
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">Name</span>():
+    <span style="font-weight: bold; font-style: italic;">val</span> = <span style="font-weight: bold; text-decoration: underline;">None</span>
+    
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__init__</span>(<span style="font-weight: bold;">self</span>, val):
+        <span style="font-weight: bold;">if</span> is_alphanumeric_str(val):
+            <span style="font-weight: bold;">self</span>.val = val
+        <span style="font-weight: bold;">else</span>:
+            <span style="font-weight: bold;">raise</span> <span style="font-weight: bold; text-decoration: underline;">Exception</span>(<span style="font-style: italic;">"val %s is not a valid name"</span> % val)
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">get_val</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">return</span> <span style="font-weight: bold;">self</span>.val
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">set_val</span>(<span style="font-weight: bold;">self</span>, val):
+        <span style="font-weight: bold;">self</span>.val = val
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">to_client</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold; font-style: italic;">ret_dict</span> = {}
+        <span style="font-weight: bold; font-style: italic;">ret_dict</span>[<span style="font-style: italic;">"val"</span>] = <span style="font-weight: bold;">self</span>.val
+        <span style="font-weight: bold;">return</span> ret_dict
+
+<span style="font-weight: bold;">def</span> <span style="font-weight: bold;">is_name</span>(value):
+    <span style="font-weight: bold;">return</span> <span style="font-weight: bold;">isinstance</span>(value, Name)
+
+<span style="font-weight: bold; font-style: italic;">Name.__eq__</span> = <span style="font-weight: bold;">lambda</span> <span style="font-weight: bold;">self</span>, other: \
+  is_name(other) <span style="font-weight: bold;">and</span> \
+  <span style="font-weight: bold;">self</span>.get_val() == other.get_val()
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orge071d98" class="outline-3">
+<h3 id="orge071d98"><span class="section-number-3">1.2</span> Email Entity</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Email entity has an attribute <code>val</code> that is an email string.
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">Email</span>():
+    <span style="font-weight: bold; font-style: italic;">val</span> = <span style="font-weight: bold; text-decoration: underline;">None</span>
+    <span style="font-weight: bold; font-style: italic;">user</span> = <span style="font-weight: bold; text-decoration: underline;">None</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__init__</span>(<span style="font-weight: bold;">self</span>, val):
+        <span style="font-weight: bold;">if</span> is_email_str(val):
+            <span style="font-weight: bold;">self</span>.val = val
+            <span style="font-weight: bold;">self</span>.user = <span style="font-weight: bold; text-decoration: underline;">None</span>
+        <span style="font-weight: bold;">else</span>:
+            <span style="font-weight: bold;">raise</span> <span style="font-weight: bold; text-decoration: underline;">Exception</span>(<span style="font-style: italic;">"val %s is not a valid email string"</span> % val)
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">get_val</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">return</span> <span style="font-weight: bold;">self</span>.val
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">set_val</span>(<span style="font-weight: bold;">self</span>, val):
+        <span style="font-weight: bold;">self</span>.val = val
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">get_user</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">return</span> <span style="font-weight: bold;">self</span>.user
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">set_user</span>(<span style="font-weight: bold;">self</span>, user):
+        <span style="font-weight: bold;">self</span>.user = user
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">to_client</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold; font-style: italic;">ret_dict</span> = {}
+        <span style="font-weight: bold; font-style: italic;">ret_dict</span>[<span style="font-style: italic;">"val"</span>] = <span style="font-weight: bold;">self</span>.val
+        <span style="font-weight: bold;">return</span> ret_dict
+
+<span style="font-weight: bold;">def</span> <span style="font-weight: bold;">is_email</span>(value):
+    <span style="font-weight: bold;">return</span> <span style="font-weight: bold;">isinstance</span>(value, Email)
+
+<span style="font-weight: bold; font-style: italic;">Email.__eq__</span> = <span style="font-weight: bold;">lambda</span> <span style="font-weight: bold;">self</span>, other: \
+  is_email(other) <span style="font-weight: bold;">and</span> \
+  <span style="font-weight: bold;">self</span>.get_val() == other.get_val()
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org790a813" class="outline-3">
+<h3 id="org790a813"><span class="section-number-3">1.3</span> User Entity</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+User entity attributes <code>email</code> and <code>name</code> 
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">User</span>():
+    <span style="font-weight: bold; font-style: italic;">name</span> = <span style="font-weight: bold; text-decoration: underline;">None</span>
+    <span style="font-weight: bold; font-style: italic;">email</span> = <span style="font-weight: bold; text-decoration: underline;">None</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__init__</span>(<span style="font-weight: bold;">self</span>, name, email):
+        <span style="font-weight: bold;">self</span>.name = name
+        <span style="font-weight: bold;">self</span>.email = email
+<span style="font-weight: bold; font-style: italic;">#        </span><span style="font-weight: bold; font-style: italic;">self.email.set_user(self)</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">get_name</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">return</span> <span style="font-weight: bold;">self</span>.name
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">set_name</span>(<span style="font-weight: bold;">self</span>, name):
+        <span style="font-weight: bold;">self</span>.name = name
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">get_email</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">return</span> <span style="font-weight: bold;">self</span>.email
+
+<span style="font-weight: bold; font-style: italic;">#    </span><span style="font-weight: bold; font-style: italic;">precondition: email is not in email-set</span>
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">set_email</span>(<span style="font-weight: bold;">self</span>, email):
+        <span style="font-weight: bold;">self</span>.email = email
+        <span style="font-weight: bold;">self</span>.email.set_user(<span style="font-weight: bold;">self</span>)
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">to_client</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold; font-style: italic;">ret_dict</span> = {}
+        <span style="font-weight: bold; font-style: italic;">ret_dict</span>[<span style="font-style: italic;">"name"</span>] = <span style="font-weight: bold;">self</span>.name.to_client()
+        <span style="font-weight: bold; font-style: italic;">ret_dict</span>[<span style="font-style: italic;">"email"</span>] = <span style="font-weight: bold;">self</span>.email.to_client()
+        <span style="font-weight: bold;">return</span> ret_dict
+
+<span style="font-weight: bold;">def</span> <span style="font-weight: bold;">is_user</span>(value):
+    <span style="font-weight: bold;">return</span> <span style="font-weight: bold;">isinstance</span>(value, User)
+
+<span style="font-weight: bold; font-style: italic;">User.__eq__</span> = <span style="font-weight: bold;">lambda</span> <span style="font-weight: bold;">self</span>, other: \
+  is_user(other) <span style="font-weight: bold;">and</span> \
+  <span style="font-weight: bold;">self</span>.get_email() == other.get_email()
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd5500b9" class="outline-3">
+<h3 id="orgd5500b9"><span class="section-number-3">1.4</span> Utils</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+These are utils to check types
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">import</span> re
+<span style="font-weight: bold;">def</span> <span style="font-weight: bold;">is_alphanumeric_str</span>(value):
+    <span style="font-weight: bold;">return</span> <span style="font-weight: bold;">isinstance</span>(value, <span style="font-weight: bold;">str</span>) <span style="font-weight: bold;">and</span> <span style="font-weight: bold;">not</span> re.search(<span style="font-style: italic;">'[^a-zA-Z\d. ]+'</span>, value)
+
+
+<span style="font-weight: bold;">def</span> <span style="font-weight: bold;">is_email_str</span>(value):
+    <span style="font-weight: bold;">return</span> <span style="font-weight: bold;">isinstance</span>(value, <span style="font-weight: bold;">str</span>) <span style="font-weight: bold;">and</span> re.search(<span style="font-style: italic;">'[^@]+@[^@]+\.[^@]+'</span>, value)
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org4ad0bb7" class="outline-2">
+<h2 id="org4ad0bb7"><span class="section-number-2">2</span> System</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-org2dbf323" class="outline-3">
+<h3 id="org2dbf323"><span class="section-number-3">2.1</span> The <code>System</code> class</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+There is only one <code>System</code> in the application.
+</p>
+</div>
+<div id="outline-container-org066200e" class="outline-4">
+<h4 id="org066200e"><span class="section-number-4">2.1.1</span> Constructor</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<p>
+This is the generic <code>System</code> implementation.  The entities that make up the
+sytem can be pure objects or objects that can be persisted.
+</p>
+
+<p>
+The specific tasks on the composed objects is agnostic to the <code>system</code>.
+This is achieved by defining an API that the system uses and is implemented
+by composed entity set.
+</p>
+
+<p>
+The system is initialized based on what the system should be composed of.
+</p>
+
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">from</span> custom_exceptions <span style="font-weight: bold;">import</span> *
+
+<span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">System</span> ():
+    
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__init__</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">raise</span> Error(<span style="font-style: italic;">'Can not instantiate'</span>)
+
+    <span style="font-weight: bold; text-decoration: underline;">@staticmethod</span>
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">initialize_system</span>(cls):
+        <span style="font-weight: bold; font-style: italic;">System.delegate</span> = cls()
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga71f290" class="outline-4">
+<h4 id="orga71f290"><span class="section-number-4">2.1.2</span> Arity and Type check methods</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<p>
+Arity Check ensures that correct number of arguments are passed to a
+functions.  Type Check ensures that the type of the arguments passed to a
+function are same as expected.
+</p>
+
+<p>
+Any operation, before being executed is subjected to <code>Arity</code> and <code>Type</code>
+checks.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python">    <span style="font-weight: bold; text-decoration: underline;">@staticmethod</span>
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">arity_check</span>(args, n):
+       <span style="font-weight: bold;">if</span>  (<span style="font-weight: bold;">len</span>(args) != n) :
+          <span style="font-weight: bold;">raise</span> ArityError(<span style="font-style: italic;">"arity mismatch: size of args  does not "</span> + 
+                           <span style="font-style: italic;">"match operation arity "</span> )
+
+    <span style="font-weight: bold; text-decoration: underline;">@staticmethod</span>
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">type_check</span>(args, arg_types):
+        <span style="font-weight: bold;">for</span> key, value <span style="font-weight: bold;">in</span> args.iteritems():
+            <span style="font-weight: bold;">if</span> <span style="font-weight: bold;">not</span> arg_types[key](value):
+                <span style="font-weight: bold;">raise</span> <span style="font-weight: bold; text-decoration: underline;">TypeError</span>(<span style="font-style: italic;">"type mismatch: argument %s is not of "</span>
+                                <span style="font-style: italic;">"type %s"</span> % (value, key))
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2aabff5" class="outline-3">
+<h3 id="org2aabff5"><span class="section-number-3">2.2</span> <code>do</code> method</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+The <code>do</code> method is the main work-horse of <code>System</code> which is construed as the
+<code>Controller</code>.  Every operation follows a template and realized as a class
+that defines:
+</p>
+<ol class="org-ol">
+<li>Number of Arguments</li>
+<li>Type of Arguments</li>
+<li>Who is allowed to perform the operation</li>
+<li>Referential integrity checks and finally</li>
+<li>the operation that changes state of the system.</li>
+</ol>
+
+
+<div class="org-src-container">
+<pre class="src src-python">    <span style="font-weight: bold; text-decoration: underline;">@staticmethod</span>   
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">do</span>(op, **args):
+        <span style="font-weight: bold; font-style: italic;">cls</span> = ops_table[op]
+        <span style="font-weight: bold; font-style: italic;">arg_types</span>  = cls.arg_types
+        <span style="font-weight: bold; font-style: italic;">auth_check</span> = cls.auth_check
+        <span style="font-weight: bold; font-style: italic;">state_check</span> = cls.state_check
+        <span style="font-weight: bold;">try</span>:
+            System.arity_check(args.keys(), <span style="font-weight: bold;">len</span>(arg_types.keys()))
+            System.type_check(args, arg_types)
+            auth_check(args)
+            state_check(args)
+            <span style="font-weight: bold;">return</span> cls.action(args)
+        <span style="font-weight: bold;">except</span> (ArityError, <span style="font-weight: bold; text-decoration: underline;">TypeError</span>, NotAuthorizedError, StateError) <span style="font-weight: bold;">as</span> err:
+            <span style="font-weight: bold;">raise</span> err
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgecf25ee" class="outline-3">
+<h3 id="orgecf25ee"><span class="section-number-3">2.3</span> <code>AddUser</code></h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+A user is added to the system.  Refer <a href="../../data-model/index.html#add-user-auth">auth-check</a> and referential <a href="../../data-model/index.html#add-user-ref">integrity</a>
+rules.
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">AddUser</span>():
+    <span style="font-weight: bold;">from</span> entities <span style="font-weight: bold;">import</span> is_user
+    <span style="font-weight: bold; font-style: italic;">arg_types</span> = {<span style="font-style: italic;">"user"</span>: is_user}
+
+    <span style="font-weight: bold; text-decoration: underline;">@staticmethod</span>
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">auth_check</span>(args):
+        <span style="font-weight: bold;">pass</span>
+
+    <span style="font-weight: bold; text-decoration: underline;">@staticmethod</span>
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">state_check</span>(args):
+        <span style="font-weight: bold; font-style: italic;">user</span> = args[<span style="font-style: italic;">"user"</span>]
+        <span style="font-weight: bold;">if</span> System.delegate.user_exists(user):
+            <span style="font-weight: bold;">raise</span> StateError(<span style="font-style: italic;">"user %s already exists in System"</span>
+                                % user.to_client())
+
+    <span style="font-weight: bold; text-decoration: underline;">@staticmethod</span>
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">action</span>(args):
+        <span style="font-weight: bold; font-style: italic;">user</span> = args[<span style="font-style: italic;">"user"</span>]
+        <span style="font-weight: bold; font-style: italic;">user</span> = System.delegate.add_user(user)
+        <span style="font-weight: bold;">return</span> user
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgfc0353d" class="outline-3">
+<h3 id="orgfc0353d"><span class="section-number-3">2.4</span> <code>ShowUsers</code></h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+<code>user-set</code> is returned.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">ShowUsers</span>():
+
+    <span style="font-weight: bold; text-decoration: underline;">@staticmethod</span>
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">auth_check</span>():
+        <span style="font-weight: bold;">pass</span>
+
+    <span style="font-weight: bold; text-decoration: underline;">@staticmethod</span>
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">state_check</span>(args):
+        <span style="font-weight: bold;">pass</span>
+
+    <span style="font-weight: bold; text-decoration: underline;">@staticmethod</span>
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">action</span>(args):
+        <span style="font-weight: bold;">return</span> System.delegate.get_user_set()
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3cf6626" class="outline-3">
+<h3 id="org3cf6626"><span class="section-number-3">2.5</span> <code>DelUser</code></h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+Delete an existing user from the system.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">DelUser</span>():
+    <span style="font-weight: bold;">from</span> entities <span style="font-weight: bold;">import</span> is_user
+    <span style="font-weight: bold; font-style: italic;">arg_types</span> = {<span style="font-style: italic;">"user"</span>: is_user}
+
+    <span style="font-weight: bold; text-decoration: underline;">@staticmethod</span>
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">auth_check</span>(args):
+        <span style="font-weight: bold;">pass</span>
+
+    <span style="font-weight: bold; text-decoration: underline;">@staticmethod</span>
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">state_check</span>(args):
+        <span style="font-weight: bold; font-style: italic;">user</span> = args[<span style="font-style: italic;">"user"</span>]
+        <span style="font-weight: bold;">if</span> <span style="font-weight: bold;">not</span> System.delegate.user_exists(user):
+            <span style="font-weight: bold;">raise</span> StateError(<span style="font-style: italic;">"user %s does not exist in System"</span>
+                                % user.to_client())
+
+    <span style="font-weight: bold; text-decoration: underline;">@staticmethod</span>
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">action</span>(args):
+        <span style="font-weight: bold; font-style: italic;">user</span> = args[<span style="font-style: italic;">"user"</span>]
+        <span style="font-weight: bold; font-style: italic;">user_from_system</span> = System.delegate.get_user(email=user.get(<span style="font-style: italic;">"email"</span>))
+        <span style="font-weight: bold; font-style: italic;">user</span> = System.delegate.del_user(user_from_system)
+        <span style="font-weight: bold;">return</span> user
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb0912a4" class="outline-3">
+<h3 id="orgb0912a4"><span class="section-number-3">2.6</span> <code>SetName</code></h3>
+<div class="outline-text-3" id="text-2-6">
+<p>
+Set the name of an existing user to a new value.
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">SetName</span>():
+    <span style="font-weight: bold;">from</span> entities <span style="font-weight: bold;">import</span> is_user, is_name
+    <span style="font-weight: bold; font-style: italic;">arg_types</span> = {<span style="font-style: italic;">"user"</span>: is_user, 
+                 <span style="font-style: italic;">"name"</span>: is_name
+                }
+
+    <span style="font-weight: bold; text-decoration: underline;">@staticmethod</span>
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">auth_check</span>(args):
+        <span style="font-weight: bold;">pass</span>
+
+    <span style="font-weight: bold; text-decoration: underline;">@staticmethod</span>
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">state_check</span>(args):
+        <span style="font-weight: bold; font-style: italic;">user</span> = args[<span style="font-style: italic;">"user"</span>]
+
+        <span style="font-weight: bold;">if</span> <span style="font-weight: bold;">not</span> System.delegate.user_exists(user):
+            <span style="font-weight: bold;">raise</span> StateError(<span style="font-style: italic;">"user %s does not exist in System"</span>
+                                % user.to_client())
+
+    <span style="font-weight: bold; text-decoration: underline;">@staticmethod</span>
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">action</span>(args):
+        <span style="font-weight: bold; font-style: italic;">user</span> = args[<span style="font-style: italic;">"user"</span>]
+        <span style="font-weight: bold; font-style: italic;">name</span> = args[<span style="font-style: italic;">"name"</span>]
+        <span style="font-weight: bold; font-style: italic;">user</span> = System.delegate.set_name(user, name)
+        <span style="font-weight: bold;">return</span> user
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org657cfcd" class="outline-3">
+<h3 id="org657cfcd"><span class="section-number-3">2.7</span> <code>SetEmail</code></h3>
+<div class="outline-text-3" id="text-2-7">
+<p>
+Set the name of an existing user to a new value.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">SetEmail</span>():
+    <span style="font-weight: bold;">from</span> entities <span style="font-weight: bold;">import</span> is_user, is_email
+    <span style="font-weight: bold; font-style: italic;">arg_types</span> = {<span style="font-style: italic;">"user"</span>: is_user, 
+                 <span style="font-style: italic;">"email"</span>: is_email
+                }
+
+    <span style="font-weight: bold; text-decoration: underline;">@staticmethod</span>
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">auth_check</span>(args):
+        <span style="font-weight: bold;">pass</span>
+
+    <span style="font-weight: bold; text-decoration: underline;">@staticmethod</span>
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">state_check</span>(args):
+        <span style="font-weight: bold; font-style: italic;">user</span> = args[<span style="font-style: italic;">"user"</span>]
+        <span style="font-weight: bold; font-style: italic;">email</span> = args[<span style="font-style: italic;">"email"</span>]
+
+        <span style="font-weight: bold;">if</span> <span style="font-weight: bold;">not</span> System.delegate.user_exists(user):
+            <span style="font-weight: bold;">raise</span> StateError(<span style="font-style: italic;">"user %s does not exist in System"</span>
+                                % user.to_client())
+
+        <span style="font-weight: bold;">elif</span> System.delegate.get_user_by_email(email) <span style="font-weight: bold;">is</span> <span style="font-weight: bold;">not</span> <span style="font-weight: bold; text-decoration: underline;">None</span>:
+            <span style="font-weight: bold;">raise</span> StateError(<span style="font-style: italic;">"Another user exists with the email %s in System"</span>
+                                % email.to_client())
+
+    <span style="font-weight: bold; text-decoration: underline;">@staticmethod</span>
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">action</span>(args):
+        <span style="font-weight: bold; font-style: italic;">user</span> = args[<span style="font-style: italic;">"user"</span>]
+        <span style="font-weight: bold; font-style: italic;">email</span> = args[<span style="font-style: italic;">"email"</span>]
+        <span style="font-weight: bold; font-style: italic;">user</span> = System.delegate.set_email(user, email)
+        <span style="font-weight: bold;">return</span> user
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org4cd658b" class="outline-3">
+<h3 id="org4cd658b"><span class="section-number-3">2.8</span> Operations Table</h3>
+<div class="outline-text-3" id="text-2-8">
+<p>
+Each operation has a corresponding implementation defined as a class. 
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold; font-style: italic;">ops_table</span> = {<span style="font-style: italic;">'add_user'</span>: AddUser,
+             <span style="font-style: italic;">'show_users'</span>: ShowUsers,
+             <span style="font-style: italic;">'del_user'</span>: DelUser,
+             <span style="font-style: italic;">'set_name'</span>: SetName,
+             <span style="font-style: italic;">'set_email'</span>: SetEmail
+             }
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org37d0b43" class="outline-2">
+<h2 id="org37d0b43"><span class="section-number-2">3</span> Test System</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-org587ecec" class="outline-3">
+<h3 id="org587ecec"><span class="section-number-3">3.1</span> Introduction</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Test cases for system composed of objects are available here.
+</p>
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">import</span> unittest
+<span style="font-weight: bold;">from</span> unittest <span style="font-weight: bold;">import</span> TestCase
+<span style="font-weight: bold;">from</span> system <span style="font-weight: bold;">import</span> *
+<span style="font-weight: bold;">from</span> object_delegate <span style="font-weight: bold;">import</span> *
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2222022" class="outline-3">
+<h3 id="org2222022"><span class="section-number-3">3.2</span> Test AddUser</h3>
+<div class="outline-text-3" id="text-3-2">
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">TestAddUser</span>(TestCase):
+    <span style="font-weight: bold; font-style: italic;">TESTING</span> = <span style="font-weight: bold; text-decoration: underline;">True</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">setUp</span>(<span style="font-weight: bold;">self</span>):
+        System.initialize_system(ObjectDelegate)
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">tearDown</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold; font-style: italic;">System.delegate</span> = <span style="font-weight: bold; text-decoration: underline;">None</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">test_add_user_passes</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">print</span> <span style="font-style: italic;">"test_add_user_passes"</span>
+         
+        <span style="font-weight: bold; font-style: italic;">user</span>=User(name=Name(val=<span style="font-style: italic;">"me mine myself"</span>),
+                  email=Email(val=<span style="font-style: italic;">"abc@gnu.org"</span>))
+
+        System.do(<span style="font-style: italic;">"add_user"</span>, user=user)
+
+        <span style="font-weight: bold;">self</span>.assertEqual(<span style="font-weight: bold;">len</span>(System.delegate.user_set), 1)
+
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">test_add_user_raises_arity_error</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">print</span> <span style="font-style: italic;">"test_add_user_raises_arity_error"</span>
+
+        <span style="font-weight: bold; font-style: italic;">user</span>=User(name=Name(val=<span style="font-style: italic;">"me mine myself"</span>),
+                  email=Email(val=<span style="font-style: italic;">"abc@gnu.org"</span>))
+
+        <span style="font-weight: bold;">with</span> <span style="font-weight: bold;">self</span>.assertRaises(ArityError):
+            System.do(<span style="font-style: italic;">"add_user"</span>)
+
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">test_add_user_raises_type_check_error</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">print</span> <span style="font-style: italic;">"test_add_user_raises_type_check_error"</span>
+
+        <span style="font-weight: bold; font-style: italic;">user</span>=User(name=Name(val=<span style="font-style: italic;">"me mine myself"</span>),
+                  email=Email(val=<span style="font-style: italic;">"abc@gnu.org"</span>))
+
+        <span style="font-weight: bold;">with</span> <span style="font-weight: bold;">self</span>.assertRaises(<span style="font-weight: bold; text-decoration: underline;">TypeError</span>):
+            System.do(<span style="font-style: italic;">"add_user"</span>, user=<span style="font-style: italic;">"abc"</span>)
+
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">test_add_existing_user_raises_state_error</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">print</span> <span style="font-style: italic;">"test_add_existing_user_raises_state_error"</span>
+
+        <span style="font-weight: bold; font-style: italic;">user</span>=User(name=Name(val=<span style="font-style: italic;">"me mine myself"</span>),
+                  email=Email(val=<span style="font-style: italic;">"abc@gnu.org"</span>))
+
+        System.do(<span style="font-style: italic;">"add_user"</span>, user=user)
+
+        <span style="font-weight: bold;">with</span> <span style="font-weight: bold;">self</span>.assertRaises(StateError):
+            System.do(<span style="font-style: italic;">"add_user"</span>, user=user)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc15c1f8" class="outline-3">
+<h3 id="orgc15c1f8"><span class="section-number-3">3.3</span> Test DelUser</h3>
+<div class="outline-text-3" id="text-3-3">
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">TestDelUser</span>(TestCase):
+    <span style="font-weight: bold; font-style: italic;">TESTING</span> = <span style="font-weight: bold; text-decoration: underline;">True</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">setUp</span>(<span style="font-weight: bold;">self</span>):
+        System.initialize_system(ObjectDelegate)
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">tearDown</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold; font-style: italic;">System.delegate</span> = <span style="font-weight: bold; text-decoration: underline;">None</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">test_del_user_passes</span>(<span style="font-weight: bold;">self</span>):
+
+        <span style="font-weight: bold; font-style: italic;">user</span>=User(name=Name(val=<span style="font-style: italic;">"me mine myself"</span>),
+                  email=Email(val=<span style="font-style: italic;">"abc@gnu.org"</span>))
+
+        System.delegate.add_user(user)  <span style="font-weight: bold; font-style: italic;">##</span><span style="font-weight: bold; font-style: italic;">added user to the system</span>
+        <span style="font-weight: bold;">self</span>.assertEqual(<span style="font-weight: bold;">len</span>(System.delegate.user_set), 1)
+
+        System.delegate.del_user(user)
+        <span style="font-weight: bold;">self</span>.assertEqual(<span style="font-weight: bold;">len</span>(System.delegate.user_set), 0)
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">test_del_user_raises_arity_error</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">print</span> <span style="font-style: italic;">"test_del_user_raises_arity_error"</span>
+
+        <span style="font-weight: bold;">with</span> <span style="font-weight: bold;">self</span>.assertRaises(ArityError):
+            System.do(<span style="font-style: italic;">"del_user"</span>)
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">test_del_user_raises_type_check_error</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">print</span> <span style="font-style: italic;">"test_del_user_raises_type_check_error"</span>
+
+        <span style="font-weight: bold;">with</span> <span style="font-weight: bold;">self</span>.assertRaises(<span style="font-weight: bold; text-decoration: underline;">TypeError</span>):
+            System.do(<span style="font-style: italic;">"del_user"</span>, user=<span style="font-style: italic;">"abc"</span>)
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">test_del_user_raises_state_error_with_no_existing_user</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">print</span> <span style="font-style: italic;">"test_del_user_raises_state_error_with_no_existing_user"</span>
+
+        <span style="font-weight: bold; font-style: italic;">user</span>=User(name=Name(val=<span style="font-style: italic;">"me mine myself"</span>),
+                  email=Email(val=<span style="font-style: italic;">"abc@gnu.org"</span>))
+        
+        <span style="font-weight: bold; font-style: italic;">## </span><span style="font-weight: bold; font-style: italic;">user not added to the system</span>
+        <span style="font-weight: bold;">with</span> <span style="font-weight: bold;">self</span>.assertRaises(StateError):
+            System.do(<span style="font-style: italic;">"del_user"</span>, user=user)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbd9a6dc" class="outline-3">
+<h3 id="orgbd9a6dc"><span class="section-number-3">3.4</span> Test SetEmail</h3>
+<div class="outline-text-3" id="text-3-4">
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">TestSetEmail</span>(TestCase):
+    <span style="font-weight: bold; font-style: italic;">TESTING</span> = <span style="font-weight: bold; text-decoration: underline;">True</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">setUp</span>(<span style="font-weight: bold;">self</span>):
+        System.initialize_system(ObjectDelegate)
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">tearDown</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold; font-style: italic;">System.delegate</span> = <span style="font-weight: bold; text-decoration: underline;">None</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">test_set_email_passes</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">print</span> <span style="font-style: italic;">"test_set_email_passes"</span>
+
+        <span style="font-weight: bold; font-style: italic;">user</span>=User(name=Name(val=<span style="font-style: italic;">"me mine myself"</span>),
+                  email=Email(val=<span style="font-style: italic;">"abc@gnu.org"</span>))
+
+        System.delegate.add_user(user)  <span style="font-weight: bold; font-style: italic;">##</span><span style="font-weight: bold; font-style: italic;">added user to the system</span>
+        <span style="font-weight: bold; font-style: italic;">email</span> = Email(val=<span style="font-style: italic;">"xyz@gnu.org"</span>)
+        System.do(<span style="font-style: italic;">"set_email"</span>, user=user, email=email) <span style="font-weight: bold; font-style: italic;">#</span><span style="font-weight: bold; font-style: italic;">update user</span>
+
+        <span style="font-weight: bold; font-style: italic;">updated_user</span> = System.delegate.get_user_by_email(email) <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">retrieve user</span>
+        <span style="font-weight: bold;">self</span>.assertEqual(updated_user.get_email(), email) <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">compare emails</span>
+
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">test_set_email_raises_arity_error</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">print</span> <span style="font-style: italic;">"test_set_email_raises_arity_error"</span>
+
+        <span style="font-weight: bold; font-style: italic;">user</span>=User(name=Name(val=<span style="font-style: italic;">"me mine myself"</span>),
+                      email=Email(val=<span style="font-style: italic;">"abc@gnu.org"</span>))
+
+        <span style="font-weight: bold;">with</span> <span style="font-weight: bold;">self</span>.assertRaises(ArityError):
+            System.do(<span style="font-style: italic;">"set_email"</span>, user=user)
+
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">test_set_email_raises_type_check_error</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">print</span> <span style="font-style: italic;">"test_set_email_raises_type_check_error"</span>
+
+        <span style="font-weight: bold; font-style: italic;">user</span>=User(name=Name(val=<span style="font-style: italic;">"me mine myself"</span>),
+                      email=Email(val=<span style="font-style: italic;">"abc@gnu.org"</span>))
+
+        <span style="font-weight: bold;">with</span> <span style="font-weight: bold;">self</span>.assertRaises(<span style="font-weight: bold; text-decoration: underline;">TypeError</span>):
+            System.do(<span style="font-style: italic;">"set_email"</span>, user=user, email=user)
+
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">test_set_email_raises_state_error_non_existing_user</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">print</span> <span style="font-style: italic;">"test_set_email_raises_state_error_non_existing_user"</span>
+
+        <span style="font-weight: bold; font-style: italic;">user</span>=User(name=Name(val=<span style="font-style: italic;">"me mine myself"</span>),
+                      email=Email(val=<span style="font-style: italic;">"abc@gnu.org"</span>))
+
+        <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">above user not added to the system</span>
+        <span style="font-weight: bold; font-style: italic;">email</span> = Email(val=<span style="font-style: italic;">"ttk@gnu.org"</span>)
+
+        <span style="font-weight: bold;">with</span> <span style="font-weight: bold;">self</span>.assertRaises(StateError):
+            System.do(<span style="font-style: italic;">"set_email"</span>, user=user, email=email)
+
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">test_set_email_raises_state_error_existing_email</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">print</span> <span style="font-style: italic;">"test_set_email_raises_state_error_existing_email"</span>
+
+        <span style="font-weight: bold; font-style: italic;">email1</span> = Email(val=<span style="font-style: italic;">"abc@gnu.org"</span>)
+        <span style="font-weight: bold; font-style: italic;">email2</span> = Email(val=<span style="font-style: italic;">"xyz@gnu.org"</span>)
+
+        <span style="font-weight: bold; font-style: italic;">user1</span>=User(name=Name(val=<span style="font-style: italic;">"user 1"</span>),
+                      email=email1)
+
+        <span style="font-weight: bold; font-style: italic;">user2</span>=User(name=Name(val=<span style="font-style: italic;">"user 2"</span>),
+                      email=email2)
+
+        System.delegate.add_user(user1)  <span style="font-weight: bold; font-style: italic;">##</span><span style="font-weight: bold; font-style: italic;">added user1 to the system</span>
+        System.delegate.add_user(user2)  <span style="font-weight: bold; font-style: italic;">##</span><span style="font-weight: bold; font-style: italic;">added user2 to the system</span>
+
+
+        <span style="font-weight: bold;">with</span> <span style="font-weight: bold;">self</span>.assertRaises(StateError):
+            System.do(<span style="font-style: italic;">"set_email"</span>, user=user1, email=email2)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org51a30ef" class="outline-3">
+<h3 id="org51a30ef"><span class="section-number-3">3.5</span> Test SetName</h3>
+<div class="outline-text-3" id="text-3-5">
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">TestSetName</span>(TestCase):
+    <span style="font-weight: bold; font-style: italic;">TESTING</span> = <span style="font-weight: bold; text-decoration: underline;">True</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">setUp</span>(<span style="font-weight: bold;">self</span>):
+        System.initialize_system(ObjectDelegate)
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">tearDown</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold; font-style: italic;">System.delegate</span> = <span style="font-weight: bold; text-decoration: underline;">None</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">test_set_name_passes</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">print</span> <span style="font-style: italic;">"test_set_name_passes"</span>
+
+        <span style="font-weight: bold; font-style: italic;">email</span>=Email(val=<span style="font-style: italic;">"abc@gnu.org"</span>)
+        <span style="font-weight: bold; font-style: italic;">user</span>=User(name=Name(val=<span style="font-style: italic;">"user name"</span>),
+                  email=email)
+
+        System.delegate.add_user(user)  <span style="font-weight: bold; font-style: italic;">##</span><span style="font-weight: bold; font-style: italic;">added user to the system</span>
+        <span style="font-weight: bold; font-style: italic;">name</span> = Name(val=<span style="font-style: italic;">"new user name"</span>)
+        System.do(<span style="font-style: italic;">"set_name"</span>, user=user, name=name) <span style="font-weight: bold; font-style: italic;">#</span><span style="font-weight: bold; font-style: italic;">update user</span>
+
+        <span style="font-weight: bold; font-style: italic;">updated_user</span> = System.delegate.get_user_by_email(email) <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">retrieve user</span>
+        <span style="font-weight: bold;">self</span>.assertEqual(updated_user.get_name(), name) <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">compare names</span>
+
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">test_set_name_raises_arity_error</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">print</span> <span style="font-style: italic;">"test_set_name_raises_arity_error"</span>
+
+        <span style="font-weight: bold; font-style: italic;">user</span>=User(name=Name(val=<span style="font-style: italic;">"me mine myself"</span>),
+                      email=Email(val=<span style="font-style: italic;">"abc@gnu.org"</span>))
+
+        <span style="font-weight: bold;">with</span> <span style="font-weight: bold;">self</span>.assertRaises(ArityError):
+            System.do(<span style="font-style: italic;">"set_name"</span>, user=user)
+
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">test_set_name_raises_type_check_error</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">print</span> <span style="font-style: italic;">"test_set_name_raises_type_check_error"</span>
+
+        <span style="font-weight: bold; font-style: italic;">user</span>=User(name=Name(val=<span style="font-style: italic;">"me mine myself"</span>),
+                      email=Email(val=<span style="font-style: italic;">"abc@gnu.org"</span>))
+
+        <span style="font-weight: bold;">with</span> <span style="font-weight: bold;">self</span>.assertRaises(<span style="font-weight: bold; text-decoration: underline;">TypeError</span>):
+            System.do(<span style="font-style: italic;">"set_name"</span>, user=user, name=user)
+
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">test_set_name_raises_state_error_non_existing_user</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">print</span> <span style="font-style: italic;">"test_set_name_raises_state_error_non_existing_user"</span>
+
+        <span style="font-weight: bold; font-style: italic;">user</span>=User(name=Name(val=<span style="font-style: italic;">"user name"</span>),
+                      email=Email(val=<span style="font-style: italic;">"abc@gnu.org"</span>))
+
+        <span style="font-weight: bold; font-style: italic;"># </span><span style="font-weight: bold; font-style: italic;">above user not added to the system</span>
+        <span style="font-weight: bold; font-style: italic;">name</span> = Name(val=<span style="font-style: italic;">"new user name"</span>)
+
+        <span style="font-weight: bold;">with</span> <span style="font-weight: bold;">self</span>.assertRaises(StateError):
+            System.do(<span style="font-style: italic;">"set_name"</span>, user=user, name=name)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org22ae8d5" class="outline-3">
+<h3 id="org22ae8d5"><span class="section-number-3">3.6</span> Run Tests</h3>
+<div class="outline-text-3" id="text-3-6">
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">if</span> <span style="font-weight: bold;">__name__</span> == <span style="font-style: italic;">'__main__'</span>:
+    unittest.main()
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org9c49037" class="outline-2">
+<h2 id="org9c49037"><span class="section-number-2">4</span> Object Delegate</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Object Delegate encapsulates a set of functions where each function performs a
+specific task.  With the use of these delegates, the core implementation of
+the <code>system</code> will not alter but by plugging delegates that are specific to
+each environment, for example, be it either objects or persistence, the
+<code>system</code> for that particular environment is derived while not modifying the
+<code>system</code> class.
+</p>
+</div>
+
+<div id="outline-container-org8b12f6f" class="outline-3">
+<h3 id="org8b12f6f"><span class="section-number-3">4.1</span> Initialize Object Delegate</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+Provides all functions operate on object entities.
+</p>
+</div>
+
+<div id="outline-container-org3138bf6" class="outline-4">
+<h4 id="org3138bf6"><span class="section-number-4">4.1.1</span> class<sub>object</sub><sub>delegate</sub></h4>
+<div class="outline-text-4" id="text-4-1-1">
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">from</span> entities <span style="font-weight: bold;">import</span> *
+
+<span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">ObjectDelegate</span>():
+    <span style="font-weight: bold; font-style: italic;">user_set</span> = []
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__init__</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">self</span>.user_set = []
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org49efb62" class="outline-3">
+<h3 id="org49efb62"><span class="section-number-3">4.2</span> Other functions</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+Other functions that help <code>System</code> perform the operations. 
+</p>
+</div>
+
+<div id="outline-container-org72b87d8" class="outline-4">
+<h4 id="org72b87d8"><span class="section-number-4">4.2.1</span> Check if <code>user</code> already exists</h4>
+<div class="outline-text-4" id="text-4-2-1">
+<p>
+This function checks if a user is already in the user-set of the <code>System</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-python">    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">user_exists</span>(<span style="font-weight: bold;">self</span>, user):
+        <span style="font-weight: bold;">return</span> user <span style="font-weight: bold;">in</span> <span style="font-weight: bold;">self</span>.user_set
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2ba48c7" class="outline-4">
+<h4 id="org2ba48c7"><span class="section-number-4">4.2.2</span> Add a user to the system</h4>
+<div class="outline-text-4" id="text-4-2-2">
+<p>
+This function adds a user to the user-set maintained by the system.
+</p>
+<div class="org-src-container">
+<pre class="src src-python">    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">add_user</span>(<span style="font-weight: bold;">self</span>, user):
+        <span style="font-weight: bold;">self</span>.user_set.append(user)
+        user.email.set_user(user)
+        <span style="font-weight: bold;">return</span> user
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org1c9c770" class="outline-4">
+<h4 id="org1c9c770"><span class="section-number-4">4.2.3</span> Delete a user to the system</h4>
+<div class="outline-text-4" id="text-4-2-3">
+<p>
+This function deletes a user from the user-set maintained by the system.
+</p>
+<div class="org-src-container">
+<pre class="src src-python">    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">del_user</span>(<span style="font-weight: bold;">self</span>, user):
+        <span style="font-weight: bold;">self</span>.user_set.remove(user)
+        <span style="font-weight: bold;">return</span> user
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf791e77" class="outline-4">
+<h4 id="orgf791e77"><span class="section-number-4">4.2.4</span> Get user by Email</h4>
+<div class="outline-text-4" id="text-4-2-4">
+<p>
+This function returns the user by email from the user set
+</p>
+<div class="org-src-container">
+<pre class="src src-python">    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">get_user_by_email</span>(<span style="font-weight: bold;">self</span>, email):
+        <span style="font-weight: bold; font-style: italic;">user_list</span> = <span style="font-weight: bold;">filter</span>(<span style="font-weight: bold;">lambda</span> user: user.get_email() == email,
+                             <span style="font-weight: bold;">self</span>.user_set)
+        <span style="font-weight: bold;">if</span> user_list:
+            <span style="font-weight: bold;">return</span> user_list[0]
+        <span style="font-weight: bold;">else</span>:
+            <span style="font-weight: bold; text-decoration: underline;">None</span>
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org96d41a1" class="outline-4">
+<h4 id="org96d41a1"><span class="section-number-4">4.2.5</span> Set Email of a User</h4>
+<div class="outline-text-4" id="text-4-2-5">
+<p>
+This function sets Email of a user in the user set.  No
+exception is thrown here, the upper layer which is
+calling this function should ensure <code>user</code> exists whose
+email is changed.
+</p>
+<div class="org-src-container">
+<pre class="src src-python">    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">set_email</span>(<span style="font-weight: bold;">self</span>, user, email):
+        <span style="font-weight: bold; font-style: italic;">usr</span> = <span style="font-weight: bold;">self</span>.get_user_by_email(user.get_email())
+        usr.set_email(email=email)
+        <span style="font-weight: bold;">return</span> user
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org0e572ff" class="outline-4">
+<h4 id="org0e572ff"><span class="section-number-4">4.2.6</span> Set Name of a User</h4>
+<div class="outline-text-4" id="text-4-2-6">
+<p>
+This function sets Name of a user in the user set.  No
+exception is thrown here, the upper layer which is
+calling this function should ensure <code>user</code> exists whose
+name is changed.
+</p>
+<div class="org-src-container">
+<pre class="src src-python">    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">set_name</span>(<span style="font-weight: bold;">self</span>, user, name):
+        <span style="font-weight: bold; font-style: italic;">usr</span> = <span style="font-weight: bold;">self</span>.get_user_by_email(user.get_email())
+        usr.set_name(name=name)
+        <span style="font-weight: bold;">return</span> user
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org2492a7d" class="outline-4">
+<h4 id="org2492a7d"><span class="section-number-4">4.2.7</span> Return the users in the system</h4>
+<div class="outline-text-4" id="text-4-2-7">
+<p>
+This function returns the list of users maintained by the system.
+</p>
+<div class="org-src-container">
+<pre class="src src-python">    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">get_users</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">return</span> <span style="font-weight: bold;">self</span>.user_set
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org08653d4" class="outline-2">
+<h2 id="org08653d4"><span class="section-number-2">5</span> Custom Exceptions</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+These are some of the custom exceptions used in the application.
+</p>
+</div>
+
+<div id="outline-container-org1706aa9" class="outline-4">
+<h4 id="org1706aa9"><span class="section-number-4">5.0.1</span> AttributeRequired</h4>
+<div class="outline-text-4" id="text-5-0-1">
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">AttributeRequired</span>(<span style="font-weight: bold; text-decoration: underline;">Exception</span>):
+    <span style="font-weight: bold;">str</span> = <span style="font-weight: bold; text-decoration: underline;">None</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__init__</span>(<span style="font-weight: bold;">self</span>, <span style="font-weight: bold;">str</span>):
+        <span style="font-weight: bold;">self</span>.<span style="font-weight: bold;">str</span> = <span style="font-weight: bold;">str</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__str__</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">return</span> <span style="font-weight: bold;">repr</span>(<span style="font-weight: bold;">self</span>.<span style="font-weight: bold;">str</span>)
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org7764eb9" class="outline-4">
+<h4 id="org7764eb9"><span class="section-number-4">5.0.2</span> Constraint Error</h4>
+<div class="outline-text-4" id="text-5-0-2">
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">ConstraintError</span>(<span style="font-weight: bold; text-decoration: underline;">Exception</span>):
+    <span style="font-weight: bold;">str</span> = <span style="font-weight: bold; text-decoration: underline;">None</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__init__</span>(<span style="font-weight: bold;">self</span>, <span style="font-weight: bold;">str</span>):
+        <span style="font-weight: bold;">self</span>.<span style="font-weight: bold;">str</span> = <span style="font-weight: bold;">str</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__str__</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">return</span> <span style="font-weight: bold;">repr</span>(<span style="font-weight: bold;">self</span>.<span style="font-weight: bold;">str</span>)
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org8d4bdf8" class="outline-4">
+<h4 id="org8d4bdf8"><span class="section-number-4">5.0.3</span> NotAuthorized Error</h4>
+<div class="outline-text-4" id="text-5-0-3">
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">NotAuthorizedError</span>(<span style="font-weight: bold; text-decoration: underline;">Exception</span>):
+    <span style="font-weight: bold;">str</span> = <span style="font-weight: bold; text-decoration: underline;">None</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__init__</span>(<span style="font-weight: bold;">self</span>, <span style="font-weight: bold;">str</span>):
+        <span style="font-weight: bold;">self</span>.<span style="font-weight: bold;">str</span> = <span style="font-weight: bold;">str</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__str__</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">return</span> <span style="font-weight: bold;">repr</span>(<span style="font-weight: bold;">self</span>.<span style="font-weight: bold;">str</span>)
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org134e9ed" class="outline-4">
+<h4 id="org134e9ed"><span class="section-number-4">5.0.4</span> ArityError</h4>
+<div class="outline-text-4" id="text-5-0-4">
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">ArityError</span>(<span style="font-weight: bold; text-decoration: underline;">Exception</span>):
+    <span style="font-weight: bold;">str</span> = <span style="font-weight: bold; text-decoration: underline;">None</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__init__</span>(<span style="font-weight: bold;">self</span>, <span style="font-weight: bold;">str</span>):
+        <span style="font-weight: bold;">self</span>.<span style="font-weight: bold;">str</span> = <span style="font-weight: bold;">str</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__str__</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">return</span> <span style="font-weight: bold;">repr</span>(<span style="font-weight: bold;">self</span>.<span style="font-weight: bold;">str</span>)
+</pre>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-org4f87837" class="outline-4">
+<h4 id="org4f87837"><span class="section-number-4">5.0.5</span> State Error</h4>
+<div class="outline-text-4" id="text-5-0-5">
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">StateError</span>(<span style="font-weight: bold; text-decoration: underline;">Exception</span>):
+    <span style="font-weight: bold;">str</span> = <span style="font-weight: bold; text-decoration: underline;">None</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__init__</span>(<span style="font-weight: bold;">self</span>, <span style="font-weight: bold;">str</span>):
+        <span style="font-weight: bold;">self</span>.<span style="font-weight: bold;">str</span> = <span style="font-weight: bold;">str</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__str__</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">return</span> <span style="font-weight: bold;">repr</span>(<span style="font-weight: bold;">self</span>.<span style="font-weight: bold;">str</span>)
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org0d14660" class="outline-4">
+<h4 id="org0d14660"><span class="section-number-4">5.0.6</span> NotFound Error</h4>
+<div class="outline-text-4" id="text-5-0-6">
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">NotFoundError</span>(<span style="font-weight: bold; text-decoration: underline;">Exception</span>):
+    <span style="font-weight: bold;">str</span> = <span style="font-weight: bold; text-decoration: underline;">None</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__init__</span>(<span style="font-weight: bold;">self</span>, <span style="font-weight: bold;">str</span>):
+        <span style="font-weight: bold;">self</span>.<span style="font-weight: bold;">str</span> = <span style="font-weight: bold;">str</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__str__</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">return</span> <span style="font-weight: bold;">repr</span>(<span style="font-weight: bold;">self</span>.<span style="font-weight: bold;">str</span>)
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgc8e4fef" class="outline-4">
+<h4 id="orgc8e4fef"><span class="section-number-4">5.0.7</span> Error</h4>
+<div class="outline-text-4" id="text-5-0-7">
+<div class="org-src-container">
+<pre class="src src-python"><span style="font-weight: bold;">class</span> <span style="font-weight: bold; text-decoration: underline;">Error</span>(<span style="font-weight: bold; text-decoration: underline;">Exception</span>):
+    <span style="font-weight: bold;">str</span> = <span style="font-weight: bold; text-decoration: underline;">None</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__init__</span>(<span style="font-weight: bold;">self</span>, <span style="font-weight: bold;">str</span>):
+        <span style="font-weight: bold;">self</span>.<span style="font-weight: bold;">str</span> = <span style="font-weight: bold;">str</span>
+
+    <span style="font-weight: bold;">def</span> <span style="font-weight: bold;">__str__</span>(<span style="font-weight: bold;">self</span>):
+        <span style="font-weight: bold;">return</span> <span style="font-weight: bold;">repr</span>(<span style="font-weight: bold;">self</span>.<span style="font-weight: bold;">str</span>)
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: VLEAD</p>
+<p class="date">Created: 2017-04-27 Thu 03:32</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

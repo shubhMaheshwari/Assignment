@@ -1,0 +1,118 @@
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>View everyone's profile</title>
+      <meta charset="utf-8">
+      <style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+  }
+
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #333;
+  }
+
+  html,
+  body,
+  .row {
+    height: 100%;
+    width: 100%;
+  }
+
+  .row {
+    padding-top: 1em;
+  }
+
+  .row:before,
+  .row:after {
+    display: table;
+    content: " ";
+  }
+
+  .row:after {
+    clear: both;
+  }
+
+  .list,
+  .profile {
+    float: left;
+  }
+
+  .list {
+    width: 40%;
+  }
+
+  .profile {
+    width: 60%;
+    position: fixed;
+    right: 0;
+    text-align: center;
+  }
+
+  .profile img {
+    max-height: 100px;
+    border-radius: 50px;
+  }
+
+  .profile div p:first-child {
+    font-size:  .8em;
+    border-top: 1px solid #ddd;
+  }
+      </style>
+    </head>
+    <body>
+      <div class="row">
+        <div class="list">
+          <ul>
+            <li><a href="#">Aayush Naik</a></li>
+            <li><a href="#">Aditya Baskar</a></li>
+            <li><a href="#">Ayush Mishra</a></li>
+            <li><a href="#">Eshita Jayaswal</a></li>
+            <li><a href="#">Harshit Harchani</a></li>
+            <li><a href="#">Ishaan Arora</a></li>
+            <li><a href="#">Jerin Philip</a></li>
+            <li><a href="#">Nazrul Haque</a></li>
+            <li><a href="#">Raj Patel</a></li>
+            <li><a href="#">Sahiti Chedalavada</a></li>
+            <li><a href="#">Sambuddha Basu</a></li>
+            <li><a href="#">Saraswati Soumya</a></li>
+            <li><a href="#">Siddhant Shrivastava</a></li>
+            <li><a href="#">Siddharth Bhat</a></li>
+            <li><a href="#">Vishal Kaja</a></li>
+          </ul>
+        </div>
+        <div class="profile">
+          <img src="https://unsplash.it/300/400?image=6">
+          <h2>Harshit Harchani</h2>
+          <div>
+            <p>
+              Works at
+            </p>
+            <p>
+              IIIT Hyderabad
+            </p>
+          </div>
+          <div>
+            <p>
+              Lives at
+            </p>
+            <p>
+              Gachibowli, Hyderabad
+            </p>
+          </div>
+          <div>
+            <p>
+              Contact
+            </p>
+            <p>
+              040-65771122
+            </p>
+          </div>
+        </div>
+      </div>
+      <script src="https://web.iiit.ac.in/~harshit.harchani/jquery.js"></script>
+      <script src="view-everyones-profile.js"></script>
+    </body>
+  </html>

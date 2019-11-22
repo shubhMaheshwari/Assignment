@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> HomePage </title>
+	<meta charset="utf-8">
+
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/modules/heatmap.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+
+	<meta charset="utf-8">
+	<link href="../materialize/css/materialize.min.css" type="text/css" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<script src="../materialize/js/materialize.min.js"></script>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	
+</head>
+<body class="teal lighten-2">
+<script src="./graph.js"></script>
+	<main >
+		
+			<!-- insert content here within rows and proper columns  -->
+	<div class="container">
+			<div class="row card">
+				<div class="card-content">
+					<div class="col s12 m4">
+						<img src="http://lorempixel.com/400/400" alt="" class="circle responsive-img">
+					</div>
+					<div class="col s12 m8">
+						<ul class="collection">
+					    
+					    <li class="collection-item center-align">
+					      <span class="title flow-text">Name</span>
+					    </li>
+
+					    <li class="collection-item avatar">
+					      <i class="material-icons circle green">account_circle</i>
+					      <span class="flow-text title">Username</span>
+					      <p>user123
+					      </p>
+					    </li>
+
+					    <li class="collection-item avatar">
+					      <i class="material-icons circle green">email</i>
+					      <span class="flow-text title">Email</span>
+					      <p>username@gmail.com
+					      </p>
+					    </li>
+
+						<li class="collection-item avatar">
+					      <i class="material-icons circle green">functions</i>
+					      <span class="flow-text title">Institute/Organization</span>
+					      <p>IIIT
+					      </p>
+					    </li>
+
+						<li class="collection-item avatar">
+					      <i class="material-icons circle green">location_on</i>
+					      <span class="flow-text title">Location</span>
+					      <p>Hydrabad
+					      </p>
+					    </li>
+					</ul>
+
+					</div>
+				</div>
+			</div>
+		
+		<div class="card white row m12 s12 z-depth-2"> 
+				
+				<table class="m12 s12 bordered striped responsive-table">
+				<thead>
+						<tr>
+							<td>Id</td>
+							<td>Problem</td>
+							<td>Date</td>
+							<td>Verdict</td>
+							<td>Lang</td>
+						</tr>
+				</thead>				
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td><a href=#>Life</a> </td>
+						<td>00/00/0000</td>
+						<td class=" light-green accent-3">Accepted</td>
+						<td>Python</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td><a href=#>DIG</a></td>
+						<td>12.23.1234</td>
+						<td class="red">Wrong Answer</td>
+						<td>C++</td>
+					</tr>
+
+					<tr>
+						<td>3</td>
+						<td><a href=#>Minimum Spanning Trees</a></td>
+						<td>31/12/1198</td>
+						<td class="red">Time Limit exceeded</td>
+						<td>C</td>
+					</tr>
+
+				</tbody>	
+				</table>
+			
+		</div>
+ 		
+ 		<div class="card white row  z-depth-2" >
+		<div id="container" style="height: 400px; min-width: 310px; max-width: 800px; margin: 0 auto"></div>
+		</div>
+
+
+
+
+</div>	
+</main>
+</body>
+</html>

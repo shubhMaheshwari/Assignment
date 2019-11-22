@@ -1,0 +1,743 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-04-27 Thu 03:32 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>An introduction to Racket with focus on Scope</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="VLEAD" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="../../style/css/worg-style.css" />
+<link rel="stylesheet" type="text/css" href="../../style/css/override.css" />
+<link rel="icon" type="image/png" href="../../style/img/favicon/popl.png" />
+<script type="text/javascript" src="../../style/js/org-info.js">
+/**
+ *
+ * @source: ../../style/js/org-info.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in ../../style/js/org-info.js.
+ *
+ * Copyright (C) 2012-2013 Free Software Foundation, Inc.
+ *
+ *
+ * The JavaScript code in this tag is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in ../../style/js/org-info.js.
+ *
+ */
+</script>
+
+<script type="text/javascript">
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "1");
+org_html_manager.set("LINK_HOME", "../../index.html");
+org_html_manager.set("LINK_UP", "../index.html");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="../../index.html"> HOME </a>
+</div><div id="content">
+<h1 class="title">An introduction to Racket with focus on Scope</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org131eb4c">1. Introduction</a></li>
+<li><a href="#orgfcbc5bd">2. How to install Racket</a></li>
+<li><a href="#org146f832">3. Racket's Philosophy</a></li>
+<li><a href="#orgda8280b">4. Where to go from here</a></li>
+<li><a href="#org0c91706">5. Key elements of basic Racket programming</a>
+<ul>
+<li><a href="#org40b86d9">5.1. Literals</a>
+<ul>
+<li><a href="#org72dc720">5.1.1. Identifier expressions</a></li>
+<li><a href="#org3fb2b3e">5.1.2. Built in identifiers</a></li>
+</ul>
+</li>
+<li><a href="#org340a173">5.2. Compound expressions</a></li>
+<li><a href="#orgd91ad5e">5.3. Keywords</a></li>
+<li><a href="#orgc86af00">5.4. Arithmetic and Boolean expressions</a></li>
+<li><a href="#orgf7fe8c1">5.5. Strings</a></li>
+<li><a href="#org8ba12c7">5.6. Symbols</a></li>
+<li><a href="#orga2b0459">5.7. Lists as immutable (constant) aggregates</a></li>
+<li><a href="#orgcbcefcb">5.8. Vectors are mutable aggregates</a></li>
+</ul>
+</li>
+<li><a href="#org55116fb">6. Identifiers and Bindings</a>
+<ul>
+<li><a href="#org05e8fcc">6.1. Top level Binding with <code>define</code></a></li>
+<li><a href="#orgb4fab64">6.2. Local bindings with <code>let</code></a></li>
+</ul>
+</li>
+<li><a href="#org4f05213">7. Block structure and Scope</a></li>
+<li><a href="#org7268336">8. Binding vs assignment</a>
+<ul>
+<li><a href="#org4f13c8a">8.1. Racket</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org131eb4c" class="outline-2">
+<h2 id="org131eb4c"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+In this lecture we make a quick, short tour of the basics of
+the Racket Programming Language with a focus on scope.
+Scope is about locating the bindings of identifiers to
+values in a program. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgfcbc5bd" class="outline-2">
+<h2 id="orgfcbc5bd"><span class="section-number-2">2</span> How to install Racket</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Please visit <a href="http://racket-lang.org/">http://racket-lang.org/</a> and follow the
+instructions.  You do not need root permission to install
+it.  The Racket website also has tutorials and documentation
+to get you started.
+</p>
+
+<p>
+To run racket, type the following at the shell prompt:
+</p>
+<pre class="example">
+$ RACKET_HOME/bin/drracket
+</pre>
+<p>
+Here, <code>RACKET_HOME</code> refers to the directory where Racket was
+installed.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org146f832" class="outline-2">
+<h2 id="org146f832"><span class="section-number-2">3</span> Racket's Philosophy</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+For those of you coming from C, Racket's programming model
+and philosophy is different.  Here are the key things to remember:
+</p>
+
+<dl class="org-dl">
+<dt>Interaction</dt><dd>when programming in Racket, you type
+expressions and the Racket system reads your
+expression, evaluates it and returns the answer
+(possibly a value or an error) and prompts you for the
+next expression.  This interactive loop is called and
+interpreter or the REPL (read-eval-print-loop).  Some
+people also call it a <i>shell</i> (like the linux shell
+that you might be seen before).</dd>
+
+<dt>Programs are Expressions</dt><dd>Everything in Racket is a
+program that could be evaluated to return an answer.
+You could type just <code>1</code> at the prompt and expect the
+REPL to return <code>1</code> as the answer, or something like
+<code>(+ 1 2)</code> to return 3, etc.</dd>
+
+<dt>Program Execution = Expression Evaluation</dt><dd>Running a
+program means evaluating an expression.   We will see
+that evaluation is quite similar to substituting and
+simplifying mathematical expressions, something you've
+been doing all along.</dd>
+</dl>
+</div>
+</div>
+
+
+<div id="outline-container-orgda8280b" class="outline-2">
+<h2 id="orgda8280b"><span class="section-number-2">4</span> Where to go from here</h2>
+<div class="outline-text-2" id="text-4">
+<dl class="org-dl">
+<dt>1. Download Racket</dt><dd>visit <a href="http://www.racket-lang.org/">http://www.racket-lang.org/</a></dd>
+
+<dt>2. Read  <a href="http://docs.racket-lang.org/guide/index.html">The Racket Guide</a></dt><dd>The Racket Guide is a quick
+introduction to the Racket Language.  The entire
+<a href="http://docs.racket-lang.org/">Racket documentation</a> including manuals and other
+tutorials is also available.</dd>
+
+<dt>3. Start studying the book  <a href="http://www.htdp.org/">How to Design Programs</a></dt><dd>Reading assignments are posted on the course pages.</dd>
+
+<dt>4. Register for <a href="https://www.edx.org/course/how-code-systematic-program-design-part-ubcx-spd1x">How to code: Systematic Program Design</a></dt><dd>Do this at your leisure, if you like.  Taking this
+course is not an ITWS-2 requirement.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org0c91706" class="outline-2">
+<h2 id="org0c91706"><span class="section-number-2">5</span> Key elements of basic Racket programming</h2>
+<div class="outline-text-2" id="text-5">
+</div><div id="outline-container-org40b86d9" class="outline-3">
+<h3 id="org40b86d9"><span class="section-number-3">5.1</span> Literals</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+Literals are constant expressions.  In Racket, numbers,
+strings, booleans and symbols are examples of atomic literal
+expressions.
+</p>
+
+<dl class="org-dl">
+<dt>Numbers</dt><dd>In Racket, one can use integers, like <code>1</code>,
+<code>2</code>, inexact numbers like <code>3.2</code>, but also fractions
+like <code>2/3</code> and complex numbers like <code>3+4i</code>.  Integers
+and fractions are exact.</dd>
+
+<dt>Strings</dt><dd>A string is a sequence of characters enclosed
+in double quotes,e.g., <code>"hello there"</code>.  A string is
+allowed to have newlines in it.  A double quote needs
+to be escaped to be included in a string.</dd>
+</dl>
+
+<div class="org-src-container">
+<pre class="src src-scheme"><span style="font-style: italic;">"hello there"</span>
+<span style="font-style: italic;">"a string across </span>
+<span style="font-style: italic;">two lines"</span>
+<span style="font-style: italic;">" He said \"Good Evening.\""</span>
+</pre>
+</div>
+
+
+<dl class="org-dl">
+<dt>Booleans</dt><dd><code>#t</code> is true, <code>#f</code> is false. <code>1</code> and <code>0</code> are
+NOT booleans.</dd>
+</dl>
+</div>
+
+<div id="outline-container-org72dc720" class="outline-4">
+<h4 id="org72dc720"><span class="section-number-4">5.1.1</span> Identifier expressions</h4>
+<div class="outline-text-4" id="text-5-1-1">
+<p>
+Racket is very permissive about what symbols could be used
+as identifiers:  <code>x</code>, <code>x+y</code>, <code>^$@+?</code>  all qualify as
+identifiers.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org3fb2b3e" class="outline-4">
+<h4 id="org3fb2b3e"><span class="section-number-4">5.1.2</span> Built in identifiers</h4>
+<div class="outline-text-4" id="text-5-1-2">
+<p>
+Racket comes with many predefined identifiers like <code>+</code>, <code>&gt;</code>,
+<code>zero?</code>, denoting built-in functions.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org340a173" class="outline-3">
+<h3 id="org340a173"><span class="section-number-3">5.2</span> Compound expressions</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+A compound expression is written as a list of one or
+elements enclosed in parenthesis.  The first element of that
+list is either a keyword, or an expression.  This is called
+<i>prefix</i> notation.
+</p>
+
+<p>
+Examples:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(+ 1 2)  <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">this is an application of + to</span>
+         <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">arguments 1 and 2 note the</span>
+         <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">prefix position of +.</span>
+
+
+(<span style="font-weight: bold;">if</span> (&gt; 3 x) 0 1)  <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">if is a keyword.  Note </span>
+                  <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">the prefix positions of </span>
+                  <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">the keyword if and the</span>
+                  <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">operator &gt;.</span>
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd91ad5e" class="outline-3">
+<h3 id="orgd91ad5e"><span class="section-number-3">5.3</span> Keywords</h3>
+<div class="outline-text-3" id="text-5-3">
+<p>
+We will get by with using very few keywords:
+</p>
+
+<ul class="org-ul">
+<li>conditionals and boolean connectives::   <code>if</code>, <code>cond</code>,
+<code>and</code>, <code>or</code>.</li>
+
+<li id="binding constructs"><code>define</code>, <code>let</code>, <code>letrec</code>,
+<code>lambda</code>.  The first allow binding of identifiers to
+values.</li>
+
+<li id="quoting"><code>quote</code>, <code>quasiquote</code>, <code>unquote</code>, 
+<code>unquote-splicing</code>.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgc86af00" class="outline-3">
+<h3 id="orgc86af00"><span class="section-number-3">5.4</span> Arithmetic and Boolean expressions</h3>
+<div class="outline-text-3" id="text-5-4">
+<ul class="org-ul">
+<li>Built-in operators: +, -, &gt;, &lt;=, not, = and many more.</li>
+
+<li>keywords:  <code>if</code>, <code>cond</code>.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgf7fe8c1" class="outline-3">
+<h3 id="orgf7fe8c1"><span class="section-number-3">5.5</span> Strings</h3>
+<div class="outline-text-3" id="text-5-5">
+<p>
+Strings may be created as constant literals like "hello
+there".  Strings may also be created in other ways (using
+constructor functions which will be discussed later.)
+</p>
+</div>
+</div>
+<div id="outline-container-org8ba12c7" class="outline-3">
+<h3 id="org8ba12c7"><span class="section-number-3">5.6</span> Symbols</h3>
+<div class="outline-text-3" id="text-5-6">
+<p>
+Symbols in Racket are distinct from strings.  Strings are
+compound; you can access substrings of a string and build a
+string from its constient characters.  But symbols are
+atomic.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme"> 'a
+ 'hello
+ '<span style="font-style: italic;">|Hello There|</span>
+</pre>
+</div>
+
+<p>
+The quote is necessary.  Symbols with spaces need to be
+enclosed in vertical bars <code>|</code>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga2b0459" class="outline-3">
+<h3 id="orga2b0459"><span class="section-number-3">5.7</span> Lists as immutable (constant) aggregates</h3>
+<div class="outline-text-3" id="text-5-7">
+<p>
+lists are the most common data structure in Racket.  
+</p>
+
+<p>
+<code>list</code> :: constructs a list of its arguments.
+</p>
+
+<p>
+<code>list?</code> :: tests if its argument is a list.
+</p>
+
+<p>
+<code>list-ref</code> :: returns an element at a particular index in
+a list.
+</p>
+
+<dl class="org-dl">
+<dt><code>first</code></dt><dd>returns the 0th indexed element of a list</dd>
+<dt><code>rest</code> </dt><dd>returns a list after the indexed element of a list.</dd>
+<dt><code>cons</code> </dt><dd>takes an element and  a list and returns a list
+whose head is the first element and whose rest of the
+list is the argument list.</dd>
+
+<dt><code>append</code> </dt><dd>takes two lists and appends them.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgcbcefcb" class="outline-3">
+<h3 id="orgcbcefcb"><span class="section-number-3">5.8</span> Vectors are mutable aggregates</h3>
+<div class="outline-text-3" id="text-5-8">
+<p>
+Vectors are used when we want to store data that we want to
+change as well. 
+</p>
+
+<dl class="org-dl">
+<dt><code>vector</code></dt><dd>creates a vector out of its arguments</dd>
+<dt><code>vector?</code></dt><dd>tests  whether its argument is a vector.</dd>
+<dt><code>vector-ref</code></dt><dd>like <code>list-ref</code> but on vectors.</dd>
+<dt><code>vector-set!</code></dt><dd>takes a vector <code>v</code>, an index <code>i</code> and a
+value <code>val</code> and sets the <code>i=th element of =v</code> to
+<code>val</code>.</dd>
+</dl>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org55116fb" class="outline-2">
+<h2 id="org55116fb"><span class="section-number-2">6</span> Identifiers and Bindings</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+In racket identifiers <i>bind</i> to values.  Bindings are
+created when Racket evaluates certain types of expressions
+or  declarations.  
+</p>
+</div>
+
+<div id="outline-container-org05e8fcc" class="outline-3">
+<h3 id="org05e8fcc"><span class="section-number-3">6.1</span> Top level Binding with <code>define</code></h3>
+<div class="outline-text-3" id="text-6-1">
+<p>
+We will use <code>define</code> declaration to create top level
+bindings.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">define</span> <span style="font-weight: bold;">x</span> 5)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb4fab64" class="outline-3">
+<h3 id="orgb4fab64"><span class="section-number-3">6.2</span> Local bindings with <code>let</code></h3>
+<div class="outline-text-3" id="text-6-2">
+<p>
+A <code>let</code> expression creates bindings that are <i>local</i>.  The
+binding of <code>x</code> to 7 is no longer visible from the top
+level.   At the top level <code>x</code> is still 5.
+</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">let</span> ([x 7])
+  x)
+x <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">=&gt; 5</span>
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org4f05213" class="outline-2">
+<h2 id="org4f05213"><span class="section-number-2">7</span> Block structure and Scope</h2>
+<div class="outline-text-2" id="text-7">
+<ul class="org-ul">
+<li>Nested Blocks</li>
+<li>Bindings are visible within a block, not outside it.</li>
+<li>Bindings in inner blocks may hide bindings in outer
+blocks.</li>
+
+<li>The area of the program where a binding is visible is
+called its <i>scope</i>.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org7268336" class="outline-2">
+<h2 id="org7268336"><span class="section-number-2">8</span> Binding vs assignment</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+It is essential to understand the difference between binding
+and assignment. 
+</p>
+</div>
+<div id="outline-container-org4f13c8a" class="outline-3">
+<h3 id="org4f13c8a"><span class="section-number-3">8.1</span> Racket</h3>
+<div class="outline-text-3" id="text-8-1">
+<p>
+In the example below, the local binding of <code>x</code> to 5 is in
+addition of a (different, top-level) <code>x</code> bound to 7.  
+</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">let</span> ((x 5)) <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">binding</span>
+   (set! x 0)<span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">assignment</span>
+   x)    <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">=&gt; 0</span>
+
+x <span style="font-weight: bold; font-style: italic;">; </span><span style="font-weight: bold; font-style: italic;">=&gt; 7 ;</span>
+</pre>
+</div>
+
+<p>
+In Racket assignment to a variable is discouraged.  Most of
+the time the bindings are almost never modified with a
+<code>set!</code>.  
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: VLEAD</p>
+<p class="date">Created: 2017-04-27 Thu 03:32</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

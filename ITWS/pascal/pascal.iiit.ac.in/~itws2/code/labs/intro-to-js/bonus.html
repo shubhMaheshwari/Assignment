@@ -1,0 +1,88 @@
+          <!DOCTYPE html>
+          <html>
+              <head>
+                  <meta charset="utf-8">
+                  <title>**BONUS**</title>
+              </head>
+              <body>
+                  <table border="1">
+                      <thead>
+                          <tr>
+                              <td>Name</td>
+                              <td>Marks 1</td>
+                              <td>Marks 2</td>
+                              <td>Marks 3</td>
+                              <td>Marks 4</td>
+                              <td>Marks 5</td>
+                          </tr>
+                      </thead>
+                      <tbody id="content">
+                        
+                      </tbody>
+                  </table>
+                  <script type="text/javascript">
+                      var data = {
+                          "Lowell": [97, 75, 74, 80, 52],
+                          "Eino": [55, 75, 55, 88, 91],
+                      };
+
+                      var html = '';
+                      var counter = 0;
+                      for (var name in data) {
+                          html += "<tr>";
+                          html += "<td id='elem" + counter++ + "'>" + name + "</td>";
+                          for (var i = 0; i < data[name].length; i++) {
+                              html += "<td id='elem" + counter++ + "'>" + data[name][i] + "</td>";
+                          }
+                          html += "</tr>";
+                      }
+                      document.getElementById('content').innerHTML = html;
+
+                      var removeHighlight = function (id)  {
+                          if (id) {
+                              document.getElementById(id).style.backgroundColor = 'transparent';
+                          }
+                      };
+
+                      var addHighlight = function (id) {
+                          if (id) {
+                              document.getElementById(id).style.backgroundColor = '#3f3';
+                          }
+                      };
+
+                      var currentHightlight = '';
+                      var func = function() {
+                          removeHighlight(currentHightlight);
+                          currentHightlight = this.id;
+                          addHighlight(currentHightlight);
+                      };
+                      Array.from(document.getElementsByTagName('td')).forEach(function (elem) {
+                          elem.addEventListener('click', func) 
+                      });
+
+                      document.onkeydown = function(e) {
+                          if (!currentHightlight) {
+                              return;
+                          }
+                          var num = parseInt(currentHightlight.replace('elem', ''));
+                          switch (e.which) {
+                          case 37:
+                              num = Math.max(0, num - 1);
+                              break;
+                          case 38:
+                              num = Math.max(0, num - 6);
+                              break;
+                          case 39:
+                              num = Math.min(599, num + 1);
+                              break;
+                          case 40:
+                              num = Math.min(599, num + 6);
+                              break;
+                          };
+                          removeHighlight(currentHightlight);
+                          currentHightlight = 'elem' + num;
+                          addHighlight(currentHightlight);
+                      };
+                  </script>
+              </body>
+          </html>

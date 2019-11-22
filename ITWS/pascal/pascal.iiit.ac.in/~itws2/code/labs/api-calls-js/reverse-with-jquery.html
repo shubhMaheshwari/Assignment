@@ -1,0 +1,20 @@
+  <input id="str">
+  <input type="button" class="my-button" value="Reverse">
+  <p></p>
+  <script src="https://web.iiit.ac.in/~harshit.harchani/jquery.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('.my-button').on('click', function () {
+        $.ajax({
+          url: 'https://web.iiit.ac.in/~harshit.harchani/itws2/reverse/',
+          method: 'POST',
+          data: {
+            str: $('#str').val(),
+          },
+          success: function (response) {
+            $('p').text( response );
+          },
+       });
+      });
+    });
+  </script>

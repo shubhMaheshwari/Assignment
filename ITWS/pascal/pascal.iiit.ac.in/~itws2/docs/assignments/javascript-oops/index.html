@@ -1,0 +1,896 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-04-27 Thu 03:32 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Assignment: Javascript OOP</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="VLEAD" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="../../style/css/worg-style.css" />
+<link rel="stylesheet" type="text/css" href="../../style/css/override.css" />
+<link rel="icon" type="image/png" href="../../style/img/favicon/popl.png" />
+<script type="text/javascript" src="../../style/js/org-info.js">
+/**
+ *
+ * @source: ../../style/js/org-info.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in ../../style/js/org-info.js.
+ *
+ * Copyright (C) 2012-2013 Free Software Foundation, Inc.
+ *
+ *
+ * The JavaScript code in this tag is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in ../../style/js/org-info.js.
+ *
+ */
+</script>
+
+<script type="text/javascript">
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "1");
+org_html_manager.set("LINK_HOME", "../../index.html");
+org_html_manager.set("LINK_UP", "../index.html");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="../../index.html"> HOME </a>
+</div><div id="content">
+<h1 class="title">Assignment: Javascript OOP</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org1afcd8c">1. Introduction</a></li>
+<li><a href="#org9ae25b6">2. Problems</a>
+<ul>
+<li><a href="#org78c49db">2.1. <code>Student</code></a>
+<ul>
+<li><a href="#orgd11ed05">2.1.1. Problem</a></li>
+<li><a href="#org4fe00d9">2.1.2. Boilerplate</a></li>
+</ul>
+</li>
+<li><a href="#orgab5a1cb">2.2. <code>Course</code></a>
+<ul>
+<li><a href="#orgf7a443e">2.2.1. Problem</a></li>
+<li><a href="#orgbcaf648">2.2.2. Boilerplate</a></li>
+</ul>
+</li>
+<li><a href="#org37e9adc">2.3. A <code>Web interface</code> using HTML</a>
+<ul>
+<li><a href="#org30b1659">2.3.1. 1. You can use a single static page.</a></li>
+<li><a href="#org3912171">2.3.2. 2. Create 2 global objects <code>allStudents</code> and <code>allCourses</code>.</a></li>
+<li><a href="#org80f4001">2.3.3. 3. Create forms to populate these arrays with their corresponding objects</a></li>
+<li><a href="#orgf34620f">2.3.4. 4. Create tables to view the lists of all students and courses.</a></li>
+<li><a href="#org7d4ff5e">2.3.5. 5. Create a form to add a student to a course.</a></li>
+<li><a href="#org761df83">2.3.6. 6. Create a form to remove a student from a course.</a></li>
+<li><a href="#org76f5bb5">2.3.7. 7. Create a form to remove a <code>Course</code> from <code>AllCourses</code></a></li>
+<li><a href="#orga67d212">2.3.8. 8. Create a from to remove a <code>Student</code> from <code>AllStudents</code></a></li>
+<li><a href="#orgf427c6f">2.3.9. 9. Create a form and a table to view the students taking a course.</a></li>
+<li><a href="#org38a90da">2.3.10. 10. Create a form and a table to view the courses taken by a student.</a></li>
+</ul>
+</li>
+<li><a href="#orgdc65e37">2.4. <code>Bonus</code></a></li>
+</ul>
+</li>
+<li><a href="#org78645b9">3. Instructions</a>
+<ul>
+<li><a href="#org43daac4">3.1. Jquery</a></li>
+<li><a href="#orge907343">3.2. Boilerplate</a></li>
+<li><a href="#orga16a6c5">3.3. File template</a></li>
+<li><a href="#orged2d51c">3.4. Evaluation</a></li>
+<li><a href="#org4bdee0b">3.5. Naming convention</a></li>
+<li><a href="#org0052fbc">3.6. Directory Structure</a></li>
+<li><a href="#org592a56b">3.7. Strict Adherence</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org1afcd8c" class="outline-2">
+<h2 id="org1afcd8c"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+The aim of this assignment is learn how to develop the
+frontend for a web application using HTML and
+Javascript. This assignment is part 1 of 3 of the mini
+project.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org9ae25b6" class="outline-2">
+<h2 id="org9ae25b6"><span class="section-number-2">2</span> Problems</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Create the following
+</p>
+</div>
+
+<div id="outline-container-org78c49db" class="outline-3">
+<h3 id="org78c49db"><span class="section-number-3">2.1</span> <code>Student</code></h3>
+<div class="outline-text-3" id="text-2-1">
+</div><div id="outline-container-orgd11ed05" class="outline-4">
+<h4 id="orgd11ed05"><span class="section-number-4">2.1.1</span> Problem</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<ul class="org-ul">
+<li>Create the following object <code>student</code> as a safe object which has the
+following properties
+
+<ul class="org-ul">
+<li><p>
+<code>roll</code> constraint: <code>[2011XXXX-2016XXXX]</code> X =&gt; [0-9]
+</p>
+<pre class="example">
+         '20141065'
+</pre></li>
+
+<li><p>
+<code>name</code> constraint: only alphabets
+</p>
+<pre class="example">
+         'Bob'
+</pre></li>
+
+<li><p>
+<code>year</code> constraint: <code>UGx</code> x =&gt; [1-6]
+</p>
+<pre class="example">
+         'UG3'
+</pre></li>
+
+<li><p>
+<code>courses</code> constraint: <code>[Course.id, Course.id, ...]</code>
+</p>
+<pre class="example">
+         ['ICS101', 'ICS102', 'ICS103']
+</pre></li>
+</ul></li>
+
+<li><p>
+write a maker function <code>makeStudent()</code> for the object <code>student</code> that has
+arguments as <code>roll</code>, <code>name</code>, <code>year</code> and returns a safe object.
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">s</span> = makeStudent(<span style="font-style: italic;">"20141065"</span>, <span style="font-style: italic;">"Bob"</span>, <span style="font-style: italic;">"UG3"</span>)
+</pre>
+</div></li>
+
+<li>Add the following methods to the <code>student</code> object
+<ul class="org-ul">
+<li><code>getCourseIds()</code> : returns the <code>courses</code> attribute</li>
+<li><code>addCourse(id)</code> : adds course id to the <code>courses</code> attribute</li>
+<li><code>dropCourse(id)</code> : removes course id from the <code>courses</code> attribute</li>
+<li><code>findCourse(id)</code> : checks if course id exists in the <code>courses</code>
+attribute and returns <code>true</code> or <code>false</code></li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org4fe00d9" class="outline-4">
+<h4 id="org4fe00d9"><span class="section-number-4">2.1.2</span> Boilerplate&#xa0;&#xa0;&#xa0;<span class="tag"><span class="boilerplate">boilerplate</span></span></h4>
+<div class="outline-text-4" id="text-2-1-2">
+<div class="org-src-container">
+<pre class="src src-javascript"><span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">makeStudent</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">r</span>, <span style="font-weight: bold; font-style: italic;">nm</span>, <span style="font-weight: bold; font-style: italic;">yr</span>)
+{
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">student</span> = {};
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">roll</span> = r;
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">name</span> = nm;
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">year</span> = yr;
+
+  <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">Add the methods here*/</span>
+  <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">You may add any additional methods that you need */</span>
+
+  <span style="font-weight: bold;">return</span> student;
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgab5a1cb" class="outline-3">
+<h3 id="orgab5a1cb"><span class="section-number-3">2.2</span> <code>Course</code></h3>
+<div class="outline-text-3" id="text-2-2">
+</div><div id="outline-container-orgf7a443e" class="outline-4">
+<h4 id="orgf7a443e"><span class="section-number-4">2.2.1</span> Problem</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<ul class="org-ul">
+<li>Create the following object <code>course</code> as a safe object which has the
+following properties
+
+<ul class="org-ul">
+<li><p>
+<code>id</code> constraint: <code>YYYXXX</code> Y =&gt; [A-Z], X =&gt; [0-9]
+</p>
+<pre class="example">
+         'ICS105'
+</pre></li>
+
+<li><p>
+<code>name</code> constraint: only alphabets
+</p>
+<pre class="example">
+         'ITWS'
+</pre></li>
+
+<li><p>
+<code>students</code> constraint: <code>[Student.roll, Student.roll, ...]</code>
+</p>
+<pre class="example">
+         ['20141065', '20141067']
+</pre></li>
+</ul></li>
+
+<li><p>
+Write a maker function <code>makeCourse()</code> for the object <code>course</code> that has arguments
+<code>id</code> and <code>name</code> and returns a safe object
+</p>
+<div class="org-src-container">
+<pre class="src src-javascript">       <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">c</span> = makeCourse(<span style="font-style: italic;">"ICS105"</span>, <span style="font-style: italic;">"ITWS"</span>)
+</pre>
+</div></li>
+
+<li>Add the following methods to the <code>course</code> object
+<ul class="org-ul">
+<li><code>getStudents()</code> : returns the <code>students</code> attribute</li>
+<li><code>addStudent(roll)</code> : adds student roll to the <code>students</code> attribute</li>
+<li><code>dropStudent(roll)</code> : removes student roll from the <code>students</code> attribute</li>
+<li><code>findStudent(roll)</code> : checks if student roll exists in the <code>students</code> attribute.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgbcaf648" class="outline-4">
+<h4 id="orgbcaf648"><span class="section-number-4">2.2.2</span> Boilerplate&#xa0;&#xa0;&#xa0;<span class="tag"><span class="boilerplate">boilerplate</span></span></h4>
+<div class="outline-text-4" id="text-2-2-2">
+<div class="org-src-container">
+<pre class="src src-javascript"><span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">Course</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">i</span>, <span style="font-weight: bold; font-style: italic;">nm</span>)
+{
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">course</span> = {}
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">id</span> = i;
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">name</span> = nm;
+  <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">students</span> = [];
+
+  <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">Add the methods here*/</span>
+  <span style="font-weight: bold; font-style: italic;">/* </span><span style="font-weight: bold; font-style: italic;">You may add any additional methods that you need */</span>
+
+  <span style="font-weight: bold;">return</span> course;
+}
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org37e9adc" class="outline-3">
+<h3 id="org37e9adc"><span class="section-number-3">2.3</span> A <code>Web interface</code> using HTML</h3>
+<div class="outline-text-3" id="text-2-3">
+</div><div id="outline-container-org30b1659" class="outline-4">
+<h4 id="org30b1659"><span class="section-number-4">2.3.1</span> 1. You can use a single static page.</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<ul class="org-ul">
+<li>Divide the page into parts for the various operations</li>
+
+<li>Use appropriate headings wherever necessary</li>
+</ul>
+</div>
+
+<ol class="org-ol"><li><a id="org386e416"></a>Boilerplate&#xa0;&#xa0;&#xa0;<span class="tag"><span class="boilerplate">boilerplate</span></span><br  /><div class="outline-text-5" id="text-2-3-1-1">
+<pre class="example">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+        &lt;title&gt;ITWS Assignment 6 | [[ROLL NUMBER]]&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+        &lt;h1&gt;Javascript OOP&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+</div></li></ol>
+</div>
+
+
+<div id="outline-container-org3912171" class="outline-4">
+<h4 id="org3912171"><span class="section-number-4">2.3.2</span> 2. Create 2 global objects <code>allStudents</code> and <code>allCourses</code>.</h4>
+<div class="outline-text-4" id="text-2-3-2">
+<ul class="org-ul">
+<li><code>allStudents</code> is an array of <code>Student</code> objects.</li>
+
+<li><code>allCourses</code> is an array of <code>Course</code> objects.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org80f4001" class="outline-4">
+<h4 id="org80f4001"><span class="section-number-4">2.3.3</span> 3. Create forms to populate these arrays with their corresponding objects</h4>
+<div class="outline-text-4" id="text-2-3-3">
+<p>
+respectively.
+</p>
+
+<ul class="org-ul">
+<li>Add a new <code>Student</code> to <code>allStudents</code> using <code>addNewStudent()</code> function.</li>
+
+<li>Add a new <code>Course</code> to <code>allCourses</code> using <code>addNewCourse()</code> function</li>
+</ul>
+</div>
+
+<ol class="org-ol"><li><a id="org89fc315"></a>Boilerplate&#xa0;&#xa0;&#xa0;<span class="tag"><span class="boilerplate">boilerplate</span></span><br  /><div class="outline-text-5" id="text-2-3-3-1">
+<pre class="example">
+&lt;form id="addNewStudent"&gt;
+      &lt;input name="roll" type="text"&gt;
+      &lt;input name="name" type="text"&gt;
+      &lt;input name="year" type="text"&gt;
+      &lt;button type="button" onclick="addNewStudent()"&gt;ADD&lt;/button&gt;
+&lt;/form&gt;
+</pre>
+</div></li></ol>
+</div>
+
+
+<div id="outline-container-orgf34620f" class="outline-4">
+<h4 id="orgf34620f"><span class="section-number-4">2.3.4</span> 4. Create tables to view the lists of all students and courses.</h4>
+<div class="outline-text-4" id="text-2-3-4">
+<ul class="org-ul">
+<li><code>roll</code>, <code>name</code> and <code>year</code> for students table.</li>
+
+<li><code>id</code> and <code>name</code> for courses table.</li>
+
+<li>Use the functions <code>viewAllStudents()</code> and <code>viewAllCourses()</code>.</li>
+</ul>
+</div>
+
+<ol class="org-ol"><li><a id="org517b4fe"></a>Boilerplate&#xa0;&#xa0;&#xa0;<span class="tag"><span class="boilerplate">boilerplate</span></span><br  /><div class="outline-text-5" id="text-2-3-4-1">
+<pre class="example">
+&lt;table id="allStudents"&gt;
+       &lt;thead&gt;
+        &lt;tr&gt;
+                &lt;td&gt;Roll&lt;/td&gt;
+                &lt;td&gt;Name&lt;/td&gt;
+                &lt;td&gt;Year&lt;/td&gt;
+        &lt;/tr&gt;
+       &lt;/thead&gt;
+       &lt;tbody&gt;
+       
+       &lt;tbody&gt;
+&lt;/table&gt;
+
+&lt;br /&gt;
+&lt;br /&gt;
+&lt;br /&gt;
+
+&lt;table id="allCourses"&gt;
+       &lt;thead&gt;
+        &lt;tr&gt;
+                &lt;td&gt;Id&lt;/td&gt;
+                &lt;td&gt;Name&lt;/td&gt;
+        &lt;/tr&gt;
+       &lt;/thead&gt;
+       &lt;tbody&gt;
+       
+       &lt;tbody&gt;
+&lt;/table&gt;
+</pre>
+</div></li></ol>
+</div>
+
+
+<div id="outline-container-org7d4ff5e" class="outline-4">
+<h4 id="org7d4ff5e"><span class="section-number-4">2.3.5</span> 5. Create a form to add a student to a course.</h4>
+<div class="outline-text-4" id="text-2-3-5">
+<ul class="org-ul">
+<li>Use the function <code>AddStudentToCourse(Student, Course)</code>.</li>
+
+<li>Provide the list of students and courses using a dropdown menus.</li>
+
+<li>Use the methods defined within the <code>Course</code> and <code>Student</code> object.</li>
+
+<li>When the student is added to the <code>Course</code> object, the course id should also be
+added to the <code>Student</code> object.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org761df83" class="outline-4">
+<h4 id="org761df83"><span class="section-number-4">2.3.6</span> 6. Create a form to remove a student from a course.</h4>
+<div class="outline-text-4" id="text-2-3-6">
+<ul class="org-ul">
+<li>Use the function <code>DropStudentFromCourse(Student,
+       Course)</code>.</li>
+
+<li>Provide the list of students and courses using a dropdown menus.</li>
+
+<li>Use the methods defined within the <code>Course</code> and <code>Student</code> object.</li>
+
+<li>When the student is removed from the <code>Course</code> object, the course id should also be
+removed from the <code>Student</code> object.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org76f5bb5" class="outline-4">
+<h4 id="org76f5bb5"><span class="section-number-4">2.3.7</span> 7. Create a form to remove a <code>Course</code> from <code>AllCourses</code></h4>
+<div class="outline-text-4" id="text-2-3-7">
+<p>
+object.
+</p>
+
+<ul class="org-ul">
+<li>Use the function <code>RemoveCourse(Course)</code>.</li>
+
+<li>Provide the list of courses using a dropdown menu.</li>
+
+<li>When the <code>Course</code> is removed, the <code>Student</code> objects
+linked to the course must also be updated.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orga67d212" class="outline-4">
+<h4 id="orga67d212"><span class="section-number-4">2.3.8</span> 8. Create a from to remove a <code>Student</code> from <code>AllStudents</code></h4>
+<div class="outline-text-4" id="text-2-3-8">
+<p>
+object.
+</p>
+
+<ul class="org-ul">
+<li>Use the function <code>RemoveStudent(Student)</code>.</li>
+
+<li>Provide the list of students using a dropdown menu.</li>
+
+<li>When the <code>Student</code> is removed, the <code>Course</code> objects
+linked to the student must also be updated.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgf427c6f" class="outline-4">
+<h4 id="orgf427c6f"><span class="section-number-4">2.3.9</span> 9. Create a form and a table to view the students taking a course.</h4>
+<div class="outline-text-4" id="text-2-3-9">
+<ul class="org-ul">
+<li>Take the input from the form.</li>
+
+<li>Provide the list of courses using a dropdown menu.</li>
+
+<li>Use the function <code>viewEnrolled(course)</code></li>
+
+<li><code>roll</code>, <code>name</code> and <code>year</code> of the students should be displayed in the
+table.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org38a90da" class="outline-4">
+<h4 id="org38a90da"><span class="section-number-4">2.3.10</span> 10. Create a form and a table to view the courses taken by a student.</h4>
+<div class="outline-text-4" id="text-2-3-10">
+<ul class="org-ul">
+<li>Take the input from the form.</li>
+
+<li>Provide the list of students using a dropdown menu.</li>
+
+<li>Use the function <code>viewCoursesTaken(student)</code></li>
+
+<li><code>id</code> and <code>name</code> of the courses should be displayed in the table</li>
+</ul>
+
+
+<ul class="org-ul">
+<li>Export all the functions defined in the questions. all
+the functions return an array of objects that are either
+<code>student</code> or <code>course</code>. Do not use the same functions to
+ display the content in the tables.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdc65e37" class="outline-3">
+<h3 id="orgdc65e37"><span class="section-number-3">2.4</span> <code>Bonus</code></h3>
+<div class="outline-text-3" id="text-2-4">
+<ul class="org-ul">
+<li>Use events and listeners to dynamically update the tables.</li>
+<li>Use CSS, Bootstrap or equivalent styling libraries.</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org78645b9" class="outline-2">
+<h2 id="org78645b9"><span class="section-number-2">3</span> Instructions</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-org43daac4" class="outline-3">
+<h3 id="org43daac4"><span class="section-number-3">3.1</span> Jquery</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+You may use Jquery to process the forms and events. If you are doing so
+provide jquery inside <code>index.html</code> using a CDN or the downloaded script.
+</p>
+<pre class="example">
+   &lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"&gt;&lt;/script&gt;
+</pre>
+</div>
+</div>
+
+
+<div id="outline-container-orge907343" class="outline-3">
+<h3 id="orge907343"><span class="section-number-3">3.2</span> Boilerplate</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+The boilerplate codes provided are not complete use them only as hints.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orga16a6c5" class="outline-3">
+<h3 id="orga16a6c5"><span class="section-number-3">3.3</span> File template</h3>
+<div class="outline-text-3" id="text-3-3">
+<ul class="org-ul">
+<li>Your final <code>main.org</code> file should tangle all the above
+defined javascript functions into <code>main.js</code> and all the
+html into <code>index.html</code></li>
+<li>Export your function definitions using <code>module.exports</code></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orged2d51c" class="outline-3">
+<h3 id="orged2d51c"><span class="section-number-3">3.4</span> Evaluation</h3>
+<div class="outline-text-3" id="text-3-4">
+<ul class="org-ul">
+<li>You will be graded according to various other test cases as
+well as the quality of your solution.</li>
+
+<li>Manual evaluations will also be conducted.</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org4bdee0b" class="outline-3">
+<h3 id="org4bdee0b"><span class="section-number-3">3.5</span> Naming convention</h3>
+<div class="outline-text-3" id="text-3-5">
+<ul class="org-ul">
+<li>1. Use the same names of functions as mentioned in the
+questions.</li>
+
+<li>2. All the questions should be in the same file, and
+the file is to be called "main.org".</li>
+
+<li>3. "main.org" tangles out "main.js" and "index.html"</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org0052fbc" class="outline-3">
+<h3 id="org0052fbc"><span class="section-number-3">3.6</span> Directory Structure</h3>
+<div class="outline-text-3" id="text-3-6">
+<ul class="org-ul">
+<li>1. Each student has access to a repository whose name is
+the roll-number of the student.</li>
+
+<li><p>
+2. In your GitLab repository, you <b>must</b> follow the
+directory structure as below:
+</p>
+
+<pre class="example">
+     -------------------------
+     &lt;roll-no&gt;
+     |
+     `----assignment-solutions
+          |
+          `--- assignment-6
+               |--- main.org
+     ------------------------
+</pre></li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-org592a56b" class="outline-3">
+<h3 id="org592a56b"><span class="section-number-3">3.7</span> Strict Adherence</h3>
+<div class="outline-text-3" id="text-3-7">
+<p>
+If you do not adhere to this directory structure and naming,
+you <b>will</b> lose marks. The evaluation of this homework is
+<b>automated</b>.  So, please make sure that you don't miss
+hyphens and upper case letters in file, directory and
+function names.  No requests for regrading of your homework
+will be entertained if the directory structure or naming
+convention is not followed!
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: VLEAD</p>
+<p class="date">Created: 2017-04-27 Thu 03:32</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

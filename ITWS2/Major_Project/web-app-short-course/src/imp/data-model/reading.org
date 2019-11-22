@@ -1,0 +1,40 @@
+#+TITLE: Talk with mentors
+#+AUTHOR: Shubh
+#+DATE: [2017-06-15 Thu]
+#+PROPERTY: results output
+#+PROPERTY: exports code
+#+SETUPFILE: ../../org-templates/level-2.org
+#+options: ^:nil
+#+LATEX: Literal LaTeX code for export
+
+* Talk in the morning 
+  We discussed about how to divide the models into static and dyanamic
+
+** Static Model 
+   In the static model we must think with the perspective of Object Oriented
+   Programming where each object some specific fields assigned to it.  
+   These fields in alloy would be the relations with other objects.
+
+   In the static model we must also think about the universal set. In this 
+   must keep in mind that there exists a universal of all objects and only the
+   =live= subset is in the model. 
+   
+   Hence all the relations must be made on the =live= subset.
+   
+   
+   
+
+
+* Formal Verification
+  How alloy in used in formal verification of models.Hence we use it so that 
+  we dont get bugs  during production.Many Spacecrafts have to pay billions due to 
+  some bug
+  
+ 
+
+
+
+
+* Things to research:
+1.Program Synthesis
+2.SDN

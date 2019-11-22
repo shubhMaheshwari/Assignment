@@ -1,0 +1,982 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-04-27 Thu 03:32 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Program Evaluation via Annotation</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="VLEAD" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="../../style/css/worg-style.css" />
+<link rel="stylesheet" type="text/css" href="../../style/css/override.css" />
+<link rel="icon" type="image/png" href="../../style/img/favicon/popl.png" />
+<script type="text/javascript" src="../../style/js/org-info.js">
+/**
+ *
+ * @source: ../../style/js/org-info.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in ../../style/js/org-info.js.
+ *
+ * Copyright (C) 2012-2013 Free Software Foundation, Inc.
+ *
+ *
+ * The JavaScript code in this tag is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in ../../style/js/org-info.js.
+ *
+ */
+</script>
+
+<script type="text/javascript">
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "1");
+org_html_manager.set("LINK_HOME", "../../index.html");
+org_html_manager.set("LINK_UP", "../index.html");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="../../index.html"> HOME </a>
+</div><div id="content">
+<h1 class="title">Program Evaluation via Annotation</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org56b172a">1. Introduction</a></li>
+<li><a href="#org5c486f8">2. ASTs</a></li>
+<li><a href="#orgfc64680">3. Evaluation of ASTs via annotation</a>
+<ul>
+<li><a href="#org8075b76">3.1. Evaluation and Elaboration</a></li>
+</ul>
+</li>
+<li><a href="#org51670ff">4. Expressions with identifiers</a></li>
+<li><a href="#orgee0e71e">5. Evaluating a <code>let</code> expression</a>
+<ul>
+<li><a href="#org1b10aee">5.1. Structure of a <code>let</code> expression</a></li>
+<li><a href="#orge20ec23">5.2. Steps to evaluate a let expression</a></li>
+<li><a href="#org504ab28">5.3. Example</a></li>
+</ul>
+</li>
+<li><a href="#org46ff5c4">6. Functions evaluate to closures</a>
+<ul>
+<li><a href="#orgd12a401">6.1. Example</a></li>
+<li><a href="#orgfdd03cb">6.2. Closures don't print in Racket</a>
+<ul>
+<li><a href="#orge2b1be1">6.2.1. Doubt</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org6deaed1">7. Evaluating an application expression</a>
+<ul>
+<li><a href="#org2a1f62f">7.1. Example</a></li>
+<li><a href="#org5551f5e">7.2. AST representation of an application expression</a></li>
+<li><a href="#orgdc6ec9a">7.3. Steps involved in evaluating an application AST</a></li>
+<li><a href="#org592c38d">7.4. Example</a></li>
+</ul>
+</li>
+<li><a href="#org5323147">8. Evaluating a <code>letrec</code> AST</a>
+<ul>
+<li><a href="#orga36db56">8.1. Structure of a <code>letrec</code> expression</a></li>
+<li><a href="#orgef8f560">8.2. Example</a></li>
+</ul>
+</li>
+<li><a href="#org3a0c9e5">9. Example comparing evaluation in <code>let</code> and <code>letrec</code></a>
+<ul>
+<li><a href="#org63e24e7">9.1. <code>let</code> example</a></li>
+<li><a href="#org7ec52fe">9.2. <code>letrec</code> example</a></li>
+</ul>
+</li>
+<li><a href="#orgdf1fd32">10. Lecture resources</a>
+<ul>
+<li><a href="#org997d4b9">10.1. 2017-spring-iiith</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org56b172a" class="outline-2">
+<h2 id="org56b172a"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+We introduce a visual model for
+evaluating programs by
+annotation.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5c486f8" class="outline-2">
+<h2 id="org5c486f8"><span class="section-number-2">2</span> ASTs</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+ASTs are visual representation
+of programs.  They are drawn as
+trees with the following
+notational convention:
+</p>
+
+<ul class="org-ul">
+<li>Expression (circle)</li>
+
+<li>Formals (rectangle)</li>
+
+<li>Binds (rectangle)</li>
+
+<li>Bind (square)</li>
+
+<li>Binding occurrence is an
+identifier, not an
+expression.  It will have no
+shape enclosing it.</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-orgfc64680" class="outline-2">
+<h2 id="orgfc64680"><span class="section-number-2">3</span> Evaluation of ASTs via annotation</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+For expressions with
+identifiers, evaluation requires
+annotating the expression with
+</p>
+
+<ul class="org-ul">
+<li>the environment in which it
+is evaluated.</li>
+
+<li>the value that it returns</li>
+</ul>
+</div>
+
+<div id="outline-container-org8075b76" class="outline-3">
+<h3 id="org8075b76"><span class="section-number-3">3.1</span> Evaluation and Elaboration</h3>
+<div class="outline-text-3" id="text-3-1">
+<ul class="org-ul">
+<li>come in into an expression
+with an environment.  Come
+out with a value.  (Valuation)</li>
+
+<li>come in into a binds with an
+environment,  come out with
+an environment.  (Elaboration)</li>
+
+<li>come in into a bind with an
+environment.  Come out with a
+binding.  (Elaboration)</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org51670ff" class="outline-2">
+<h2 id="org51670ff"><span class="section-number-2">4</span> Expressions with identifiers</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+The AST annotation showing the
+evaluation of the expression <code>(+
+x 2)</code> in the environment <code>G</code>
+equal to <code>{x:4}</code> is shown below:
+</p>
+
+
+<div id="orgabe7a2f" class="figure">
+<p><img src="./figs/algebraic-ex.png" alt="algebraic-ex.png" width="40%" />
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgee0e71e" class="outline-2">
+<h2 id="orgee0e71e"><span class="section-number-2">5</span> Evaluating a <code>let</code> expression</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+<code>let</code> expressions represent
+local bindings.   
+</p>
+</div>
+<div id="outline-container-org1b10aee" class="outline-3">
+<h3 id="org1b10aee"><span class="section-number-3">5.1</span> Structure of a <code>let</code> expression</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+A <code>let</code> expression has <code>binds</code>
+and a body which is an
+expression. 
+</p>
+
+<pre class="example">
+&lt;let-exp&gt; ::= (let (&lt;bind&gt; ...) &lt;exp&gt;)
+&lt;bind&gt; ::= (&lt;id&gt; &lt;exp&gt;)
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orge20ec23" class="outline-3">
+<h3 id="orge20ec23"><span class="section-number-3">5.2</span> Steps to evaluate a let expression</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+Assume that a <code>let</code> expression
+is to be evaluated in an
+environment <code>G</code>. 
+</p>
+
+<ol class="org-ol">
+<li>Elaborate the <code>binds</code> of the
+<code>let</code> expression in the
+environment <code>G</code>.</li>
+
+<li>This should yield an
+environment <code>alpha</code>.</li>
+
+<li>Evaluate the body of the
+<code>let</code> expression in the
+environment <code>alpha . G</code></li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org504ab28" class="outline-3">
+<h3 id="org504ab28"><span class="section-number-3">5.3</span> Example</h3>
+<div class="outline-text-3" id="text-5-3">
+<pre class="example">
+G = {x:1, y:7, z:8, w:14};
+</pre>
+<p>
+Evaluate the following
+expression in <code>G</code>:
+</p>
+<pre class="example">
+(+ x 
+   (let ([x 3] [y 4])
+
+     (+ x y z)))
+</pre>
+
+
+<div id="orgf4602aa" class="figure">
+<p><img src="./figs/let-ex.png" alt="let-ex.png" width="80%" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org46ff5c4" class="outline-2">
+<h2 id="org46ff5c4"><span class="section-number-2">6</span> Functions evaluate to closures</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+A function, or <code>lambda</code>
+expression has the syntax 
+</p>
+
+<pre class="example">
+&lt;function-expr&gt; ::= (lambda (&lt;id&gt; ...) &lt;exp&gt;)
+</pre>
+<p>
+A <code>lambda</code> expression with list
+of formals <code>formals</code> and body
+expression <code>body</code> in an
+environment <code>env</code> evaluates to a
+<i>closure</i>, which is the triple
+</p>
+
+<ul class="org-ul">
+<li><code>formals</code></li>
+<li><code>body</code></li>
+<li><code>env</code></li>
+</ul>
+</div>
+
+<div id="outline-container-orgd12a401" class="outline-3">
+<h3 id="orgd12a401"><span class="section-number-3">6.1</span> Example</h3>
+<div class="outline-text-3" id="text-6-1">
+<p>
+Consider the evaluation of the
+<code>lambda</code> expression
+</p>
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">lambda</span> (x)
+  (+ x y))
+</pre>
+</div>
+<p>
+in the environment 
+</p>
+<pre class="example">
+G = {x:3, y:4}
+</pre>
+
+<p>
+The annotated AST is shown below:
+</p>
+
+
+<div id="orgb950bf6" class="figure">
+<p><img src="./figs/lambda-ex.png" alt="lambda-ex.png" width="80%" />
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgfdd03cb" class="outline-3">
+<h3 id="orgfdd03cb"><span class="section-number-3">6.2</span> Closures don't print in Racket</h3>
+<div class="outline-text-3" id="text-6-2">
+<p>
+If you try the above example in
+Racket, you will see that Racket
+doesn't print the details of the
+closure, it just says
+<code>#&lt;procedure&gt;</code>.   
+</p>
+
+<pre class="example">
+&gt; (define x 3)
+
+&gt; (define y 4)
+
+&gt; (lambda (x)
+   (+ x y))
+
+#&lt;procedure&gt;
+</pre>
+<p>
+The result is a black-box.  
+</p>
+</div>
+
+<div id="outline-container-orge2b1be1" class="outline-4">
+<h4 id="orge2b1be1"><span class="section-number-4">6.2.1</span> Doubt</h4>
+<div class="outline-text-4" id="text-6-2-1">
+</div><ol class="org-ol"><li><a id="org1bfaa16"></a>Question<br  /><div class="outline-text-5" id="text-6-2-1-1">
+<p>
+If you can't see what's inside
+the closure, what's the point?
+</p>
+</div></li>
+
+<li><a id="org965a793"></a>Answer<br  /><div class="outline-text-5" id="text-6-2-1-2">
+<p>
+Analogy, you can't see what's in
+a projector in the class room
+doesn't mean it's not useful.
+We could still <i>use</i> it without
+worrying about what's inside
+it.  Stay tuned till we get to
+application expressions
+</p>
+</div></li></ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org6deaed1" class="outline-2">
+<h2 id="org6deaed1"><span class="section-number-2">7</span> Evaluating an application expression</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+An application expression has an
+operator expression followed by
+zero or more argument
+expressions.
+</p>
+
+<p>
+Here is the Racket concrete
+syntax for application.
+</p>
+
+<pre class="example">
+&lt;app-exp&gt; ::= (&lt;exp&gt; &lt;exp&gt; ...)
+</pre>
+</div>
+<div id="outline-container-org2a1f62f" class="outline-3">
+<h3 id="org2a1f62f"><span class="section-number-3">7.1</span> Example</h3>
+<div class="outline-text-3" id="text-7-1">
+<div class="org-src-container">
+<pre class="src src-racket">#lang racket
+(define x 3)
+(define y 4)
+
+((lambda (x)
+  (+ x y))
+  5)
+</pre>
+</div>
+<pre class="example">
+9
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org5551f5e" class="outline-3">
+<h3 id="org5551f5e"><span class="section-number-3">7.2</span> AST representation of an application expression</h3>
+<div class="outline-text-3" id="text-7-2">
+<p>
+The root of an application AST
+has a node labelled <code>@</code>.  Note
+that Racket's syntax itself does
+not use any keyword to denote
+application.  Application is the
+default if there is no keyword.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgdc6ec9a" class="outline-3">
+<h3 id="orgdc6ec9a"><span class="section-number-3">7.3</span> Steps involved in evaluating an application AST</h3>
+<div class="outline-text-3" id="text-7-3">
+<p>
+Evaluating an application in an
+environment <code>G</code> involves the
+following steps:
+</p>
+
+<ol class="org-ol">
+<li>Evaluate the operator
+expression to obtain a
+closure <code>c</code>.</li>
+
+<li>Evaluate the argument
+expressions.</li>
+
+<li>Unwrap the closure <code>c</code>.</li>
+
+<li>Match formals in the closure
+with arguments in the
+application to   create a new
+environment <code>A</code>.</li>
+
+<li>Draw another copy of the
+body expression available in
+the closure.</li>
+
+<li>Link the root of the clone
+to the application vertex.
+This link allows the result
+of evaluating the body
+bubbles up to the original
+application node.</li>
+
+<li>Let <code>G</code>' be the environment
+in the closure <code>c</code>.  Note
+<code>G</code>' may be different from
+the environment <code>G</code> used to
+evaluated application
+expression</li>
+
+<li>Compose <code>A</code> with <code>G</code>' and
+evaluate the body in the
+environment <code>A.G</code>'.</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org592c38d" class="outline-3">
+<h3 id="org592c38d"><span class="section-number-3">7.4</span> Example</h3>
+<div class="outline-text-3" id="text-7-4">
+<p>
+The evaluation of 
+</p>
+<div class="org-src-container">
+<pre class="src src-scheme">((<span style="font-weight: bold;">lambda</span> (x)
+  (+ x y))
+  5)
+</pre>
+</div>
+
+<p>
+in the environment <code>G = {x: 3, y: 4}</code>
+is shown below:
+</p>
+
+
+<div class="figure">
+<p><img src="./figs/app-ex.png" alt="app-ex.png" width="80%" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5323147" class="outline-2">
+<h2 id="org5323147"><span class="section-number-2">8</span> Evaluating a <code>letrec</code> AST</h2>
+<div class="outline-text-2" id="text-8">
+</div><div id="outline-container-orga36db56" class="outline-3">
+<h3 id="orga36db56"><span class="section-number-3">8.1</span> Structure of a <code>letrec</code> expression</h3>
+<div class="outline-text-3" id="text-8-1">
+<pre class="example">
+&lt;letre-exp&gt; ::= (letrec (&lt;bind&gt; ...) &lt;exp&gt;)
+&lt;bind&gt; ::= (&lt;id&gt; &lt;exp&gt;)
+</pre>
+
+
+<p>
+These are the steps in  annotating a <code>letrec</code>
+expression in an environment
+<code>r</code>. 
+</p>
+
+
+<ol class="org-ol">
+<li>Assume that the <code>binds</code>
+subtree of the <code>letrec</code>
+elaborates into an
+environment <code>beta</code>.  Note:
+the only thing known about
+<code>beta</code> is its domain, which
+is the identifers in each
+<code>bind</code> of the <code>letrec</code>
+expression.</li>
+
+<li>Mark the value against each
+identifier in <code>beta</code> as
+'unitialized' (indicated as
+a blank).</li>
+
+<li>Annotate the <code>binds</code> of the
+<code>letrec</code> with the
+environment <code>beta.r</code>.</li>
+
+<li>Continue to elaborate each
+<code>bind</code> (left to right)
+under the environment
+<code>beta.r</code>.</li>
+
+<li>After each elaboration of a
+<code>bind</code>, update <code>beta</code>.</li>
+
+<li>If at any time, the
+evaluation requires looking
+up <code>beta</code> for an identifier
+that is as yet uninitialized
+in <code>beta</code>, signal an error
+and abort the evaluation.</li>
+
+<li>Otherwise, the elaboration
+of the <code>binds</code> is
+complete.</li>
+
+<li>Continue evaluation of the
+body of the <code>letrec</code> in the
+environment <code>beta.r</code>.</li>
+
+<li>Return the result (if any)
+of evaluating the body as
+the result of the <code>letrec</code>
+expression.  (This and the
+last one are identical to
+that of <code>let</code>.)</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-orgef8f560" class="outline-3">
+<h3 id="orgef8f560"><span class="section-number-3">8.2</span> Example</h3>
+<div class="outline-text-3" id="text-8-2">
+<p>
+Consider the following expression
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">(<span style="font-weight: bold;">let</span> ([x 5])
+   (<span style="font-weight: bold;">letrec</span> ([x (<span style="font-weight: bold;">lambda</span> ()
+                 x))]
+     x))
+</pre>
+</div>
+
+<p>
+evaluated in an environment <code>G =
+{x:3, y:4}</code>.
+</p>
+
+
+<div class="figure">
+<p><img src="./figs/letrec-ex.png" alt="letrec-ex.png" width="80%" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3a0c9e5" class="outline-2">
+<h2 id="org3a0c9e5"><span class="section-number-2">9</span> Example comparing evaluation in <code>let</code> and <code>letrec</code></h2>
+<div class="outline-text-2" id="text-9">
+<p>
+The purpose of this example is
+to illustrate the difference
+between evaluation in <code>let</code>
+expressions versus evaluation
+in <code>letrec</code> expressions.
+</p>
+
+<p>
+We consider programs differing
+in exactly one keyword at one
+place: a <code>let</code> replaced by a
+<code>letrec</code>:
+</p>
+</div>
+
+<div id="outline-container-org63e24e7" class="outline-3">
+<h3 id="org63e24e7"><span class="section-number-3">9.1</span> <code>let</code> example</h3>
+<div class="outline-text-3" id="text-9-1">
+<p>
+The program involving <code>let</code> is
+shown below.  Note that the
+<code>let</code> expression forms the
+operator expression of the
+(outermost) application:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">((<span style="font-weight: bold;">let</span> ([x 5])
+   (<span style="font-weight: bold;">letrec</span> ([x (<span style="font-weight: bold;">lambda</span> ()
+                 x)])
+     x)))
+</pre>
+</div>
+
+<p>
+Running the above program yields
+<code>5</code>.
+</p>
+
+
+<div class="figure">
+<p><img src="./figs/app-with-let.png" alt="app-with-let.png" width="80%" />
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org7ec52fe" class="outline-3">
+<h3 id="org7ec52fe"><span class="section-number-3">9.2</span> <code>letrec</code> example</h3>
+<div class="outline-text-3" id="text-9-2">
+<p>
+Here is the program with the
+inner <code>let</code> replaced with a
+<code>letrec</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-scheme">((<span style="font-weight: bold;">let</span> ([x 5])
+   (<span style="font-weight: bold;">letrec</span> ([x (<span style="font-weight: bold;">lambda</span> ()
+                 x)])
+     x)))
+</pre>
+</div>
+
+<p>
+The result of this program is a
+procedure, not 5.
+</p>
+
+<p>
+Here is AST annotation for
+visualising the evaluation:
+</p>
+
+
+<div class="figure">
+<p><img src="./figs/app-with-letrec.png" alt="app-with-letrec.png" width="80%" />
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgdf1fd32" class="outline-2">
+<h2 id="orgdf1fd32"><span class="section-number-2">10</span> Lecture resources</h2>
+<div class="outline-text-2" id="text-10">
+</div><div id="outline-container-org997d4b9" class="outline-3">
+<h3 id="org997d4b9"><span class="section-number-3">10.1</span> 2017-spring-iiith</h3>
+<div class="outline-text-3" id="text-10-1">
+<ul class="org-ul">
+<li>doubts thread</li>
+<li>ta notes of</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: VLEAD</p>
+<p class="date">Created: 2017-04-27 Thu 03:32</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

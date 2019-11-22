@@ -1,0 +1,36 @@
+<START T1>
+
+A 8 B 8 C 5
+<T1, A, 8>
+A 16
+A 8 B 8 C 5
+<START T2>
+A 16
+A 8 B 8 C 5
+<START T3>
+A 16 C 5
+A 8 B 8 C 5
+<T3, C, 5>
+A 16 B 8 C 9
+A 8 B 8 C 5
+<T1, B, 8>
+A 16 B 16 C 9
+A 8 B 8 C 5
+<T2, C, 9>
+A 16 B 16 C 7
+A 8 B 8 C 5
+<T3, B, 16>
+A 16 B 8 C 7
+A 8 B 8 C 5
+<COMMIT T1>
+A 16 B 8 C 7
+A 16 B 8 C 5
+<T2, A, 16>
+A 7 B 8 C 7
+A 16 B 8 C 5
+<COMMIT T2>
+A 7 B 8 C 7
+A 7 B 8 C 7
+<COMMIT T3>
+A 7 B 8 C 7
+A 7 B 8 C 7

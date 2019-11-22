@@ -1,0 +1,604 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-04-27 Thu 03:32 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Concurrency</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="VLEAD" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="../../style/css/worg-style.css" />
+<link rel="stylesheet" type="text/css" href="../../style/css/override.css" />
+<link rel="icon" type="image/png" href="../../style/img/favicon/popl.png" />
+<script type="text/javascript" src="../../style/js/org-info.js">
+/**
+ *
+ * @source: ../../style/js/org-info.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in ../../style/js/org-info.js.
+ *
+ * Copyright (C) 2012-2013 Free Software Foundation, Inc.
+ *
+ *
+ * The JavaScript code in this tag is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in ../../style/js/org-info.js.
+ *
+ */
+</script>
+
+<script type="text/javascript">
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "1");
+org_html_manager.set("LINK_HOME", "../../index.html");
+org_html_manager.set("LINK_UP", "../index.html");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="../../index.html"> HOME </a>
+</div><div id="content">
+<h1 class="title">Concurrency</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgb382143">1. Objective</a>
+<ul>
+<li><a href="#org52de765">1.1. Topics</a></li>
+</ul>
+</li>
+<li><a href="#org85fe77e">2. From Programs to threads</a></li>
+<li><a href="#orgd9aaf29">3. Concurrent execution of multiple threads</a>
+<ul>
+<li><a href="#orgc139581">3.1. Interleaving Semantics</a></li>
+<li><a href="#orgc85c465">3.2. Deterministic vs. Non-determinstic execution</a></li>
+<li><a href="#org5779ae3">3.3. Concurrent Program</a></li>
+<li><a href="#orgd6270c5">3.4. Benefit of Concurrent executions: Efficiency</a></li>
+</ul>
+</li>
+<li><a href="#orga41a285">4. Shared variables and the pitfalls of concurrency</a></li>
+<li><a href="#orgafcdc4e">5. Serializability</a></li>
+<li><a href="#orgf5aecfe">6. Examples</a></li>
+<li><a href="#orgd5248c1">7. Object method interface in the presence of concurrency</a></li>
+<li><a href="#org5778acc">8. References</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgb382143" class="outline-2">
+<h2 id="orgb382143"><span class="section-number-2">1</span> Objective</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+In this section, we look at concurrent interfaces and the
+challenges they pose to maintaining data invariants.
+</p>
+</div>
+
+<div id="outline-container-org52de765" class="outline-3">
+<h3 id="org52de765"><span class="section-number-3">1.1</span> Topics</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>Thread of execution</li>
+
+<li>Concurrent Execution
+<ul class="org-ul">
+<li>Interleaving semantics</li>
+<li>Deterministic vs. Non-deterministic execution</li>
+<li>Concurrent program</li>
+<li>Benefit of Concurrent executions: Efficiency</li>
+</ul></li>
+<li>Shared Variables and the pitfall of concurrency</li>
+<li>Serializability</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org85fe77e" class="outline-2">
+<h2 id="org85fe77e"><span class="section-number-2">2</span> From Programs to threads</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+A program is a <i>finite sequence</i> of instructions.  
+</p>
+
+<p>
+A <i>source program</i> is a program written in a high level language like C,
+Javascript, Python, etc.  An <i>assembly program</i> is a program written in
+the instruction set of a computer's CPU.  A <i>compiler</i> is a program that
+translates the source program to an assembly program.
+</p>
+
+<p>
+A thread is a (potentially infinite) stream of instructions and may be
+thought of as the trace of the 
+</p>
+
+<p>
+When a program runs, it results in one or more <i>threads of execution</i>.
+</p>
+
+<p>
+A program is <i>sequential</i> if it executes as a single thread of
+execution, <i>concurrent</i> if it results in multiple threads of execution.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd9aaf29" class="outline-2">
+<h2 id="orgd9aaf29"><span class="section-number-2">3</span> Concurrent execution of multiple threads</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-orgc139581" class="outline-3">
+<h3 id="orgc139581"><span class="section-number-3">3.1</span> Interleaving Semantics</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Consider a two threads of execution 
+</p>
+
+<dl class="org-dl">
+<dt><code>t1</code></dt><dd>executing the following stream of instructions
+<code>[a b a b ...]</code>.</dd>
+</dl>
+
+
+<dl class="org-dl">
+<dt><code>t2</code></dt><dd>executing the following stream of instructions
+<code>[c d c d ...]</code>.</dd>
+</dl>
+
+<p>
+A <i>concurrent</i> execution of <code>t1</code> and <code>t2</code>, denoted <code>t1|t2</code>
+is any sequence obtained by <i>interleaving</i> their
+instructions.  The following are all examples of 
+executions of <code>t1|t2</code>
+</p>
+
+<pre class="example">
+ [a b c d a b c d a b c d ...]
+ [c d a b c d a b c d a b ...]
+ [a c b a d b c d c a b a ...]
+ [c a b d c d c d a c b a ...]
+etc.
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgc85c465" class="outline-3">
+<h3 id="orgc85c465"><span class="section-number-3">3.2</span> Deterministic vs. Non-determinstic execution</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+A program is <i>deterministic</i> if, for the same input, it
+results in the same thread of execution each time.
+Otherwise, the program is non-deterministic.
+</p>
+
+<p>
+In the concurrent execution of the threads <code>t1</code> and <code>t2</code>,
+the resultant execution is non-deterministic because we can
+make no assumptions on which specific sequence is actually
+executed.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5779ae3" class="outline-3">
+<h3 id="org5779ae3"><span class="section-number-3">3.3</span> Concurrent Program</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+A <i>concurrent</i> program is one that may result in two or more
+threads executing concurrently.
+</p>
+
+<p>
+Note how the execution of a concurrent program is the
+result of interleaving of instructions of each thread. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd6270c5" class="outline-3">
+<h3 id="orgd6270c5"><span class="section-number-3">3.4</span> Benefit of Concurrent executions: Efficiency</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+Concurrent executions could speed up computation
+significantly.   Each single thread could be running on a
+different core in a multi core machine, and the two cores
+process instructions in parallel. 
+</p>
+
+<p>
+Assume that the instructions <code>b</code> and <code>d</code> are I/O operations.
+Even on a single machine, the operating system ensures that
+while <code>t1</code> is executing instruction <code>b</code>, i.e., it is waiting
+for IO, the CPU could be freed up to execute CPU intensive
+instructions of <code>t1</code>.  
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga41a285" class="outline-2">
+<h2 id="orga41a285"><span class="section-number-2">4</span> Shared variables and the pitfalls of concurrency</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+As long as the two threads have nothing to do with each
+other, concurrent execution is a big win. 
+</p>
+
+<p>
+But that is rarely the case.  The problem starts when the
+two threads share memory (i.e., variable locations, vectors,
+data structures, etc.)
+</p>
+
+<p>
+The reading and writing of data into shared memory may go
+out of sync, causing the program's semantics to be broken.
+</p>
+</div>
+</div>
+
+
+
+<div id="outline-container-orgafcdc4e" class="outline-2">
+<h2 id="orgafcdc4e"><span class="section-number-2">5</span> Serializability</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+<i>Serializability</i> is a correctness principle for concurrent execution.
+It says that if two 'operations' <code>a</code> and <code>b</code> execute concurrently, then
+the result should be either equivalent to <code>a</code> followed by <code>b</code> or <code>b</code>
+followed by <code>a</code> (and nothing else).  We capture this with the 'equation'
+</p>
+
+<pre class="example">
+a|b = ab + ba
+</pre>
+
+<p>
+Note using serializability requires that we define 'operation' at the
+right level of abstraction.  We may, for example wish that in a
+concurrent program in a high level programming language, operations are
+function calls.  On the other hand, at the level of execution by the CPU
+of the program obtained by compiling the original high level program,
+operations may correspond to machine instructions.
+</p>
+
+<p>
+It is this mismatch in the level of abstraction that can cause the
+high-level programmer to be puzzled by his/her program's behaviour.  The
+interleaving at the instruction level is not even visible at the high
+level.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf5aecfe" class="outline-2">
+<h2 id="orgf5aecfe"><span class="section-number-2">6</span> Examples</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+We look at a series of <a href="./exp.html">three experiments</a>, each working on an account
+object.  Each experiment consists of a set of runs.  In each run, we
+perform a task.  The task consists of crediting an amount (10) to the
+account multiple (<code>m</code>) times.  Thus each experiment takes two
+parameters: the number <code>m</code> corresponding to number of credits, and <code>n</code>
+the number of runs in the experiment.
+</p>
+
+<dl class="org-dl">
+<dt><code>exp1.py</code></dt><dd>The task consists of running one thread.</dd>
+
+<dt><code>exp2.py</code></dt><dd>The task involves two threads each crediting the amount
+<code>m</code> times.</dd>
+
+<dt><code>exp3.py</code></dt><dd>The task involves two threads, but now synchronized.</dd>
+</dl>
+</div>
+</div>
+
+
+<div id="outline-container-orgd5248c1" class="outline-2">
+<h2 id="orgd5248c1"><span class="section-number-2">7</span> Object method interface in the presence of concurrency</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+With the presence of locks, making a function (or method) call may now
+require us to <i>wait</i>, or <i>block</i>.
+</p>
+
+<pre class="example">
+Account.credit: Integer -&gt; Wait.Void
+</pre>
+
+<p>
+This means that a call to <code>credit</code> could delay indefinitely after which
+the result returned by credit is <code>Void</code>.  Note that the delay could not
+only be indefinite, but infinite.  It is possible for a method to wait
+forever trying to acquire a lock unsuccessfully. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5778acc" class="outline-2">
+<h2 id="org5778acc"><span class="section-number-2">8</span> References</h2>
+<div class="outline-text-2" id="text-8">
+<dl class="org-dl">
+<dt>In built concurrency in Python</dt><dd>See operations already
+<a href="http://effbot.org/pyfaq/what-kinds-of-global-value-mutation-are-thread-safe.htm">thread-safe</a> in Python.</dd>
+</dl>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: VLEAD</p>
+<p class="date">Created: 2017-04-27 Thu 03:32</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

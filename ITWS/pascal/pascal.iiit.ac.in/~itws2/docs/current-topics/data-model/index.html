@@ -1,0 +1,1381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-04-27 Thu 03:32 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Modelling Relational Data: Types, State and Operations</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="VLEAD" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="../../style/css/worg-style.css" />
+<link rel="stylesheet" type="text/css" href="../../style/css/override.css" />
+<link rel="icon" type="image/png" href="../../style/img/favicon/popl.png" />
+<script type="text/javascript" src="../../style/js/org-info.js">
+/**
+ *
+ * @source: ../../style/js/org-info.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in ../../style/js/org-info.js.
+ *
+ * Copyright (C) 2012-2013 Free Software Foundation, Inc.
+ *
+ *
+ * The JavaScript code in this tag is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in ../../style/js/org-info.js.
+ *
+ */
+</script>
+
+<script type="text/javascript">
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "1");
+org_html_manager.set("LINK_HOME", "../../index.html");
+org_html_manager.set("LINK_UP", "../index.html");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="../../index.html"> HOME </a>
+</div><div id="content">
+<h1 class="title">Modelling Relational Data: Types, State and Operations</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org9f17aad">1. Objective</a></li>
+<li><a href="#org4d79077">2. Context</a></li>
+<li><a href="#org2ec223c">3. The data modeling problem</a></li>
+<li><a href="#org907293d">4. Basic set theory, relations and notation</a>
+<ul>
+<li><a href="#org9ae0c50">4.1. Basic set notation</a></li>
+<li><a href="#org5e7173b">4.2. Relation</a></li>
+<li><a href="#org845175b">4.3. Application of a relation</a></li>
+<li><a href="#org3daef29">4.4. Composition of relations</a></li>
+</ul>
+</li>
+<li><a href="#orgbe76c0e">5. Cardinality and cardinality constraints</a>
+<ul>
+<li><a href="#org7380a33">5.1. Cardinality</a></li>
+<li><a href="#orge5816bb">5.2. Cardinality constraint on a relation</a>
+<ul>
+<li><a href="#org3fc7eab">5.2.1. Example</a></li>
+</ul>
+</li>
+<li><a href="#orgc30c28d">5.3. Important cardinality constraints</a></li>
+<li><a href="#orgacd3094">5.4. Key relation</a>
+<ul>
+<li><a href="#org928f1e2">5.4.1. Definition</a></li>
+<li><a href="#org5a662db">5.4.2. Example</a></li>
+<li><a href="#orgcd31f33">5.4.3. Compound Keys</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org639bb5f">6. Running Example: Requirements of a User Directory application</a></li>
+<li><a href="#org90c8107">7. Data Modelling: Specification</a>
+<ul>
+<li><a href="#orga8a7169">7.1. Types</a></li>
+<li><a href="#org2ef6531">7.2. State</a></li>
+<li><a href="#org5548b21">7.3. Operations</a></li>
+<li><a href="#org4c0328d">7.4. Cardinality constraints</a></li>
+<li><a href="#orgc994734">7.5. Entity set relations</a></li>
+<li><a href="#org94ac780">7.6. Referential Integrity constraints</a></li>
+</ul>
+</li>
+<li><a href="#org3f0aaa6">8. Data modelling: Design</a>
+<ul>
+<li><a href="#org4fae43e">8.1. Types</a></li>
+<li><a href="#org85358e1">8.2. State</a></li>
+</ul>
+</li>
+<li><a href="#org4f02ff0">9. Data model (user, name and email only): Specification for Example</a>
+<ul>
+<li><a href="#org21ea372">9.1. Entity Types</a></li>
+<li><a href="#orged38c8a">9.2. Entity sets</a></li>
+<li><a href="#org7f793bd">9.3. Operations</a></li>
+<li><a href="#orgcbc559e">9.4. Entity type relations and cardinality constraints</a>
+<ul>
+<li><a href="#orgfde7b6e">9.4.1. Obtaining email and name from user</a></li>
+<li><a href="#orga67839f">9.4.2. Obtaining a user given an  email</a></li>
+<li><a href="#org5b06fc0">9.4.3. Obtaining users for given a name</a></li>
+<li><a href="#orgd541688">9.4.4. Summary</a></li>
+</ul>
+</li>
+<li><a href="#orgb80401e">9.5. Entity set relations and referential integrity constraints</a></li>
+</ul>
+</li>
+<li><a href="#orgb652db2">10. Data Model: Design (<code>User</code> and <code>Email</code> only)</a>
+<ul>
+<li><a href="#org7ec3108">10.1. Specification (Problem)</a>
+<ul>
+<li><a href="#org8042c48">10.1.1. Entity Types</a></li>
+<li><a href="#orgc3f3d5e">10.1.2. Entity Relations and Cardinality Constraints</a></li>
+<li><a href="#org86de627">10.1.3. Entity Sets (State space)</a></li>
+<li><a href="#org253e3d1">10.1.4. Entity set relations (State space)</a></li>
+<li><a href="#org276a4cc">10.1.5. Referential Integrity constraints</a></li>
+</ul>
+</li>
+<li><a href="#orge15fb44">10.2. Design (Solution)</a></li>
+<li><a href="#org35c4f9c">10.3. Verification of constraints</a>
+<ul>
+<li><a href="#orga138883">10.3.1. Cardinality</a></li>
+<li><a href="#org06c4988">10.3.2. Referential Integrity</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+
+<div id="outline-container-org9f17aad" class="outline-2">
+<h2 id="org9f17aad"><span class="section-number-2">1</span> Objective</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+In earlier lectures, we have understood the idea of a <a href="../current-topics/data-design/index.html">datatype</a>, and the
+need to use <a href="../current-topics/safe-objects/index.html">safe objects</a> to ensure data invariance.
+</p>
+
+<p>
+In this lecture, we look at properties of aggregate data, arranged as
+<i>relations</i> between <i>entities</i>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4d79077" class="outline-2">
+<h2 id="org4d79077"><span class="section-number-2">2</span> Context</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+The data model is a specification of the state space of a state machine
+at the core of a web application.
+</p>
+
+<p>
+The state space of the machine consists of aggregates of data.  Along
+with the data aggregates themselves, the state space also consists of
+<i>relations</i> between data aggregates.
+</p>
+
+<p>
+In addition, the data is also persistent (which is why we need the data
+base as part of the web application.).
+</p>
+
+<p>
+Operations on the state machine typically include creating (and adding),
+reading, updating, and deleting (collectively called CRUD) elements to
+and from the aggregates.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2ec223c" class="outline-2">
+<h2 id="org2ec223c"><span class="section-number-2">3</span> The data modeling problem</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+The first step in building an application is to read and undertand the
+requirements as elucidated by THE CLIENT.  The data model is a
+formalization of our understanding of those parts of the requirements
+that translate to dealing with the data managed by the application.
+</p>
+
+<p>
+The data modeling problem consists of constructing answers two main
+questions:
+</p>
+
+<dl class="org-dl">
+<dt>Specification</dt><dd>What are the elements of the data model?</dd>
+
+<dt>Design</dt><dd>How do we design and implement the data model (as objects,
+in a database, etc)?</dd>
+</dl>
+</div>
+</div>
+
+
+<div id="outline-container-org907293d" class="outline-2">
+<h2 id="org907293d"><span class="section-number-2">4</span> Basic set theory, relations and notation</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Before describing the data modeling problem in detail, we refresh
+ourselves with some basic concepts about sets and relations.
+</p>
+</div>
+
+<div id="outline-container-org9ae0c50" class="outline-3">
+<h3 id="org9ae0c50"><span class="section-number-3">4.1</span> Basic set notation</h3>
+<div class="outline-text-3" id="text-4-1">
+<ul class="org-ul">
+<li><code>x:A</code> is read as <code>x</code> is an element of set <code>A</code>.</li>
+<li><code>{}</code> denotes the empty set.</li>
+<li><code>Pow(A)</code> denotes the powerset of <code>A</code>.</li>
+<li><code>A &lt;: B</code> denotes that <code>A</code> is a subset of <code>B</code>.</li>
+<li><code>f: A -&gt; B</code> denotes that <code>f</code> is a function <i>from</i> <code>A</code> <i>to</i> <code>B</code>.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org5e7173b" class="outline-3">
+<h3 id="org5e7173b"><span class="section-number-3">4.2</span> Relation</h3>
+<div class="outline-text-3" id="text-4-2">
+<dl class="org-dl">
+<dt>Relation</dt><dd>Given sets <code>A</code> and <code>B</code>, a relation <code>r</code> <i>from</i> <code>A</code> to
+<code>B</code>, written <code>r:A &gt; B</code>, is a subset of <code>A x B</code>.</dd>
+
+<dt>Domain</dt><dd><code>A</code> is called the <i>domain of</i> <code>r</code>.</dd>
+
+<dt>Codomain</dt><dd><code>B</code> is called the <i>codomain of</i> <code>r</code>.</dd>
+
+<dt>Function induced by a relation</dt><dd>Note that <code>r:A &gt; B</code> may be
+interpreted as a function <code>r: A -&gt; Pow(B)</code>.</dd>
+
+<dt>Domain of Definition of a relation </dt><dd><code>dod(r) =def</code> <code>{a:A| (a,b):r
+       for some b:B}</code> is the domain of definition of <code>r</code>.  It is the set
+of all <code>a:A</code> such that there is a <code>b:B</code> and <code>r</code> relates <code>a</code> to
+<code>b</code>.</dd>
+
+<dt>Range of a relation</dt><dd><code>rng(r) =def</code> <code>{b:B| (a,b):r for some a:A}</code> is
+the <i>range</i> of definition of <code>r</code>.  It is the set of all <code>b:A</code>
+such that there is an <code>a:A</code> and <code>r</code> relates <code>a</code> to <code>b</code>.</dd>
+
+<dt>Restriction of a relation</dt><dd>Let <code>A' &lt;: A</code>.  Then <code>r|A': A' &gt; B</code> denotes the
+<i>restriction</i> of <code>r</code> to <code>A'</code> and denotes the set <code>{(a,b)| a:A'
+       and b:B and (a,b):r}</code>.</dd>
+
+<dt>Inverse</dt><dd>Let <code>r:A &gt; B</code>.  Let <code>g: B &gt; A</code> be defined as
+<code>{(b,a)|(a,b):r}</code>.  Then <code>g</code> is called the <i>inverse of</i> <code>r</code> (and
+<code>r</code> the <i>inverse of</i> <code>g</code>).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org845175b" class="outline-3">
+<h3 id="org845175b"><span class="section-number-3">4.3</span> Application of a relation</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+Let <code>r:A &gt; B</code> and <code>C</code> be a set.  
+</p>
+
+<ul class="org-ul">
+<li><code>C.r</code> denotes the set <code>{b:B | exists c:C and (c,b):r}</code> : <code>C.r</code>
+returns the set of all <code>b</code>'s such that <code>b</code> relates to some element
+<code>c</code> in <code>C</code>.</li>
+
+<li><code>a.r</code> is short form for <code>{a}.r</code>.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org3daef29" class="outline-3">
+<h3 id="org3daef29"><span class="section-number-3">4.4</span> Composition of relations</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+Let <code>r: A &gt; B</code> and <code>s: B &gt; C</code>.  Then <code>r;s : A &gt; C</code> denotes the
+relation  <code>{(a,c) | a: A,  c:C and exists b:B such that (a,b):r and
+   (b,c):s}</code>. 
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgbe76c0e" class="outline-2">
+<h2 id="orgbe76c0e"><span class="section-number-2">5</span> Cardinality and cardinality constraints</h2>
+<div class="outline-text-2" id="text-5">
+</div><div id="outline-container-org7380a33" class="outline-3">
+<h3 id="org7380a33"><span class="section-number-3">5.1</span> Cardinality</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+Let <code>A</code> be a set.  
+</p>
+
+<ul class="org-ul">
+<li><code>A?</code> means "zero or one (maybe) of <code>A</code>."</li>
+<li><code>A!</code> means "exactly one of <code>A</code>."</li>
+<li><code>A+</code> means "one or more (some)  of <code>A</code>."</li>
+<li><code>A*</code> means "zero or more of <code>A</code>."  This is also written <code>A</code>.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orge5816bb" class="outline-3">
+<h3 id="orge5816bb"><span class="section-number-3">5.2</span> Cardinality constraint on a relation</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+Let <code>r</code> relate <code>A</code> to <code>B</code>:
+</p>
+
+<p>
+A <i>cardinality constraint</i>  <code>r: Am &gt; Bn</code>  asserts that 
+</p>
+
+<ul class="org-ul">
+<li><code>r</code> relates  each <code>a:A</code> to  <code>n</code> <code>B</code>'s.</li>
+
+<li>Each <code>b:B</code> is related to <code>m</code> <code>A</code>'s.</li>
+</ul>
+</div>
+
+<div id="outline-container-org3fc7eab" class="outline-4">
+<h4 id="org3fc7eab"><span class="section-number-4">5.2.1</span> Example</h4>
+<div class="outline-text-4" id="text-5-2-1">
+<p>
+Consider <code>RollNo: Student? &gt; Nat!</code>.  
+</p>
+
+<ul class="org-ul">
+<li><code>(s,n):RollNo</code> means that Student <code>s</code> has roll number <code>n</code>.</li>
+
+<li>The cardinality constraint may be read as follows:
+
+<dl class="org-dl">
+<dt><code>RollNo: Student &gt; Nat!</code></dt><dd>A student has exactly one roll
+number.</dd>
+
+<dt><code>RollNo: Student? &gt; Nat</code></dt><dd>Given a natural number, it could
+is the roll number of at most one student.  (Some natural
+numbers do not map as roll numbers of any student.)</dd>
+</dl></li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc30c28d" class="outline-3">
+<h3 id="orgc30c28d"><span class="section-number-3">5.3</span> Important cardinality constraints</h3>
+<div class="outline-text-3" id="text-5-3">
+<p>
+All relations may be classified according to the cardinality as
+follows.  Note that constraint no. 15 is called a referential
+integrity constraint.
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">No.</th>
+<th scope="col" class="org-left">constraint</th>
+<th scope="col" class="org-left">description of relation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">0</td>
+<td class="org-left">r: A &gt; B</td>
+<td class="org-left">relation</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">r: A &gt; B?</td>
+<td class="org-left">partial function</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">r: A &gt; B!</td>
+<td class="org-left">total function</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">3</td>
+<td class="org-left">r: A &gt; B+</td>
+<td class="org-left">total relation</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">r: A? &gt; B</td>
+<td class="org-left">injective relation</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">5</td>
+<td class="org-left">r: A? &gt; B?</td>
+<td class="org-left">injective partial function</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">6</td>
+<td class="org-left">r: A? &gt; B!</td>
+<td class="org-left">injective total function</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">7</td>
+<td class="org-left">r: A? &gt; B+</td>
+<td class="org-left">injective total relation</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">8</td>
+<td class="org-left">r: A! &gt; B</td>
+<td class="org-left">inverse of a total function</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">9</td>
+<td class="org-left">r: A! &gt; B?</td>
+<td class="org-left">inverse of a total injective function</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">10</td>
+<td class="org-left">r: A! &gt; B!</td>
+<td class="org-left">bijective function (isomorphism)</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">11</td>
+<td class="org-left">r: A! &gt; B+</td>
+<td class="org-left">injective total relation</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">12</td>
+<td class="org-left">r: A+ &gt; B</td>
+<td class="org-left">onto relation</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">13</td>
+<td class="org-left">r: A+ &gt; B?</td>
+<td class="org-left">onto partial function</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">14</td>
+<td class="org-left">r: A+ &gt; B!</td>
+<td class="org-left">onto total function</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-right">15</td>
+<td class="org-left">r: A+ &gt; B+</td>
+<td class="org-left">onto total relation</td>
+</tr>
+
+<tr>
+<td class="org-right">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">(referential relation)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orgacd3094" class="outline-3">
+<h3 id="orgacd3094"><span class="section-number-3">5.4</span> Key relation</h3>
+<div class="outline-text-3" id="text-5-4">
+</div><div id="outline-container-org928f1e2" class="outline-4">
+<h4 id="org928f1e2"><span class="section-number-4">5.4.1</span> Definition</h4>
+<div class="outline-text-4" id="text-5-4-1">
+<ul class="org-ul">
+<li>A cardinality constraint of
+the form <code>A? &gt; B!</code> is called
+a key constraint.</li>
+
+<li>A relation pair <code>r: A? &gt;
+	B!</code>, is called a <i>key</i>
+relation</li>
+
+<li><code>B</code> is called a <i>key for</i> <code>A</code>.</li>
+
+<li><code>r</code> relates each <code>A</code> to
+exactly one <code>B</code></li>
+
+<li><code>r</code>'s inverse relates each
+<code>B</code> to at most one <code>A</code>.</li>
+
+<li>No two <code>A</code>'s relate to the
+same <code>B</code> via <code>r</code>.</li>
+
+<li>Different <code>A's</code> relate to
+different <code>B's</code> via <code>r</code></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org5a662db" class="outline-4">
+<h4 id="org5a662db"><span class="section-number-4">5.4.2</span> Example</h4>
+<div class="outline-text-4" id="text-5-4-2">
+<ul class="org-ul">
+<li><code>email: User? &gt; Email!</code> is a key relation.</li>
+
+<li><code>Email</code> is a key for <code>User</code>.</li>
+
+<li>No two users may have the
+same email.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgcd31f33" class="outline-4">
+<h4 id="orgcd31f33"><span class="section-number-4">5.4.3</span> Compound Keys</h4>
+<div class="outline-text-4" id="text-5-4-3">
+<p>
+A compound key arises when a
+combination of entities function
+a key for an entity type.  
+</p>
+</div>
+
+<ol class="org-ol"><li><a id="org30759d8"></a>Example<br  /><div class="outline-text-5" id="text-5-4-3-1">
+<p>
+Consider the following
+specification that declares
+<code>user-and-role</code> as a key
+relation from <code>Session</code> to the
+compound entity type
+<code>[User,Role]</code>:
+</p>
+
+<pre class="example">
+[user-and-role, session] : Session?  &gt; [User, Role]!
+</pre>
+
+<p>
+Informally, this specifies the
+assertion that a given pair of
+user and role uniquely determine
+a session.  No two sessions can
+have the same user and same
+role.  Practically, this could
+mean that a user is prevented
+from having more than one active
+login with the same role.  (The
+same user may have two active
+login sessions, but with two
+different roles.)
+</p>
+</div></li></ol>
+</div>
+</div>
+</div>
+
+
+
+
+
+<div id="outline-container-org639bb5f" class="outline-2">
+<h2 id="org639bb5f"><span class="section-number-2">6</span> Running Example: Requirements of a User Directory application</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+We are looking at building a user directory application.
+</p>
+
+<p>
+Each user has an email and a name, which are checked for correct syntax.
+At any given moment, a set of users are logged in (i.e., in session).
+Each user has one or more roles (either admin or user).  Given an
+arbitrary email, it may correspond to atmost one user in the system.
+</p>
+
+<p>
+New users may be added to the system.  An existing user's data (name or
+email) may be modified. An existing user may be deleted.  When a user is
+created, role(s) are already assigned to the user and these may not be
+changed.
+</p>
+
+<p>
+A user logged in with role user may modify his/her data (name, email).
+Only an user logged in with admin role has privilege to add, delete or
+edit information about a user.  An admin may not delete himself/herself.
+</p>
+
+<p>
+The system may have multiple admins.  An admin can not delete a user who
+has admin role.
+</p>
+
+<p>
+The system always has at least one user with admin role.
+</p>
+
+<p>
+Furthermore, a user may be logged in with at most one role at any given
+time.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-org90c8107" class="outline-2">
+<h2 id="org90c8107"><span class="section-number-2">7</span> Data Modelling: Specification</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+The first part of the data modeling problem is a specification problem
+which consists of identifying the following elements. 
+</p>
+</div>
+
+<div id="outline-container-orga8a7169" class="outline-3">
+<h3 id="orga8a7169"><span class="section-number-3">7.1</span> Types</h3>
+<div class="outline-text-3" id="text-7-1">
+<ol class="org-ol">
+<li>The names of <i>Entity Types</i> : What are the entities 'managed' by
+the application?  (E.g., <code>User</code>, <code>Email</code>, <code>Name</code>, <code>Role</code>,
+<code>Session</code>).</li>
+
+<li>What are the the names and signatures of <i>Entity Type relations</i>:
+Entity type relations specify how to obtain one entity from
+another. (E.g, <code>email</code> that relates <code>User</code> to <code>Email</code>, <code>user</code> that
+relates <code>Email</code> to <code>User</code>, etc.)</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org2ef6531" class="outline-3">
+<h3 id="org2ef6531"><span class="section-number-3">7.2</span> State</h3>
+<div class="outline-text-3" id="text-7-2">
+<p>
+The structure of the state space of the system: Each element of the
+  state vector is a finite set of elements and is called an <i>entity
+  set</i>.  These elements of entity sets belong to a given entity
+  type. (E.g., <code>User-set</code>, which is a set of elements of type <code>User</code>,
+  and <code>Email-Set</code>, etc.)
+</p>
+</div>
+</div>
+
+<div id="outline-container-org5548b21" class="outline-3">
+<h3 id="org5548b21"><span class="section-number-3">7.3</span> Operations</h3>
+<div class="outline-text-3" id="text-7-3">
+<ol class="org-ol">
+<li>What are the operations performed on the entities: (E.g, <code>addUser</code>,
+<code>delUser</code>, <code>getEmailForUser</code>, <code>getUserForEmail</code>, <code>setUserName</code>,
+<code>setUserEmail</code>, etc.)</li>
+
+<li>Assign meaning to the operations and entity type relations: For
+example, <code>getEmailForUser</code> may return <i>any</i> user's email, not
+necessarily those users in the <code>User-set</code>.  We may also stipulate
+that a user has exactly one email.  We may also gather from the
+requirements that an arbitrary email is associated with at most one
+user: all users in <code>User-set</code> have an email.  No two users in the
+<code>User-set</code> may have the same email.  Given an email, there is no
+guarantee that there is a user in <code>User-set</code> that has that email.
+Thus <code>getUserForEmail</code> could mean 'if there is a user in <code>User-set</code>
+with the email, then return that user, otherwise return nothing.'
+The <code>getUserForEmail</code> operation may now be implemented by the
+<code>user</code> relation that relates <code>Email</code> to <code>User</code>.</li>
+</ol>
+</div>
+</div>
+
+
+<div id="outline-container-org4c0328d" class="outline-3">
+<h3 id="org4c0328d"><span class="section-number-3">7.4</span> Cardinality constraints</h3>
+<div class="outline-text-3" id="text-7-4">
+<p>
+As we have seen above, the <code>user</code> relation is now constrained to
+relate an <code>Email</code> to at most one <code>User</code>.  But the <code>email</code> relation
+relates a <code>User</code> to exactly one <code>Email</code> (you can not have a user
+without an email).  Such constraints specifying <i>how many</i> elements
+in in the codomain of a relation are related to each element in the
+domain are called cardinality constraints.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-orgc994734" class="outline-3">
+<h3 id="orgc994734"><span class="section-number-3">7.5</span> Entity set relations</h3>
+<div class="outline-text-3" id="text-7-5">
+<p>
+An entity set relation is obtained by restricting the corresponding
+entity type relation to an entity set.  E.g. by restricting the
+relation <code>user:Email &gt; User?</code> to <code>user-set</code>, we obtain an entity set
+relation <code>user-rel:Email-set &gt; User-set</code> as a restriction of the
+<code>user</code> relation.  
+</p>
+</div>
+</div>
+
+<div id="outline-container-org94ac780" class="outline-3">
+<h3 id="org94ac780"><span class="section-number-3">7.6</span> Referential Integrity constraints</h3>
+<div class="outline-text-3" id="text-7-6">
+<p>
+These constraints specify the cardinality constraint on the entity set
+relation.  Typically a referential integrity constraints specifies a
+totality constraint on the entity set relation.  In other words, each
+element of the domain of the entity relation relates, i.e., <i>refers</i> to,
+at least one element in the codomain.  For the above example, for
+<code>user-rel</code> we may write this constraint as 
+</p>
+
+<pre class="example">
+user-rel: Email-set &gt; User-set+
+</pre>
+
+<p>
+Now, combined with the cardinality constraint on the relation <code>user</code>, of
+which <code>user-rel</code> is a restriction, we have a more precise constraint on
+<code>user-rel</code>:   
+</p>
+
+<pre class="example">
+user-rel:  Email-set &gt; User-set!
+</pre>
+
+<p>
+Each email in the <code>Email-set</code> has exactly one user in <code>User-set</code>. 
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org3f0aaa6" class="outline-2">
+<h2 id="org3f0aaa6"><span class="section-number-2">8</span> Data modelling: Design</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+The second part of the data model problem is a design problem, which
+consists of providing definitions of each of the elements of
+specification.
+</p>
+</div>
+
+<div id="outline-container-org4fae43e" class="outline-3">
+<h3 id="org4fae43e"><span class="section-number-3">8.1</span> Types</h3>
+<div class="outline-text-3" id="text-8-1">
+<ol class="org-ol">
+<li>Type definitions  for the entity types.</li>
+
+<li>Definition  of entity type relations.</li>
+
+<li>Verification of the cardinality constraints.</li>
+</ol>
+</div>
+</div>
+
+<div id="outline-container-org85358e1" class="outline-3">
+<h3 id="org85358e1"><span class="section-number-3">8.2</span> State</h3>
+<div class="outline-text-3" id="text-8-2">
+<ol class="org-ol">
+<li>Definition of the entity sets as finite sets of elements of
+entity types.</li>
+</ol>
+
+
+<ol class="org-ol">
+<li>Definition of the entity set relations as restrictions of
+entity-type relations.</li>
+
+<li>Defining the operations.</li>
+
+<li>Verification of referential integrity constraints as invariants
+against the operations.</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-org4f02ff0" class="outline-2">
+<h2 id="org4f02ff0"><span class="section-number-2">9</span> Data model (user, name and email only): Specification for Example</h2>
+<div class="outline-text-2" id="text-9">
+<p>
+To keep our current exposition simple, we only focus on user, name and
+email.
+</p>
+</div>
+
+
+<div id="outline-container-org21ea372" class="outline-3">
+<h3 id="org21ea372"><span class="section-number-3">9.1</span> Entity Types</h3>
+<div class="outline-text-3" id="text-9-1">
+<p>
+The following entity types may be gleaned from the requirements:
+</p>
+<div class="org-src-container">
+<pre class="src src-spec">TYPE Name
+TYPE Email
+TYPE User
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orged38c8a" class="outline-3">
+<h3 id="orged38c8a"><span class="section-number-3">9.2</span> Entity sets</h3>
+<div class="outline-text-3" id="text-9-2">
+<div class="org-src-container">
+<pre class="src src-spec">VAR  Name-set = fin[Name]
+VAR  Email-set = fin[Email]
+VAR  User-set = fin[User]
+</pre>
+</div>
+
+<p>
+Note the declaration <code>VAR</code>, which denotes that these are state variables
+of the application's data model.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7f793bd" class="outline-3">
+<h3 id="org7f793bd"><span class="section-number-3">9.3</span> Operations</h3>
+<div class="outline-text-3" id="text-9-3">
+<dl class="org-dl">
+<dt><code>makeEmail(val: EmailString): Email</code> </dt><dd>creates a new <code>Email</code> entity
+with <code>val</code> as email string.</dd>
+
+<dt><code>makeName(val: NameString) : Name</code></dt><dd>creates a new <code>Name</code> entity
+with <code>val</code> as name string.</dd>
+
+<dt><code>makeUser(name: Name, email: Email): User</code></dt><dd>creates a new <code>User</code>
+entity with name and email.</dd>
+
+<dt><code>addUser(u:User): succ + fail</code></dt><dd>Attempts to add user <code>u</code> to
+<code>User-set</code>.  This operation may succeed or fail (if, for
+example the user <code>u</code> is already in <code>User-set</code>.</dd>
+
+<dt><code>deleteUser(u:User): succ + fail</code></dt><dd>Attempts to delete user <code>u</code>
+from <code>User-set</code>.  This operation may succeed or fail (if, for
+example, the user <code>u</code> is not in <code>User-set</code>).</dd>
+
+<dt><code>updateUser(u:User, e:Email, n:Name):  succ + fail</code> </dt><dd>Attempts to
+update user <code>u</code> with email <code>e</code> and name <code>n</code>.  This operation
+may succeed or fail.</dd>
+
+<dt><code>getEmailForUser(u:User): Email</code> </dt><dd>gets email of user <code>u</code>.</dd>
+
+<dt><code>getEmailForUser(u:User): Email</code> </dt><dd>gets email of user <code>u</code>.</dd>
+
+<dt><code>getNameForUser(u:User):  Name</code>  </dt><dd>gets email of user <code>u</code>.</dd>
+
+<dt><code>getUserForEmail(e:Email): User?</code> </dt><dd>gets user in <code>User-set</code> with
+email equal to <code>e</code>.  Returns empty if no such user.</dd>
+
+<dt><code>getUsersForName(n:Name): User*</code></dt><dd>gets all (zero or more) users in
+<code>User-set</code> with name equal to <code>n</code>.</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-orgcbc559e" class="outline-3">
+<h3 id="orgcbc559e"><span class="section-number-3">9.4</span> Entity type relations and cardinality constraints</h3>
+<div class="outline-text-3" id="text-9-4">
+</div><div id="outline-container-orgfde7b6e" class="outline-4">
+<h4 id="orgfde7b6e"><span class="section-number-4">9.4.1</span> Obtaining email and name from user</h4>
+<div class="outline-text-4" id="text-9-4-1">
+<p>
+The <code>email</code> relation (function) locates a user's email.  The <code>name</code>
+function locates a user's name.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-spec">email  : User &gt; Email!
+name   : User &gt; Name!
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orga67839f" class="outline-4">
+<h4 id="orga67839f"><span class="section-number-4">9.4.2</span> Obtaining a user given an  email</h4>
+<div class="outline-text-4" id="text-9-4-2">
+<p>
+Given an email, the <code>user</code> relation locates maybe a user (who is in
+<code>User-set</code>) with that email.
+</p>
+<div class="org-src-container">
+<pre class="src src-spec">user   : Email &gt; User?
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org5b06fc0" class="outline-4">
+<h4 id="org5b06fc0"><span class="section-number-4">9.4.3</span> Obtaining users for given a name</h4>
+<div class="outline-text-4" id="text-9-4-3">
+<p>
+Given a name, the <code>name</code> relation locates users (if any, in <code>User-set</code>)
+with that name.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-spec">users  : Name &gt; User
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgd541688" class="outline-4">
+<h4 id="orgd541688"><span class="section-number-4">9.4.4</span> Summary</h4>
+<div class="outline-text-4" id="text-9-4-4">
+<pre class="example">
+email: User &gt; Email!
+name:  User &gt; Name!
+user:  Email &gt; User?
+users:  Name  &gt; User
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgb80401e" class="outline-3">
+<h3 id="orgb80401e"><span class="section-number-3">9.5</span> Entity set relations and referential integrity constraints</h3>
+<div class="outline-text-3" id="text-9-5">
+<div class="org-src-container">
+<pre class="src src-spec">email-rel : User-set &gt; Email-set!
+name-rel  : User-set &gt; Name-set!
+user-rel  : Email-set &gt; User-set!
+users-rel : Name-set  &gt; User-set+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orgb652db2" class="outline-2">
+<h2 id="orgb652db2"><span class="section-number-2">10</span> Data Model: Design (<code>User</code> and <code>Email</code> only)</h2>
+<div class="outline-text-2" id="text-10">
+</div><div id="outline-container-org7ec3108" class="outline-3">
+<h3 id="org7ec3108"><span class="section-number-3">10.1</span> Specification (Problem)</h3>
+<div class="outline-text-3" id="text-10-1">
+<p>
+We are tasked with implementing the following structures:
+</p>
+</div>
+
+<div id="outline-container-org8042c48" class="outline-4">
+<h4 id="org8042c48"><span class="section-number-4">10.1.1</span> Entity Types</h4>
+<div class="outline-text-4" id="text-10-1-1">
+<div class="org-src-container">
+<pre class="src src-spec">TYPE User
+TYPE Email
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgc3f3d5e" class="outline-4">
+<h4 id="orgc3f3d5e"><span class="section-number-4">10.1.2</span> Entity Relations and Cardinality Constraints</h4>
+<div class="outline-text-4" id="text-10-1-2">
+<div class="org-src-container">
+<pre class="src src-spec">email : User &gt; Email!   (CARDINALITY)
+user  : Email &gt; User?   (CARDINALITY)
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org86de627" class="outline-4">
+<h4 id="org86de627"><span class="section-number-4">10.1.3</span> Entity Sets (State space)</h4>
+<div class="outline-text-4" id="text-10-1-3">
+<div class="org-src-container">
+<pre class="src src-spec">VAR User-set : fin[User]
+VAR Email-set : fin[Email]
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org253e3d1" class="outline-4">
+<h4 id="org253e3d1"><span class="section-number-4">10.1.4</span> Entity set relations (State space)</h4>
+<div class="outline-text-4" id="text-10-1-4">
+<div class="org-src-container">
+<pre class="src src-spec">email-rel = email|User-set
+user-rel = user|Email-set
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org276a4cc" class="outline-4">
+<h4 id="org276a4cc"><span class="section-number-4">10.1.5</span> Referential Integrity constraints</h4>
+<div class="outline-text-4" id="text-10-1-5">
+<div class="org-src-container">
+<pre class="src src-spec">email-rel : User-set &gt; Email-set! (REF. INTEGRITY)
+user-rel : Email-set &gt; User-set!  (REF. INTEGRITY)
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-orge15fb44" class="outline-3">
+<h3 id="orge15fb44"><span class="section-number-3">10.2</span> Design (Solution)</h3>
+<div class="outline-text-3" id="text-10-2">
+<p>
+Our implementation will consist of the following definitions:
+</p>
+<div class="org-src-container">
+<pre class="src src-spec">TYPE  User =def= {email: Email}
+TYPE  Email =def= {val: EmailString, user: User?} // User or None
+
+VAR   User-set : fin[User]
+
+REL   email:User &gt; Email =def= lambda (u:User) u.email  // . here is field access
+REL   user:Email &gt; User  =def= lambda (e:Email) e.user
+VAR   Email-set: fin[Email] =def= User-set.email 
+
+REL   email-rel: User-set &gt; Email-set =def= lambda (u:User-set)  u.email
+REL   user-rel:  Email-set &gt; User-set =def= lambda (e:Email-set) e.user
+
+email-rel = email|User-set
+user-rel = user|Email-set
+</pre>
+</div>
+
+<p>
+NOTE: <code>email</code> and <code>user</code> are NOT inverses of each other.
+NOTE: <code>email-rel</code> and <code>user-rel</code> ARE inverses of each other.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org35c4f9c" class="outline-3">
+<h3 id="org35c4f9c"><span class="section-number-3">10.3</span> Verification of constraints</h3>
+<div class="outline-text-3" id="text-10-3">
+</div><div id="outline-container-orga138883" class="outline-4">
+<h4 id="orga138883"><span class="section-number-4">10.3.1</span> Cardinality</h4>
+<div class="outline-text-4" id="text-10-3-1">
+<p>
+We verify that <code>email</code> and <code>user</code> satisfy the  the following cardinality
+constraints:
+</p>
+
+<pre class="example">
+  email : User &gt; Email!        (CARDINALITY on email)
+  user  : Email &gt; User?        (CARDINALITY on user)
+</pre>
+
+
+<dl class="org-dl">
+<dt>CARDINALITY on email</dt><dd>Let <code>u:User</code>.  Then <code>email</code> relates <code>u</code> to
+<code>u.email</code>, which is a singleton.</dd>
+
+<dt>CARDINALITY on user</dt><dd>Let <code>e:Email</code>.  If <code>e:Email-set</code>, <code>e.user</code> is
+not null.  (This needs to be ensured by the <code>userAdd</code> operation.)
+On the other hand, if <code>e</code> is not in <code>Email-set</code>, <code>e.user</code> is
+guaranteed to be null (this needs to be ensured by <code>User</code>
+constructor).</dd>
+</dl>
+</div>
+</div>
+
+<div id="outline-container-org06c4988" class="outline-4">
+<h4 id="org06c4988"><span class="section-number-4">10.3.2</span> Referential Integrity</h4>
+<div class="outline-text-4" id="text-10-3-2">
+<div class="org-src-container">
+<pre class="src src-spec">REL   email-rel: User-set &gt; Email-set!
+REL   user-rel : Email-set &gt; User-set!
+</pre>
+</div>
+
+<p>
+Left as an Exercise. 
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: VLEAD</p>
+<p class="date">Created: 2017-04-27 Thu 03:32</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

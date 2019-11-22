@@ -1,0 +1,19 @@
+#ui {
+	margin-left: 10em;
+	margin-top: 6em;
+}
+#tbox {
+	width: 10em;
+    height: 4em;
+    border-width: 2px;
+	border-color: green;
+    border-style: solid;
+}
+#edit {
+	width: 4em;
+    margin: 3em;
+	}
+#done {
+	width: 4em;
+    margin: 3em;
+	}

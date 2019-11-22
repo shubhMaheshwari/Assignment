@@ -1,0 +1,785 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-04-27 Thu 03:32 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>State Variables, Conditions and Handlers</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="VLEAD" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="../../style/css/worg-style.css" />
+<link rel="stylesheet" type="text/css" href="../../style/css/override.css" />
+<link rel="icon" type="image/png" href="../../style/img/favicon/popl.png" />
+<script type="text/javascript" src="../../style/js/org-info.js">
+/**
+ *
+ * @source: ../../style/js/org-info.js
+ *
+ * @licstart  The following is the entire license notice for the
+ *  JavaScript code in ../../style/js/org-info.js.
+ *
+ * Copyright (C) 2012-2013 Free Software Foundation, Inc.
+ *
+ *
+ * The JavaScript code in this tag is free software: you can
+ * redistribute it and/or modify it under the terms of the GNU
+ * General Public License (GNU GPL) as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.  The code is distributed WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+ *
+ * As additional permission under GNU GPL version 3 section 7, you
+ * may distribute non-source (e.g., minimized or compacted) forms of
+ * that code without the copy of the GNU GPL normally required by
+ * section 4, provided you include this license notice and a URL
+ * through which recipients can access the Corresponding Source.
+ *
+ * @licend  The above is the entire license notice
+ * for the JavaScript code in ../../style/js/org-info.js.
+ *
+ */
+</script>
+
+<script type="text/javascript">
+
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+
+<!--/*--><![CDATA[/*><!--*/
+org_html_manager.set("TOC_DEPTH", "1");
+org_html_manager.set("LINK_HOME", "../../index.html");
+org_html_manager.set("LINK_UP", "../index.html");
+org_html_manager.set("LOCAL_TOC", "1");
+org_html_manager.set("VIEW_BUTTONS", "0");
+org_html_manager.set("MOUSE_HINT", "underline");
+org_html_manager.set("FIXED_TOC", "0");
+org_html_manager.set("TOC", "1");
+org_html_manager.set("VIEW", "info");
+org_html_manager.setup();  // activate after the parameters are set
+/*]]>*///-->
+</script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="../index.html"> UP </a>
+ |
+ <a accesskey="H" href="../../index.html"> HOME </a>
+</div><div id="content">
+<h1 class="title">State Variables, Conditions and Handlers</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org09d5c93">1. Objective</a></li>
+<li><a href="#org2c93ec2">2. Motivation</a>
+<ul>
+<li><a href="#org26f6ba1">2.1. Events and Listeners on DOM</a></li>
+<li><a href="#orga90930c">2.2. Conditions and Handlers on a state variable</a></li>
+</ul>
+</li>
+<li><a href="#org9703831">3. Architecture</a>
+<ul>
+<li><a href="#org534d29d">3.1. State Variable</a></li>
+<li><a href="#orga1059f6">3.2. Condition</a></li>
+<li><a href="#orga32fce9">3.3. Condition Handler</a></li>
+</ul>
+</li>
+<li><a href="#org49b0123">4. Example</a></li>
+<li><a href="#org0f7546e">5. Implementation of State Variables</a></li>
+<li><a href="#org62230cf">6. Implementation of Example</a>
+<ul>
+<li><a href="#org26bfb12">6.1. HTML (View)</a></li>
+<li><a href="#orgcc8551c">6.2. Model</a>
+<ul>
+<li><a href="#org14cfc57">6.2.1. Define (Stateless) Conditions</a></li>
+<li><a href="#orgf3013a2">6.2.2. Add (Stateless) Handlers for (Stateless) Conditions</a></li>
+<li><a href="#org83423b8">6.2.3. Adding the interior condition</a></li>
+<li><a href="#org38e8389">6.2.4. Invoking the handler on a state <i>transition</i></a></li>
+<li><a href="#org9958835">6.2.5. Define Stateful Conditions</a></li>
+<li><a href="#org9383e6a">6.2.6. Add (Stateless) Handlers for Stateful Conditions</a></li>
+<li><a href="#org3613192">6.2.7. Define and Add Stateful Handlers</a></li>
+</ul>
+</li>
+<li><a href="#orgc82f439">6.3. Adding Behaviour to the View</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org09d5c93" class="outline-2">
+<h2 id="org09d5c93"><span class="section-number-2">1</span> Objective</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+The objective of this lecture is
+to understand the abstraction of
+conditions over state variables.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org2c93ec2" class="outline-2">
+<h2 id="org2c93ec2"><span class="section-number-2">2</span> Motivation</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-org26f6ba1" class="outline-3">
+<h3 id="org26f6ba1"><span class="section-number-3">2.1</span> Events and Listeners on DOM</h3>
+<div class="outline-text-3" id="text-2-1">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">DOM Element</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Event</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">Event Listener</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><code>el.addEventListener(event, listener)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div id="outline-container-orga90930c" class="outline-3">
+<h3 id="orga90930c"><span class="section-number-3">2.2</span> Conditions and Handlers on a state variable</h3>
+<div class="outline-text-3" id="text-2-2">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">State Variable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Condition</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left">Condition Handler</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="org-left"><code>s.addConditionHandler(condition, handler)</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9703831" class="outline-2">
+<h2 id="org9703831"><span class="section-number-2">3</span> Architecture</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-org534d29d" class="outline-3">
+<h3 id="org534d29d"><span class="section-number-3">3.1</span> State Variable</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+A state variable over the
+domain <code>v</code> has the following
+signature
+</p>
+
+<pre class="example">
+  type StateVariable v = {
+             getValue : () -&gt;  v,
+             setValue : v -&gt; void,
+			 addConditionHandler : (Condition v, ConditionHandler v) -&gt; void
+            }
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orga1059f6" class="outline-3">
+<h3 id="orga1059f6"><span class="section-number-3">3.2</span> Condition</h3>
+<div class="outline-text-3" id="text-3-2">
+<pre class="example">
+type Condition v = v -&gt; Bool
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orga32fce9" class="outline-3">
+<h3 id="orga32fce9"><span class="section-number-3">3.3</span> Condition Handler</h3>
+<div class="outline-text-3" id="text-3-3">
+<pre class="example">
+type ConditionHandler v = v -&gt; void
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org49b0123" class="outline-2">
+<h2 id="org49b0123"><span class="section-number-2">4</span> Example</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+An example of a counter <code>x</code>
+whose value is between 0
+and 10. 
+</p>
+
+<ul class="org-ul">
+<li>Counter State variable:  <code>x :  Nat</code>.</li>
+
+<li>Operations: (<code>incr</code> and
+<code>decr</code> and <code>reset</code>)</li>
+
+<li>Condition <code>min</code>: <code>x = 0</code> .</li>
+
+<li>Handler on <code>min</code>:  disable
+the <code>decr</code> operation.</li>
+
+<li>Condition <code>max</code>:  <code>x = 10</code>.</li>
+
+<li>Handler on <code>max</code>: disable the
+<code>incr</code> operation.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org0f7546e" class="outline-2">
+<h2 id="org0f7546e"><span class="section-number-2">5</span> Implementation of State Variables</h2>
+<div class="outline-text-2" id="text-5">
+<div class="org-src-container">
+<pre class="src src-js"><span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">StateVar</span> = {};
+StateVar.make = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">name</span>, <span style="font-weight: bold; font-style: italic;">initVal</span>) {
+    <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">a</span> = {};
+    <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">conditionHandlers</span> = []; <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">list of pairs</span>
+                                 <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">of conditions</span>
+                                 <span style="font-weight: bold; font-style: italic;">// </span><span style="font-weight: bold; font-style: italic;">and handlers</span>
+
+    <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">currentValue</span> = initVal;
+
+    <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">getName</span> = <span style="font-weight: bold;">function</span>() {
+                <span style="font-weight: bold;">return</span> name;
+        };
+
+    <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">getValue</span> = <span style="font-weight: bold;">function</span>() {
+                <span style="font-weight: bold;">return</span> currentValue;
+    };
+
+    <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">setValue</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">newValue</span>) {
+                currentValue = newValue;
+                conditionHandlers.forEach(<span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">ch</span>) {
+                        <span style="font-weight: bold;">if</span> (ch.cond(newValue)) {
+                                ch.handler(newValue);
+                        }
+                });
+        };
+
+    <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">addConditionHandler</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">cond</span>, <span style="font-weight: bold; font-style: italic;">handler</span>) {
+                conditionHandlers.push({cond: cond, handler: handler});
+        };
+
+    a.getName =  getName;
+    a.getValue = getValue;
+    a.setValue = setValue;
+    a.addConditionHandler = addConditionHandler;
+
+    <span style="font-weight: bold;">return</span> a;
+};
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org62230cf" class="outline-2">
+<h2 id="org62230cf"><span class="section-number-2">6</span> Implementation of Example</h2>
+<div class="outline-text-2" id="text-6">
+</div><div id="outline-container-org26bfb12" class="outline-3">
+<h3 id="org26bfb12"><span class="section-number-3">6.1</span> HTML (View)</h3>
+<div class="outline-text-3" id="text-6-1">
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="font-weight: bold;">html</span>&gt;
+&lt;<span style="font-weight: bold;">head</span>&gt;
+&lt;/<span style="font-weight: bold;">head</span>&gt;
+&lt;<span style="font-weight: bold;">body</span>&gt;
+&lt;<span style="font-weight: bold;">div</span>&gt;
+&lt;<span style="font-weight: bold;">label</span>&gt; Counter: &lt;/<span style="font-weight: bold;">label</span>&gt; 
+&lt;<span style="font-weight: bold;">label</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"counter"</span>&gt;0&lt;/<span style="font-weight: bold;">label</span>&gt;
+&lt;/<span style="font-weight: bold;">div</span>&gt;
+
+&lt;<span style="font-weight: bold;">div</span>&gt;
+  &lt;<span style="font-weight: bold;">button</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"incr"</span>&gt; Incr &lt;/<span style="font-weight: bold;">button</span>&gt;
+  &lt;<span style="font-weight: bold;">button</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"decr"</span>&gt; Decr &lt;/<span style="font-weight: bold;">button</span>&gt;
+  &lt;<span style="font-weight: bold;">button</span> <span style="font-weight: bold; font-style: italic;">id</span>=<span style="font-style: italic;">"reset"</span>&gt; Reset &lt;/<span style="font-weight: bold;">button</span>&gt;
+&lt;/<span style="font-weight: bold;">div</span>&gt;
+&lt;/<span style="font-weight: bold;">body</span>&gt;
+&lt;<span style="font-weight: bold;">script</span> <span style="font-weight: bold; font-style: italic;">src</span>=<span style="font-style: italic;">"state-var.js"</span>&gt;&lt;/<span style="font-weight: bold;">script</span>&gt;
+&lt;<span style="font-weight: bold;">script</span> <span style="font-weight: bold; font-style: italic;">src</span>=<span style="font-style: italic;">"model.js"</span>&gt;&lt;/<span style="font-weight: bold;">script</span>&gt;
+&lt;/<span style="font-weight: bold;">html</span>&gt;
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgcc8551c" class="outline-3">
+<h3 id="orgcc8551c"><span class="section-number-3">6.2</span> Model</h3>
+<div class="outline-text-3" id="text-6-2">
+<div class="org-src-container">
+<pre class="src src-js"><span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">Counter</span> = {};
+Counter.MIN = 0;
+Counter.MAX = 10;
+
+Counter.c = StateVar.make(<span style="font-style: italic;">"c"</span>, 0);
+
+<span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">c</span> = Counter.c;
+
+Counter.incr = <span style="font-weight: bold;">function</span>() {
+        c.setValue(c.getValue() + 1);
+};
+
+Counter.decr = <span style="font-weight: bold;">function</span>() {
+        c.setValue(c.getValue() - 1);
+};
+
+
+Counter.reset = <span style="font-weight: bold;">function</span>() {
+        c.setValue(0);
+};
+</pre>
+</div>
+</div>
+
+<div id="outline-container-org14cfc57" class="outline-4">
+<h4 id="org14cfc57"><span class="section-number-4">6.2.1</span> Define (Stateless) Conditions</h4>
+<div class="outline-text-4" id="text-6-2-1">
+<div class="org-src-container">
+<pre class="src src-js"><span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">isMin</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">v</span>) {
+        <span style="font-weight: bold;">return</span> v === Counter.MIN;
+};
+
+<span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">isMax</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">v</span>) {
+        <span style="font-weight: bold;">return</span> v === Counter.MAX;
+};
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgf3013a2" class="outline-4">
+<h4 id="orgf3013a2"><span class="section-number-4">6.2.2</span> Add (Stateless) Handlers for (Stateless) Conditions</h4>
+<div class="outline-text-4" id="text-6-2-2">
+<div class="org-src-container">
+<pre class="src src-js">c.addConditionHandler(isMin, <span style="font-weight: bold;">function</span>() {
+        document.getElementById(<span style="font-style: italic;">'decr'</span>).disabled = <span style="font-weight: bold; text-decoration: underline;">true</span>;
+});
+
+
+c.addConditionHandler(isMax, <span style="font-weight: bold;">function</span>() {
+        document.getElementById(<span style="font-style: italic;">'incr'</span>).disabled = <span style="font-weight: bold; text-decoration: underline;">true</span>;
+});
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org83423b8" class="outline-4">
+<h4 id="org83423b8"><span class="section-number-4">6.2.3</span> Adding the interior condition</h4>
+<div class="outline-text-4" id="text-6-2-3">
+<div class="org-src-container">
+<pre class="src src-js"><span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">inInterior</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">v</span>) {
+        <span style="font-weight: bold;">return</span> !(isMin(v) || isMax(v));
+};
+
+c.addConditionHandler(inInterior, <span style="font-weight: bold;">function</span>() {
+        document.getElementById(<span style="font-style: italic;">'incr'</span>).disabled = <span style="font-weight: bold; text-decoration: underline;">false</span>;
+        document.getElementById(<span style="font-style: italic;">'decr'</span>).disabled = <span style="font-weight: bold; text-decoration: underline;">false</span>;
+});
+</pre>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-org38e8389" class="outline-4">
+<h4 id="org38e8389"><span class="section-number-4">6.2.4</span> Invoking the handler on a state <i>transition</i></h4>
+<div class="outline-text-4" id="text-6-2-4">
+<p>
+Notice that in the previous case
+the handlers for interior are
+invoked <i>each time</i> the variable
+is set to a value between MIN
+and MAX.
+</p>
+
+<p>
+We wish to enable the buttons
+only during a transition:
+</p>
+
+<ul class="org-ul">
+<li>Execute a handler enabling
+<code>decr</code> button when the
+previous value is <code>MIN</code>.</li>
+
+<li>Execute a handler enabling
+<code>incr</code> button when the
+previous value is <code>MAX</code>.</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org9958835" class="outline-4">
+<h4 id="org9958835"><span class="section-number-4">6.2.5</span> Define Stateful Conditions</h4>
+<div class="outline-text-4" id="text-6-2-5">
+<div class="org-src-container">
+<pre class="src src-js"><span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">incrFromMin</span> = (<span style="font-weight: bold;">function</span>(){
+        <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">oldVal</span> = c.getValue();
+    <span style="font-weight: bold;">return</span> <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">newValue</span>) {
+        <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">wasMin</span> = oldVal === Counter.MIN;
+        oldVal = newValue;
+        <span style="font-weight: bold;">return</span> wasMin;
+    };
+})();
+
+<span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">decrFromMax</span> = (<span style="font-weight: bold;">function</span>(){
+        <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">oldVal</span> = c.getValue();
+    <span style="font-weight: bold;">return</span> <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">v</span>) {
+        <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">wasMax</span> = oldVal === Counter.MAX;
+        oldVal = v;
+        <span style="font-weight: bold;">return</span> wasMax;
+    };
+})();
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org9383e6a" class="outline-4">
+<h4 id="org9383e6a"><span class="section-number-4">6.2.6</span> Add (Stateless) Handlers for Stateful Conditions</h4>
+<div class="outline-text-4" id="text-6-2-6">
+<div class="org-src-container">
+<pre class="src src-js">c.addConditionHandler(incrFromMin, <span style="font-weight: bold;">function</span>() {
+        console.log(<span style="font-style: italic;">"invoked incrFromMin handler"</span>);
+        document.getElementById(<span style="font-style: italic;">'decr'</span>).disabled = <span style="font-weight: bold; text-decoration: underline;">false</span>;
+});
+
+c.addConditionHandler(decrFromMax, <span style="font-weight: bold;">function</span>() {
+        console.log(<span style="font-style: italic;">"invoked decrFromMax handler"</span>);
+        document.getElementById(<span style="font-style: italic;">'incr'</span>).disabled = <span style="font-weight: bold; text-decoration: underline;">false</span>;
+});
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org3613192" class="outline-4">
+<h4 id="org3613192"><span class="section-number-4">6.2.7</span> Define and Add Stateful Handlers</h4>
+<div class="outline-text-4" id="text-6-2-7">
+<div class="org-src-container">
+<pre class="src src-js"><span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">isEven</span> = <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">v</span>) {
+        <span style="font-weight: bold;">return</span> v % 2 === 0;
+};
+
+<span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">sumHandler</span> = (<span style="font-weight: bold;">function</span>() {
+        <span style="font-weight: bold;">var</span> <span style="font-weight: bold; font-style: italic;">sum</span> = 0;
+        <span style="font-weight: bold;">return</span> <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">v</span>) {
+                sum = sum + v;
+                console.log(v);
+                console.log(<span style="font-style: italic;">"sum: "</span> + sum);
+        };
+})();
+c.addConditionHandler(isEven, sumHandler);
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+<div id="outline-container-orgc82f439" class="outline-3">
+<h3 id="orgc82f439"><span class="section-number-3">6.3</span> Adding Behaviour to the View</h3>
+<div class="outline-text-3" id="text-6-3">
+<div class="org-src-container">
+<pre class="src src-js">document.getElementById(<span style="font-style: italic;">"decr"</span>)
+        .addEventListener(<span style="font-style: italic;">'click'</span>,  Counter.decr);
+
+document.getElementById(<span style="font-style: italic;">"incr"</span>)
+        .addEventListener(<span style="font-style: italic;">'click'</span>, Counter.incr);
+
+document.getElementById(<span style="font-style: italic;">"reset"</span>)
+        .addEventListener(<span style="font-style: italic;">'click'</span>, Counter.reset);
+
+
+c.addConditionHandler(<span style="font-weight: bold;">function</span>() {<span style="font-weight: bold;">return</span> <span style="font-weight: bold; text-decoration: underline;">true</span>;}, 
+                                          <span style="font-weight: bold;">function</span>(<span style="font-weight: bold; font-style: italic;">v</span>) {
+                                                  document.getElementById(<span style="font-style: italic;">"counter"</span>).textContent = v;
+                                          });
+</pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: VLEAD</p>
+<p class="date">Created: 2017-04-27 Thu 03:32</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
